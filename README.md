@@ -15,3 +15,6 @@ The reason we presume it to have meaning is because of the following argument:
 
 
 <img width=500 height=500 src='https://github.com/ItsZeusBro/JudgementDay/blob/b0cc7e0ed4a5b1a41346d8fcc34126ef1651002e/Automata.png'>
+
+Interpretation:
+There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid.
