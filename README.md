@@ -14,3 +14,4 @@ The reason we presume it to have meaning is because of the following argument:
 5. Therefore if there is no contradiction in the simulation and the second proposition follows from the first then we have a valid existential proof
 
 
+<img width=500 height=500 src='https://github.com/ItsZeusBro/JudgementDay/blob/b0cc7e0ed4a5b1a41346d8fcc34126ef1651002e/Automata.png'>
