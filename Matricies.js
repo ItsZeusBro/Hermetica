@@ -10,7 +10,8 @@ class Dims {
 }
 
 class Cell{
-	constructor(pos){
+	constructor(pos, dims){
+		this.dims=dims
 		this.pos=pos
 	}
 }
@@ -24,7 +25,7 @@ class Matrix {
 		for(var i=0; i<d; i++){
 			pos.push(0)
 		}
-		this.sentinel=new Cell(pos)
+		this.sentinel=new Cell(pos, this.dims)
 
 	}
 
@@ -40,10 +41,14 @@ class Matrix {
 	}
 
 	nextCell(sentinel){
-		
+		return new Cell(this.nextPos(sentinel))
 	}
 
-
+	nextPos(sentinel){
+		for(var i = 0; i<pos.length; i++){
+			
+		}
+	}
 }
 
 //example:
