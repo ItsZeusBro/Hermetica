@@ -20,3 +20,5 @@ Interpretation:
 There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid.
 
 To build a robust logical simulation one should focus on a dictionary of propositions that never contradict anything else in the dictionary. If you can prove all propositions in the dictionary using a simulation, then you have a good logical simulation that approaches real universal logic
+
+we also have to make sure that there is no possibility in the translation unit for any negation to exist outside of the negation cell. Or at the very least translate out any negations in the translation into another proposition with the negation cell!
