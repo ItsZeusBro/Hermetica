@@ -1,4 +1,4 @@
-# JudgementDay
+# Judgement Day?
 
 This is basically a new hypothesis for how truth and existentialism works
 
