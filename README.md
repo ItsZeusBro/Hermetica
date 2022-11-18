@@ -12,3 +12,5 @@ The reason we presume it to have meaning is because of the following argument:
 3. All propositions are either positive, or negative in their meaning. If something is negative we can replace the entire proposition with another proposition with a single negation.
 4. We can carry a single bit in an automata simulation that creates a positive or negative translation.
 5. Therefore if there is no contradiction in the simulation and the second proposition follows from the first then we have a valid existential proof
+
+
