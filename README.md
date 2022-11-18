@@ -16,7 +16,8 @@ The reason we presume it to have meaning is because of the following argument:
 
 <img width=500 height=500 src='https://github.com/ItsZeusBro/JudgementDay/blob/b0cc7e0ed4a5b1a41346d8fcc34126ef1651002e/Automata.png'>
 
-Interpretation:
+## Interpretation:
+
 There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid.
 
 To build a robust logical simulation one should focus on a dictionary of propositions that never contradict anything else in the dictionary. If you can prove all propositions in the dictionary using a simulation, then you have a good logical simulation that approaches real universal logic
@@ -25,6 +26,6 @@ we also have to make sure that there is no possibility in the translation unit f
 
 As a part of the rule system, any proposition in the current state of the simulation that spells out a negation outside of the negation cell, should be translated to an equivalent statement. This does not violate the arbitrary rule principle. Rules can be arbitrarily selected without violating the existentialism of the system, so long as they are consistent.
 
-Big Picture:
+## Big Picture:
 Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
 
