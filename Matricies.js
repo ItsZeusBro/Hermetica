@@ -28,6 +28,7 @@ class Matrix {
 
 		// This means we can project to higher dimensions from lower ones deterministically, so if for example we have 3x4 shape in 2 dimensions, we
 		// can find the correlation between dimensions across all dimensions when we correlate 3x4 with 3x4x4, we can extrapolate the projection properties to d dimensions
+		//so we can build a statistical projection equation over higher and higher dimensions from a bunch of lower dimension projections
 		
 	}
 
