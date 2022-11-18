@@ -21,32 +21,14 @@ class Matrix {
 		this.matrix = []
 	}
 
-	matrix(dims, matrix=this.matrix, ){
-
-	}
-
-	fill(dims, matrix=this.m){
-		var length = matrix.length;
-		if(length){
-
-		}else{
-			//if length is n, and n is less than dims, 
-			//then we check submatrix n, and call fill() on submatrix
-			//
-			//when we reach a base case, we want to keep track of the current dimensions
-			//so dims is a structure, that holds a temp value for ease of use and permanent values for the
-			//actual dimensions of the entire matrix.
-		}
-		//get the length of the matrix
-		//if length is 0, its an empty matrix
-		//we want to create the first 1d array
+	matrix(dims, matrix=this.matrix){
+		//we carry over dims.m or dims.n d number of times from 1d identity construction (the smaller of the two) for whichever one is larger 
+		//because that is consistently general throughout (there are no special cases when we take the larger of the two)
+		//so if m=4, and n=3, then a 1 d matrix would be a 1x3 automata. a 2d matrix would be a 1x3x4, a 3d would be 1x3x4x4
 		
-
 	}
 
-	_1dMatrix(dims, ){
 
-	}
 }
 
 //in the abstract what we are trying to do:
