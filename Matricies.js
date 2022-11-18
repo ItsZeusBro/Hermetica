@@ -22,6 +22,70 @@ class Matrix {
 			pos.push(0)
 		}
 		this.sentinel=new Cell(pos, d, m, n)
+		//we need to initialize the matrix with the sentinels initial value
+		this.verify()
+		this.init()
+	}
+	verify(){
+		if(this.m>n && this.n>=1 && this.d>=2){
+			return true
+		}else if(this.n>m && this.m>=1 && this.d>=2){
+			return true
+		}else if(this.m==this.n && this.n>1 && this.d>=2){
+			return true
+		}else if(this.m==1 || this.n==1 && (this.m>1)||(this.n>1)){
+			return true
+		}else{
+			throw Error("must have valid dimentions and/or shape")
+		}
+	}
+
+	init(){
+		//we need to initialize an array of arrays for the dimension d, and set the initial position with the position of the sentinel
+		if(this.m>n && this.n>=2 && this.d>=3){
+			//this means n is at least 1, and m is greater
+			//that means we extend m into dimension d from its 2d shape, and n is the number of cells per 1d array
+			for(var i=0; i<this.m; i++){
+				this.matrix.push([])
+				var matrix=this.matrix[this.matrix.length-1]
+				for(var j = 0; j<this.d; j++){
+					matrix.push([])
+					matrix=matrix[matrix.length-1]
+				}
+
+				for(var j = 0; j<this.n; j++){
+					matrix.push(new Cell())
+				}
+			}
+			
+		}else if(this.n>m && this.m>=2 && this.d>=3){
+			//this means m is at least 1, and n is greater
+			//that means we extend n into dimension d from its 2d shape, and m is the number of cells per 1d array
+			for(var i=0; i<this.n; i++){
+				this.matrix.push([])
+				var matrix=this.matrix[this.matrix.length-1]
+				for(var j = 0; j<this.d; j++){
+					matrix.push([])
+					matrix=matrix[matrix.length-1]
+				}
+			}
+		}else if(this.m==this.n && this.n>=2 && this.d>=2){
+			//this means that m and n are a square shape for d dimensions so long as d is greater than or equal to 2
+			//we can extend m or n into d dimensions
+			for(var i=0; i<this.m; i++){
+				this.matrix.push([])
+				var matrix=this.matrix[this.matrix.length-1]
+				for(var j = 0; j<this.d; j++){
+					matrix.push([])
+					matrix=matrix[matrix.length-1]
+				}
+			}
+		}else if(this.m==1 || this.n==1 && (this.m>=2)||(this.n>=2)){
+			//this means that we have a 1d matrix of length m or n (regardless of dimension d)
+			return true
+		}else{
+			throw Error("must have valid dimentions and/or shape")
+		}
 
 	}
 
@@ -36,30 +100,11 @@ class Matrix {
 		
 	}
 
-	nextCell(sentinel){
-		return new Cell(this.nextPos(sentinel))
+	nextCell(){
+		return new Cell(this.nextPos())
 	}
 
-	nextPos(sentinel){
-		//the sentinel is a cell with a dims.d, dims.m, and dims.n
-		//it also carries the previous position
-		//we can calculate the next position with these properties.
-
-		//we said if m and n are equal, then we just extend any one of them into d dimensions
-		//if m is greater, then we project the shape of m into all dimensions except for the first dimension (and vice versa)
-
-		if(this.m>n && this.m>0){
-			//this means n is at least 1, and m is greater
-		}else if(this.n>m && this.n>0){
-			//this means m is at least 1, and n is greater
-		}else if(this.m==this.n && this.n>0){
-
-		}else if(this.m==1 || this.n==1 && (this.m>1)||(this.n>1)){
-
-		}else{
-			throw Error("must have valid dimentions and/or shape")
-		}
-
+	nextPos(){
 		for(var i = 0; i<pos.length; i++){
 			
 		}
@@ -67,7 +112,7 @@ class Matrix {
 }
 
 //example:
-//if we have 4, 2, 3
+//if we have 4, 3, 3
 //then we build it like this:
 // d = 0
 //[
@@ -82,7 +127,7 @@ class Matrix {
 // d=2
 //[
 	// [
-	//	cell(0, 0), cell(1, 0), cell(2, 0)
+	//	cell(0, 0), cell(1, 0), cell(2, 0)	//n or m could represent the 
 	// ],
 	// [
 	//	cell(0, 1), cell(1, 1), cell(2, 1)
