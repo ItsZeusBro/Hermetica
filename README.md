@@ -18,3 +18,5 @@ The reason we presume it to have meaning is because of the following argument:
 
 Interpretation:
 There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid.
+
+To build a robust logical simulation one should focus on a dictionary of propositions that never contradict anything else in the dictionary. If you can prove all propositions in the dictionary using a simulation, then you have a good logical simulation that approaches real universal logic
