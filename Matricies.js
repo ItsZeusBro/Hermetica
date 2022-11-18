@@ -10,20 +10,25 @@ class Dims {
 }
 
 class Cell{
-	constructor(){
-		this.pos=[]
-
+	constructor(pos){
+		this.pos=pos
 	}
 }
+
 
 class Matrix {
 	constructor(d, m, n){
 		this.matrix = []
 		this.dims=new Dims(d, m, n)
+		var pos = []
+		for(var i=0; i<d; i++){
+			pos.push(0)
+		}
+		this.sentinel=new Cell(pos)
 
 	}
 
-	matrix(dims=this.dims, matrix=this.matrix){
+	matrix(dims=this.dims, matrix=this.matrix, ){
 		//we carry over dims.m or dims.n d number of times from 1d identity construction (the smaller of the two) for whichever one is larger 
 		//because that is consistently general throughout (there are no special cases when we take the larger of the two)
 		//so if m=4, and n=3, then a 1 d matrix would be a 1x3 automata. a 2d matrix would be a 1x3x4, a 3d would be 1x3x4x4
@@ -31,6 +36,10 @@ class Matrix {
 		// This means we can project to higher dimensions from lower ones deterministically, so if for example we have 3x4 shape in 2 dimensions, we
 		// can find the correlation between dimensions across all dimensions when we correlate 3x4 with 3x4x4, we can extrapolate the projection properties to d dimensions
 		//so we can build a statistical projection equation over higher and higher dimensions from a bunch of lower dimension projections
+		
+	}
+
+	nextCell(sentinel){
 		
 	}
 
