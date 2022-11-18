@@ -24,3 +24,7 @@ To build a robust logical simulation one should focus on a dictionary of proposi
 we also have to make sure that there is no possibility in the translation unit for any negation to exist outside of the negation cell. Or at the very least translate out any negations in the translation into another proposition with the negation cell!
 
 As a part of the rule system, any proposition in the current state of the simulation that spells out a negation outside of the negation cell, should be translated to an equivalent statement. This does not violate the arbitrary rule principle. Rules can be arbitrarily selected without violating the existentialism of the system, so long as they are consistent.
+
+Big Picture:
+Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
+
