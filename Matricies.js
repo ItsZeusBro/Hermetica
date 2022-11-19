@@ -20,7 +20,7 @@ class Matrix {
 		this.verify()
 		this.matrix=this.matrix_shell()
 		this.validate()
-		this.load(0, ...this.max())
+		//this.load(0, ...this.max())
 	}
 	
 	verify(){
@@ -95,7 +95,7 @@ class Matrix {
 	}
 	origin(){
 		var origin=[]
-		for(var i=0; i<this.d;i++){
+		for(var i=0; i<this.d; i++){
 			origin.push(0)
 		}
 		return origin
@@ -109,10 +109,7 @@ class Matrix {
 		return max
 	}
 	//we need variable number of parameters, and an iterator for the parameters in the begining
-	load(i=0, ...dimensions){
 
-		//console.log(dimensions)
-	}
 
 	flatten(matrix, flat=[]){
 		for(var i = 0; i<matrix.length; i++){
@@ -151,6 +148,13 @@ class Matrix {
 		}
 		matrix[n].pos=pos
 	}
+	load(pos=this.origin(), i=0){
+		console.log(pos)
+		var shape = this.shape()
+
+		this.load(pos, i+1)
+		
+	}
 
 	log(){
 		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
@@ -158,10 +162,11 @@ class Matrix {
 }
 
 const matrix = new Matrix(4, 5, 3)
-matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
-matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
-matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
-console.log(matrix.log())
+// matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
+// matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
+// matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
+console.log(matrix.shape())
+matrix.load()
 
 // matrix.at(0, 0, 0, 0)
 
