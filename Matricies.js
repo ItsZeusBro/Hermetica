@@ -17,6 +17,7 @@ class Matrix {
 		this.m=m
 		this.n=n
 		this.d=d
+		this.verify()
 		this.matrix=[]
 		this.matrix_shell()
 
@@ -26,7 +27,6 @@ class Matrix {
 		// }
 		// this.sentinel=new Cell(null, ...pos)
 		// //we need to initialize the matrix with the sentinels initial value
-		// this.verify()
 		//this.init()
 		//console.log(this.matrix)
 	}
@@ -56,16 +56,27 @@ class Matrix {
 	}
 	matrix_shell(){
 		var matrix=this.matrix
-		var temp=matrix
-		for(var c=0; c<this.m; c++){
-			temp.push([])
-			matrix=temp[temp.length-1]
-			for(var i = 1; i<this.d; i++){
-				matrix.push([])
-				matrix=matrix[matrix.length-1]
+		for(var m=0; m<this.m; m++){
+			matrix.push([])
+			for(var c=0; c<this.m; c++){
+				var temp1=matrix[matrix.length-1]
+				for(var i =1; i<this.d-2; i++){
+					temp1.push([])
+
+					temp1=temp1[temp1.length-1]
+				}
+				for(var k =0; k<this.m; k++){
+					var temp2=temp1
+					temp2.push([])
+					temp2=temp2[temp2.length-1]
+					for(var j=0; j<this.n; j++){
+						temp2.push(new Cell())
+					}
+				}
 			}
 		}
-
+		//this.matrix=matrix[matrix.length-1]
+	
 		return
 	}
 	_next_cell(){
