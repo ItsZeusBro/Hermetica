@@ -111,7 +111,7 @@ class Matrix {
 	//we need variable number of parameters, and an iterator for the parameters in the begining
 	load(i=0, ...dimensions){
 
-		console.log(dimensions)
+		//console.log(dimensions)
 	}
 
 	flatten(matrix, flat=[]){
@@ -124,9 +124,25 @@ class Matrix {
 		}
 		return	flat
 	}
+	page(matrix, n){
+		var page=null
+		for(var i=0; i<=n; i++){
+			page=matrix[i]
+		}
+		return page
+	}
+	at(data=null, ...dimensions){
+		var n = dimensions[0]
+		var matrix=this.matrix
+		for(var i=dimensions.length-1; i>=1; i--){
+			console.log(dimensions[i])
+			//we need to access the matrix backwards, because the last m is the top level page
+			matrix=this.page(matrix, dimensions[i])
+			console.log(matrix)
+		}
+	}
+	insert(...dimensions){
 
-	at(...dimensions){
-		
 	}
 
 	log(){
@@ -135,6 +151,10 @@ class Matrix {
 }
 
 const matrix = new Matrix(4, 5, 3)
+console.log(matrix.matrix)
+matrix.at([0, 0, 0, 0], 0, 0, 0, 0)
+// matrix.at(0, 0, 0, 0)
+
 // console.log(matrix.count())
 // console.log(matrix.shape())
 //matrix.log()
