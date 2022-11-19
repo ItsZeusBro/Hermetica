@@ -18,9 +18,10 @@ class Matrix {
 		this.n=n
 		this.d=d
 		this.verify()
-		this.matrix=[]
-		this.matrix_shell()
-
+		this.matrix=this.matrix_shell()
+		this.log(this.matrix)
+		console.log(this.count())
+		this.validate()
 		// var pos = []
 		// for(var i=0; i<d; i++){
 		// 	pos.push(0)
@@ -54,8 +55,18 @@ class Matrix {
 			throw Error("must have valid dimentions and/or shape")
 		}
 	}
+	validate(){
+		//make sure the cell_count is equal to n*m^d
+		console.log(this.n* Math.pow(this.m, this.d-1))
+		if(this.count()!=(this.n* Math.pow(this.m, this.d-1))){
+			throw Error("Error in validation; there should be ", this.n* Math.pow(this.m, this.d-1), "cells; where m:", this.m, "n:", this.n, "d:", this.d)
+		}
+	}
+	count(){
+		return this.flatten(this.matrix).length
+	}
 	matrix_shell(){
-		var matrix=this.matrix
+		var matrix=[]
 		for(var m=0; m<this.m; m++){
 			matrix.push([])
 			for(var c=0; c<this.m; c++){
@@ -77,7 +88,23 @@ class Matrix {
 		}
 		//this.matrix=matrix[matrix.length-1]
 	
-		return
+		return matrix
+	}
+	flatten(matrix, flat=[]){
+		for(var i = 0; i<matrix.length; i++){
+			if(Array.isArray(matrix[i])){
+				flat = this.flatten(matrix[i], flat)
+			}else{
+				flat.push(matrix[i])
+			}
+			// if(matrix[i].constructor.name == Cell.constructor.name){
+			// 	flat.push(matrix[i])
+			// 	return flat
+			// }else{
+			// 	flat = this.flatten(matrix[i][matrix[i].length-1], flat)
+			// }
+		}
+		return	flat
 	}
 	_next_cell(){
 		//the next cell takes the sentinel, matrix dimension and shape information,
@@ -95,7 +122,7 @@ class Matrix {
 }
 
 const matrix = new Matrix(4, 5, 3)
-matrix.log()
+//matrix.log()
 //matrix._next_cell()
 //example:
 //if we have 4, 5, 3
@@ -282,6 +309,24 @@ matrix.log()
 			// ]
 		//]
 
+		//[
+			// [
+			//	cell(0, 0, 4, 0), cell(1, 0, 4, 0), cell(2, 0, 4, 0)
+			// ],
+			// [
+			//	cell(0, 1, 4, 0), cell(1, 1, 4, 0), cell(2, 1, 4, 0)
+			// ],
+			// [
+			//	cell(0, 2, 4, 0), cell(1, 2, 4, 0), cell(2, 2, 4, 0)
+			// ]
+			// [
+			//	cell(0, 3, 4, 0), cell(1, 3, 4, 0), cell(2, 3, 4, 0)
+			// ],
+			// [
+			//	cell(0, 4, 4, 0), cell(1, 4, 4, 0), cell(2, 4, 4, 0)
+			// ]
+		//]
+
 	//],
 
 	//[
@@ -355,6 +400,24 @@ matrix.log()
 			// ],
 			// [
 			//	cell(0, 4, 3, 1), cell(1, 4, 3, 1), cell(2, 4, 3, 1)
+			// ]
+		//]
+
+		//[
+			// [
+			//	cell(0, 0, 4, 1), cell(1, 0, 4, 1), cell(2, 0, 4, 1)
+			// ],
+			// [
+			//	cell(0, 1, 4, 1), cell(1, 1, 4, 1), cell(2, 1, 4, 1)
+			// ],
+			// [
+			//	cell(0, 2, 4, 1), cell(1, 2, 4, 1), cell(2, 2, 4, 1)
+			// ]
+			// [
+			//	cell(0, 3, 4, 1), cell(1, 3, 4, 1), cell(2, 3, 4, 1)
+			// ],
+			// [
+			//	cell(0, 4, 4, 1), cell(1, 4, 4, 1), cell(2, 4, 4, 1)
 			// ]
 		//]
 
@@ -433,6 +496,24 @@ matrix.log()
 			// ]
 		//]
 
+		//[
+			// [
+			//	cell(0, 0, 4, 2), cell(1, 0, 4, 2), cell(2, 0, 4, 2)
+			// ],
+			// [
+			//	cell(0, 1, 4, 2), cell(1, 1, 4, 2), cell(2, 1, 4, 2)
+			// ],
+			// [
+			//	cell(0, 2, 4, 2), cell(1, 2, 4, 2), cell(2, 2, 4, 2)
+			// ]
+			// [
+			//	cell(0, 3, 4, 2), cell(1, 3, 4, 2), cell(2, 3, 4, 2)
+			// ],
+			// [
+			//	cell(0, 4, 4, 2), cell(1, 4, 4, 2), cell(2, 4, 4, 2)
+			// ]
+		//]
+
 	//],
 	//[
 		//[
@@ -507,6 +588,24 @@ matrix.log()
 			//	cell(0, 4, 3, 3), cell(1, 4, 3, 3), cell(2, 4, 3, 3)
 			// ]
 		//]
+
+		//[
+			// [
+			//	cell(0, 0, 4, 3), cell(1, 0, 4, 3), cell(2, 0, 4, 3)
+			// ],
+			// [
+			//	cell(0, 1, 4, 3), cell(1, 1, 4, 3), cell(2, 1, 4, 3)
+			// ],
+			// [
+			//	cell(0, 2, 4, 3), cell(1, 2, 4, 3), cell(2, 2, 4, 3)
+			// ]
+			// [
+			//	cell(0, 3, 4, 3), cell(1, 3, 4, 3), cell(2, 3, 4, 3)
+			// ],
+			// [
+			//	cell(0, 4, 4, 3), cell(1, 4, 4, 3), cell(2, 4, 4, 3)
+			// ]
+		//]
 	//],
 	//[
 		//[
@@ -579,6 +678,24 @@ matrix.log()
 			// ],
 			// [
 			//	cell(0, 4, 3, 4), cell(1, 4, 3, 4), cell(2, 4, 3, 4)
+			// ]
+		//]
+
+		//[
+			// [
+			//	cell(0, 0, 4, 4), cell(1, 0, 4, 4), cell(2, 0, 4, 4)
+			// ],
+			// [
+			//	cell(0, 1, 4, 4), cell(1, 1, 4, 4), cell(2, 1, 4, 4)
+			// ],
+			// [
+			//	cell(0, 2, 4, 4), cell(1, 2, 4, 4), cell(2, 2, 4, 4)
+			// ]
+			// [
+			//	cell(0, 3, 4, 4), cell(1, 3, 4, 4), cell(2, 3, 4, 4)
+			// ],
+			// [
+			//	cell(0, 4, 4, 4), cell(1, 4, 4, 4), cell(2, 4, 4, 4)
 			// ]
 		//]
 	//],
