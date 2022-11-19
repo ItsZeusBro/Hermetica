@@ -1,3 +1,7 @@
+const util = require('util')
+
+
+
 class Cell{
 	constructor(data=null, ...pos){
 		this.data=data
@@ -10,18 +14,21 @@ class Cell{
 		//what n represents is the width of any given object for every dimension its in
 class Matrix {
 	constructor(d, m, n){
-		this.matrix = []
 		this.m=m
 		this.n=n
 		this.d=d
-		var pos = []
-		for(var i=0; i<d; i++){
-			pos.push(0)
-		}
-		this.sentinel=new Cell(null, ...pos)
-		//we need to initialize the matrix with the sentinels initial value
-		this.verify()
+		this.matrix=[]
+		this.matrix_shell()
+
+		// var pos = []
+		// for(var i=0; i<d; i++){
+		// 	pos.push(0)
+		// }
+		// this.sentinel=new Cell(null, ...pos)
+		// //we need to initialize the matrix with the sentinels initial value
+		// this.verify()
 		//this.init()
+		//console.log(this.matrix)
 	}
 	verify(){
 		if(this.m>this.n && this.n>=1 && this.d>=2){
@@ -47,6 +54,20 @@ class Matrix {
 			throw Error("must have valid dimentions and/or shape")
 		}
 	}
+	matrix_shell(){
+		var matrix=this.matrix
+		var temp=matrix
+		for(var c=0; c<this.m; c++){
+			temp.push([])
+			matrix=temp[temp.length-1]
+			for(var i = 1; i<this.d; i++){
+				matrix.push([])
+				matrix=matrix[matrix.length-1]
+			}
+		}
+
+		return
+	}
 	_next_cell(){
 		//the next cell takes the sentinel, matrix dimension and shape information,
 		//and updates the sentinel and returns the _next_cell for initialization
@@ -55,10 +76,16 @@ class Matrix {
 		console.log(this.sentinel)
 	}
 
+	log(){
+		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
+
+	}
+
 }
 
 const matrix = new Matrix(4, 5, 3)
-matrix._next_cell()
+matrix.log()
+//matrix._next_cell()
 //example:
 //if we have 4, 5, 3
 //then we build it like this:
