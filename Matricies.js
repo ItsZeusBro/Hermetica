@@ -135,14 +135,21 @@ class Matrix {
 		var n = dimensions[0]
 		var matrix=this.matrix
 		for(var i=dimensions.length-1; i>=1; i--){
-			console.log(dimensions[i])
 			//we need to access the matrix backwards, because the last m is the top level page
 			matrix=this.page(matrix, dimensions[i])
-			console.log(matrix)
 		}
-	}
-	insert(...dimensions){
+		matrix[n].data=data
+		//console.log(matrix)
 
+	}
+	pos(pos=null, ...dimensions){
+		var n = dimensions[0]
+		var matrix=this.matrix
+		for(var i=dimensions.length-1; i>=1; i--){
+			//we need to access the matrix backwards, because the last m is the top level page
+			matrix=this.page(matrix, dimensions[i])
+		}
+		matrix[n].pos=pos
 	}
 
 	log(){
@@ -151,8 +158,11 @@ class Matrix {
 }
 
 const matrix = new Matrix(4, 5, 3)
-console.log(matrix.matrix)
-matrix.at([0, 0, 0, 0], 0, 0, 0, 0)
+matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
+matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
+matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
+console.log(matrix.log())
+
 // matrix.at(0, 0, 0, 0)
 
 // console.log(matrix.count())
