@@ -21,17 +21,27 @@ class Matrix {
 		this.sentinel=new Cell(null, ...pos)
 		//we need to initialize the matrix with the sentinels initial value
 		this.verify()
-		console.log(this.sentinel)
 		//this.init()
 	}
 	verify(){
 		if(this.m>this.n && this.n>=1 && this.d>=2){
 			return true
 		}else if(this.n>this.m && this.m>=1 && this.d>=2){
+			var temp = this.n
+			var temp2 = this.m
+			this.m=temp
+			this.n=temp2
 			return true
 		}else if(this.m==this.n && this.n>1 && this.d>=2){
 			return true
 		}else if(this.m==1 || this.n==1 && (this.m>1)||(this.n>1)){
+			if(this.n>this.m){
+				var temp = this.n
+				var temp2 = this.m
+				this.m=temp
+				this.n=temp2
+				return true
+			}
 			return true
 		}else{
 			throw Error("must have valid dimentions and/or shape")
@@ -41,12 +51,14 @@ class Matrix {
 		//the next cell takes the sentinel, matrix dimension and shape information,
 		//and updates the sentinel and returns the _next_cell for initialization
 		//this is different than the accessor which iterates over existing cells
+
+		console.log(this.sentinel)
 	}
 
 }
 
 const matrix = new Matrix(4, 5, 3)
-console.log(matrix)
+matrix._next_cell()
 //example:
 //if we have 4, 5, 3
 //then we build it like this:
