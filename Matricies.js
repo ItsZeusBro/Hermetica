@@ -148,14 +148,17 @@ class Matrix {
 		}
 		matrix[n].pos=pos
 	}
-	load(pos=this.origin(), i=0){
-		console.log(pos)
+	load(){
 		var shape = this.shape()
-
-		this.load(pos, i+1)
-		
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 	}
-
+	//we use add and concat to create higher dimensionality coordinates
+	add(cell1, cell2){
+		//this adds the coordinates together and returns a third cell
+	}
+	concat(cell1, cell2){
+		//this concatinates two coordinates and returns a third cell
+	}
 	log(){
 		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
 	}
