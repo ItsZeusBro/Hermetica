@@ -18,9 +18,8 @@ class Matrix {
 		this.n=n
 		this.d=d
 		this.verify()
-		this.matrix=this.matrix_shell()
-		this.validate()
-		//this.load(0, ...this.max())
+		this.sentinel=this.origin()
+		this.matrix=this._matrix(d, m, n)
 	}
 	
 	verify(){
@@ -48,51 +47,30 @@ class Matrix {
 		}
 	}
 
-	validate(){
-		//make sure the cell_count is equal to n*m^d
-		//console.log(this.n* Math.pow(this.m, this.d-1))
-		if(this.count()!=(this.n* Math.pow(this.m, this.d-1))){
-			throw Error("Error in validation; there should be ", this.n* Math.pow(this.m, this.d-1), "cells; where m:", this.m, "n:", this.n, "d:", this.d)
-		}
+	shape(){
+
 	}
 
 	count(){
-		return this.flatten(this.matrix).length
+		return this.matrix.length
 	}
-	shape(){
-		var shape=[]
-		for(var i=0; i<this.d-1; i++){
-			shape.push(this.m)
-		}
-		shape.push(this.n)
-
-		return shape
-	}
-
-	matrix_shell(){
+	_matrix(d, m, n){
 		var matrix=[]
-		for(var m=0; m<this.m; m++){
-			matrix.push([])
-			for(var c=0; c<this.m; c++){
-				var temp1=matrix[matrix.length-1]
-				for(var i =1; i<this.d-2; i++){
-					temp1.push([])
-
-					temp1=temp1[temp1.length-1]
-				}
-				for(var k =0; k<this.m; k++){
-					var temp2=temp1
-					temp2.push([])
-					temp2=temp2[temp2.length-1]
-					for(var j=0; j<this.n; j++){
-						temp2.push(new Cell())
-					}
-				}
+		//every additional dimension
+		//this is a 3 or more dimension matrix
+		for(var _d=0; _d<Math.pow(m, d-1); _d++){
+			//this is a 2*2 matrix. If m is equal to 1, it will still create a row of cells
+			for(var x = 0; x<n; x++){
+				//y is always a function of x
+				//z is always a function of x and y
+				//any other dimension follows the same pattern
+				matrix.push(new Cell(null, x, ))
 			}
 		}
-		//this.matrix=matrix[matrix.length-1]
 		return matrix
 	}
+
+
 	origin(){
 		var origin=[]
 		for(var i=0; i<this.d; i++){
@@ -108,74 +86,27 @@ class Matrix {
 		}
 		return max
 	}
-	//we need variable number of parameters, and an iterator for the parameters in the begining
 
 
-	flatten(matrix, flat=[]){
-		for(var i = 0; i<matrix.length; i++){
-			if(Array.isArray(matrix[i])){
-				flat = this.flatten(matrix[i], flat)
-			}else{
-				flat.push(matrix[i])
-			}
-		}
-		return	flat
-	}
-	page(matrix, n){
-		var page=null
-		for(var i=0; i<=n; i++){
-			page=matrix[i]
-		}
-		return page
-	}
-	at(data=null, ...dimensions){
-		var n = dimensions[0]
-		var matrix=this.matrix
-		for(var i=dimensions.length-1; i>=1; i--){
-			//we need to access the matrix backwards, because the last m is the top level page
-			matrix=this.page(matrix, dimensions[i])
-		}
-		matrix[n].data=data
-		//console.log(matrix)
 
-	}
-	pos(pos=null, ...dimensions){
-		var n = dimensions[0]
-		var matrix=this.matrix
-		for(var i=dimensions.length-1; i>=1; i--){
-			//we need to access the matrix backwards, because the last m is the top level page
-			matrix=this.page(matrix, dimensions[i])
-		}
-		matrix[n].pos=pos
-	}
-	load(){
-		var shape = this.shape()
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-	}
-	//we use add and concat to create higher dimensionality coordinates
-	add(cell1, cell2){
-		//this adds the coordinates together and returns a third cell
-	}
-	concat(cell1, cell2){
-		//this concatinates two coordinates and returns a third cell
-	}
 	log(){
 		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
 	}
+
 }
 
 const matrix = new Matrix(4, 5, 3)
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
-console.log(matrix.shape())
-matrix.load()
+//console.log(matrix.get_coordinates(matrix.max()))
+//matrix.load()
 
-// matrix.at(0, 0, 0, 0)
 
 // console.log(matrix.count())
 // console.log(matrix.shape())
-//matrix.log()
+matrix.log()
+console.log(matrix.count())
 
 //matrix.log()
 //matrix._next_cell()
@@ -211,6 +142,8 @@ matrix.load()
 	// ]
 //]
 
+
+//
 // d=3
 //[
 	//[
