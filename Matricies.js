@@ -18,7 +18,6 @@ class Matrix {
 		this.n=n
 		this.d=d
 		this.verify()
-		this.sentinel=this.origin()
 		this.matrix=this._matrix(d, m, n)
 	}
 	
@@ -58,18 +57,38 @@ class Matrix {
 		var matrix=[]
 		//every additional dimension
 		//this is a 3 or more dimension matrix
+		var coordinate=this.origin()
 		for(var _d=0; _d<Math.pow(m, d-1); _d++){
 			//this is a 2*2 matrix. If m is equal to 1, it will still create a row of cells
 			for(var x = 0; x<n; x++){
 				//y is always a function of x
 				//z is always a function of x and y
 				//any other dimension follows the same pattern
-				matrix.push(new Cell(null, x, ))
+				if(matrix.length){
+					matrix.push(new Cell(null, this.next_coordinate(coordinate)))
+				}else{
+					matrix.push(new Cell(null, coordinate))
+				}
 			}
 		}
 		return matrix
 	}
 
+	next_coordinate(coord){
+		for(var i = 0; i<coord.length; i++){
+			if(i==0){
+				if(coord[i]<this.n){
+					return [coord[i]+1, ...coord.slice(1)]
+				}
+			}else{
+				for(var j=1; j<coord.length; j++){
+					if(coord.slice(j)[0]<this.m){
+						return [coord[0], ...coord.slice(1, j), coord.slice(j)[0]+1, ...coord.slice(j, coord.length)]
+					}
+				}
+			}
+		}
+	}
 
 	origin(){
 		var origin=[]
