@@ -1,3 +1,4 @@
+const { defaultMaxListeners } = require('events')
 const util = require('util')
 
 
@@ -13,12 +14,14 @@ class Cell{
 		//what m represents is the length of any given object for every dimension its in
 		//what n represents is the width of any given object for every dimension its in
 class Matrix {
-	constructor(d, m, n){
+	constructor(n, m, d){
 		this.m=m
 		this.n=n
 		this.d=d
 		this.verify()
-		this.matrix=this._matrix(d, m, n)
+		this.coords = this.coordinates(n, m, d)
+
+
 	}
 	
 	verify(){
@@ -53,41 +56,24 @@ class Matrix {
 	count(){
 		return this.matrix.length
 	}
-	_matrix(d, m, n){
-		var matrix=[]
-		//every additional dimension
-		//this is a 3 or more dimension matrix
-		var coordinate=this.origin()
-		for(var _d=0; _d<Math.pow(m, d-1); _d++){
-			//this is a 2*2 matrix. If m is equal to 1, it will still create a row of cells
-			for(var x = 0; x<n; x++){
-				//y is always a function of x
-				//z is always a function of x and y
-				//any other dimension follows the same pattern
-				if(matrix.length){
-					matrix.push(new Cell(null, this.next_coordinate(coordinate)))
-				}else{
-					matrix.push(new Cell(null, coordinate))
-				}
-			}
-		}
-		return matrix
-	}
+	
+	coordinates(n, m, d){
+		var _coords=[]
 
-	next_coordinate(coord){
-		for(var i = 0; i<coord.length; i++){
-			if(i==0){
-				if(coord[i]<this.n){
-					return [coord[i]+1, ...coord.slice(1)]
-				}
-			}else{
-				for(var j=1; j<coord.length; j++){
-					if(coord.slice(j)[0]<this.m){
-						return [coord[0], ...coord.slice(1, j), coord.slice(j)[0]+1, ...coord.slice(j, coord.length)]
-					}
-				}
+		for(var i=0; i<n*Math.pow(m, d-1); i++){ 
+			_coords.push([i%d])
+		}
+		console.log(n, m, d, n*Math.pow(m, d-1))
+		for(var _d = 1; _d<d; _d++){
+			for(var i=0; i<n*Math.pow(m, d-1); i++){
+				_coords[i].push(i%_d)
+
 			}
 		}
+		return _coords
+	}
+	next_coordinate(coord){
+		
 	}
 
 	origin(){
@@ -114,18 +100,18 @@ class Matrix {
 
 }
 
-const matrix = new Matrix(4, 5, 3)
+const matrix = new Matrix(3, 5, 4)
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
 //console.log(matrix.get_coordinates(matrix.max()))
 //matrix.load()
-
+console.log(matrix.coords)
 
 // console.log(matrix.count())
 // console.log(matrix.shape())
-matrix.log()
-console.log(matrix.count())
+// matrix.log()
+// console.log(matrix.count())
 
 //matrix.log()
 //matrix._next_cell()
