@@ -64,8 +64,14 @@ class Matrix {
 		var matrix = []
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
-			if(this.isEqual(coordinate, this.origin())){
+			//an empty matrix of dimension 0 is just []
 
+			//a matrix of dimension 1 is just a [with n coordinates]
+			//a matrix of dimension 2 or more is just a [with m [each with n coordinates]]
+
+			if(this.isEqual(coordinate, this.origin())){
+				//that means we are at the start of the matrix, every matrix is of at least 1 dimension, which we already have
+				
 			}
 		}
 	}	
