@@ -1,3 +1,4 @@
+const { exec } = require('child_process')
 const { defaultMaxListeners } = require('events')
 const util = require('util')
 
@@ -62,28 +63,22 @@ class Matrix {
 
 	matrix(){
 		var matrix=[]
+		this.shell(matrix, this.d)
+		this.matrix=matrix
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
-			//an empty matrix of dimension 0 is just []
-
-			//a matrix of dimension 1 is just a [with n coordinates]
-			//a matrix of dimension 2 or more is just a [with m [each with n coordinates]]
-
-			//we are just checking
-			if(this.isEqual(coordinate, this.origin())){
-				//that means we are at the start of the matrix, every matrix is of at least 1 dimension, which we already have
-				//we need to initialize the shell of the matrix
-				var matrix=[]
-				this.shell(matrix, this.d)
-
-			}
+			this.at(coordinate, coordinate, 'coordinate')			
 		}
+
 	}	
 
 	shell(matrix = [], d){
 		//the shell of a matrix has d number of [[...[ for each n coordinate points and d number of ]]...] for each n coordinate points
 		//the number of [] 
 		if(d==0){
+			for(var i = 0; i<this.n; i++){
+				matrix.push(null)
+			}
 			return
 		}
 		for(var i = 0; i<this.m; i++){
@@ -95,8 +90,24 @@ class Matrix {
 	}
 
 	at(coordinate, data, key){
+		var matrix=this.matrix
+		for(var i=coordinate.length-1; i>0; i--){
+			//for each coordinate we we want to access the dimensions
+			matrix = matrix[coordinate[i]]
+		}
+		console.log(coordinate, data, key)
+
+		console.log(matrix)
+		try{
+			if(matrix[coordinate[coordinate.length-1]]['key']){
+				matrix[coordinate[coordinate.length-1]]['key']=data
+			}
+		}catch{
+			//if the 1 d matrix has nothing in it, we still need to load something at its proper index
+		}
 
 	}
+
 	isEqual(coordinate1, coordinate2){
 		for(var i = 0; i<this.d; i++){
 			if(coordinate1[i] != coordinate2[i]){
