@@ -61,7 +61,7 @@ class Matrix {
 	
 
 	matrix(){
-		var matrix = []
+		var matrix=[]
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
 			//an empty matrix of dimension 0 is just []
@@ -69,13 +69,34 @@ class Matrix {
 			//a matrix of dimension 1 is just a [with n coordinates]
 			//a matrix of dimension 2 or more is just a [with m [each with n coordinates]]
 
+			//we are just checking
 			if(this.isEqual(coordinate, this.origin())){
 				//that means we are at the start of the matrix, every matrix is of at least 1 dimension, which we already have
-				
+				//we need to initialize the shell of the matrix
+				var matrix=[]
+				this.shell(matrix, this.d)
+
 			}
 		}
 	}	
 
+	shell(matrix = [], d){
+		//the shell of a matrix has d number of [[...[ for each n coordinate points and d number of ]]...] for each n coordinate points
+		//the number of [] 
+		if(d==0){
+			return
+		}
+		for(var i = 0; i<this.m; i++){
+			//we want to add a layer of matricies to the shell
+			var _matrix=[]
+			matrix.push(_matrix)
+			this.shell(_matrix, d-1)
+		}
+	}
+
+	at(coordinate, data, key){
+
+	}
 	isEqual(coordinate1, coordinate2){
 		for(var i = 0; i<this.d; i++){
 			if(coordinate1[i] != coordinate2[i]){
@@ -161,13 +182,21 @@ class Matrix {
 		}
 	}
 
-	log(){
-		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
+	log(matrix){
+		if(matrix){
+			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true}))
+
+		}else{
+			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
+
+		}
 	}
 }
 
 const matrix = new Matrix(3, 5, 4)
-matrix.log_coordinates()
+var shell = []
+matrix.shell(shell, 3)
+matrix.log(shell)
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
