@@ -19,7 +19,8 @@ class Matrix {
 		this.n=n
 		this.d=d
 		this.verify()
-		this.coords = this.coordinates(n, m, d)
+		this.previous=null
+		//this.coords = this.coordinates(n, m, d)
 
 
 	}
@@ -54,17 +55,11 @@ class Matrix {
 	}
 
 	count(){
-		return this.matrix.length
+		return this.n*Math.pow(this.m, this.d-1)
 	}
 	
 
-	origin(){
-		var origin=[]
-		for(var i=0; i<this.d; i++){
-			origin.push(0)
-		}
-		return origin
-	}
+	
 	max(){
 		var max = []
 		max.push(this.n-1)
@@ -73,25 +68,55 @@ class Matrix {
 		}
 		return max
 	}
-
+	origin(){
+		var origin=[]
+		for(var i=0; i<this.d; i++){
+			origin.push(0)
+		}
+		return origin
+	}
 	min(){
 		return this.origin()
 	}
 	previous(){
 		return this.previous
 	}
-	next(previous=this.previous(), max=this.max()){
-		
-		for(var i=0; i<previous.length; i++){
-			if(previous()[i]<max[i]){
-				this.previous[i]+=1
-				return this.previous()
+	next(previous=this.previous){
+		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
+		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
+		if(previous==null){
+			this.previous=this.origin()
+			return this.previous
+		}
+
+		var current=previous
+		for(var i = 0; i<previous.length; i++){
+			if(this.inc_val(previous, i)){
+				current[i]=this.inc_val(previous, i)
+				break
+			}else{
+				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
+				current[i]=0;		
 			}
 		}
+		this.previous=current
+		return current
+		
+		
 	}
-
-	increment_val(coordinate, i){
+	log_coordinates(){
+		for(var i = 0; i<this.count(); i++){
+			console.log(this.next())
+		}
+	}
+	inc_val(coordinate, i){
+		//console.log(coordinate[i], this.max()[i])
 		//this should return the incremented value of the ith point on the coordinate
+		if(coordinate[i]>=this.max()[i]){
+			return 0
+		}else{
+			return coordinate[i]+1
+		}
 	}
 
 	log(){
@@ -101,12 +126,12 @@ class Matrix {
 }
 
 const matrix = new Matrix(3, 5, 4)
+matrix.log_coordinates()
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
 //console.log(matrix.get_coordinates(matrix.max()))
 //matrix.load()
-console.log(matrix.coords)
 
 // console.log(matrix.count())
 // console.log(matrix.shape())
