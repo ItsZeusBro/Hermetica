@@ -57,24 +57,6 @@ class Matrix {
 		return this.matrix.length
 	}
 	
-	coordinates(n, m, d){
-		var _coords=[]
-
-		for(var i=0; i<n*Math.pow(m, d-1); i++){ 
-			_coords.push([i%d])
-		}
-		console.log(n, m, d, n*Math.pow(m, d-1))
-		for(var _d = 1; _d<d; _d++){
-			for(var i=0; i<n*Math.pow(m, d-1); i++){
-				_coords[i].push(i%_d)
-
-			}
-		}
-		return _coords
-	}
-	next_coordinate(coord){
-		
-	}
 
 	origin(){
 		var origin=[]
@@ -92,7 +74,25 @@ class Matrix {
 		return max
 	}
 
+	min(){
+		return this.origin()
+	}
+	previous(){
+		return this.previous
+	}
+	next(previous=this.previous(), max=this.max()){
+		
+		for(var i=0; i<previous.length; i++){
+			if(previous()[i]<max[i]){
+				this.previous[i]+=1
+				return this.previous()
+			}
+		}
+	}
 
+	increment_val(coordinate, i){
+		//this should return the incremented value of the ith point on the coordinate
+	}
 
 	log(){
 		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
