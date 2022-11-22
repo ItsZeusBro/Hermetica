@@ -91,23 +91,25 @@ class Matrix {
 	}
 
 	at(coordinate, data, key){
-		console.log(coordinate, data)
+		//console.log(coordinate, data)
 		var matrix=this.matrix
 		for(var i=coordinate.length-1; i>0; i--){
 			//for each coordinate we we want to access the dimensions
+			//console.log(coordinate[i])
 			matrix = matrix[coordinate[i]]
 		}
-		this.log(matrix)
 		//console.log(coordinate, data, key)
 
 		try{
-			//console.log(matrix)
-			if(matrix[coordinate[1]][0][key]){
-				matrix[coordinate[1]][0][key]=data
+			if(matrix[coordinate[1]][coordinate[0]][key]){
+				matrix[coordinate[1]][coordinate[0]][key]=data
 			}
+
 		}catch{
 			if('coordinate'==key){
-				matrix[coordinate[1]][0]={'coordinate':data}
+				matrix[coordinate[1]][coordinate[0]]={'coordinate':data}
+				console.log(coordinate, matrix)
+
 			}else{
 				throw Error('matrix coordinate does not contain this key type')
 			}
@@ -212,8 +214,8 @@ class Matrix {
 	}
 }
 
-const matrix = new Matrix(3, 5, 4)
-//matrix.log()
+const matrix = new Matrix(2, 2, 2)
+matrix.log()
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
