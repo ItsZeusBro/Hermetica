@@ -21,8 +21,8 @@ class Matrix {
 		this.d=d
 		this.verify()
 		this.previous=null
-		this.matrix=this.matrix()
-		//this.coords = this.coordinates(n, m, d)
+		this.matrix;
+		this._matrix()
 
 
 	}
@@ -61,15 +61,16 @@ class Matrix {
 	}
 	
 
-	matrix(){
+	_matrix(){
 		var matrix=[]
 		this.shell(matrix, this.d)
 		this.matrix=matrix
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
+			//console.log(coordinate)
 			this.at(coordinate, coordinate, 'coordinate')			
 		}
-
+		return
 	}	
 
 	shell(matrix = [], d){
@@ -90,19 +91,26 @@ class Matrix {
 	}
 
 	at(coordinate, data, key){
+		console.log(coordinate, data)
 		var matrix=this.matrix
 		for(var i=coordinate.length-1; i>0; i--){
 			//for each coordinate we we want to access the dimensions
 			matrix = matrix[coordinate[i]]
 		}
-		console.log(coordinate, data, key)
+		this.log(matrix)
+		//console.log(coordinate, data, key)
 
-		console.log(matrix)
 		try{
-			if(matrix[coordinate[coordinate.length-1]]['key']){
-				matrix[coordinate[coordinate.length-1]]['key']=data
+			//console.log(matrix)
+			if(matrix[coordinate[1]][0][key]){
+				matrix[coordinate[1]][0][key]=data
 			}
 		}catch{
+			if('coordinate'==key){
+				matrix[coordinate[1]][0]={'coordinate':data}
+			}else{
+				throw Error('matrix coordinate does not contain this key type')
+			}
 			//if the 1 d matrix has nothing in it, we still need to load something at its proper index
 		}
 
@@ -205,9 +213,7 @@ class Matrix {
 }
 
 const matrix = new Matrix(3, 5, 4)
-var shell = []
-matrix.shell(shell, 3)
-matrix.log(shell)
+//matrix.log()
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
