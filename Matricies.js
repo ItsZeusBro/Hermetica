@@ -20,6 +20,7 @@ class Matrix {
 		this.d=d
 		this.verify()
 		this.previous=null
+		this.matrix=this.matrix()
 		//this.coords = this.coordinates(n, m, d)
 
 
@@ -51,7 +52,7 @@ class Matrix {
 	}
 
 	shape(){
-
+		return [this.n, this.m]
 	}
 
 	count(){
@@ -59,7 +60,42 @@ class Matrix {
 	}
 	
 
-	
+	matrix(){
+		var matrix = []
+		for(var i = 0; i<this.count(); i++){
+			var coordinate = this.next()
+			if(this.isEqual(coordinate, this.origin())){
+
+			}
+		}
+	}	
+
+	isEqual(coordinate1, coordinate2){
+		for(var i = 0; i<this.d; i++){
+			if(coordinate1[i] != coordinate2[i]){
+				return false
+			}
+		}
+		return true
+	}
+	isGreater(coordinate1, coordinate2){
+		for(var i = this.d; i>0; i--){
+			if(coordinate1[i]>coordinate2[i]){
+				return true
+			}
+		}
+		return false
+	}
+
+	isLess(coordinate1, coordinate2){
+		for(var i = this.d; i>0; i--){
+			if(coordinate1[i]<coordinate2[i]){
+				return true
+			}
+		}
+		return false
+	}
+
 	max(){
 		var max = []
 		max.push(this.n-1)
@@ -122,7 +158,6 @@ class Matrix {
 	log(){
 		console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
 	}
-
 }
 
 const matrix = new Matrix(3, 5, 4)
