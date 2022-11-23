@@ -5,9 +5,9 @@ const util = require('util')
 
 
 class Cell{
-	constructor(data=null, ...pos){
+	constructor(data=null, ...coordinate){
 		this.data=data
-		this.pos=pos
+		this.coordinate=coordinate
 	}
 }
 
@@ -22,8 +22,6 @@ class Matrix {
 		this.verify()
 		this.previous=null
 		this.matrix = this._matrix()
-
-
 	}
 	
 	verify(){
@@ -58,7 +56,6 @@ class Matrix {
 	count(){
 		return this.n*Math.pow(this.m, this.d-1)
 	}
-	
 
 	_matrix(){
 		var matrix=[]
@@ -91,7 +88,7 @@ class Matrix {
 		for(var i=coordinate.length-1; i>=0; i--){
 			matrix = matrix[coordinate[i]]
 		}
-		console.log(key, coordinate, data)
+		//console.log(key, coordinate, data)
 		matrix[coordinate[0]]={[key]:data}
 	}
 
@@ -129,6 +126,7 @@ class Matrix {
 		}
 		return max
 	}
+
 	origin(){
 		var origin=[]
 		for(var i=0; i<this.d; i++){
@@ -136,24 +134,26 @@ class Matrix {
 		}
 		return origin
 	}
+
 	min(){
 		return this.origin()
 	}
+
 	previous(){
 		return this.previous
 	}
-	next(previous=this.previous){
+
+	next(){
 		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
 		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
-		if(previous==null){
+		if(this.previous==null){
 			this.previous=this.origin()
 			return this.previous
 		}
-
-		var current=previous
-		for(var i = 0; i<previous.length; i++){
-			if(this.inc_val(previous, i)){
-				current[i]=this.inc_val(previous, i)
+		var current=JSON.parse(JSON.stringify(this.previous))
+		for(var i = 0; i<this.previous.length; i++){
+			if(this.inc_val(current, i)){
+				current[i]=this.inc_val(current, i)
 				break
 			}else{
 				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
@@ -162,14 +162,14 @@ class Matrix {
 		}
 		this.previous=current
 		return current
-		
-		
 	}
+
 	log_coordinates(){
 		for(var i = 0; i<this.count(); i++){
 			console.log(this.next())
 		}
 	}
+
 	inc_val(coordinate, i){
 		//console.log(coordinate[i], this.max()[i])
 		//this should return the incremented value of the ith point on the coordinate
