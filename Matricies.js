@@ -5,7 +5,7 @@ const util = require('util')
 
 
 class Cell{
-	constructor(data=null, ...coordinate){
+	constructor(data=null, coordinate){
 		this.data=data
 		this.coordinate=coordinate
 	}
@@ -22,6 +22,7 @@ class Matrix {
 		this.verify()
 		this.previous=null
 		this.matrix = this._matrix()
+		this.validate()
 	}
 	
 	verify(){
@@ -49,6 +50,16 @@ class Matrix {
 		}
 	}
 
+	validate(){
+		console.log('validating')
+		for(var i = 0; i<this.matrix.length-2; i++){
+			if(!this.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
+				throw Error('invalid matrix coordinates found', this.matrix[i+1].coordinate, this.matrix[i].coordinate)
+			}
+		}
+		console.log('validation complete')
+	}
+
 	shape(){
 		return [this.n, this.m]
 	}
@@ -59,37 +70,17 @@ class Matrix {
 
 	_matrix(){
 		var matrix=[]
-		this.shell(matrix, this.d)
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
-			this.at(matrix, coordinate, coordinate, 'coordinate')			
+			matrix.push(new Cell({}, coordinate))		
 		}
 		return matrix
 	}	
 
-	shell(matrix = [], d){
-		//the shell of a matrix has d number of [[...[ for each n coordinate points and d number of ]]...] for each n coordinate points
-		//the number of [] 
-		if(d==0){
-			for(var i = 0; i<this.n; i++){
-				matrix.push(null)
-			}
-			return
-		}
-		for(var i = 0; i<this.m; i++){
-			//we want to add a layer of matricies to the shell
-			var _matrix=[]
-			matrix.push(_matrix)
-			this.shell(_matrix, d-1)
-		}
-	}
-
+	
 	at(matrix, coordinate, data, key){
-		for(var i=coordinate.length-1; i>=0; i--){
-			matrix = matrix[coordinate[i]]
-		}
-		//console.log(key, coordinate, data)
-		matrix[coordinate[0]]={[key]:data}
+
+
 	}
 
 	isEqual(coordinate1, coordinate2){
@@ -101,7 +92,7 @@ class Matrix {
 		return true
 	}
 	isGreater(coordinate1, coordinate2){
-		for(var i = this.d; i>0; i--){
+		for(var i = this.d; i>=0; i--){
 			if(coordinate1[i]>coordinate2[i]){
 				return true
 			}
@@ -191,7 +182,7 @@ class Matrix {
 	}
 }
 
-const matrix = new Matrix(2, 2, 2)
+const matrix = new Matrix(100, 100, 2)
 matrix.log()
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
