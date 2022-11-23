@@ -21,8 +21,7 @@ class Matrix {
 		this.d=d
 		this.verify()
 		this.previous=null
-		this.matrix;
-		this._matrix()
+		this.matrix = this._matrix()
 
 
 	}
@@ -64,13 +63,11 @@ class Matrix {
 	_matrix(){
 		var matrix=[]
 		this.shell(matrix, this.d)
-		this.matrix=matrix
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.next()
-			//console.log(coordinate)
-			this.at(coordinate, coordinate, 'coordinate')			
+			this.at(matrix, coordinate, coordinate, 'coordinate')			
 		}
-		return
+		return matrix
 	}	
 
 	shell(matrix = [], d){
@@ -90,32 +87,12 @@ class Matrix {
 		}
 	}
 
-	at(coordinate, data, key){
-		//console.log(coordinate, data)
-		var matrix=this.matrix
-		for(var i=coordinate.length-1; i>0; i--){
-			//for each coordinate we we want to access the dimensions
-			//console.log(coordinate[i])
+	at(matrix, coordinate, data, key){
+		for(var i=coordinate.length-1; i>=0; i--){
 			matrix = matrix[coordinate[i]]
 		}
-		//console.log(coordinate, data, key)
-
-		try{
-			if(matrix[coordinate[1]][coordinate[0]][key]){
-				matrix[coordinate[1]][coordinate[0]][key]=data
-			}
-
-		}catch{
-			if('coordinate'==key){
-				matrix[coordinate[1]][coordinate[0]]={'coordinate':data}
-				console.log(coordinate, matrix)
-
-			}else{
-				throw Error('matrix coordinate does not contain this key type')
-			}
-			//if the 1 d matrix has nothing in it, we still need to load something at its proper index
-		}
-
+		console.log(key, coordinate, data)
+		matrix[coordinate[0]]={[key]:data}
 	}
 
 	isEqual(coordinate1, coordinate2){
