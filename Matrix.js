@@ -14,7 +14,7 @@ class Cell{
 		//a 2x4 is still a 3 dimensional object or a 2 dimensional object, but not a 1 dimensional object!
 		//what m represents is the length of any given object for every dimension its in
 		//what n represents is the width of any given object for every dimension its in
-class Matrix {
+export class Matrix {
 	constructor(n, m, d){
 		this.m=m
 		this.n=n
@@ -86,6 +86,13 @@ class Matrix {
 		this.matrix[j].data[key]=data
 	}
 
+	get(coordinate){
+		var j=0;
+		for(var i=coordinate.length-1; i>=0; i--){
+			j+=coordinate[i]*Math.pow(this.m, i)
+		}
+		return this.matrix[j]
+	}
 	isEqual(coordinate1, coordinate2){
 		for(var i = 0; i<this.d; i++){
 			if(coordinate1[i] != coordinate2[i]){
@@ -176,16 +183,3 @@ class Matrix {
 	}
 }
 
-const matrix = new Matrix(4, 4, 4)
-matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
-matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
-matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
-matrix.at([3, 0, 0, 0], '3, 0, 0, 0', 'somekey')
-
-matrix.at([0, 0, 0, 1], '0, 0, 0, 1', 'somekey')
-
-matrix.at([3, 2, 1, 0], '3, 2, 1, 0', 'somekey')
-matrix.at([2, 1, 3, 1], '2, 1, 3, 1', 'somekey')
-matrix.at([3, 0, 2, 1], '3, 0, 2, 1', 'somekey')
-
-matrix.log()
