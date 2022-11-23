@@ -78,9 +78,12 @@ class Matrix {
 	}	
 
 	
-	at(matrix, coordinate, data, key){
-
-
+	at(coordinate, data, key){
+		var j=0;
+		for(var i=coordinate.length-1; i>=0; i--){
+			j+=coordinate[i]*Math.pow(this.m, i)
+		}
+		this.matrix[j].data[key]=data
 	}
 
 	isEqual(coordinate1, coordinate2){
@@ -91,6 +94,7 @@ class Matrix {
 		}
 		return true
 	}
+
 	isGreater(coordinate1, coordinate2){
 		for(var i = this.d; i>=0; i--){
 			if(coordinate1[i]>coordinate2[i]){
@@ -174,16 +178,18 @@ class Matrix {
 	log(matrix){
 		if(matrix){
 			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true}))
-
 		}else{
 			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
-
 		}
 	}
 }
 
-const matrix = new Matrix(100, 100, 2)
+const matrix = new Matrix(4, 4, 4)
+matrix.at([0, 0, 0, 1], '0, 0, 0, 1', 'somekey')
+matrix.at([3, 0, 2, 1], '3, 0, 2, 1', 'somekey')
+
 matrix.log()
+
 // matrix.pos([0, 0, 0, 0], 0, 0, 0, 0)
 // matrix.pos([2, 4, 4, 4], 2, 4, 4, 4)
 // matrix.pos([1, 4, 4, 4], 1, 4, 4, 4)
