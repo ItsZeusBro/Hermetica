@@ -93,6 +93,15 @@ export class Matrix {
 		}
 		return this.matrix[j]
 	}
+	corners(){
+		//gets the corner coordinates for any matrix
+	}
+	faces(){
+		//gets the face coordinates for any matrix minus the corners
+	}
+	body(){
+		//gets the body coordinates for any matrix
+	}
 	isEqual(coordinate1, coordinate2){
 		for(var i = 0; i<this.d; i++){
 			if(coordinate1[i] != coordinate2[i]){
