@@ -31,9 +31,9 @@ matrix.log()
 	//1*3 (first perform a dimension reduction to get 3)
 	//then we notice the neighborhood pattern [1][2][1]
 	
-	//next take the example 2*3 				[2][2]
-	//											[3][3]
-	//											[2][2]
+//next take the example 2*3 				[2][2]
+//											[3][3]
+//											[2][2]
 //				
 // 												   [3]_________[3]
 // 												  / .	       / |
@@ -57,5 +57,5 @@ matrix.log()
 
 //so the number of dimensions (with dimension reductions in the case of 1's) squared represents the number of corner cells in n number of dimensions
 
-//n=d^2 where n represents the number of corner cells (the next)
-//the number of neighbors for a corner cell with d dimensions is also d
+//c=d^2 where c represents the number of corner cells (the next)
+//the number of neighbors for a base corner cell with d dimensions is also d; so, n=d, where n is the number of neighbors for any corner base cell c in a matrix of d dimensions
