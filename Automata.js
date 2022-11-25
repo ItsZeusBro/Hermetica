@@ -92,3 +92,11 @@ matrix.log()
 //so if we have a corner (min(), min()) in a 2d matrix, then (min()+1, min()) should have similar properties to (min(), min()+1) 
 //We should always evaluate a relative coordinate to a corner to all other corners to make sure its not also a corner
 
+
+//comparing corners against any coordinate relative to it can impact performance. Corners should only therefore be checked by the dimension they are acted upon.
+//That's probabl as good as we can get with this system of principles. 
+
+//so if we have a coordinate for dimension d that is d.min()+i, then we check against d.max(). 
+//similarly if we have a coordinate for dimension d that is d.max()-i, then we check against d.min()
+//after checking to make sure we do not have another corner, (meaning we should store the property state of the coordinate), we can evaluate its other properties, like
+//whether or not it is a (corner's number of neighbors +1) or (a corner's number of neighbors +2) etc...
