@@ -90,7 +90,7 @@ export class Matrix {
 		for(var i=coordinate.length-1; i>=0; i--){
 			j+=coordinate[i]*Math.pow(this.m, i)
 		}
-		return this.matrix[j]
+		return {[j]:this.matrix[j]}
 	}
 	corners(){
 		//gets the corner coordinates for any matrix
@@ -130,6 +130,17 @@ export class Matrix {
 			}
 		}
 		return false
+	}
+
+	window(coordinate1, coordinate2){
+		//we want to slice the list from coordinate1 to coordinate2
+		//so we need to access the list position of coordinate1, which could be a problem if we dont
+		//use an equation 
+		var i=Object.keys(this.get(coordinate1))[0]
+		var j = Object.keys(this.get(coordinate2))[0]
+
+		return this.matrix.slice(i, j+1)
+
 	}
 
 	in(coordinate, d){

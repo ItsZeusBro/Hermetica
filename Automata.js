@@ -20,7 +20,7 @@ class Automata{
 }
 
 const automata = new Automata(3, 3, 3)
-automata.matrix.log()
+automata.matrix.log(automata.matrix.window([1, 1, 1], [2, 2, 2]))
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
