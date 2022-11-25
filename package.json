@@ -1,0 +1,19 @@
+{
+  "name": "hermetica",
+  "version": "1.0.0",
+  "description": "This is basically a new hypothesis for how truth and existentialism works",
+  "main": "Automata.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsZeusBro/Hermetica.git"
+  },
+  "author": "Hassan Amad",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/ItsZeusBro/Hermetica/issues"
+  },
+  "homepage": "https://github.com/ItsZeusBro/Hermetica#readme"
+}

@@ -1,13 +1,26 @@
 import { Matrix } from "./Matrix.js"
 class Automata{
-	constructor(){
+	constructor(n, m, d, r_seed){
+		this.matrix = new Matrix(n, m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
+		this.rules=this._rules(r_seed)
+	}
+
+	neighborhood(coordinate){
+		//returns the neighborhood for a cell in a given automata simulation
+	}
+
+	_rules(){
+		//generates a rule set randomly (randomness requires security protocols if we want to take the results seriously)
 
 	}
+
+
 	
 }
 
-const matrix = new Matrix(4, 4, 4)
+const automata = new Automata(4, 4, 4)
+automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
@@ -57,5 +70,18 @@ matrix.log()
 
 //so the number of dimensions (with dimension reductions in the case of 1's) squared represents the number of corner cells in n number of dimensions
 
-//c=d^2 where c represents the number of corner cells (the next)
-//the number of neighbors for a base corner cell with d dimensions is also d; so, n=d, where n is the number of neighbors for any corner base cell c in a matrix of d dimensions
+//the number of neighbors for a base corner cell with d dimensions is also 
+//CALCULATING CORNERS FOR ANY DIMENSION
+//c=d^2 
+//where c represents the number of corner cells (the next)
+
+//CALCULATING NEIGHBORS FOR ANY CELL
+//this is a function of the cell's position relative to a corner
+// where the number of corners c=d^2 and C_n=d, where C_n is the number of neighbors for any corner base cell c in a matrix of d dimensions
+
+
+//CALCULATING THE POSITION OF CORNERS FOR ANY MATRIX
+//take the previous examples:
+//for a 1d matrix there exists 2 corners (min()) and (max())
+//for a 2d matrix there exists 4 corners (min(), min()), (min(), max()), (max(), min()), and (max(), max())
+//for a 3d matrix there exists 8 corners (min(), min(), min()), (min(), min(), max()), (min(), max(), max()), () 
