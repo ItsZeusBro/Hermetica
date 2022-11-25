@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/ItsZeusBro/Hermetica.git"
   },
+  "type":"module",
   "author": "Hassan Amad",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {

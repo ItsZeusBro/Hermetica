@@ -1,6 +1,4 @@
-const { exec } = require('child_process')
-const { defaultMaxListeners } = require('events')
-const util = require('util')
+import util from 'node:util'
 
 
 
