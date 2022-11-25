@@ -100,3 +100,6 @@ matrix.log()
 //similarly if we have a coordinate for dimension d that is d.max()-i, then we check against d.min()
 //after checking to make sure we do not have another corner, (meaning we should store the property state of the coordinate), we can evaluate its other properties, like
 //whether or not it is a (corner's number of neighbors +1) or (a corner's number of neighbors +2) etc...
+
+
+

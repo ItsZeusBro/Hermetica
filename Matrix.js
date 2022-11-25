@@ -134,13 +134,33 @@ export class Matrix {
 		return false
 	}
 
-	max(){
-		var max = []
-		max.push(this.n-1)
-		for(var i=0; i<this.d-1;i++){
-			max.push(this.m-1)
+	in(coordinate, d){
+		//this checks if a given point exists within a dimensional sub-matrix.
+		//the sub-matrix is evaluated along dimensional lines specified by d which should create
+		//some d-dimensional shape which could be different than the one specified by n and m
+	}
+	max(d){
+		if(d){
+			//d is a list of dimensions that are not zero'd, meaning a sub-matrix
+			//the other dimensions are zeroed out to help us identify the submatrix
+		}else{
+			var max = []
+			max.push(this.n-1)
+			for(var i=0; i<this.d-1;i++){
+				max.push(this.m-1)
+			}
+			return max
 		}
-		return max
+		
+	}
+
+	min(d){
+		if(d){
+			//d is a list of dimensions that are not zero'd, meaning a sub-matrix
+			//the other dimensions are zeroed out to help us identify the submatrix
+		}else{
+			return this.origin()
+		}
 	}
 
 	origin(){
@@ -151,9 +171,7 @@ export class Matrix {
 		return origin
 	}
 
-	min(){
-		return this.origin()
-	}
+
 
 
 	next(){
