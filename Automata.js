@@ -75,13 +75,20 @@ matrix.log()
 //c=d^2 
 //where c represents the number of corner cells (the next)
 
-//CALCULATING NEIGHBORS FOR ANY CELL
-//this is a function of the cell's position relative to a corner
-// where the number of corners c=d^2 and C_n=d, where C_n is the number of neighbors for any corner base cell c in a matrix of d dimensions
 
 
 //CALCULATING THE POSITION OF CORNERS FOR ANY MATRIX
 //take the previous examples:
 //for a 1d matrix there exists 2 corners (min()) and (max())
 //for a 2d matrix there exists 4 corners (min(), min()), (min(), max()), (max(), min()), and (max(), max())
-//for a 3d matrix there exists 8 corners (min(), min(), min()), (min(), min(), max()), (min(), max(), max()), () 
+//for a 3d matrix there exists 8 corners (min(), min(), min()), (min(), min(), max()), (min(), max(), max()) 
+//essentially these are combinatorically calculated
+
+//CALCULATING NEIGHBORS FOR ANY CELL
+//this is a function of the cell's position relative to a corner
+// where the number of corners c=d^2 and C_n=d, where C_n is the number of neighbors for any corner base cell c in a matrix of d dimensions
+
+//a cell's neighborhood can be calculated from the corners, that neighborhood has properties that can identified by its shape and relativity to the corner if comes from
+//so if we have a corner (min(), min()) in a 2d matrix, then (min()+1, min()) should have similar properties to (min(), min()+1) 
+//We should always evaluate a relative coordinate to a corner to all other corners to make sure its not also a corner
+
