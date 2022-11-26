@@ -1,4 +1,4 @@
-import { Matrix } from "./Matrix.js"
+import { Matrix } from "./Shapes.js"
 class Automata{
 	constructor(n, m, d, r_seed){
 		this.matrix = new Matrix(n, m, d)
@@ -12,15 +12,11 @@ class Automata{
 
 	_rules(){
 		//generates a rule set randomly (randomness requires security protocols if we want to take the results seriously)
-
 	}
-
-
-	
 }
 
-const automata = new Automata(3, 3, 3)
-automata.matrix.log(automata.matrix.window([1, 1, 1], [2, 2, 2]))
+const automata = new Automata(2, 3, 3)
+automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
