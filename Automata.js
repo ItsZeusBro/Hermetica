@@ -1,13 +1,25 @@
 import { Matrix } from "./Matrix.js"
 class Automata{
-	constructor(n, m, d, r_seed){
-		this.matrix = new Matrix(n, m, d)
+	constructor(m, d){
+		this.matrix = new Matrix(m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
-		this.rules=this._rules(r_seed)
+		this.rules=this._rules()
 	}
 
-	neighborhood(coordinate){
-		//returns the neighborhood for a cell in a given automata simulation
+	neighborhoods(matrix){
+		//create a list of neighbors for each cell
+		for(var i =0; i<matrix.length; i++){
+			var coordinate=matrix[i].coordinate
+			console.log(coordinate)
+			var neighbors=[]
+			for(var j = 0; j<coordinate.length; j++){
+				
+			}
+			matrix[i].data={'neighborhood':neighbors, 'mode':'off'}
+			console.log(matrix[i].data)
+			//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
+			//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
+		}
 	}
 
 	_rules(){
@@ -15,9 +27,8 @@ class Automata{
 	}
 }
 
-const automata = new Automata(3,3)
-automata.matrix.log()
-console.log(automata.matrix.abstract())
+const automata = new Automata(4,5)
+automata.neighborhoods(automata.matrix.matrix)
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')

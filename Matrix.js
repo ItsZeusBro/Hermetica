@@ -9,9 +9,9 @@ class Cell{
 	}
 }
 
-		//a 2x4 is still a 3 dimensional object or a 2 dimensional object, but not a 1 dimensional object!
-		//what m represents is the length of any given object for every dimension its in
-		//what n represents is the width of any given object for every dimension its in
+//a 2x4 is still a 3 dimensional object or a 2 dimensional object, but not a 1 dimensional object!
+//what m represents is the length of any given object for every dimension its in
+//what n represents is the width of any given object for every dimension its in
 export class Matrix {
 	constructor(m, d){
 		this.m=m
@@ -70,6 +70,26 @@ export class Matrix {
 		}
 		return matrix
 	}	
+	
+	abstract(){
+		var abstract=[]
+		//this shrinks the matrix to a 2^d list of corner coordinates
+		for(var i =0; i<this.matrix.length; i++){
+			var count=0;
+			for(var j=0; j<this.matrix[i].coordinate.length; j++){
+				if(!(this.matrix[i].coordinate[j]==0||this.matrix[i].coordinate[j]==this.m-1)){
+					break
+				}else{
+					count+=1
+				}
+			}
+			if(count==this.d){
+				abstract.push(JSON.parse(JSON.stringify(this.matrix[i])))
+			}
+		}
+		return abstract
+	}
+
 	next(){
 		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
 		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
@@ -90,26 +110,6 @@ export class Matrix {
 		this.previous=current
 		return current
 	}
-
-	abstract(){
-		var abstract=[]
-		//this shrinks the matrix to a 2^d list of corner coordinates
-		for(var i =0; i<this.matrix.length; i++){
-			var count=0;
-			for(var j=0; j<this.matrix[i].coordinate.length; j++){
-				if(!(this.matrix[i].coordinate[j]==0||this.matrix[i].coordinate[j]==this.m-1)){
-					break
-				}else{
-					count+=1
-				}
-			}
-			if(count==this.d){
-				abstract.push(JSON.parse(JSON.stringify(this.matrix[i])))
-			}
-		}
-		return abstract
-	}
-
 
 
 	inc_val(coordinate, i){
@@ -264,3 +264,5 @@ export class Matrix {
 		}
 	}
 }
+
+
