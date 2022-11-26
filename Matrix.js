@@ -15,7 +15,6 @@ class Cell{
 export class Matrix {
 	constructor(m, d){
 		this.m=m
-		this.n=m
 		this.d=d
 		this.verify()
 		this.previous=null
@@ -24,22 +23,14 @@ export class Matrix {
 	}
 	
 	verify(){
-		if(this.m>this.n && this.n>=1 && this.d>=2){
+		if(this.m>1 && this.d>=2){
 			return true
-		}else if(this.n>this.m && this.m>=1 && this.d>=2){
-			var temp = this.n
-			var temp2 = this.m
-			this.m=temp
-			this.n=temp2
-			return true
-		}else if(this.m==this.n && this.n>1 && this.d>=2){
-			return true
-		}else if(this.m==1 || this.n==1 && (this.m>1)||(this.n>1)){
-			if(this.n>this.m){
-				var temp = this.n
+		}else if(this.m==1 && (this.m>1)){
+			if(this.m>this.m){
+				var temp = this.m
 				var temp2 = this.m
 				this.m=temp
-				this.n=temp2
+				this.m=temp2
 				return true
 			}
 			return true
@@ -63,12 +54,12 @@ export class Matrix {
 		if(coordinate1 && coordinate2){
 			//we want to calculate the shape between two coordinates
 		}else{
-			return [this.n, this.m]
+			return [this.m, this.m]
 		}
 	}
 
 	count(){
-		return this.n*Math.pow(this.m, this.d-1)
+		return this.m*Math.pow(this.m, this.d-1)
 	}
 
 	_matrix(){
@@ -188,7 +179,7 @@ export class Matrix {
 	}
 
 	n_max(){
-		return this.n
+		return this.m
 	}
 
 	m_max(){
@@ -199,7 +190,7 @@ export class Matrix {
 
 	max(){
 		var max = []
-		max.push(this.n-1)
+		max.push(this.m-1)
 		for(var i=0; i<this.d-1;i++){
 			max.push(this.m-1)
 		}
