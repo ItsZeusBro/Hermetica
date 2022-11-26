@@ -15,9 +15,9 @@ class Automata{
 	}
 }
 
-const automata = new Automata(2,4)
+const automata = new Automata(3,3)
 automata.matrix.log()
-console.log(automata.matrix.max())
+console.log(automata.matrix.abstract())
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')

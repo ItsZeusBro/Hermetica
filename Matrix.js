@@ -70,11 +70,57 @@ export class Matrix {
 		}
 		return matrix
 	}	
+	next(){
+		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
+		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
+		if(this.previous==null){
+			this.previous=this.origin()
+			return this.previous
+		}
+		var current=JSON.parse(JSON.stringify(this.previous))
+		for(var i = 0; i<this.previous.length; i++){
+			if(this.inc_val(current, i)){
+				current[i]=this.inc_val(current, i)
+				break
+			}else{
+				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
+				current[i]=0;		
+			}
+		}
+		this.previous=current
+		return current
+	}
 
-	subMtx(coordinate1, coordinate2){
-		//returns a sub Matrix  class object of the current matrix
-		//first we need to initialize a new Matrix with
-	}	
+	abstract(){
+		var abstract=[]
+		//this shrinks the matrix to a 2^d list of corner coordinates
+		for(var i =0; i<this.matrix.length; i++){
+			var count=0;
+			for(var j=0; j<this.matrix[i].coordinate.length; j++){
+				if(!(this.matrix[i].coordinate[j]==0||this.matrix[i].coordinate[j]==this.m-1)){
+					break
+				}else{
+					count+=1
+				}
+			}
+			if(count==this.d){
+				abstract.push(JSON.parse(JSON.stringify(this.matrix[i])))
+			}
+		}
+		return abstract
+	}
+
+
+
+	inc_val(coordinate, i){
+		//console.log(coordinate[i], this.max()[i])
+		//this should return the incremented value of the ith point on the coordinate
+		if(coordinate[i]>=this.max()[i]){
+			return 0
+		}else{
+			return coordinate[i]+1
+		}
+	}
 
 	at(coordinate, data, key){
 		var j=0;
@@ -91,9 +137,7 @@ export class Matrix {
 		}
 		return {[j]:this.matrix[j]}
 	}
-	corners(){
-		//gets the corner coordinates for any matrix
-	}
+
 	
 	faces(){
 		//gets the face planes for any matrix minus the corners
@@ -210,37 +254,7 @@ export class Matrix {
 		return origin
 	}
 
-	next(){
-		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
-		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
-		if(this.previous==null){
-			this.previous=this.origin()
-			return this.previous
-		}
-		var current=JSON.parse(JSON.stringify(this.previous))
-		for(var i = 0; i<this.previous.length; i++){
-			if(this.inc_val(current, i)){
-				current[i]=this.inc_val(current, i)
-				break
-			}else{
-				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
-				current[i]=0;		
-			}
-		}
-		this.previous=current
-		return current
-	}
-
-
-	inc_val(coordinate, i){
-		//console.log(coordinate[i], this.max()[i])
-		//this should return the incremented value of the ith point on the coordinate
-		if(coordinate[i]>=this.max()[i]){
-			return 0
-		}else{
-			return coordinate[i]+1
-		}
-	}
+	
 
 	log(matrix){
 		if(matrix){
