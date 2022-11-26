@@ -13,9 +13,9 @@ class Cell{
 		//what m represents is the length of any given object for every dimension its in
 		//what n represents is the width of any given object for every dimension its in
 export class Matrix {
-	constructor(n, m, d){
+	constructor(m, d){
 		this.m=m
-		this.n=n
+		this.n=m
 		this.d=d
 		this.verify()
 		this.previous=null
@@ -259,4 +259,3 @@ export class Matrix {
 		}
 	}
 }
-

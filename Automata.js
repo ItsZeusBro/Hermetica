@@ -1,4 +1,4 @@
-import { Matrix } from "./Shapes.js"
+import { Matrix } from "./Matrix.js"
 class Automata{
 	constructor(n, m, d, r_seed){
 		this.matrix = new Matrix(n, m, d)
@@ -15,8 +15,9 @@ class Automata{
 	}
 }
 
-const automata = new Automata(2, 3, 3)
+const automata = new Automata(2,4)
 automata.matrix.log()
+console.log(automata.matrix.max())
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
