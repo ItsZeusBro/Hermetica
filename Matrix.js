@@ -1,5 +1,5 @@
 import util from 'node:util'
-
+import { Comparator, Clock } from './Coordinates.js'
 
 
 class Cell{
@@ -17,7 +17,8 @@ export class Matrix {
 		this.m=m
 		this.d=d
 		this.verify()
-		this.previous=null
+		this.clock = new Clock(this.origin(), this.max())
+		this.comparator = new Comparator(d)
 		this.matrix = this._matrix()
 		this.validate()
 	}
@@ -43,18 +44,17 @@ export class Matrix {
 	validate(){
 		console.log('validating')
 		for(var i = 0; i<this.matrix.length-2; i++){
-			if(!this.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
+			if(!this.comparator.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
 				throw Error('invalid matrix coordinates found', this.matrix[i+1].coordinate, this.matrix[i].coordinate)
 			}
 		}
 		console.log('validation complete')
 	}
 
-	shape(coordinate1, coordinate2){
-		if(coordinate1 && coordinate2){
-			//we want to calculate the shape between two coordinates
-		}else{
-			return [this.m, this.m]
+	shape(){
+		var shape = []
+		for(var i=0; i<this.d; i++){
+			shape.push(this.m)
 		}
 	}
 
@@ -65,7 +65,7 @@ export class Matrix {
 	_matrix(){
 		var matrix=[]
 		for(var i = 0; i<this.count(); i++){
-			var coordinate = this.next()
+			var coordinate = this.clock.next()
 			matrix.push(new Cell({}, coordinate))		
 		}
 		return matrix
@@ -90,44 +90,24 @@ export class Matrix {
 		return abstract
 	}
 
-	next(){
-		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
-		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
-		if(this.previous==null){
-			this.previous=this.origin()
-			return this.previous
-		}
-		var current=JSON.parse(JSON.stringify(this.previous))
-		for(var i = 0; i<this.previous.length; i++){
-			if(this.inc_val(current, i)){
-				current[i]=this.inc_val(current, i)
-				break
-			}else{
-				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
-				current[i]=0;		
-			}
-		}
-		this.previous=current
-		return current
-	}
-
-
-	inc_val(coordinate, i){
-		//console.log(coordinate[i], this.max()[i])
-		//this should return the incremented value of the ith point on the coordinate
-		if(coordinate[i]>=this.max()[i]){
-			return 0
-		}else{
-			return coordinate[i]+1
-		}
-	}
-
 	at(coordinate, data, key){
 		var j=0;
 		for(var i=coordinate.length-1; i>=0; i--){
 			j+=coordinate[i]*Math.pow(this.m, i)
 		}
 		this.matrix[j].data[key]=data
+	}
+
+	in(coordinate, coordinate1, coordinate2){
+		//this checks if a given point exists within a dimensional sub-matrix.
+		//the sub-matrix is evaluated along dimensional lines specified by d which should create
+		//some d-dimensional shape which could be different than the one specified by n and m
+		if(this.comparator.isGreaterEqual(coordinate, coordinate1) && this.comparator.isLessEqual(coordinate, coordinate2)){
+			return true
+		}else{
+			return false
+		}
+	
 	}
 
 	get(coordinate){
@@ -138,59 +118,6 @@ export class Matrix {
 		return {[j]:this.matrix[j]}
 	}
 
-	
-	faces(){
-		//gets the face planes for any matrix minus the corners
-	}
-	
-	body(){
-		//gets the body sub matrix for any matrix
-	}
-
-
-	isEqual(coordinate1, coordinate2){
-		for(var i = 0; i<this.d; i++){
-			if(coordinate1[i] != coordinate2[i]){
-				return false
-			}
-		}
-		return true
-	}
-
-	isGreater(coordinate1, coordinate2){
-		for(var i = this.d; i>=0; i--){
-			if(coordinate1[i]>coordinate2[i]){
-				return true
-			}
-		}
-		return false
-	}
-
-	isGreaterEqual(coordinate1, coordinate2){
-		if(this.isEqual(coordinate1, coordinate2)&& this.isGreater(coordinate1, coordinate2)){
-			return true
-		}else{
-			return false
-		}
-
-	}
-
-	isLess(coordinate1, coordinate2){
-		for(var i = this.d; i>0; i--){
-			if(coordinate1[i]<coordinate2[i]){
-				return true
-			}
-		}
-		return false
-	}
-
-	isLessEqual(coordinate1, coordinate2){
-		if(this.isEqual(coordinate1, coordinate2)&& this.isLess(coordinate1, coordinate2)){
-			return true
-		}else{
-			return false
-		}
-	}
 
 	window(coordinate1, coordinate2){
 		//we want to slice the list from coordinate1 to coordinate2
@@ -202,35 +129,6 @@ export class Matrix {
 		return this.matrix.slice(i, j+1)
 
 	}
-
-	in(coordinate, coordinate1, coordinate2){
-		//this checks if a given point exists within a dimensional sub-matrix.
-		//the sub-matrix is evaluated along dimensional lines specified by d which should create
-		//some d-dimensional shape which could be different than the one specified by n and m
-		if(this.isGreaterEqual(coordinate, coordinate1) && this.isLessEqual(coordinate, coordinate2)){
-			return true
-		}else{
-			return false
-		}
-	
-	}
-
-	relative_position(coordinate, coordinate1, coordinate2){
-		if(this.in(coordinate, coordinate1, coordinate2)){
-			//once we know a coordinate is in a sub-matrix, we can create a matrix with the matrix equation, with the sum of the coordinate points
-
-		}
-	}
-
-	n_max(){
-		return this.m
-	}
-
-	m_max(){
-		return this.m
-	}
-
-
 
 	max(){
 		var max = []
