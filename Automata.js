@@ -48,7 +48,6 @@ class Automata{
 		return true
 	}
 	add(coordinate, n, i){
-
 		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
 		coordinate1[i]=coordinate1[i]+n
 		return coordinate1
@@ -64,7 +63,7 @@ class Automata{
 	}
 }
 
-const automata = new Automata(3,3)
+const automata = new Automata(10,4)
 automata.neighborhoods(automata.matrix.matrix)
 automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
