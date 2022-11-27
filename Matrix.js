@@ -154,9 +154,9 @@ export class Matrix {
 
 	log(matrix){
 		if(matrix){
-			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true}))
+			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true, maxArrayLength: null }))
 		}else{
-			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
+			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true, maxArrayLength: null}))
 		}
 	}
 }
