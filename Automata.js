@@ -16,6 +16,7 @@ class Automata{
 			var coordinate=matrix[i].coordinate
 			var neighbors = this.neighborhood(coordinate)
 			matrix[i].data={'neighborhood':neighbors, 'mode':'off'}
+			console.log(matrix[i])
 		}
 	}
 	neighborhood(coordinate){

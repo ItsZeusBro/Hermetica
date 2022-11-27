@@ -17,14 +17,17 @@ export class Clock{
 		var ticks=[]
 		while(true){
 			var next = this.next()
-			if(this.valid(next)){
+			if(next&&this.valid(next)){
 				if(new Comparator(this.coordinate1.length).isEqual(this.coordinate2, next)){
 					ticks.push(next)
 					return ticks
 				}else{
 					ticks.push(next)
 				}
+			}else{
+				return ticks
 			}
+			
 		}
 	}
 	valid(coordinate){
@@ -122,4 +125,4 @@ export class Comparator{
 
 }
 
-console.log(new Clock([-1,-1,-1], [2, 2, 2], 0, 2).ticks())
+// console.log(new Clock([-1,-1,-1], [2, 2, 2], 0, 2).ticks())
