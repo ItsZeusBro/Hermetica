@@ -1,6 +1,8 @@
 export class Clock{
-	constructor(coordinate1, coordinate2){
+	constructor(coordinate1, coordinate2, lowerbound, upperbound){
 		//when it comes to neighbors, we create a +1 and -1 across all dimensions
+		this.lowerbound=lowerbound
+		this.upperbound=upperbound
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
 		this.previous=null
@@ -10,6 +12,34 @@ export class Clock{
 	}
 	max(){
 		return this.coordinate2
+	}
+	ticks(){
+		var ticks=[]
+		while(true){
+			var next=this.next()
+			console.log(next, 'ljkhsdldgkjhdsa')
+			if(!next){
+				console.log('here')
+				return
+			}
+			var add = true
+			for(var i = 0; i<next.length; i++){
+				if(next[i]<this.lowerbound){
+					add=false
+					break
+				}
+				if(next[i]>this.upperbound){
+					add=false
+					break
+				}
+			}
+
+			if(add){
+				ticks.push(this.next())
+			}
+
+		}
+		return ticks
 	}
 	next(){
 		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
@@ -29,7 +59,20 @@ export class Clock{
 			}
 		}
 		this.previous=current
+		if(new Comparator(this.coordinate2.length).isEqual(current, this.coordinate2)){
+			console.log('returning undefined')
+			return
+		}
+
+		if(new Comparator(this.coordinate2.length).isGreater(current, this.coordinate2)){
+			return
+		}
+
+		if(new Comparator(this.coordinate2.length).isLess(current, this.coordinate1)){
+			return
+		}
 		return current
+
 	}
 
 

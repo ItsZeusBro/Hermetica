@@ -1,6 +1,10 @@
 import { Matrix } from "./Matrix.js"
+import {Clock, Comparator} from "./Coordinates.js"
+
 class Automata{
 	constructor(m, d){
+		this.m=m
+		this.d=d
 		this.matrix = new Matrix(m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
 		this.rules=this._rules()
@@ -10,25 +14,48 @@ class Automata{
 		//create a list of neighbors for each cell
 		for(var i =0; i<matrix.length; i++){
 			var coordinate=matrix[i].coordinate
-			console.log(coordinate)
-			var neighbors=[]
-			for(var j = 0; j<coordinate.length; j++){
-				
-			}
+			var neighbors = this.neighborhood(coordinate)
 			matrix[i].data={'neighborhood':neighbors, 'mode':'off'}
-			console.log(matrix[i].data)
-			//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
-			//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
 		}
 	}
+	neighborhood(coordinate){
+		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
+		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
+		var neighbors=[]
+		var max = this.add(coordinate, 1)
+		var min = this.subtract(coordinate, 1)
 
+		var clock = new Clock(min, max, 0, this.m-1)
+		
+		var ticks = clock.ticks()
+		return ticks
+		//if any of the ticks have a dimension less than 0, remove it
+		//if any of the ticks have a dimension greater than m, remove it
+	}
+
+	add(coordinate, i){
+		var coordinate1=[]
+		for(var j = 0; j<coordinate.length; j++){
+			coordinate1.push(coordinate[i]+i)
+		}
+		return coordinate1
+	}
+
+	subtract(coordinate, i){
+		var coordinate1=[]
+		for(var j=0; j<coordinate.length; j++){
+			coordinate1.push(coordinate[i]-i)
+		}
+		return coordinate1
+	}
 	_rules(){
 		//generates a rule set randomly (randomness requires security protocols if we want to take the results seriously)
 	}
 }
 
-const automata = new Automata(4,5)
+const automata = new Automata(2,3)
 automata.neighborhoods(automata.matrix.matrix)
+automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
 // matrix.at([1, 0, 0, 0], '1, 0, 0, 0', 'somekey')
 // matrix.at([2, 0, 0, 0], '2, 0, 0, 0', 'somekey')
@@ -107,6 +134,3 @@ automata.neighborhoods(automata.matrix.matrix)
 //similarly if we have a coordinate for dimension d that is d.max()-i, then we check against d.min()
 //after checking to make sure we do not have another corner, (meaning we should store the property state of the coordinate), we can evaluate its other properties, like
 //whether or not it is a (corner's number of neighbors +1) or (a corner's number of neighbors +2) etc...
-
-
-

@@ -125,9 +125,7 @@ export class Matrix {
 		//use an equation 
 		var i=Object.keys(this.get(coordinate1))[0]
 		var j = Object.keys(this.get(coordinate2))[0]
-
 		return this.matrix.slice(i, j+1)
-
 	}
 
 	max(){
