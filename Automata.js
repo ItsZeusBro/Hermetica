@@ -7,7 +7,7 @@ class Automata{
 		this.d=d
 		this.matrix = new Matrix(m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
-		this.rules=this._rules()
+		this.rules=this.rules()
 	}
 
 	neighborhoods(matrix){
@@ -58,15 +58,30 @@ class Automata{
 		coordinate1[i]=coordinate1[i]-n
 		return coordinate1
 	}
-	_rules(){
-		//generates a rule set randomly (randomness requires security protocols if we want to take the results seriously)
+
+	rules(){
+		//a neighborhood consists of minimum d neighbors, and maximum 2^d neighbors
+		//contexts are therefor a function of the number of neighbors and the number of cells on or off at the most general level
+		//we will use this standard for rule interpretation, thus the maximum number of rules for any given simulation is 2^d
+		//similarly the maximum number of contexts for any given cell is also 2^d
+		
+		//we want to generate all possible contexts, then we can check the number of neighbors lit up for a given cell
+		//then we can change its context
+
+		//we want a (2^d)+1 rules because there is a possiblity that no neighbors exist
+		var rules=[]
+		for (var i = 0; i<Math.pow(2, this.d); i++){
+			var on_off= Math.floor(Math.random() * 2);
+			rules.push(on_off)
+		}
+		return rules
 	}
 }
 
 const automata = new Automata(10,3)
 automata.neighborhoods(automata.matrix.matrix)
 automata.matrix.log()
-
+console.log(automata.rules)
 //How neighbors are calculated:
 //every coordinate in a d dimensional space has maximum 2^d sides, and there fore 2^d possible neighbors.
 //in a pure cartesian plane, all cells share the same number of sides, but in a matrix they do not.
