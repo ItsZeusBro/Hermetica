@@ -63,7 +63,7 @@ class Automata{
 	}
 }
 
-const automata = new Automata(10,4)
+const automata = new Automata(100,3)
 automata.neighborhoods(automata.matrix.matrix)
 automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
