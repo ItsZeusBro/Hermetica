@@ -16,37 +16,49 @@ class Automata{
 			var coordinate=matrix[i].coordinate
 			var neighbors = this.neighborhood(coordinate)
 			matrix[i].data={'neighborhood':neighbors, 'mode':'off'}
-			console.log(matrix[i])
+			//console.log(matrix[i])
 		}
 	}
 	neighborhood(coordinate){
 		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
 		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
 		var neighbors=[]
-		var max = this.add(coordinate, 1)
-		var min = this.subtract(coordinate, 1)
 
-		var clock = new Clock(min, max, 0, this.m-1)
-		
-		var ticks = clock.ticks()
-		return ticks
+		for(var i = 0; i<coordinate.length; i++){
+			var max = this.add(coordinate, i, 1)
+			var min = this.subtract(coordinate, i, 1)
+			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
+				neighbors.push(max)
+				//console.log(coordinate, max)
+			}
+			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
+				neighbors.push(min)
+				//console.log(coordinate, min)
+			}
+		}
+		return neighbors
 		//if any of the ticks have a dimension less than 0, remove it
 		//if any of the ticks have a dimension greater than m, remove it
 	}
-
-	add(coordinate, i){
-		var coordinate1=[]
-		for(var j = 0; j<coordinate.length; j++){
-			coordinate1.push(coordinate[i]+i)
+	valid(coordinate, min, max){
+		//check to see if any of the coordinates dimensions exceed the limits set by min and max
+		for(var i = 0; i<coordinate.length-1; i++){
+			if(coordinate[i]<min||coordinate[i]>max){
+				return false
+			}
 		}
+		return true
+	}
+	add(coordinate, n, i){
+
+		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
+		coordinate1[i]+=n
 		return coordinate1
 	}
 
-	subtract(coordinate, i){
-		var coordinate1=[]
-		for(var j=0; j<coordinate.length; j++){
-			coordinate1.push(coordinate[i]-i)
-		}
+	subtract(coordinate, n, i){
+		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
+		coordinate1[i]-=n
 		return coordinate1
 	}
 	_rules(){

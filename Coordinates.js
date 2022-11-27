@@ -78,7 +78,7 @@ export class Comparator{
 		this.d=d
 	}
 	isEqual(coordinate1, coordinate2){
-		for(var i = 0; i<this.d-1; i++){
+		for(var i = 0; i<coordinate1.length; i++){
 			if(coordinate1[i] != coordinate2[i]){
 				return false
 			}
@@ -87,7 +87,7 @@ export class Comparator{
 	}
 
 	isGreater(coordinate1, coordinate2){
-		for(var i = this.d-1; i>=0; i--){
+		for(var i = coordinate1.length-1; i>=0; i--){
 			if(coordinate1[i]>coordinate2[i]){
 				return true
 			}
@@ -105,7 +105,7 @@ export class Comparator{
 	}
 
 	isLess(coordinate1, coordinate2){
-		for(var i = this.d-1; i>0; i--){
+		for(var i = coordinate1.length-1; i>=0; i--){
 			if(coordinate1[i]<coordinate2[i]){
 				return true
 			}
