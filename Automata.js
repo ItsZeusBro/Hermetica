@@ -25,15 +25,13 @@ class Automata{
 		var neighbors=[]
 
 		for(var i = 0; i<coordinate.length; i++){
-			var max = this.add(coordinate, i, 1)
-			var min = this.subtract(coordinate, i, 1)
+			var max = this.add(coordinate, 1, i)
+			var min = this.subtract(coordinate, 1, i)
 			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
 				neighbors.push(max)
-				//console.log(coordinate, max)
 			}
 			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
 				neighbors.push(min)
-				//console.log(coordinate, min)
 			}
 		}
 		return neighbors
@@ -42,7 +40,7 @@ class Automata{
 	}
 	valid(coordinate, min, max){
 		//check to see if any of the coordinates dimensions exceed the limits set by min and max
-		for(var i = 0; i<coordinate.length-1; i++){
+		for(var i = 0; i<coordinate.length; i++){
 			if(coordinate[i]<min||coordinate[i]>max){
 				return false
 			}
@@ -52,13 +50,13 @@ class Automata{
 	add(coordinate, n, i){
 
 		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]+=n
+		coordinate1[i]=coordinate1[i]+n
 		return coordinate1
 	}
 
 	subtract(coordinate, n, i){
 		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]-=n
+		coordinate1[i]=coordinate1[i]-n
 		return coordinate1
 	}
 	_rules(){
@@ -66,7 +64,7 @@ class Automata{
 	}
 }
 
-const automata = new Automata(2,3)
+const automata = new Automata(3,3)
 automata.neighborhoods(automata.matrix.matrix)
 automata.matrix.log()
 // matrix.at([0, 0, 0, 0], '0, 0, 0, 0', 'somekey')
