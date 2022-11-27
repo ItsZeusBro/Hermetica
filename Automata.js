@@ -66,3 +66,11 @@ class Automata{
 const automata = new Automata(10,3)
 automata.neighborhoods(automata.matrix.matrix)
 automata.matrix.log()
+
+//How neighbors are calculated:
+//every coordinate in a d dimensional space has maximum 2^d sides, and there fore 2^d possible neighbors.
+//in a pure cartesian plane, all cells share the same number of sides, but in a matrix they do not.
+//the way we calculate the number of sides and therefore neighbors for any given cell is subject to min and max
+//constraints on the dimensional space for the matrix. So if a cell has 6 sides that we either add or subtract a coordinate dimension
+//from to get the neighbor, not all sides will fall in the matrix, and therefore are not valid neighbors and are not subject to rules
+//in automata
