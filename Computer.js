@@ -84,6 +84,7 @@ class Computer{
 			this.print(input, 2)
 			throw Error('input already equals output')
 		}
+		var generation=0;
 		console.log('output')
 		this.print(output, 2)
 		console.log('generations')
@@ -93,13 +94,26 @@ class Computer{
 			automata=this.nextGen(automata, rules, output)
 			if(automata==true){
 				console.log('solution found!')
-				break
+				this.record(input, output, rules, generation)
+				rules = new Rules(2, 3)
+				automata=input
+				generation=0
+				this.hashes={}
+				
 			}else if(!automata){
-				throw Error('solution not found')
+				console.log('termination without solution')
+				rules = new Rules(2, 3)
+				automata=input
+				generation=0
+				this.hashes={}
 			}else{
+				generation+=1
 				this.print(automata, 2)
 			}
 		}
+	}
+	record(input, output, rules, generation){
+		//console.log(input, output, rules, generation)
 	}
 }
 
