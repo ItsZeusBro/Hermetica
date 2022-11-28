@@ -8,30 +8,25 @@ class Computer{
 	constructor(input, output, rules){
 		//we want a new automata instance for each successive generation 
 		this.input=input
+		//check to make sure input does not already equal output
+		this.solution(input, output)
 		this.output=output
 		this.hashes={}
-		this.rules;
-		if(rules){
-			this.rules=rules
-			this.rules.m=m
-			this.rules.d=d
-		}else{
-			this.rules=new Rules(m, d)
-		}
+		this.rules=rules
 	}
 
-	nextGen(prevGen){
-		var nextGen = new Automata(prevGen.m, prevGen.d, this.rules)
+	nextGen(prevGen, rules, output){
+		var nextGen = new Automata(prevGen.m, prevGen.d, rules)
 		prevGen.repopulate(nextGen.matrix, prevGen.matrix)
 		nextGen.neighborhoods(nextGen.matrix)
 
 		for(var i = 0; i<prevGen.matrix.length; i++){
 			var neighborhood = nextGen.matrix[i]['data']['neighborhood']
-			nextGen.matrix[i]['data']['mode']=this.rules.context(neighborhood)
+			nextGen.matrix[i]['data']['mode']=rules.context(neighborhood)
 		}
 
 		var hash = this.hash(JSON.stringify(nextGen.matrix.matrix))
-		if(this.OutputValid(nextGen, this.output))
+		if(this.solution(nextGen, output))
 		if(!this.hashes[hash]){
 			this.hashes[hash]=hash
 			return true
@@ -39,12 +34,13 @@ class Computer{
 			return
 		}
 	}
-	outputValid(output1, output2){
+	solution(output1, output2){
 		var hash1 = this.hash(JSON.stringify(output1.matrix.matrix))
 		var hash2 = this.hash(JSON.stringify(output2.matrix.matrix))
 
 		if(hash1==hash2){
 			//this is where we want to store some data
+			throw Error('solution found')
 		}
 	}
 	hash(string) {
@@ -75,10 +71,15 @@ class Computer{
 		}
 	}
 
-	simulate(){
+	simulate(input, rules, output){
+		this.print(input, 2)
+		var automata;
 		while(true){
-			if(!automata.nextGen()){return}
-			automata.print(2)
+			automata=this.nextGen(automata, rules, output)
+			if(!automata){
+				throw Error('solution not found')
+			}
+			this.print(automata, 2)
 		}
 	}
 }
@@ -151,4 +152,7 @@ class Rules{
 	}
 }
 
-new Computer()
+var input = new Automata(3, 3)
+var output = new Automata(3, 3)
+var rules = new Rules(3, 3)
+new Computer(input, output, rules)

@@ -12,7 +12,7 @@ import {createHash} from 'node:crypto'
 
 
 class Automata{
-	constructor(m, d, rules){
+	constructor(m, d){
 		this.m=m
 		this.d=d
 		this.matrix = new Matrix(m, d)
