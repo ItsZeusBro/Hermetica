@@ -1,6 +1,8 @@
 import { Matrix } from "./Matrix.js"
 import {Clock, Comparator} from "./Coordinates.js"
 import util from 'node:util'
+import {createHash} from 'node:crypto'
+
 
 class Automata{
 	constructor(m, d){
@@ -14,9 +16,13 @@ class Automata{
 		//console.log(this.generations[0].matrix)
 		this.rule_map=this._rule_map()
 		this.context_map=this._context_map(this.rule_map)
+		this.hashes={}
 
 	}
 
+	hash(string) {
+		return createHash('sha256').update(string).digest('hex');
+	}
 	neighborhoods(automata){
 		//create a list of neighbors for each cell
 		for(var i=0; i<automata.length; i++){
@@ -25,6 +31,7 @@ class Automata{
 			automata[i]['data']['neighborhood']=neighbors
 		}
 	}
+
 	neighborhood(coordinate){
 		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
 		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
@@ -78,6 +85,14 @@ class Automata{
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
 			var neighborhood = this.generations[this.generations.length-1].matrix[i]['data']['neighborhood']
 			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
+		}
+		this.generations.shift()
+		var hash = this.hash(JSON.stringify(this.generations[0].matrix))
+		if(!this.hashes[hash]){
+			this.hashes[hash]=hash
+			return true
+		}else{
+			return
 		}
 	}
 	
@@ -159,18 +174,18 @@ class Automata{
 		
 		return this.context_map[string]
 	}
-	print(j){
+	print(d){
 
-		if(this.d==1){
+		if(this.d==1||d==1){
 			for(var i=0; i<(this.m); i++){
-				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
+				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
 				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 			}
 		}else{
 			console.log()
 
 			for(var i=0; i<(this.m*this.m); i++){
-				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
+				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
 				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 			}
 		}
@@ -183,16 +198,14 @@ class Automata{
 
 	}
 	simulate(){
-		var i = 0;
 		while(true){
-			automata.nextGen()
-			automata.print(i)
-			i+=1
+			if(!automata.nextGen()){return}
+			automata.print(1)
 		}
 	}
 }
 
-const automata = new Automata(100,1)
+const automata = new Automata(20,1)
 automata.simulate()
 
 //automata.log()
