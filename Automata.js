@@ -8,8 +8,9 @@ class Automata{
 		this.matrix = new Matrix(m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
 		this.rules=this.rules()
-		this.neighborhoods(this.matrix.matrix)
 		this.populate(this.matrix.matrix)
+		this.neighborhoods(this.matrix.matrix)
+		//console.log(this.matrix.matrix)
 	}
 
 	neighborhoods(automata){
@@ -17,13 +18,12 @@ class Automata{
 		for(var i=0; i<automata.length; i++){
 			var coordinate=automata[i].coordinate
 			var neighbors = this.neighborhood(coordinate)
-			automata[i].data={'neighborhood':neighbors, 'mode':this.asciiArt(0)}
-			//console.log(automata[i])
+			automata[i]['data']['neighborhood']=neighbors
 		}
 	}
 	populate(automata){
 		for(var i = 0; i<automata.length; i++){
-			automata[i].data['mode']=this.asciiArt(Math.floor(Math.random() * 2));
+			automata[i]['data']['mode']=this.asciiArt(Math.floor(Math.random() * 2));
 		}
 	}
 	asciiArt(val){
@@ -35,7 +35,14 @@ class Automata{
 		}
 	}
 	nextGen(){
-		//what we want is to fir
+		//for each element in the automata, we look at its neighbors to see how many are on, then we consult the rules array
+		//which tells us the mode
+		var matrix = this.matrix.copy()
+		for(var i = 0; i<matrix.length; i++){
+			var rule_index = matrix[i].data['neighbors'].length-1
+			matrix[i].data['mode']=this.asciiArt(this.rules[rule_index])
+		}
+		this.matrix=matrix
 	}
 	neighborhood(coordinate){
 		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
@@ -46,10 +53,11 @@ class Automata{
 			var max = this.add(coordinate, 1, i)
 			var min = this.subtract(coordinate, 1, i)
 			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
-				neighbors.push(max)
+				//we want the actual cell coresponding to max
+				neighbors.push(this.matrix.get(max))
 			}
 			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
-				neighbors.push(min)
+				neighbors.push(this.matrix.get(min))
 			}
 		}
 		return neighbors
@@ -88,7 +96,7 @@ class Automata{
 
 		//we want a (2^d)+1 rules because there is a possiblity that no neighbors exist
 		var rules=[]
-		for (var i = 0; i<Math.pow(2, this.d); i++){
+		for (var i = 0; i<Math.pow(2, this.d)+1; i++){
 			var on_off= Math.floor(Math.random() * 2);
 			rules.push(on_off)
 		}
@@ -102,9 +110,16 @@ class Automata{
 			
 		}
 	}
+	log(){
+		this.matrix.log()
+	}
 }
 
-const automata = new Automata(100,2)
+const automata = new Automata(30,2)
+automata.print2d()
+console.log()
+console.log()
+automata.nextGen()
 automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:

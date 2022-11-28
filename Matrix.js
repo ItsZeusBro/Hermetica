@@ -115,10 +115,12 @@ export class Matrix {
 		for(var i=coordinate.length-1; i>=0; i--){
 			j+=coordinate[i]*Math.pow(this.m, i)
 		}
-		return {[j]:this.matrix[j]}
+		return this.matrix[j]
 	}
 
-
+	copy(){
+		return {...this};
+	}
 	window(coordinate1, coordinate2){
 		//we want to slice the list from coordinate1 to coordinate2
 		//so we need to access the list position of coordinate1, which could be a problem if we dont
