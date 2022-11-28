@@ -13,6 +13,7 @@ class Automata{
 		this.populate(this.generations[0].matrix)
 		this.neighborhoods(this.generations[0].matrix)
 		//console.log(this.generations[0].matrix)
+		this.rule_map=this._rule_map()
 	}
 
 	neighborhoods(automata){
@@ -45,8 +46,8 @@ class Automata{
 
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
 			//console.log(this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'])
-			var rule_index = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'].length-1
-			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.asciiArt(this.rules[rule_index])
+			var neighborhood = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood']
+			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.asciiArt(this.context(neighborhood))
 		}
 	}
 	neighborhood(coordinate){
@@ -60,9 +61,13 @@ class Automata{
 			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
 				//we want the actual cell coresponding to max
 				neighbors.push(this.matrix.get(max))
+			}else{
+				neighbors.push(null)
 			}
 			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
 				neighbors.push(this.matrix.get(min))
+			}else{
+				neighbors.push(null)
 			}
 		}
 		return neighbors
@@ -90,22 +95,34 @@ class Automata{
 		return coordinate1
 	}
 
-	rules(){
-		//a neighborhood consists of minimum d neighbors, and maximum 2^d neighbors
-		//contexts are therefor a function of the number of neighbors and the number of cells on or off at the most general level
-		//we will use this standard for rule interpretation, thus the maximum number of rules for any given simulation is 2^d
-		//similarly the maximum number of contexts for any given cell is also 2^d
-		
-		//we want to generate all possible contexts, then we can check the number of neighbors lit up for a given cell
-		//then we can change its context
 
-		//we want a (2^d)+1 rules because there is a possiblity that no neighbors exist
-		var rules=[]
-		for (var i = 0; i<Math.pow(2, this.d)+1; i++){
-			var on_off= Math.floor(Math.random() * 2);
-			rules.push(on_off)
+	_rule_map(){
+		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
+		//we need to map the possible contexts to these rules
+		var map={}
+		for(var i =0; i<Math.pow(3, Math.pow(2, d)); i++){
+			map[i]=Math.floor(Math.random() * 2)
 		}
-		return rules
+		//the map should have a rule number along side the rule for the number
+		return map
+	}
+	context(neighborhood){
+		//context should interpret the rule number and call upon map to return the rule
+		//there should be 2^d cells in any neighborhood (some neighbors are null)
+		//we know that there are 3^(2^d) rules derived from 2^d cells
+		var context = []
+		for(var i=0; i<neighborhood.length; i++){
+			if(neighborhood[i]){
+				if(neighborhood[i]['data']['mode']==1){
+					context.push(1)
+				}else{
+					context.push(0)
+				}
+			}else{
+				context.push(null)
+			}
+		}
+		
 	}
 	print2d(){
 		for(var j=0; j<this.generations.length; j++){
@@ -129,8 +146,11 @@ class Automata{
 
 const automata = new Automata(10,3)
 
-automata.nextGen()
-automata.log()
+for(var i = 0; i<100; i++){
+	automata.nextGen()
+
+}
+//automata.log()
 automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:
