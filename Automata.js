@@ -9,11 +9,12 @@ class Automata{
 		this.matrix = new Matrix(m, d)
 		this.generations=[this.matrix]
 		//automata should have rules based on the number of neighborhoods for each cell
-		this.rules=this.rules()
 		this.populate(this.generations[0].matrix)
 		this.neighborhoods(this.generations[0].matrix)
 		//console.log(this.generations[0].matrix)
 		this.rule_map=this._rule_map()
+		this.context_map=this._context_map(this.rule_map)
+
 	}
 
 	neighborhoods(automata){
@@ -26,7 +27,7 @@ class Automata{
 	}
 	populate(automata){
 		for(var i = 0; i<automata.length; i++){
-			automata[i]['data']['mode']=this.asciiArt(Math.floor(Math.random() * 2));
+			automata[i]['data']['mode']=Math.floor(Math.random() * 2);
 		}
 	}
 	asciiArt(val){
@@ -45,9 +46,8 @@ class Automata{
 		this.neighborhoods(matrix.matrix)
 
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
-			//console.log(this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'])
 			var neighborhood = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood']
-			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.asciiArt(this.context(neighborhood))
+			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
 		}
 	}
 	neighborhood(coordinate){
@@ -100,36 +100,62 @@ class Automata{
 		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
 		//we need to map the possible contexts to these rules
 		var map={}
-		for(var i =0; i<Math.pow(3, Math.pow(2, d)); i++){
+		for(var i =0; i<Math.pow(3, 2*this.d)-1; i++){
 			map[i]=Math.floor(Math.random() * 2)
 		}
 		//the map should have a rule number along side the rule for the number
 		return map
 	}
-	context(neighborhood){
+	_context_map(rule_map){
 		//context should interpret the rule number and call upon map to return the rule
 		//there should be 2^d cells in any neighborhood (some neighbors are null)
 		//we know that there are 3^(2^d) rules derived from 2^d cells
-		var context = []
-		for(var i=0; i<neighborhood.length; i++){
-			if(neighborhood[i]){
-				if(neighborhood[i]['data']['mode']==1){
-					context.push(1)
-				}else{
-					context.push(0)
-				}
-			}else{
-				context.push(null)
+		var context_map={}
+		//we want to derive a number from 0 to 3^(2^d) from the context and create a context map connected to the rule map
+		//so if there are four neighbors max, we want to translate these combinatoric contexts into strings (we can substitute -1 for null)
+		//we need the max number of neighbors which is 2*d (which is the number of dimensions in a coordinate plane)
+		var coordinate1=[]
+		var coordinate2=[]
+		for(var i = 0; i<(2*this.d); i++){
+			coordinate1.push(0)
+			coordinate2.push(2)
+		}
+		var ticks = new Clock(coordinate1, coordinate2).ticks()
+		for(var i = 0; i<ticks.length; i++){
+			var string=''
+			for(var j =0; j<ticks[i].length; j++){
+				
+				string+=ticks[i][j]
+			}
+			context_map[string]=this.rule_map[i]
+		}
+		console.log(context_map)
+		return context_map
+		//(-1, -1, -1, -1) ... (1, 1, 1, 1)
+	}
+	context(neighborhood){
+		//should translate neighborhood to context and return the rule using context_map connected to rule_map
+		//console.log(neighborhood)
+		var string=''
+		for(var i = 0; i<neighborhood.length; i++){
+			
+			if(neighborhood[i]==null){
+				string+=0
+			}else if(neighborhood[i]['data']['mode']==0){
+				string+=1
+			}else if(neighborhood[i]['data']['mode']==1){
+				string+=2
 			}
 		}
 		
+		return this.context_map[string]
 	}
 	print2d(){
 		for(var j=0; j<this.generations.length; j++){
 			console.log()
 			console.log()
 			for(var i=0; i<(this.m*this.m); i++){
-				process.stdout.write(this.generations[j].matrix[i]['data']['mode']+ " ")
+				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
 				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 			}
 		}
