@@ -13,23 +13,27 @@ class Computer{
 		this.output=output
 		this.hashes={}
 		this.rules=rules
+		this.simulate(input, rules, output)
 	}
 
 	nextGen(prevGen, rules, output){
+		//console.log('here', prevGen.m, prevGen.d)
 		var nextGen = new Automata(prevGen.m, prevGen.d, rules)
 		prevGen.repopulate(nextGen, prevGen)
 		nextGen.neighborhoods(nextGen)
 
-		for(var i = 0; i<prevGen.matrix.length; i++){
-			var neighborhood = nextGen.matrix[i]['data']['neighborhood']
-			nextGen.matrix[i]['data']['mode']=rules.context(neighborhood)
+		for(var i = 0; i<prevGen.matrix.matrix.length; i++){
+			var neighborhood = nextGen.matrix.matrix[i]['data']['neighborhood']
+			nextGen.matrix.matrix[i]['data']['mode']=rules.context(neighborhood)
 		}
 
 		var hash = this.hash(JSON.stringify(nextGen.matrix.matrix))
-		if(this.solution(nextGen, output))
+		if(this.solution(nextGen, output)){
+			throw Error('solution found')
+		}
 		if(!this.hashes[hash]){
 			this.hashes[hash]=hash
-			return true
+			return nextGen
 		}else{
 			return
 		}
@@ -40,24 +44,25 @@ class Computer{
 
 		if(hash1==hash2){
 			//this is where we want to store some data
-			throw Error('solution found')
+			return true
 		}
+		return false
 	}
 	hash(string) {
 		return createHash('sha256').update(string).digest('hex');
 	}
 
-	print(d){
-		if(this.d==1||d==1){
+	print(gen, d){
+		if(gen.d==1||d==1){
 			for(var i=0; i<(this.m); i++){
-				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
-				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
+				if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
 			}
 		}else{
 			console.log()
-			for(var i=0; i<(this.m*this.m); i++){
-				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
-				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+			for(var i=0; i<(gen.m*gen.m); i++){
+				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
+				if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
 			}
 		}
 	}
@@ -72,8 +77,14 @@ class Computer{
 	}
 
 	simulate(input, rules, output){
+		if(this.solution(input, output)){
+			throw Error('input already equals output')
+		}
+		console.log('output')
+		this.print(output, 2)
+		console.log('generations')
 		this.print(input, 2)
-		var automata;
+		var automata=input
 		while(true){
 			automata=this.nextGen(automata, rules, output)
 			if(!automata){
@@ -155,7 +166,7 @@ class Rules{
 var input = new Automata(2, 2)
 var output = new Automata(2, 2)
 var rules = new Rules(2, 2)
-input.log(input)
-output.log(output)
-console.log(rules._context_map())
-//new Computer(input, output, rules)
+//input.log(input)
+//output.log(output)
+//console.log(rules._context_map())
+new Computer(input, output, rules)
