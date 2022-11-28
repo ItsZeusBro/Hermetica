@@ -3,121 +3,13 @@ import {Clock, Comparator} from "./Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
 
-
-class Automata{
+class Rules{
 	constructor(m, d){
 		this.m=m
 		this.d=d
-		this.matrix = new Matrix(m, d)
-		this.generations=[this.matrix]
-		//automata should have rules based on the number of neighborhoods for each cell
-		this.populate(this.generations[0].matrix)
-		this.neighborhoods(this.generations[0].matrix)
-		//console.log(this.generations[0].matrix)
 		this.rule_map=this._rule_map()
 		this.context_map=this._context_map(this.rule_map)
-		this.hashes={}
-
 	}
-
-	hash(string) {
-		return createHash('sha256').update(string).digest('hex');
-	}
-	neighborhoods(automata){
-		//create a list of neighbors for each cell
-		for(var i=0; i<automata.length; i++){
-			var coordinate=automata[i].coordinate
-			var neighbors = this.neighborhood(coordinate)
-			automata[i]['data']['neighborhood']=neighbors
-		}
-	}
-
-	neighborhood(coordinate){
-		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
-		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
-		var neighbors=[]
-
-		for(var i = 0; i<coordinate.length; i++){
-			var max = this.add(coordinate, 1, i)
-			var min = this.subtract(coordinate, 1, i)
-			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
-				//we want the actual cell coresponding to max
-				neighbors.push(this.generations[this.generations.length-1].get(max)['data']['mode'])
-			}else{
-				neighbors.push(null)
-			}
-			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
-				neighbors.push(this.generations[this.generations.length-1].get(min)['data']['mode'])
-			}else{
-				neighbors.push(null)
-			}
-		}
-		return neighbors
-		//if any of the ticks have a dimension less than 0, remove it
-		//if any of the ticks have a dimension greater than m, remove it
-	}
-	populate(automata){
-		for(var i = 0; i<automata.length; i++){
-			automata[i]['data']['mode']=Math.floor(Math.random() * 2);
-		}
-	}
-	repopulate(matrix1, matrix2){
-		for(var i = 0; i<matrix1.length;i++){
-			matrix1[i]['data']= JSON.parse(JSON.stringify(matrix2[i]['data']))
-		}
-
-	}
-	asciiArt(val){
-		if(val==0){
-			return String.fromCharCode('9634')
-		}
-		if(val==1){
-			return String.fromCharCode('9635')
-		}
-	}
-	nextGen(){
-		//for each element in the automata, we look at its neighbors to see how many are on, then we consult the rules array
-		//which tells us the mode
-		var matrix = new Matrix(this.m, this.d)
-		this.generations.push(matrix)
-		this.repopulate(this.generations[this.generations.length-1].matrix, this.generations[this.generations.length-2].matrix)
-		this.neighborhoods(this.generations[this.generations.length-1].matrix)
-		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
-			var neighborhood = this.generations[this.generations.length-1].matrix[i]['data']['neighborhood']
-			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
-		}
-		this.generations.shift()
-		var hash = this.hash(JSON.stringify(this.generations[0].matrix))
-		if(!this.hashes[hash]){
-			this.hashes[hash]=hash
-			return true
-		}else{
-			return
-		}
-	}
-	
-	valid(coordinate, min, max){
-		//check to see if any of the coordinates dimensions exceed the limits set by min and max
-		for(var i = 0; i<coordinate.length; i++){
-			if(coordinate[i]<min||coordinate[i]>max){
-				return false
-			}
-		}
-		return true
-	}
-	add(coordinate, n, i){
-		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]=coordinate1[i]+n
-		return coordinate1
-	}
-
-	subtract(coordinate, n, i){
-		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]=coordinate1[i]-n
-		return coordinate1
-	}
-
-
 	_rule_map(){
 		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
 		//we need to map the possible contexts to these rules
@@ -174,8 +66,121 @@ class Automata{
 		
 		return this.context_map[string]
 	}
-	print(d){
+}
 
+class Automata{
+	constructor(m, d, rules){
+		this.m=m
+		this.d=d
+		this.matrix = new Matrix(m, d)
+		this.generations=[this.matrix]
+		this.populate(this.generations[0].matrix)
+		this.neighborhoods(this.generations[0].matrix)
+		//console.log(this.generations[0].matrix)
+		this.rules;
+		if(rules){
+			this.rules=rules
+			this.rules.m=m
+			this.rules.d=d
+		}else{
+			this.rules=new Rules(m, d)
+		}
+
+		this.hashes={}
+	}
+
+	hash(string) {
+		return createHash('sha256').update(string).digest('hex');
+	}
+	
+	populate(automata){
+		for(var i = 0; i<automata.length; i++){
+			automata[i]['data']['mode']=Math.floor(Math.random() * 2);
+		}
+	}
+	repopulate(matrix1, matrix2){
+		for(var i = 0; i<matrix1.length;i++){
+			matrix1[i]['data']= JSON.parse(JSON.stringify(matrix2[i]['data']))
+		}
+	}
+	neighborhoods(automata){
+		//create a list of neighbors for each cell
+		for(var i=0; i<automata.length; i++){
+			var coordinate=automata[i].coordinate
+			var neighbors = this.neighborhood(coordinate)
+			automata[i]['data']['neighborhood']=neighbors
+		}
+	}
+
+	neighborhood(coordinate){
+		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
+		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
+		var neighbors=[]
+
+		for(var i = 0; i<coordinate.length; i++){
+			var max = this.add(coordinate, 1, i)
+			var min = this.subtract(coordinate, 1, i)
+			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
+				//we want the actual cell coresponding to max
+				neighbors.push(this.generations[this.generations.length-1].get(max)['data']['mode'])
+			}else{
+				neighbors.push(null)
+			}
+			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
+				neighbors.push(this.generations[this.generations.length-1].get(min)['data']['mode'])
+			}else{
+				neighbors.push(null)
+			}
+		}
+		return neighbors
+		//if any of the ticks have a dimension less than 0, remove it
+		//if any of the ticks have a dimension greater than m, remove it
+	}
+	add(coordinate, n, i){
+		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
+		coordinate1[i]=coordinate1[i]+n
+		return coordinate1
+	}
+
+	subtract(coordinate, n, i){
+		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
+		coordinate1[i]=coordinate1[i]-n
+		return coordinate1
+	}
+	nextGen(){
+		//for each element in the automata, we look at its neighbors to see how many are on, then we consult the rules array
+		//which tells us the mode
+		var matrix = new Matrix(this.m, this.d)
+		this.generations.push(matrix)
+		this.repopulate(this.generations[this.generations.length-1].matrix, this.generations[this.generations.length-2].matrix)
+		this.neighborhoods(this.generations[this.generations.length-1].matrix)
+		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
+			var neighborhood = this.generations[this.generations.length-1].matrix[i]['data']['neighborhood']
+			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.rules.context(neighborhood)
+		}
+		this.generations.shift()
+		var hash = this.hash(JSON.stringify(this.generations[0].matrix))
+		if(!this.hashes[hash]){
+			this.hashes[hash]=hash
+			return true
+		}else{
+			return
+		}
+	}
+	
+	valid(coordinate, min, max){
+		//check to see if any of the coordinates dimensions exceed the limits set by min and max
+		for(var i = 0; i<coordinate.length; i++){
+			if(coordinate[i]<min||coordinate[i]>max){
+				return false
+			}
+		}
+		return true
+	}
+
+
+
+	print(d){
 		if(this.d==1||d==1){
 			for(var i=0; i<(this.m); i++){
 				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
@@ -183,11 +188,19 @@ class Automata{
 			}
 		}else{
 			console.log()
-
 			for(var i=0; i<(this.m*this.m); i++){
 				process.stdout.write(this.asciiArt(this.generations[this.generations.length-1].matrix[i]['data']['mode'])+ " ")
 				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 			}
+		}
+	}
+
+	asciiArt(val){
+		if(val==0){
+			return String.fromCharCode('9634')
+		}
+		if(val==1){
+			return String.fromCharCode('9635')
 		}
 	}
 	log(){
@@ -227,3 +240,7 @@ automata.simulate()
 //constraints on the dimensional space for the matrix. So if a cell has 6 sides that we either add or subtract a coordinate dimension
 //from to get the neighbor, not all sides will fall in the matrix, and therefore are not valid neighbors and are not subject to rules
 //in automata
+
+
+//we want a data set with the following features
+//rulemap, population (for all dimensions), input, function purpose and description, output, generation number
