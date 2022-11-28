@@ -8,16 +8,34 @@ class Automata{
 		this.matrix = new Matrix(m, d)
 		//automata should have rules based on the number of neighborhoods for each cell
 		this.rules=this.rules()
+		this.neighborhoods(this.matrix.matrix)
+		this.populate(this.matrix.matrix)
 	}
 
-	neighborhoods(matrix){
+	neighborhoods(automata){
 		//create a list of neighbors for each cell
-		for(var i =0; i<matrix.length; i++){
-			var coordinate=matrix[i].coordinate
+		for(var i=0; i<automata.length; i++){
+			var coordinate=automata[i].coordinate
 			var neighbors = this.neighborhood(coordinate)
-			matrix[i].data={'neighborhood':neighbors, 'mode':'off'}
-			//console.log(matrix[i])
+			automata[i].data={'neighborhood':neighbors, 'mode':this.asciiArt(0)}
+			//console.log(automata[i])
 		}
+	}
+	populate(automata){
+		for(var i = 0; i<automata.length; i++){
+			automata[i].data['mode']=this.asciiArt(Math.floor(Math.random() * 2));
+		}
+	}
+	asciiArt(val){
+		if(val==0){
+			return String.fromCharCode('9634')
+		}
+		if(val==1){
+			return String.fromCharCode('9635')
+		}
+	}
+	nextGen(){
+		//what we want is to fir
 	}
 	neighborhood(coordinate){
 		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
@@ -76,12 +94,19 @@ class Automata{
 		}
 		return rules
 	}
+	print2d(){
+		for(var i=0; i<this.matrix.matrix.length; i++){
+			process.stdout.write(this.matrix.matrix[i]['data']['mode']+ " ")
+			if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+
+			
+		}
+	}
 }
 
-const automata = new Automata(10,3)
-automata.neighborhoods(automata.matrix.matrix)
-automata.matrix.log()
-console.log(automata.rules)
+const automata = new Automata(100,2)
+automata.print2d()
+//console.log(automata.rules)
 //How neighbors are calculated:
 //every coordinate in a d dimensional space has maximum 2^d sides, and there fore 2^d possible neighbors.
 //in a pure cartesian plane, all cells share the same number of sides, but in a matrix they do not.
