@@ -156,11 +156,16 @@ export class Matrix {
 
 	log(matrix){
 		if(matrix){
-			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true, maxArrayLength: null }))
+			console.log(util.inspect(matrix, {showHidden: false, depth: null, colors: true}))
 		}else{
-			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true, maxArrayLength: null}))
+			console.log(util.inspect(this.matrix, {showHidden: false, depth: null, colors: true}))
 		}
 	}
 }
+
+
+
+
+
 
 

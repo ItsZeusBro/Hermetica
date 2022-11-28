@@ -1,5 +1,6 @@
 import { Matrix } from "./Matrix.js"
 import {Clock, Comparator} from "./Coordinates.js"
+import util from 'node:util'
 
 class Automata{
 	constructor(m, d){
@@ -11,7 +12,7 @@ class Automata{
 		this.rules=this.rules()
 		this.populate(this.generations[0].matrix)
 		this.neighborhoods(this.generations[0].matrix)
-		console.log(this.generations[0].matrix)
+		//console.log(this.generations[0].matrix)
 	}
 
 	neighborhoods(automata){
@@ -43,7 +44,7 @@ class Automata{
 		this.neighborhoods(matrix.matrix)
 
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
-			console.log(this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'])
+			//console.log(this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'])
 			var rule_index = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'].length-1
 			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.asciiArt(this.rules[rule_index])
 		}
@@ -110,7 +111,7 @@ class Automata{
 		for(var j=0; j<this.generations.length; j++){
 			console.log()
 			console.log()
-			for(var i=0; i<this.generations[j].matrix.length; i++){
+			for(var i=0; i<(this.m*this.m); i++){
 				process.stdout.write(this.generations[j].matrix[i]['data']['mode']+ " ")
 				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 			}
@@ -118,13 +119,18 @@ class Automata{
 
 	}
 	log(){
-		this.matrix.log()
+		for(var i = 0; i<this.matrix.matrix.length; i++){
+			console.log(this.matrix.matrix[i])
+		}
+		//console.log(util.inspect(this.matrix.matrix, {showHidden: false, depth: null, colors: true}))
+
 	}
 }
 
-const automata = new Automata(10,2)
+const automata = new Automata(10,3)
 
 automata.nextGen()
+automata.log()
 automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:
