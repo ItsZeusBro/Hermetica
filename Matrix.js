@@ -119,7 +119,7 @@ export class Matrix {
 	}
 
 	copy(){
-		return {...this};
+		return {...this.matrix};
 	}
 	window(coordinate1, coordinate2){
 		//we want to slice the list from coordinate1 to coordinate2

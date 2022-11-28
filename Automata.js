@@ -6,11 +6,12 @@ class Automata{
 		this.m=m
 		this.d=d
 		this.matrix = new Matrix(m, d)
+		this.generations=[this.matrix]
 		//automata should have rules based on the number of neighborhoods for each cell
 		this.rules=this.rules()
-		this.populate(this.matrix.matrix)
-		this.neighborhoods(this.matrix.matrix)
-		//console.log(this.matrix.matrix)
+		this.populate(this.generations[0].matrix)
+		this.neighborhoods(this.generations[0].matrix)
+		console.log(this.generations[0].matrix)
 	}
 
 	neighborhoods(automata){
@@ -37,12 +38,15 @@ class Automata{
 	nextGen(){
 		//for each element in the automata, we look at its neighbors to see how many are on, then we consult the rules array
 		//which tells us the mode
-		var matrix = this.matrix.copy()
-		for(var i = 0; i<matrix.length; i++){
-			var rule_index = matrix[i].data['neighbors'].length-1
-			matrix[i].data['mode']=this.asciiArt(this.rules[rule_index])
+		var matrix = new Matrix(this.m, this.d)
+		this.generations.push(matrix)
+		this.neighborhoods(matrix.matrix)
+
+		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
+			console.log(this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'])
+			var rule_index = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood'].length-1
+			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.asciiArt(this.rules[rule_index])
 		}
-		this.matrix=matrix
 	}
 	neighborhood(coordinate){
 		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
@@ -103,22 +107,23 @@ class Automata{
 		return rules
 	}
 	print2d(){
-		for(var i=0; i<this.matrix.matrix.length; i++){
-			process.stdout.write(this.matrix.matrix[i]['data']['mode']+ " ")
-			if((i%(this.m))==this.m-1){process.stdout.write('\n')}
-
-			
+		for(var j=0; j<this.generations.length; j++){
+			console.log()
+			console.log()
+			for(var i=0; i<this.generations[j].matrix.length; i++){
+				process.stdout.write(this.generations[j].matrix[i]['data']['mode']+ " ")
+				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+			}
 		}
+
 	}
 	log(){
 		this.matrix.log()
 	}
 }
 
-const automata = new Automata(30,2)
-automata.print2d()
-console.log()
-console.log()
+const automata = new Automata(10,2)
+
 automata.nextGen()
 automata.print2d()
 //console.log(automata.rules)
