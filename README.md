@@ -29,3 +29,7 @@ As a part of the rule system, any proposition in the current state of the simula
 ## Big Picture:
 Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
 
+
+
+## Another potential win...
+Is it possible to find test cases (inputs corresponding to outputs) from Hermetica so that we can compute a function that works for them all using Hermetica? Not sure, but computable truth is general enough to find the way in my opinion. 
