@@ -200,13 +200,22 @@ class Automata{
 	simulate(){
 		while(true){
 			if(!automata.nextGen()){return}
-			automata.print(1)
+			automata.print(2)
 		}
 	}
 }
 
-const automata = new Automata(20,1)
+const automata = new Automata(20,2)
 automata.simulate()
+
+//we need to treat each cell like an element in an arbitrary length buffer for both input and output
+//space should an encoding so that we can pass in strings. The output must match what we want exactly as we want it
+//for each input and output pairing, or the problem is not solved, unless we dont care about want extra space stripping.
+
+//empty cells mean nothing
+//numbers should be separated by a known number separator encoding.
+//we need a translator function that translates a cellular automata for any number of dimensions, and we need to follow the same rules
+//for decoding. The encoding and decoding should always be the same no matter what the dimension.
 
 //automata.log()
 
