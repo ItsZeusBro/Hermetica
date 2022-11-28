@@ -24,11 +24,12 @@ export class Matrix {
 	}
 	
 	verify(){
-		if(this.m>1 && this.d>=2){
+		if(this.m>=1 && this.d>=1){
 			return true
-		}else if(this.d==1&&this.m>2){
+		}else if(this.d==1&&this.m>=1){
 			return true
 		}else{
+			console.log(this.m, this.d)
 			throw Error("must have valid dimentions and/or shape")
 		}
 	}

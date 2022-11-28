@@ -30,10 +30,12 @@ export class Automata{
 	}
 
 	stringifyMode(automata){
+		//console.log(automata.matrix.matrix)
 		var string=""
 		for(var i =0; i<automata.matrix.matrix.length; i++){
 			string+=automata.matrix.matrix[i]['data']['mode']
 		}
+		return string
 	}
 	repopulate(automata1, automata2){
 		for(var i = 0; i<automata1.matrix.matrix.length;i++){
