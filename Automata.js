@@ -35,12 +35,12 @@ class Automata{
 			var min = this.subtract(coordinate, 1, i)
 			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
 				//we want the actual cell coresponding to max
-				neighbors.push(this.matrix.get(max)['data']['mode'])
+				neighbors.push(this.generations[this.generations.length-1].get(max)['data']['mode'])
 			}else{
 				neighbors.push(null)
 			}
 			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
-				neighbors.push(this.matrix.get(min)['data']['mode'])
+				neighbors.push(this.generations[this.generations.length-1].get(min)['data']['mode'])
 			}else{
 				neighbors.push(null)
 			}
@@ -56,7 +56,7 @@ class Automata{
 	}
 	repopulate(matrix1, matrix2){
 		for(var i = 0; i<matrix1.length;i++){
-			matrix1[i]['data']['mode']= matrix2[i]['data']['mode']
+			matrix1[i]['data']= JSON.parse(JSON.stringify(matrix2[i]['data']))
 		}
 
 	}
@@ -77,7 +77,6 @@ class Automata{
 		this.neighborhoods(this.generations[this.generations.length-1].matrix)
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
 			var neighborhood = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood']
-			console.log(neighborhood)
 			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
 		}
 	}
@@ -180,15 +179,14 @@ class Automata{
 	}
 }
 
-const automata = new Automata(2,2)
+const automata = new Automata(3,3)
 
-// for(var i = 0; i<100; i++){
-// 	automata.nextGen()
+for(var i = 0; i<5; i++){
+	automata.nextGen()
 
-// }
-automata.log()
-automata.nextGen()
-automata.nextGen()
+}
+//automata.log()
+
 automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:
