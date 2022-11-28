@@ -159,14 +159,12 @@ class Automata{
 		
 		return this.context_map[string]
 	}
-	print2d(){
-		for(var j=0; j<this.generations.length; j++){
-			console.log()
-			console.log()
-			for(var i=0; i<(this.m*this.m); i++){
-				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
-				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
-			}
+	print2d(j){
+		console.log()
+		console.log()
+		for(var i=0; i<(this.m*this.m); i++){
+			process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
+			if((i%(this.m))==this.m-1){process.stdout.write('\n')}
 		}
 
 	}
@@ -177,17 +175,21 @@ class Automata{
 		//console.log(util.inspect(this.matrix.matrix, {showHidden: false, depth: null, colors: true}))
 
 	}
+	simulate(){
+		var i = 0;
+		while(true){
+			automata.nextGen()
+			automata.print2d(i)
+			i+=1
+		}
+	}
 }
 
-const automata = new Automata(3,3)
+const automata = new Automata(10,3)
+automata.simulate()
 
-for(var i = 0; i<5; i++){
-	automata.nextGen()
-
-}
 //automata.log()
 
-automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:
 //every coordinate in a d dimensional space has maximum 2^d sides, and there fore 2^d possible neighbors.

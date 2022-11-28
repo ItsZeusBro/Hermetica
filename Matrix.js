@@ -42,13 +42,11 @@ export class Matrix {
 	
 
 	validate(){
-		console.log('validating')
 		for(var i = 0; i<this.matrix.length-2; i++){
 			if(!this.comparator.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
 				throw Error('invalid matrix coordinates found', this.matrix[i+1].coordinate, this.matrix[i].coordinate)
 			}
 		}
-		console.log('validation complete')
 	}
 
 	shape(){
