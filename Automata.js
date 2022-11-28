@@ -28,7 +28,13 @@ export class Automata{
 		}
 		return JSON.parse(JSON.stringify(automata))
 	}
-	
+
+	stringifyMode(automata){
+		var string=""
+		for(var i =0; i<automata.matrix.matrix.length; i++){
+			string+=automata.matrix.matrix[i]['data']['mode']
+		}
+	}
 	repopulate(automata1, automata2){
 		for(var i = 0; i<automata1.matrix.matrix.length;i++){
 			automata1.matrix.matrix[i]['data']= JSON.parse(JSON.stringify(automata2.matrix.matrix[i]['data']))

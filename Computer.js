@@ -39,8 +39,8 @@ class Computer{
 		}
 	}
 	solution(output1, output2){
-		var hash1 = this.hash(JSON.stringify(output1.matrix.matrix))
-		var hash2 = this.hash(JSON.stringify(output2.matrix.matrix))
+		var hash1 = this.hash(output1.stringifyMode(output1))
+		var hash2 = this.hash(output2.stringifyMode(output1))
 
 		if(hash1==hash2){
 			//this is where we want to store some data
