@@ -17,8 +17,8 @@ class Computer{
 
 	nextGen(prevGen, rules, output){
 		var nextGen = new Automata(prevGen.m, prevGen.d, rules)
-		prevGen.repopulate(nextGen.matrix, prevGen.matrix)
-		nextGen.neighborhoods(nextGen.matrix)
+		prevGen.repopulate(nextGen, prevGen)
+		nextGen.neighborhoods(nextGen)
 
 		for(var i = 0; i<prevGen.matrix.length; i++){
 			var neighborhood = nextGen.matrix[i]['data']['neighborhood']
@@ -152,7 +152,10 @@ class Rules{
 	}
 }
 
-var input = new Automata(3, 3)
-var output = new Automata(3, 3)
-var rules = new Rules(3, 3)
-new Computer(input, output, rules)
+var input = new Automata(2, 2)
+var output = new Automata(2, 2)
+var rules = new Rules(2, 2)
+input.log(input)
+output.log(output)
+console.log(rules._context_map())
+//new Computer(input, output, rules)

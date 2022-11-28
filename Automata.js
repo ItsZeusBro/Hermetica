@@ -11,7 +11,7 @@ import {createHash} from 'node:crypto'
 
 
 
-class Automata{
+export class Automata{
 	constructor(m, d){
 		this.m=m
 		this.d=d
@@ -23,14 +23,14 @@ class Automata{
 
 	
 	populate(automata){
-		for(var i = 0; i<automata.length; i++){
-			automata[i]['data']['mode']=Math.floor(Math.random() * 2);
+		for(var i = 0; i<automata.matrix.matrix.length; i++){
+			automata.matrix.matrix[i]['data']['mode']=Math.floor(Math.random() * 2);
 		}
 		return JSON.parse(JSON.stringify(automata))
 	}
-	repopulate(matrix1, matrix2){
-		for(var i = 0; i<matrix1.length;i++){
-			matrix1[i]['data']= JSON.parse(JSON.stringify(matrix2[i]['data']))
+	repopulate(automata1, automata2){
+		for(var i = 0; i<automata1.matrix.matrix.length;i++){
+			automata1.matrix.matrix[i]['data']= JSON.parse(JSON.stringify(automata2.matrix.matrix[i]['data']))
 		}
 	}
 	neighborhoods(automata){
@@ -50,8 +50,8 @@ class Automata{
 		var neighbors=[]
 
 		for(var i = 0; i<coordinate.length; i++){
-			var max = this.automata.add(coordinate, 1, i)
-			var min = this.automata.subtract(coordinate, 1, i)
+			var max = automata.add(coordinate, 1, i)
+			var min = automata.subtract(coordinate, 1, i)
 			if(this.valid(max, 0, automata.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
 				//we want the actual cell coresponding to max
 				neighbors.push(automata.matrix.get(max)['data']['mode'])
@@ -98,8 +98,8 @@ class Automata{
 
 }
 
-const automata = new Automata(20,2)
-automata.simulate()
+// const automata = new Automata(20,2)
+// automata.simulate()
 
 //we need to treat each cell like an element in an arbitrary length buffer for both input and output
 //space should an encoding so that we can pass in strings. The output must match what we want exactly as we want it
