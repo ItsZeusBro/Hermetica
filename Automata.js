@@ -159,14 +159,21 @@ class Automata{
 		
 		return this.context_map[string]
 	}
-	print2d(j){
-		console.log()
-		console.log()
-		for(var i=0; i<(this.m*this.m); i++){
-			process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
-			if((i%(this.m))==this.m-1){process.stdout.write('\n')}
-		}
+	print(j){
 
+		if(this.d==1){
+			for(var i=0; i<(this.m); i++){
+				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
+				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+			}
+		}else{
+			console.log()
+
+			for(var i=0; i<(this.m*this.m); i++){
+				process.stdout.write(this.asciiArt(this.generations[j].matrix[i]['data']['mode'])+ " ")
+				if((i%(this.m))==this.m-1){process.stdout.write('\n')}
+			}
+		}
 	}
 	log(){
 		for(var i = 0; i<this.matrix.matrix.length; i++){
@@ -179,13 +186,13 @@ class Automata{
 		var i = 0;
 		while(true){
 			automata.nextGen()
-			automata.print2d(i)
+			automata.print(i)
 			i+=1
 		}
 	}
 }
 
-const automata = new Automata(10,3)
+const automata = new Automata(100,1)
 automata.simulate()
 
 //automata.log()

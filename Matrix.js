@@ -26,14 +26,7 @@ export class Matrix {
 	verify(){
 		if(this.m>1 && this.d>=2){
 			return true
-		}else if(this.m==1 && (this.m>1)){
-			if(this.m>this.m){
-				var temp = this.m
-				var temp2 = this.m
-				this.m=temp
-				this.m=temp2
-				return true
-			}
+		}else if(this.d==1&&this.m>2){
 			return true
 		}else{
 			throw Error("must have valid dimentions and/or shape")
