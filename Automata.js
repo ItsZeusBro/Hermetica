@@ -25,10 +25,40 @@ class Automata{
 			automata[i]['data']['neighborhood']=neighbors
 		}
 	}
+	neighborhood(coordinate){
+		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
+		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
+		var neighbors=[]
+
+		for(var i = 0; i<coordinate.length; i++){
+			var max = this.add(coordinate, 1, i)
+			var min = this.subtract(coordinate, 1, i)
+			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
+				//we want the actual cell coresponding to max
+				neighbors.push(this.matrix.get(max)['data']['mode'])
+			}else{
+				neighbors.push(null)
+			}
+			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
+				neighbors.push(this.matrix.get(min)['data']['mode'])
+			}else{
+				neighbors.push(null)
+			}
+		}
+		return neighbors
+		//if any of the ticks have a dimension less than 0, remove it
+		//if any of the ticks have a dimension greater than m, remove it
+	}
 	populate(automata){
 		for(var i = 0; i<automata.length; i++){
 			automata[i]['data']['mode']=Math.floor(Math.random() * 2);
 		}
+	}
+	repopulate(matrix1, matrix2){
+		for(var i = 0; i<matrix1.length;i++){
+			matrix1[i]['data']['mode']= matrix2[i]['data']['mode']
+		}
+
 	}
 	asciiArt(val){
 		if(val==0){
@@ -43,37 +73,14 @@ class Automata{
 		//which tells us the mode
 		var matrix = new Matrix(this.m, this.d)
 		this.generations.push(matrix)
-		this.neighborhoods(matrix.matrix)
-
+		this.repopulate(this.generations[this.generations.length-1].matrix, this.generations[this.generations.length-2].matrix)
+		this.neighborhoods(this.generations[this.generations.length-1])
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
 			var neighborhood = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood']
 			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
 		}
 	}
-	neighborhood(coordinate){
-		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
-		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
-		var neighbors=[]
-
-		for(var i = 0; i<coordinate.length; i++){
-			var max = this.add(coordinate, 1, i)
-			var min = this.subtract(coordinate, 1, i)
-			if(this.valid(max, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
-				//we want the actual cell coresponding to max
-				neighbors.push(this.matrix.get(max))
-			}else{
-				neighbors.push(null)
-			}
-			if(this.valid(min, 0, this.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
-				neighbors.push(this.matrix.get(min))
-			}else{
-				neighbors.push(null)
-			}
-		}
-		return neighbors
-		//if any of the ticks have a dimension less than 0, remove it
-		//if any of the ticks have a dimension greater than m, remove it
-	}
+	
 	valid(coordinate, min, max){
 		//check to see if any of the coordinates dimensions exceed the limits set by min and max
 		for(var i = 0; i<coordinate.length; i++){
@@ -100,7 +107,7 @@ class Automata{
 		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
 		//we need to map the possible contexts to these rules
 		var map={}
-		for(var i =0; i<Math.pow(3, 2*this.d)-1; i++){
+		for(var i =0; i<Math.pow(3, 2*this.d); i++){
 			map[i]=Math.floor(Math.random() * 2)
 		}
 		//the map should have a rule number along side the rule for the number
@@ -124,12 +131,12 @@ class Automata{
 		for(var i = 0; i<ticks.length; i++){
 			var string=''
 			for(var j =0; j<ticks[i].length; j++){
-				//
+				
 				string+=ticks[i][j]
 			}
 			context_map[string]=this.rule_map[i]
 		}
-		console.log(context_map)
+		//console.log(context_map)
 		return context_map
 		//(-1, -1, -1, -1) ... (1, 1, 1, 1)
 	}
@@ -141,9 +148,11 @@ class Automata{
 			
 			if(neighborhood[i]==null){
 				string+=0
-			}else if(neighborhood[i]['data']['mode']==0){
+			}else if(neighborhood[i]==0){
+
 				string+=1
-			}else if(neighborhood[i]['data']['mode']==1){
+			}else if(neighborhood[i]==1){
+
 				string+=2
 			}
 		}
@@ -170,13 +179,15 @@ class Automata{
 	}
 }
 
-const automata = new Automata(10,3)
+const automata = new Automata(2,2)
 
-for(var i = 0; i<100; i++){
-	automata.nextGen()
+// for(var i = 0; i<100; i++){
+// 	automata.nextGen()
 
-}
-//automata.log()
+// }
+automata.log()
+automata.nextGen()
+automata.nextGen()
 automata.print2d()
 //console.log(automata.rules)
 //How neighbors are calculated:
