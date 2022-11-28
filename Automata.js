@@ -74,9 +74,10 @@ class Automata{
 		var matrix = new Matrix(this.m, this.d)
 		this.generations.push(matrix)
 		this.repopulate(this.generations[this.generations.length-1].matrix, this.generations[this.generations.length-2].matrix)
-		this.neighborhoods(this.generations[this.generations.length-1])
+		this.neighborhoods(this.generations[this.generations.length-1].matrix)
 		for(var i = 0; i<this.generations[this.generations.length-2].matrix.length; i++){
 			var neighborhood = this.generations[this.generations.length-2].matrix[i]['data']['neighborhood']
+			console.log(neighborhood)
 			this.generations[this.generations.length-1].matrix[i]['data']['mode']=this.context(neighborhood)
 		}
 	}
