@@ -124,7 +124,7 @@ class Automata{
 		for(var i = 0; i<ticks.length; i++){
 			var string=''
 			for(var j =0; j<ticks[i].length; j++){
-				
+				//
 				string+=ticks[i][j]
 			}
 			context_map[string]=this.rule_map[i]
