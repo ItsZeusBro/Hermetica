@@ -15,6 +15,8 @@ export class Automata{
 	constructor(vector, output_size, dimensions){
 		this.m;
 		this.d=dimensions
+		this.vector=vector
+		this.output_size=output_size
 		this.population;
 		this.matrix;
 		this.init(vector, output_size, dimensions)

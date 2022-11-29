@@ -13,14 +13,15 @@ class Computer{
 		this.output=output
 		this.hashes={}
 		this.rules=rules
-		this.m=this.rules.m
-		this.d=this.rules.d
+		this.m=this.input.m
+		this.d=this.input.d
 		this.simulate(input, rules, output)
 	}
 
 	nextGen(prevGen, rules, output){
 		//console.log('here', prevGen.m, prevGen.d)
-		var nextGen = new Automata(prevGen.m, prevGen.d)
+		//console.log(prevGen)
+		var nextGen = new Automata(prevGen.vector, prevGen.output_size, prevGen.d)
 		prevGen.copy(nextGen, prevGen)
 		nextGen.neighborhoods(nextGen)
 
@@ -41,6 +42,7 @@ class Computer{
 			return nextGen
 			
 		}else{
+			//this.print(nextGen, 2)
 			return undefined
 		}
 	}
@@ -271,7 +273,7 @@ var vectorizer = new Vectorizer()
 
 //vecrorizer.asciiStringToVector('world')
 //console.log(vectorizer.vectorToAsciiString())
-var input = new Automata(vectorizer.asciiStringToVector('hello '), 'world'.length*8, 2)
-var output = new Automata(vectorizer.asciiStringToVector('world'), 'world'.length*8, 2)
-var rules = new Rules(input.m, 2)
+var input = new Automata(vectorizer.asciiStringToVector('1'), '2'.length*8, 2)
+var output = new Automata(vectorizer.asciiStringToVector('2'), '1'.length*8, 2)
+var rules = new Rules(input.m, input.d)
 new Computer(input, output, rules)
