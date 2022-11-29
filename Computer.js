@@ -217,24 +217,54 @@ class Vectorizer{
 	constructor(){
 
 	}
-	asciiStringToAutomata(string){
+	asciiStringToVector(string){
 		//we have 128 ascii charachters represented by 7 bit buffers
 		//so whatever the ascii string length is we need to multiply it by 7
 		var vector = []
-		for(var i =0; i<string.length; i++){
-			
+		for(var i=0; i<string.length; i++){
+			var bin= this.toBinary(string[i])
+			for(var j =0; j<bin.length; j++){
+				vector.push(bin[j])
+			}
 		}
+		return vector
 	}
 
-	asciiNumberToAutomata(number){
-
+	vectorToAsciiString(vector){
+		var string = ''
+		var char=''
+		for(var i=0; i<vector.length; i++){
+			char+=vector[i]
+			if(i%7){
+				string+=this.toAscii(char)
+			}
+		}
+		return string
 	}
+
+	toBinary(input) {
+		var result = "";
+		for (var i = 0; i < input.length; i++) {
+			var bin = input[i].charCodeAt().toString(2);
+			result += Array(8 - bin.length + 1).join("0") + bin;
+		} 
+		return result;
+	}
+
+	toAscii(input) {
+		var result = "";
+		var arr = input.match(/.{1,8}/g);
+		for (var i = 0; i < arr.length; i++) {
+			result += String.fromCharCode(parseInt(arr[i], 2).toString(10));
+		}
+		return result;
+	}
+
 }
 
-var input = new Automata(4, 2)
-var output = new Automata(4, 2)
-var rules = new Rules(4, 2)
-//input.log(input)
-//output.log(output)
-//console.log(rules._context_map())
-new Computer(input, output, rules)
+var vectorizer = new Vectorizer()
+console.log(vectorizer.asciiStringToVector('hello world'))
+// var input = new Automata(4, 2)
+// var output = new Automata(4, 2)
+// var rules = new Rules(4, 2)
+// new Computer(input, output, rules)
