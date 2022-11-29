@@ -12,22 +12,27 @@ import {createHash} from 'node:crypto'
 
 
 export class Automata{
-	constructor(m, d){
-		this.m=m
-		this.d=d
+	constructor(vector, output_size){
+		this.m;
+		this.d;
+		this.init(vector, output_size)
 		this.matrix = new Matrix(m, d)
 		this.population = this.populate(this)
 		this.neighborhoods(this)
 		//console.log(this.matrix.matrix)
 	}
 
-	
-	populate(automata){
-		for(var i = 0; i<automata.matrix.matrix.length; i++){
-			automata.matrix.matrix[i]['data']['mode']=Math.floor(Math.random() * 2);
-		}
-		return JSON.parse(JSON.stringify(automata))
+	init(vector, output_size){
+		//based on the size of the input vector and expected output size
+		
 	}
+	
+	// populate(automata){
+	// 	for(var i = 0; i<automata.matrix.matrix.length; i++){
+	// 		automata.matrix.matrix[i]['data']['mode']=Math.floor(Math.random() * 2);
+	// 	}
+	// 	return JSON.parse(JSON.stringify(automata))
+	// }
 
 	stringifyMode(automata){
 		//console.log(automata.matrix.matrix)

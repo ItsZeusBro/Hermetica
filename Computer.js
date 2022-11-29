@@ -256,6 +256,7 @@ class Vectorizer{
 	}
 
 	toAscii(input) {
+		//https://gist.github.com/belohlavek/90771ccccb11100e76d1
 		var result = "";
 		var arr = input.match(/.{1,8}/g);
 		for (var i = 0; i < arr.length; i++) {
