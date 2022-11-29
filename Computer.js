@@ -270,7 +270,10 @@ class Vectorizer{
 }
 
 var vectorizer = new Vectorizer()
-
+//ultimately our simulation engine's solution should match the solution 
+//for other inputs similarly defined for the purpose intended for a function
+//That means the same simulation should be checked against other inputs and 
+//the generation should be the only thing that matters for the result, so long as it is correct
 //vecrorizer.asciiStringToVector('world')
 //console.log(vectorizer.vectorToAsciiString())
 var input = new Automata(vectorizer.asciiStringToVector('1'), '2'.length*8, 2)
