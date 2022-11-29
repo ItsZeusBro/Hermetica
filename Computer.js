@@ -234,10 +234,14 @@ class Vectorizer{
 		var string = ''
 		var char=''
 		for(var i=0; i<vector.length; i++){
-			char+=vector[i]
-			if(i%7){
-				string+=this.toAscii(char)
+			if(i%8==7){
+				char+=vector[i]
+				string+=this.toAscii(char.slice())
+				char=""
+			}else{
+				char+=vector[i]
 			}
+
 		}
 		return string
 	}
@@ -263,7 +267,7 @@ class Vectorizer{
 }
 
 var vectorizer = new Vectorizer()
-console.log(vectorizer.asciiStringToVector('hello world'))
+console.log(vectorizer.vectorToAsciiString(vectorizer.asciiStringToVector('hello world')))
 // var input = new Automata(4, 2)
 // var output = new Automata(4, 2)
 // var rules = new Rules(4, 2)
