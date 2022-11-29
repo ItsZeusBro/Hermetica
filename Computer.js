@@ -4,6 +4,7 @@ import util from 'node:util'
 import {createHash} from 'node:crypto'
 import {Automata} from "./Automata.js"
 
+//when we find a simulation solution for a specific input, we need to check that solution against other inputs
 class Computer{
 	constructor(input, output, rules){
 		//we want a new automata instance for each successive generation 
