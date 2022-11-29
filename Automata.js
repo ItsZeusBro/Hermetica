@@ -27,17 +27,19 @@ export class Automata{
 		//we need to initialize this.population and find the dimensions of the matrix
 		//using m^d+1 we get the number of cells in the automata based on m and d
 		//we want a minimal sized automata simulation that meets the requirements
-		this.matrix = new Matrix(m, this.d)
-		this.population = this.populate(this)
+		//get (d+1th) root of the vector 
+		this.m = Math.pow(vector.length, 1/(this.d+1))
+		this.matrix = new Matrix(this.m, this.d)
+		this.population = this.populate(this, vector)
 		this.neighborhoods(this)
 	}
 	
-	// populate(automata){
-	// 	for(var i = 0; i<automata.matrix.matrix.length; i++){
-	// 		automata.matrix.matrix[i]['data']['mode']=Math.floor(Math.random() * 2);
-	// 	}
-	// 	return JSON.parse(JSON.stringify(automata))
-	// }
+	populate(automata, vector){
+		for(var i = 0; i<vector.length; i++){
+			automata.matrix.matrix[i]['data']['mode']=vector[i];
+		}
+		return JSON.parse(JSON.stringify(automata))
+	}
 
 	stringifyMode(automata){
 		//console.log(automata.matrix.matrix)
@@ -47,7 +49,7 @@ export class Automata{
 		}
 		return string
 	}
-	repopulate(automata1, automata2){
+	copy(automata1, automata2){
 		for(var i = 0; i<automata1.matrix.matrix.length;i++){
 			automata1.matrix.matrix[i]['data']= JSON.parse(JSON.stringify(automata2.matrix.matrix[i]['data']))
 		}

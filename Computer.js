@@ -21,7 +21,7 @@ class Computer{
 	nextGen(prevGen, rules, output){
 		//console.log('here', prevGen.m, prevGen.d)
 		var nextGen = new Automata(prevGen.m, prevGen.d)
-		prevGen.repopulate(nextGen, prevGen)
+		prevGen.copy(nextGen, prevGen)
 		nextGen.neighborhoods(nextGen)
 
 		for(var i = 0; i<prevGen.matrix.matrix.length; i++){
