@@ -12,19 +12,24 @@ import {createHash} from 'node:crypto'
 
 
 export class Automata{
-	constructor(vector, output_size){
+	constructor(vector, output_size, dimensions){
 		this.m;
-		this.d;
-		this.init(vector, output_size)
-		this.matrix = new Matrix(m, d)
-		this.population = this.populate(this)
-		this.neighborhoods(this)
+		this.d=dimensions
+		this.population;
+		this.matrix;
+		this.init(vector, output_size, dimensions)
+
 		//console.log(this.matrix.matrix)
 	}
 
 	init(vector, output_size){
 		//based on the size of the input vector and expected output size
-		
+		//we need to initialize this.population and find the dimensions of the matrix
+		//using m^d+1 we get the number of cells in the automata based on m and d
+		//we want a minimal sized automata simulation that meets the requirements
+		this.matrix = new Matrix(m, this.d)
+		this.population = this.populate(this)
+		this.neighborhoods(this)
 	}
 	
 	// populate(automata){
