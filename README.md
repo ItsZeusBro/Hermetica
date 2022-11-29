@@ -32,4 +32,11 @@ Overtime many simulations develop that are not invalidated by any contradiction.
 
 
 ## Another potential win...
-Is it possible to find test cases (inputs corresponding to outputs) from Hermetica so that we can compute a function that works for them all using Hermetica? Not sure, but computable truth is general enough to find the way in my opinion. 
+In general any function can be solved with the following:
+1. Vectorize an input, and its corresponding expected output
+2. run simulations until a solution is found.
+3. check simulation that works (basically a simulation works if it produces the answer for a given simulation and a corresponding rules set and terminating generation) against other inputs for the function that serves the same purpose
+4. The more times you pass new tests, the more perfect the function
+
+In general we can solve any problem including the most general function of "deduction". So all deductions can be achieved with a single simulation, rule set, and generation, by piping the output of the simulation back into the simulation to find the next deduction.
+
