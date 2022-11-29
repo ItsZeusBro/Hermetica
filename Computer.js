@@ -213,6 +213,24 @@ class Rules{
 	}
 }
 
+class Vectorizer{
+	constructor(){
+
+	}
+	asciiStringToAutomata(string){
+		//we have 128 ascii charachters represented by 7 bit buffers
+		//so whatever the ascii string length is we need to multiply it by 7
+		var vector = []
+		for(var i =0; i<string.length; i++){
+			
+		}
+	}
+
+	asciiNumberToAutomata(number){
+
+	}
+}
+
 var input = new Automata(4, 2)
 var output = new Automata(4, 2)
 var rules = new Rules(4, 2)
