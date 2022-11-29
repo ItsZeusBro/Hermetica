@@ -42,7 +42,7 @@ class Computer{
 			return nextGen
 			
 		}else{
-			//this.print(nextGen, 2)
+			this.print(nextGen, 2)
 			return undefined
 		}
 	}
@@ -279,4 +279,5 @@ var vectorizer = new Vectorizer()
 var input = new Automata(vectorizer.asciiStringToVector('1'), '2'.length*8, 2)
 var output = new Automata(vectorizer.asciiStringToVector('2'), '1'.length*8, 2)
 var rules = new Rules(input.m, input.d)
+//console.log(rules)
 new Computer(input, output, rules)
