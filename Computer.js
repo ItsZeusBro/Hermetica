@@ -13,6 +13,8 @@ class Computer{
 		this.output=output
 		this.hashes={}
 		this.rules=rules
+		this.m=this.rules.m
+		this.d=this.rules.d
 		this.simulate(input, rules, output)
 	}
 
@@ -27,15 +29,19 @@ class Computer{
 			nextGen.matrix.matrix[i]['data']['mode']=rules.context(neighborhood)
 		}
 
-		var hash = this.hash(JSON.stringify(nextGen.matrix.matrix))
 		if(this.solution(nextGen, output)){
+			console.log('solution found!')
+			this.print(nextGen, 2)
 			return true
 		}
+		var hash = this.hash(JSON.stringify(nextGen.matrix.matrix))
 		if(!this.hashes[hash]){
 			this.hashes[hash]=hash
+
 			return nextGen
+			
 		}else{
-			return
+			return undefined
 		}
 	}
 	solution(output1, output2){
@@ -85,32 +91,54 @@ class Computer{
 			throw Error('input already equals output')
 		}
 		var generation=0;
+		console.log('input')
+		this.print(input, 2)
+
 		console.log('output')
 		this.print(output, 2)
-		console.log('generations')
-		this.print(input, 2)
+
 		var automata=input
 		while(true){
 			automata=this.nextGen(automata, rules, output)
 			if(automata==true){
-				console.log('solution found!')
 				this.record(input, output, rules, generation)
-				rules = new Rules(2, 3)
+				rules = new Rules(this.m, this.d)
 				automata=input
 				generation=0
 				this.hashes={}
-				
+				throw Error('solution found!')
 			}else if(!automata){
-				console.log('termination without solution')
-				rules = new Rules(2, 3)
+				//console.log('termination without solution')
+				rules = new Rules(this.m, this.d)
 				automata=input
 				generation=0
 				this.hashes={}
 			}else{
 				generation+=1
-				this.print(automata, 2)
+				//this.print(automata, 2)
+				//this.printInPlace(automata, 2)
 			}
 		}
+	}
+	printInPlace(gen, d){
+
+		if(gen.d==1||d==1){
+			for(var i=0; i<(this.m); i++){
+				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
+				//if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
+				process.stdout.clearLine(4);
+				process.stdout.cursorTo(0);
+			}
+		}else{
+			console.log()
+			for(var i=0; i<(gen.m*gen.m); i++){
+				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
+				//if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
+				process.stdout.clearLine(4);
+				process.stdout.cursorTo(0);
+			}
+		}
+
 	}
 	record(input, output, rules, generation){
 		//console.log(input, output, rules, generation)
@@ -185,9 +213,9 @@ class Rules{
 	}
 }
 
-var input = new Automata(2, 3)
-var output = new Automata(2, 3)
-var rules = new Rules(2, 3)
+var input = new Automata(4, 2)
+var output = new Automata(4, 2)
+var rules = new Rules(4, 2)
 //input.log(input)
 //output.log(output)
 //console.log(rules._context_map())
