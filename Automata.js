@@ -28,15 +28,28 @@ export class Automata{
 		//using m^d+1 we get the number of cells in the automata based on m and d
 		//we want a minimal sized automata simulation that meets the requirements
 		//get (d+1th) root of the vector 
-		this.m = Math.pow(vector.length, 1/(this.d+1))
+		if(vector.length>=output_size){
+			this.m = Math.ceil(Math.pow(vector.length, 1/(this.d)))
+
+		}else{
+			this.m = Math.ceil(Math.pow(output_size, 1/(this.d)))
+
+		}
 		this.matrix = new Matrix(this.m, this.d)
 		this.population = this.populate(this, vector)
 		this.neighborhoods(this)
 	}
 	
 	populate(automata, vector){
-		for(var i = 0; i<vector.length; i++){
-			automata.matrix.matrix[i]['data']['mode']=vector[i];
+		//console.log(automata, vector)
+		for(var i = 0; i<automata.matrix.matrix.length; i++){
+			if(vector[i]){
+				automata.matrix.matrix[i]['data']['mode']=vector[i];
+
+			}else{
+				automata.matrix.matrix[i]['data']['mode']=0
+
+			}
 		}
 		return JSON.parse(JSON.stringify(automata))
 	}

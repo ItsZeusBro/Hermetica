@@ -268,8 +268,10 @@ class Vectorizer{
 }
 
 var vectorizer = new Vectorizer()
-console.log(vectorizer.vectorToAsciiString(vectorizer.asciiStringToVector('hello world')))
-// var input = new Automata(4, 2)
-// var output = new Automata(4, 2)
-// var rules = new Rules(4, 2)
-// new Computer(input, output, rules)
+
+//vecrorizer.asciiStringToVector('world')
+//console.log(vectorizer.vectorToAsciiString())
+var input = new Automata(vectorizer.asciiStringToVector('hello '), 'world'.length*8, 2)
+var output = new Automata(vectorizer.asciiStringToVector('world'), 'world'.length*8, 2)
+var rules = new Rules(input.m, 2)
+new Computer(input, output, rules)
