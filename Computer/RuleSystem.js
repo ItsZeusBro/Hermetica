@@ -12,8 +12,9 @@ class RuleSystem{
 		//we want to produce the possible dimensions of a simulation
 		//that are computationally acceptable before simulation
 		//we can vectorize and encode before adopting a simulation and rule strategy
-		
 	}
+
+	
 }
 
 
