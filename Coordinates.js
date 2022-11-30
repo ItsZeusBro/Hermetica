@@ -7,7 +7,7 @@ export class Clock{
 		this.max=max
 		this.previous=null
 	}
-	origin(){
+	_min(){
 		return this.coordinate1
 	}
 	_max(){
@@ -44,7 +44,7 @@ export class Clock{
 		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
 		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
 		if(this.previous==null){
-			this.previous=this.origin()
+			this.previous=this._min()
 			return this.previous
 		}
 		var current=JSON.parse(JSON.stringify(this.previous))

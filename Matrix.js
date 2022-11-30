@@ -17,7 +17,7 @@ export class Matrix {
 		this.m=m
 		this.d=d
 		this.verify()
-		this.clock = new Clock(this.origin(), this.max())
+		this.clock = new Clock(this._min(), this._max())
 		this.comparator = new Comparator(d)
 		this.matrix = this._matrix()
 		this.validate()
@@ -63,25 +63,6 @@ export class Matrix {
 		return matrix
 	}	
 	
-	abstract(){
-		var abstract=[]
-		//this shrinks the matrix to a 2^d list of corner coordinates
-		for(var i =0; i<this.matrix.length; i++){
-			var count=0;
-			for(var j=0; j<this.matrix[i].coordinate.length; j++){
-				if(!(this.matrix[i].coordinate[j]==0||this.matrix[i].coordinate[j]==this.m-1)){
-					break
-				}else{
-					count+=1
-				}
-			}
-			if(count==this.d){
-				abstract.push(JSON.parse(JSON.stringify(this.matrix[i])))
-			}
-		}
-		return abstract
-	}
-
 	at(coordinate, data, key){
 		var j=0;
 		for(var i=coordinate.length-1; i>=0; i--){
@@ -113,6 +94,7 @@ export class Matrix {
 	copy(){
 		return {...this.matrix};
 	}
+
 	window(coordinate1, coordinate2){
 		//we want to slice the list from coordinate1 to coordinate2
 		//so we need to access the list position of coordinate1, which could be a problem if we dont
@@ -122,7 +104,7 @@ export class Matrix {
 		return this.matrix.slice(i, j+1)
 	}
 
-	max(){
+	_max(){
 		var max = []
 		max.push(this.m-1)
 		for(var i=0; i<this.d-1;i++){
@@ -131,20 +113,13 @@ export class Matrix {
 		return max
 	}
 
-	min(){
-		return this.origin()
-	}
-	
-
-	origin(){
+	_min(){
 		var origin=[]
 		for(var i=0; i<this.d; i++){
 			origin.push(0)
 		}
 		return origin
 	}
-
-	
 
 	log(matrix){
 		if(matrix){
@@ -154,10 +129,3 @@ export class Matrix {
 		}
 	}
 }
-
-
-
-
-
-
-

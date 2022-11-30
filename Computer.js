@@ -43,7 +43,7 @@ class Computer{
 			return nextGen
 			
 		}else{
-			this.print(nextGen, 2)
+			//this.print(nextGen, 2)
 			return undefined
 		}
 	}
@@ -123,26 +123,7 @@ class Computer{
 			}
 		}
 	}
-	printInPlace(gen, d){
 
-		if(gen.d==1||d==1){
-			for(var i=0; i<(this.m); i++){
-				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
-				//if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
-				process.stdout.clearLine(4);
-				process.stdout.cursorTo(0);
-			}
-		}else{
-			console.log()
-			for(var i=0; i<(gen.m*gen.m); i++){
-				process.stdout.write(this.asciiArt(gen.matrix.matrix[i]['data']['mode'])+ " ")
-				//if((i%(gen.m))==gen.m-1){process.stdout.write('\n')}
-				process.stdout.clearLine(4);
-				process.stdout.cursorTo(0);
-			}
-		}
-
-	}
 	record(input, output, rules, generation){
 		//console.log(input, output, rules, generation)
 	}
@@ -277,8 +258,8 @@ var vectorizer = new Vectorizer()
 //the generation should be the only thing that matters for the result, so long as it is correct
 //vecrorizer.asciiStringToVector('world')
 //console.log(vectorizer.vectorToAsciiString())
-var input = new Automata(vectorizer.asciiStringToVector('1'), '2'.length*8, 2)
-var output = new Automata(vectorizer.asciiStringToVector('2'), '1'.length*8, 2)
+var input = new Automata(vectorizer.asciiStringToVector('1+1'), '2'.length*8, 1)
+var output = new Automata(vectorizer.asciiStringToVector('2'), '1+1'.length*8, 1)
 var rules = new Rules(input.m, input.d)
 //console.log(rules)
 new Computer(input, output, rules)
