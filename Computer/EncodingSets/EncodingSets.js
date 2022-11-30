@@ -12,10 +12,14 @@ class EncodingSets{
 
 
 	}
-	
+
 	calculus(input, output){
 		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
 
+		//important observation
+		//if we have a known equation in mathematics, we can produce test cases in large quantities and find the 
+		//equation in a single simulation step that meets all test cases, then we can compbine simulations
+		//in a larger system that can one day find its own simulation called "mathematics"
 	}
 	physics(input, output){
 		//reduce the string to a minimal encoding map that is a subset of physics symbols that embrace both input and output symbols
