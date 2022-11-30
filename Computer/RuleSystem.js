@@ -7,9 +7,12 @@
 //rules takes a set of encoding charachter codes and uses vectorizer to match a rule system
 //that is created using computational charachter codes. Rules should contain the input and output used by Computer and Automata
 
-class Rules{
+class RuleSystem{
 	constructor(){
-
+		//we want to produce the possible dimensions of a simulation
+		//that are computationally acceptable before simulation
+		//we can vectorize and encode before adopting a simulation and rule strategy
+		
 	}
 }
 
