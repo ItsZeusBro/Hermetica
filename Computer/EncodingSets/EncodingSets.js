@@ -9,10 +9,58 @@ class EncodingSets{
 	}
 	arithmetic(input, output){
 		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
-
+	}
+	arithmeticMap(input, output){
+		//symbols:
+		return {
+			'(': "0000000000101000",
+			')': "0000000000101001",
+			'*': "0000000000101010",
+			"+": "0000000000101011",
+			"-": "0000000000101101",
+			".": "0000000000101110",
+			"/": "0000000000101111",
+			"0": "0000000000110000",
+			"1": "0000000000110001",
+			"2": "0000000000110010",
+			"3": "0000000000110011",
+			"4": "0000000000110100",
+			"5": "0000000000110101",
+			"6": "0000000000110110",
+			"7": "0000000000110111",
+			"8": "0000000000111000",
+			"9": "0000000000111001",
+			"<": "0000000000111100",
+			"=": "0000000000111101",
+			">": "0000000000111110",
+			"[": "0000000001011011",
+			"]": "0000000001011101",
+			"^": "0000000001011110",
+			"{": "0000000001111011",
+			"}": "0000000001111101",
+			"√": "0010001000011010"
+		}
 
 	}
-
+	verifyCodeMap(map){
+		//convert key to binary and verify they match map encoding
+		for(var i = 0; i<Object.keys(map).length; i++){
+			var key = Object.keys(map)[i]
+			var bin = map[Object.keys(map)[i]]
+			if(this.toBinary([key])!=bin){
+				throw Error('encoding error', key, bin, "should match toBinary("+key+") function result", this.toBinary(key))
+			}
+		}
+	}
+	toBinary(input) {
+		//console.log(input)
+		var result = "";
+		for (var i = 0; i < input.length; i++) {
+			var bin = input[i].charCodeAt().toString(2);
+			result += Array(16 - bin.length + 1).join("0") + bin;
+		} 
+		return result;
+	}
 	calculus(input, output){
 		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
 
@@ -36,7 +84,7 @@ class EncodingSets{
 
 }
 
-
+new EncodingSets().verifyCodeMap(new EncodingSets().arithmeticMap())
 //  Binary	    Oct Dec	Hex			Glyph
 // 						1963	1965	1967
 // 0010 0000	040	32	20	 				space
@@ -59,7 +107,7 @@ class EncodingSets{
 // 0011 0001	061	49	31					1
 // 0011 0010	062	50	32					2
 // 0011 0011	063	51	33					3
-// 0011 0100	064	52	34					4
+// 0011	0100	064	52	34					4
 // 0011 0101	065	53	35					5
 // 0011 0110	066	54	36					6
 // 0011 0111	067	55	37					7
