@@ -10,11 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/ItsZeusBro/Hermetica.git"
   },
-  "type":"module",
+  "type": "module",
   "author": "Hassan Amad",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/ItsZeusBro/Hermetica/issues"
   },
-  "homepage": "https://github.com/ItsZeusBro/Hermetica#readme"
+  "homepage": "https://github.com/ItsZeusBro/Hermetica#readme",
+  "dependencies": {
+    "encoding": "^0.1.13"
+  }
 }

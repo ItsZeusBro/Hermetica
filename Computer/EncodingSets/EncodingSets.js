@@ -55,37 +55,29 @@ class EncodingSets{
 			}
 		}
 	}
-	toBinary(input) {
-		//https://gist.github.com/belohlavek/90771ccccb11100e76d1
-		//console.log(input)
-		var result = "";
-		for (var i = 0; i < input.length; i++) {
-			var bin = input[i].charCodeAt().toString(2);
-			result += Array(16 - bin.length + 1).join("0") + bin;
-		} 
-		return result;
+
+	unicode2Bin(input) {
+		
+		return this.hex2Unicode(this.unicodeToHex(input));
 	}
 	hex2bin(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
 		return ("00000000" + (parseInt(hex, 16)).toString(2)).substr(-8);
 	}
+
+	bin2Hex(bin){
+		return parseInt(bin, 2).toString(16)
+	}
 	unicodeToHex(input){
 		return input.hexEncode().hexDecode()
 	}
-	bin2Hex(input){
-		return parseInt(input, 2).toString(16)
+	hex2Unicode(hex){
+		return hex.toString('utf-16')
+	}
+	bin2Unicode(bin){
+		return this.hex2Unicode(this.bin2Hex(bin))
 	}
 
-	toUnicode(input){
-		//https://gist.github.com/belohlavek/90771ccccb11100e76d1
-		console.log(input)
-		var result = "";
-		var arr = input.match(/.{1,16}/g);
-		for (var i = 0; i < arr.length; i++) {
-			result += String.fromCharCode(parseInt(arr[i], 2).toString(10));
-		}
-		return result;
-	}
 
 	calculus(input, output){
 		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
@@ -110,7 +102,9 @@ class EncodingSets{
 
 }
 
-new EncodingSets().verifyCodeMap(new EncodingSets().arithmeticMap())
+//new EncodingSets().verifyCodeMap(new EncodingSets().arithmeticMap())
+console.log(new EncodingSets().unicode2Bin('√'))
+
 //  Binary	    Oct Dec	Hex			Glyph
 // 						1963	1965	1967
 // 0010 0000	040	32	20	 				space
