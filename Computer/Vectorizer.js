@@ -35,6 +35,8 @@ export class Vectorizer{
 	}
 
 	toBinary(input) {
+		//https://gist.github.com/belohlavek/90771ccccb11100e76d1
+
 		var result = "";
 		for (var i = 0; i < input.length; i++) {
 			var bin = input[i].charCodeAt().toString(2);
