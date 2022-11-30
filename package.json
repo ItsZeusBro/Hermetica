@@ -18,6 +18,5 @@
   },
   "homepage": "https://github.com/ItsZeusBro/Hermetica#readme",
   "dependencies": {
-    "encoding": "^0.1.13"
   }
 }

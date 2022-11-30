@@ -78,7 +78,6 @@ class EncodingSets{
 		return this.hex2Unicode(this.bin2Hex(bin))
 	}
 
-
 	calculus(input, output){
 		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
 
