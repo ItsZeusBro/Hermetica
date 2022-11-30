@@ -1,5 +1,5 @@
-import { Matrix } from "./Matrix.js"
-import {Clock, Comparator} from "./Coordinates.js"
+import { Matrix } from "../Matrix/Matrix.js"
+import {Clock, Comparator} from "../Matrix/Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
 import {Automata} from "./Automata.js"
@@ -129,127 +129,8 @@ class Computer{
 	}
 }
 
-class Rules{
-	constructor(m, d){
-		this.m=m
-		this.d=d
-		this.rule_map=this._rule_map()
-		this.context_map=this._context_map(this.rule_map)
-	}
-	export(){
-		return this.context_map
-	}
-	_rule_map(){
-		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
-		//we need to map the possible contexts to these rules
-		var map={}
-		for(var i =0; i<Math.pow(3, 2*this.d); i++){
-			map[i]=Math.floor(Math.random() * 2)
-		}
-		//the map should have a rule number along side the rule for the number
-		return map
-	}
-	_context_map(rule_map){
-		//context should interpret the rule number and call upon map to return the rule
-		//there should be 2^d cells in any neighborhood (some neighbors are null)
-		//we know that there are 3^(2^d) rules derived from 2^d cells
-		var context_map={}
-		//we want to derive a number from 0 to 3^(2^d) from the context and create a context map connected to the rule map
-		//so if there are four neighbors max, we want to translate these combinatoric contexts into strings (we can substitute -1 for null)
-		//we need the max number of neighbors which is 2*d (which is the number of dimensions in a coordinate plane)
-		var coordinate1=[]
-		var coordinate2=[]
-		for(var i = 0; i<(2*this.d); i++){
-			coordinate1.push(0)
-			coordinate2.push(2)
-		}
-		var ticks = new Clock(coordinate1, coordinate2).ticks()
-		for(var i = 0; i<ticks.length; i++){
-			var string=''
-			for(var j =0; j<ticks[i].length; j++){
-				
-				string+=ticks[i][j]
-			}
-			context_map[string]=this.rule_map[i]
-		}
-		//console.log(context_map)
-		return context_map
-		//(-1, -1, -1, -1) ... (1, 1, 1, 1)
-	}
-	context(neighborhood){
-		//should translate neighborhood to context and return the rule using context_map connected to rule_map
-		//console.log(neighborhood)
-		var string=''
-		for(var i = 0; i<neighborhood.length; i++){
-			
-			if(neighborhood[i]==null){
-				string+=0
-			}else if(neighborhood[i]==0){
 
-				string+=1
-			}else if(neighborhood[i]==1){
 
-				string+=2
-			}
-		}
-		
-		return this.context_map[string]
-	}
-}
-
-class Vectorizer{
-	constructor(){
-
-	}
-	asciiStringToVector(string){
-		//we have 128 ascii charachters represented by 7 bit buffers
-		//so whatever the ascii string length is we need to multiply it by 7
-		var vector = []
-		for(var i=0; i<string.length; i++){
-			var bin= this.toBinary(string[i])
-			for(var j =0; j<bin.length; j++){
-				vector.push(bin[j])
-			}
-		}
-		return vector
-	}
-
-	vectorToAsciiString(vector){
-		var string = ''
-		var char=''
-		for(var i=0; i<vector.length; i++){
-			if(i%8==7){
-				char+=vector[i]
-				string+=this.toAscii(char.slice())
-				char=""
-			}else{
-				char+=vector[i]
-			}
-
-		}
-		return string
-	}
-
-	toBinary(input) {
-		var result = "";
-		for (var i = 0; i < input.length; i++) {
-			var bin = input[i].charCodeAt().toString(2);
-			result += Array(8 - bin.length + 1).join("0") + bin;
-		} 
-		return result;
-	}
-
-	toAscii(input) {
-		//https://gist.github.com/belohlavek/90771ccccb11100e76d1
-		var result = "";
-		var arr = input.match(/.{1,8}/g);
-		for (var i = 0; i < arr.length; i++) {
-			result += String.fromCharCode(parseInt(arr[i], 2).toString(10));
-		}
-		return result;
-	}
-
-}
 
 var vectorizer = new Vectorizer()
 //ultimately our simulation engine's solution should match the solution 

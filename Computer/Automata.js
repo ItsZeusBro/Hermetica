@@ -1,5 +1,5 @@
-import { Matrix } from "./Matrix.js"
-import {Clock, Comparator} from "./Coordinates.js"
+import { Matrix } from "../Matrix/Matrix.js"
+import {Clock, Comparator} from "../Matrix/Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
 
