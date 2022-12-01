@@ -92,9 +92,16 @@ class RuleSystem{
 			neighborhoods[ticks[i]]
 		}
 	}
-	rule(neighborhoods, ...symbols){
+	rule(neighborhoods, symbols){
 		//the list of symbols in the neighborhood should map to a neighborhood with a rule
 		//if only we could use a set as a key for an object!
+		//this just works!
+		symbols = symbols.sort()
+		for(var i = 0; i<symbols.length; i++){
+			neighborhoods = neighborhoods[symbols[i]]
+		}
+		return neighborhoods
+
 	}
 	dims(string){
 		var l = string.length;
@@ -183,9 +190,26 @@ class RuleSystem{
 	}
 	
 }
+var neighborhoods={
+	[String.fromCharCode('77825')]:{
+		[String.fromCharCode('77826')]:{
+			[String.fromCharCode('77828')]:'rule'
+		}
+	}
+}
+var symbols=[String.fromCharCode('77828'), String.fromCharCode('77826'), String.fromCharCode('77825')]
+function rule(neighborhoods, symbols){
+	symbols = symbols.sort()
+	for(var i = 0; i<symbols.length; i++){
+		neighborhoods = neighborhoods[symbols[i]]
+	}
+	return neighborhoods
+	//the list of symbols in the neighborhood should map to a neighborhood with a rule
+	//if only we could use a set as a key for an object!
+}
+console.log(rule(neighborhoods, symbols))
 
-
-new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
+// new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
