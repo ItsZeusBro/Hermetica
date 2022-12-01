@@ -6,6 +6,7 @@
 
 //rules takes a set of encoding charachter codes and uses vectorizer to match a rule system
 //that is created using computational charachter codes. Rules should contain the input and output used by Computer and Automata
+import util from 'node:util'
 
 import { CodeMap } from "./CodeMap/CodeMap.js"
 class RuleSystem{
@@ -39,12 +40,37 @@ class RuleSystem{
 		//every matrix has 2^d corners
 		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
 		//and 1 is the empty cell possibility 
+		var symbols = this.symbols(map)
+		for(var i = 0; i<Object.keys(map['dims']).length; i++){
+			var dim = Object.keys(map['dims'])[i]
+			map['dims'][dim]['corners']={}
+			map['dims'][dim]['corners']['amount']=Math.pow(2, dim)
+			map['dims'][dim]['corners']['configs']=Math.pow(Object.keys(map).length, dim)
+			map['dims'][dim]['corners']['rules']={}
+			this.neighborhoods(symbols, map['dims'][dim]['corners'])
+
+		}
+	}
+	symbols(map){
+		var symbols=[]
+		for(var i = 0; i<Object.keys(map).length; i++){
+			var key = Object.keys(map)[i]
+			if(map[key]!='dims'){
+				symbols.push(map[key]['symbol'])
+			}
+		}
+		return symbols
+	}
+	neighborhoods(symbols, cellType){
+		//take the cellType['configs'] and create the number of neighborhoods therein
+		
 	}
 	dims(string){
 		var l = string.length;
 		var dims={}
-		for(var i = 1; i<=4; i++){
-			dims[i]=Math.ceil(Math.pow(l, 1/i));
+		for(var i = 1; i<=3; i++){
+			dims[i]={}
+			dims[i]['m']=Math.ceil(Math.pow(l, 1/i));
 
 		}
 		return dims;
@@ -120,11 +146,15 @@ class RuleSystem{
 			//there are almost a 1000 more of these we can use if we run out! The last one is String.fromCharCode('78895')
 		]
 	}
+
+	log(){
+		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
+	}
 	
 }
 
 
-console.log(new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').map)
+new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
