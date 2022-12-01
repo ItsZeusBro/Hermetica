@@ -44,11 +44,16 @@ class RuleSystem{
 		var symbols = this.symbols(map)
 		for(var i = 0; i<Object.keys(map['dims']).length; i++){
 			var dim = Object.keys(map['dims'])[i]
-			map['dims'][dim]['corners']={}
-			map['dims'][dim]['corners']['amount']=Math.pow(2, dim)
-			map['dims'][dim]['corners']['configs']=Math.pow(Object.keys(map).length, dim)
-			map['dims'][dim]['corners']['neighbors']=dim
-			map['dims'][dim]['corners']['rules']=this.ruleTree(symbols, map['dims'][dim]['corners']) //this is a rule tree
+			map['dims'][dim]['corner']={}
+			map['dims'][dim]['corner']['amount']=Math.pow(2, dim)
+			map['dims'][dim]['corner']['configs']=Math.pow(Object.keys(map).length, dim)
+			map['dims'][dim]['corner']['neighbors']=dim
+			map['dims'][dim]['corner']['rules']=this.ruleTree(symbols, map['dims'][dim]['corner']) //this is a rule tree
+
+			map['dims'][dim]['face']={}
+
+			map['dims'][dim]['body']={}
+
 		}
 	}
 	symbols(map){
@@ -56,7 +61,6 @@ class RuleSystem{
 		for(var i = 0; i<Object.keys(map).length; i++){
 			var key = Object.keys(map)[i]
 			if(key!='dims'){
-				//console.log(map[key]['symbol'])
 				symbols.push(map[key]['symbol'])
 			}
 		}
@@ -71,12 +75,8 @@ class RuleSystem{
 			coordinate2.push(symbols.length-1)
 		}
 
-		//console.log(symbols, cellType)
-		//console.log(ticks)
 		var tree = {}
 		var ticks = new Clock(coordinate1, coordinate2).ticks()
-		//console.log(ticks, symbols)
-
 		for(var i = 0; i<ticks.length; i++){
 			for(var j = 0; j<ticks[i].length; j++){
 				this._ruleTree(symbols, ticks[i], tree)
@@ -84,28 +84,26 @@ class RuleSystem{
 		}
 		return tree
 	}
+
 	_ruleTree(symbols, ticks, tree, rule){
-		//console.log(ticks)
 		var i = ticks.shift()
-		if(!tree[symbols[i]]&&ticks>=1){
+		if(!tree[symbols[i]]&&ticks.length>=1){
 			tree[symbols[i]]={}
 			tree = tree[symbols[i]]
 			this._ruleTree(symbols, ticks, tree)
-		}else if(tree[symbols[i]]&&ticks>=1){
+		}else if(tree[symbols[i]]&&ticks.length>=1){
 			tree = tree[symbols[i]]
 			this._ruleTree(symbols, ticks, tree)
 		}
-		else if(!tree[symbols[i]]&&ticks==0){
+		else if(!tree[symbols[i]]&&ticks.length==0){
 			tree[symbols[i]]={}
-			console.log(Object.keys(tree))
 
 			tree[symbols[i]]['rule']=rule
 			return
-		}else if(tree[symbols[i]]&&ticks==0){
+		}else if(tree[symbols[i]]&&ticks.length==0){
 			tree[symbols[i]]['rule']=rule
 			return
 		}
-
 	}
 
 	neighborhood(symbols, neighbors){
@@ -210,58 +208,107 @@ class RuleSystem{
 	}
 
 	log(){
-		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
 	}
 	
 }
 
-var symbols=[]
-symbols = symbols.sort()
-var coordinate1=[]
-var coordinate2=[]
-for(var i = 0; i<cellType['neighbors']; i++){
-	coordinate1.push(0)
-	coordinate2.push(symbols.length-1)
-}
+
+// function _ruleTree(symbols, ticks, tree, rule){
+// 	//console.log(ticks)
+// 	var i = ticks.shift()
+// 	if(!tree[symbols[i]]&&ticks.length>=1){
+// 		tree[symbols[i]]={}
+// 		tree = tree[symbols[i]]
+// 		_ruleTree(symbols, ticks, tree)
+// 	}else if(tree[symbols[i]]&&ticks.length>=1){
+// 		tree = tree[symbols[i]]
+// 		_ruleTree(symbols, ticks, tree)
+// 	}
+// 	else if(!tree[symbols[i]]&&ticks.length==0){
+// 		tree[symbols[i]]={}
+// 		console.log(Object.keys(tree))
+
+// 		tree[symbols[i]]['rule']=rule
+// 		return
+// 	}else if(tree[symbols[i]]&&ticks.length==0){
+// 		tree[symbols[i]]['rule']=rule
+// 		return
+// 	}
+
+// }
 
 
-var tree = {}
-var ticks = new Clock(coordinate1, coordinate2).ticks()
-//console.log(ticks, symbols)
+// var symbols=[' ',String.fromCharCode('77826'), String.fromCharCode('77827'), String.fromCharCode('77828'), String.fromCharCode('77829')]
+// symbols = symbols.sort()
+// var coordinate1=[]
+// var coordinate2=[]
+// for(var i = 0; i<3; i++){
+// 	coordinate1.push(0)
+// 	coordinate2.push(symbols.length-1)
+// }
 
-for(var i = 0; i<ticks.length; i++){
-	for(var j = 0; j<ticks[i].length; j++){
-		this._ruleTree(symbols, ticks[i], tree)
+
+// var tree = {}
+// var ticks = new Clock(coordinate1, coordinate2).ticks()
+// //console.log(ticks, symbols)
+
+// for(var i = 0; i<ticks.length; i++){
+// 	for(var j = 0; j<ticks[i].length; j++){
+// 		_ruleTree(symbols, ticks[i], tree)
+// 	}
+// }
+// console.log(util.inspect(tree, {showHidden: false, depth: null, colors: true}))
+
+
+
+//new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
+
+function neighborProfile(ticks){
+	//each point should be a key in an object
+	var profile = {}
+	for(var i = 0; i<ticks.length; i++){
+		var point = ""
+		for(var j=0; j<ticks[i].length; j++){
+			point+=ticks[i][j]
+		}
+		profile[point]={}
 	}
-}
 
-_ruleTree(symbols, ticks, tree, rule){
-	//console.log(ticks)
-	var i = ticks.shift()
-	if(!tree[symbols[i]]&&ticks>=1){
-		tree[symbols[i]]={}
-		tree = tree[symbols[i]]
-		this._ruleTree(symbols, ticks, tree)
-	}else if(tree[symbols[i]]&&ticks>=1){
-		tree = tree[symbols[i]]
-		this._ruleTree(symbols, ticks, tree)
+	for(var i = 0; i<Object.keys(profile).length; i++){
+		var coordinate = Object.keys(profile)[i].split("")
+		var neighbors=[]
+		for(var j = 0; j<Object.keys(profile).length; j++){
+			//we want to check how many neighbors the coordinate has
+			if(i!=j){
+				var coordinate2 = Object.keys(profile)[j].split("")
+				var count1=0
+				for(var n=0; n<coordinate.length; n++){
+					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
+						count1+=1
+						var count2=0
+						for(var k=0; k<coordinate.length; k++){
+							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
+								count2+=1
+							}
+						}
+					}
+				}
+				if(count1==1&&!count2){
+					neighbors.push(coordinate2.join(''))
+				}
+
+			}
+
+		}
+		profile[Object.keys(profile)[i]]['neighbors']=neighbors
 	}
-	else if(!tree[symbols[i]]&&ticks==0){
-		tree[symbols[i]]={}
-		console.log(Object.keys(tree))
-
-		tree[symbols[i]]['rule']=rule
-		return
-	}else if(tree[symbols[i]]&&ticks==0){
-		tree[symbols[i]]['rule']=rule
-		return
-	}
+	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
 
 }
+var ticks = new Clock([0,0,0,0, 0], [2, 2, 2, 2, 2]).ticks()
+neighborProfile(ticks)
 
-
-
-new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
