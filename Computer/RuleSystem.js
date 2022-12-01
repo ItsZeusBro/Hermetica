@@ -15,6 +15,13 @@ class RuleSystem{
 		//we can vectorize and encode before adopting a simulation and rule strategy
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
+		if(input.length>=output.length){
+			this.map['dims']=this.dims(input)
+		}else{
+			this.map['dims']=this.dims(output)
+		}
+
+		this.rules(this.map)
 	}
 
 	simMap(map){
@@ -26,6 +33,22 @@ class RuleSystem{
 		}
 	}
 
+	rules(map){
+		//we need rules for each of the dimensions and symbols in use
+		//these are based on neighborhoods which have the following properties
+		//every matrix has 2^d corners
+		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
+		//and 1 is the empty cell possibility 
+	}
+	dims(string){
+		var l = string.length;
+		var dims={}
+		for(var i = 1; i<=4; i++){
+			dims[i]=Math.ceil(Math.pow(l, 1/i));
+
+		}
+		return dims;
+	}
 	simList(){
 		return [
 			String.fromCharCode('77825'), 
@@ -101,7 +124,7 @@ class RuleSystem{
 }
 
 
-console.log(new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').simList())
+console.log(new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').map)
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
