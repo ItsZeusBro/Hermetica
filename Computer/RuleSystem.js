@@ -48,8 +48,7 @@ class RuleSystem{
 			map['dims'][dim]['corners']['amount']=Math.pow(2, dim)
 			map['dims'][dim]['corners']['configs']=Math.pow(Object.keys(map).length, dim)
 			map['dims'][dim]['corners']['neighbors']=dim
-			map['dims'][dim]['corners']['rules']={}
-			this.neighborhoods(symbols, map['dims'][dim]['corners'])
+			map['dims'][dim]['corners']['rules']=this.ruleTree(map['dims']['dim']['corners'], symbols) //this is a rule tree
 
 		}
 	}
@@ -63,13 +62,15 @@ class RuleSystem{
 		}
 		return symbols
 	}
-	neighborhoods(symbols, cellType){
-		//take the cellType['configs'] and create the number of neighborhoods therein
-		for(var i = 0; i<cellType['configs']; i++){
-			//take the 'neighbors' property to get the number of neighbors for the cell type
-			//and call neighborhood(cellType['neighbors'], symbols) to fill in the neighborhood object
-			this.neighborhood(symbols, cellType['neighbors'])
+	ruleTree(symbols, cellType){
+		var coordinate1=[]
+		var coordinate2=[]
+		for(var i = 0; i<cellType['neighbors']-1; i++){
+			coordinate1.push(0)
+			coordinate2.push(symbols.length-1)
 		}
+		var ticks = new Clock(coordinate1, coordinate2).ticks()
+
 	}
 
 	neighborhood(symbols, neighbors){
@@ -77,20 +78,8 @@ class RuleSystem{
 
 		//we have a neighbors*symbols clock that we need to fill in
 		var neighborhoods={}
-		var coordinate1=[]
-		var coordinate2=[]
-		for(var i = 0; i<neighbors-1; i++){
-			coordinate1.push(0)
-			coordinate2.push(symbols.length-1)
-		}
-		var ticks = new Clock(coordinate1, coordinate2).ticks()
-		for(var i = 0; i<ticks.length; i++){
-			var symbolString=""
-			for(var j = 0; j<ticks[i].length; j++){
-				symbols[ticks[i]]
-			}
-			neighborhoods[ticks[i]]
-		}
+		
+		//we need to construct a tree based on the ticks
 	}
 	rule(neighborhoods, symbols){
 		//the list of symbols in the neighborhood should map to a neighborhood with a rule
@@ -190,26 +179,9 @@ class RuleSystem{
 	}
 	
 }
-var neighborhoods={
-	[String.fromCharCode('77825')]:{
-		[String.fromCharCode('77826')]:{
-			[String.fromCharCode('77828')]:'rule'
-		}
-	}
-}
-var symbols=[String.fromCharCode('77828'), String.fromCharCode('77826'), String.fromCharCode('77825')]
-function rule(neighborhoods, symbols){
-	symbols = symbols.sort()
-	for(var i = 0; i<symbols.length; i++){
-		neighborhoods = neighborhoods[symbols[i]]
-	}
-	return neighborhoods
-	//the list of symbols in the neighborhood should map to a neighborhood with a rule
-	//if only we could use a set as a key for an object!
-}
-console.log(rule(neighborhoods, symbols))
 
-// new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
+
+new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
