@@ -3,10 +3,16 @@
 //It doesnt even have to be the entire encoding superset, it just has to embrace enough of the superset
 //to fully encode the input and output for optimal efficiency. In otherwords, we want to strip away
 //extraneous symbols that encode nothing of the underlying string and its expected output.
-class EncodingSets{
-	constructor(input, output){
-
+export class EncodingMap{
+	constructor(input, output, context){
+		this.map;
+		if(context=='english'){
+			this.map=this.mapVariables(input, output, this.englishMap())
+		}else if(context=='algebra'){
+			this.map=this.mapVariables(input, output, this.algebraMap())
+		}
 	}
+
 	mapVariables(input, output, map){
 		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
 		var io=[]
@@ -22,15 +28,15 @@ class EncodingSets{
 		  });
 		return submap
 	}
-	arithmeticMap(){
+	algebraMap(){
 		//symbols:
-		var arithmeticArray = [
+		var algebraList = [
 			'(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'<', '=', '>', '[', ']', '^', '{', '}', '√', '∛', '∜'
 		]
-		var arithmeticMap=this.createMap(arithmeticArray)
+		var algebraMap=this.createMap(algebraList)
 		
-		return arithmeticMap
+		return algebraMap
 	}
 
 	englishMap(){
@@ -39,11 +45,8 @@ class EncodingSets{
 		"q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", 
 		"I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
 		"[", "]"]
-
 		var englishMap = this.createMap(englishArray)
-
 		return englishMap
-		
 	}
 
 	createMap(list){
@@ -105,11 +108,6 @@ class EncodingSets{
 		return out;
 	}
 
-	english(input, output){
-		//reduce the string to a minimal encoding map that is a subset of english symbols that embrace both input and output symbols
-
-	}
-
 	string2Hex(string){
 		return this.buffer2Hex(this.stringToBuffer(string))
 	}
@@ -150,9 +148,5 @@ class EncodingSets{
 
 
 }
-var es = new EncodingSets()
-var arithmeticMap = es.mapVariables("(1+1)*5=", '10', es.arithmeticMap())
-console.log(arithmeticMap)
-
-var englishMap = es.mapVariables("Hello", 'World!', es.englishMap())
-console.log(englishMap)
+// var es = new EncodingMap("(1+1)*5=", '10', 'algebra')
+// console.log(es.map)
