@@ -91,7 +91,11 @@ class RuleSystem{
 		if(!tree[symbols[i]]&&ticks>=1){
 			tree[symbols[i]]={}
 		}else if(!tree[symbols[i]]&&ticks==0){
-			tree[symbols[i]]=rule
+			tree[symbols[i]]={}
+			tree[symbols[i]]['rule']=rule
+			return
+		}else if(ticks==0){
+			tree[symbols[i]]['rule']=rule
 			return
 		}
 		tree = tree[symbols[i]]
