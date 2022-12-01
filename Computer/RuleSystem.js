@@ -9,6 +9,7 @@
 import util from 'node:util'
 
 import { CodeMap } from "./CodeMap/CodeMap.js"
+import {Clock} from "../Matrix/Coordinates.js"
 class RuleSystem{
 	constructor(input, output, context){
 		//we want to produce the possible dimensions of a simulation
@@ -67,12 +68,33 @@ class RuleSystem{
 		for(var i = 0; i<cellType['configs']; i++){
 			//take the 'neighbors' property to get the number of neighbors for the cell type
 			//and call neighborhood(cellType['neighbors'], symbols) to fill in the neighborhood object
+			this.neighborhood(symbols, cellType['neighbors'])
 		}
 	}
 
 	neighborhood(symbols, neighbors){
 		//neighbors is the number of neighbors, and symbols is the list we use to construct all the neighborhood configurations
-		
+
+		//we have a neighbors*symbols clock that we need to fill in
+		var neighborhoods={}
+		var coordinate1=[]
+		var coordinate2=[]
+		for(var i = 0; i<neighbors-1; i++){
+			coordinate1.push(0)
+			coordinate2.push(symbols.length-1)
+		}
+		var ticks = new Clock(coordinate1, coordinate2).ticks()
+		for(var i = 0; i<ticks.length; i++){
+			var symbolString=""
+			for(var j = 0; j<ticks[i].length; j++){
+				symbols[ticks[i]]
+			}
+			neighborhoods[ticks[i]]
+		}
+	}
+	rule(neighborhoods, ...symbols){
+		//the list of symbols in the neighborhood should map to a neighborhood with a rule
+		//if only we could use a set as a key for an object!
 	}
 	dims(string){
 		var l = string.length;
