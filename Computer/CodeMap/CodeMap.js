@@ -3,7 +3,7 @@
 //It doesnt even have to be the entire encoding superset, it just has to embrace enough of the superset
 //to fully encode the input and output for optimal efficiency. In otherwords, we want to strip away
 //extraneous symbols that encode nothing of the underlying string and its expected output.
-export class EncodingMap{
+export class CodeMap{
 	constructor(input, output, context){
 		this.map;
 		if(context=='english'){

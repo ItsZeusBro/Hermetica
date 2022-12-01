@@ -2,8 +2,9 @@
 //
 
 export class Vectorizer{
-	constructor(){
-
+	constructor(string, simMap){
+		//this uses a context map, and the input or output, and deterministically vectorizes 
+		//to a set of ascii art representations (which is shared by the rulesystem)
 	}
 	asciiStringToVector(string){
 		//we have 128 ascii charachters represented by 7 bit buffers

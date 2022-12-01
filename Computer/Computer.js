@@ -76,14 +76,7 @@ class Computer{
 		}
 	}
 
-	asciiArt(val){
-		if(val==0){
-			return String.fromCharCode('9634')
-		}
-		if(val==1){
-			return String.fromCharCode('9635')
-		}
-	}
+
 
 	simulate(input, rules, output){
 		if(this.solution(input, output)){
