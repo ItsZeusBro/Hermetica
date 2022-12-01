@@ -92,14 +92,16 @@ class RuleSystem{
 			String.fromCharCode('77946'), String.fromCharCode('77947'),
 			String.fromCharCode('77948'), String.fromCharCode('77949'), 
 			String.fromCharCode('77950'), String.fromCharCode('77951'),
-			String.fromCharCode('77952')
+			String.fromCharCode('77952'),
+
+			//there are almost a 1000 more of these we can use if we run out! The last one is String.fromCharCode('78895')
 		]
 	}
 	
 }
 
 
-console.log(new RuleSystem('1+1=', '4-2', 'algebra').map)
+console.log(new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').simList())
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
