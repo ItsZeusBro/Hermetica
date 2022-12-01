@@ -66,40 +66,44 @@ class RuleSystem{
 		symbols = symbols.sort()
 		var coordinate1=[]
 		var coordinate2=[]
-		for(var i = 0; i<cellType['neighbors']-1; i++){
+		for(var i = 0; i<cellType['neighbors']; i++){
 			coordinate1.push(0)
 			coordinate2.push(symbols.length-1)
 		}
+
 		//console.log(symbols, cellType)
 		//console.log(ticks)
 		var tree = {}
 		var ticks = new Clock(coordinate1, coordinate2).ticks()
 		console.log(ticks, symbols)
-		var sentinel=tree
-		for(var i = 0; i<ticks.length; i++){
-			console.log(ticks[i])
 
+		for(var i = 0; i<ticks.length; i++){
 			for(var j = 0; j<ticks[i].length; j++){
 				this._ruleTree(symbols, ticks[i], tree)
 			}
-			sentinel=tree
 		}
 		return tree
 	}
 	_ruleTree(symbols, ticks, tree, rule){
+		console.log(ticks)
 		var i = ticks.shift()
 		if(!tree[symbols[i]]&&ticks>=1){
 			tree[symbols[i]]={}
-		}else if(!tree[symbols[i]]&&ticks==0){
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, ticks, tree)
+		}else if(tree[symbols[i]]&&ticks>=1){
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, ticks, tree)
+		}
+		else if(!tree[symbols[i]]&&ticks==0){
 			tree[symbols[i]]={}
 			tree[symbols[i]]['rule']=rule
 			return
-		}else if(ticks==0){
+		}else if(tree[symbols[i]]&&ticks==0){
 			tree[symbols[i]]['rule']=rule
 			return
 		}
-		tree = tree[symbols[i]]
-		this._ruleTree(symbols, ticks, tree)
+
 	}
 
 	neighborhood(symbols, neighbors){
