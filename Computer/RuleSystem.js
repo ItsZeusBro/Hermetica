@@ -46,6 +46,7 @@ class RuleSystem{
 			map['dims'][dim]['corners']={}
 			map['dims'][dim]['corners']['amount']=Math.pow(2, dim)
 			map['dims'][dim]['corners']['configs']=Math.pow(Object.keys(map).length, dim)
+			map['dims'][dim]['corners']['neighbors']=dim
 			map['dims'][dim]['corners']['rules']={}
 			this.neighborhoods(symbols, map['dims'][dim]['corners'])
 
@@ -63,6 +64,14 @@ class RuleSystem{
 	}
 	neighborhoods(symbols, cellType){
 		//take the cellType['configs'] and create the number of neighborhoods therein
+		for(var i = 0; i<cellType['configs']; i++){
+			//take the 'neighbors' property to get the number of neighbors for the cell type
+			//and call neighborhood(cellType['neighbors'], symbols) to fill in the neighborhood object
+		}
+	}
+
+	neighborhood(symbols, neighbors){
+		//neighbors is the number of neighbors, and symbols is the list we use to construct all the neighborhood configurations
 		
 	}
 	dims(string){
