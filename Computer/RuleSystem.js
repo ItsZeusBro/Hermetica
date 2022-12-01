@@ -80,19 +80,22 @@ class RuleSystem{
 			console.log(ticks[i])
 
 			for(var j = 0; j<ticks[i].length; j++){
-
-				if(sentinel[symbols[ticks[i][j]]]){
-					sentinel[symbols[ticks[i][j]]]=symbols[ticks[i][j]]
-					sentinel=[symbols[ticks[i][j]]]
-				}else{
-					sentinel=[symbols[ticks[i][j]]]
-
-					sentinel[symbols[ticks[i][j]]]={}
-				}
+				this._ruleTree(symbols, ticks[i], tree)
 			}
 			sentinel=tree
 		}
 		return tree
+	}
+	_ruleTree(symbols, ticks, tree, rule){
+		var i = ticks.shift()
+		if(!tree[symbols[i]]&&ticks>=1){
+			tree[symbols[i]]={}
+		}else if(!tree[symbols[i]]&&ticks==0){
+			tree[symbols[i]]=rule
+			return
+		}
+		tree = tree[symbols[i]]
+		this._ruleTree(symbols, ticks, tree)
 	}
 
 	neighborhood(symbols, neighbors){
