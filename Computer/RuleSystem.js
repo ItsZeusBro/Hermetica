@@ -7,21 +7,22 @@
 //rules takes a set of encoding charachter codes and uses vectorizer to match a rule system
 //that is created using computational charachter codes. Rules should contain the input and output used by Computer and Automata
 
-import { CodeMap } from "./CodeMap/CodeMap"
+import { CodeMap } from "./CodeMap/CodeMap.js"
 class RuleSystem{
 	constructor(input, output, context){
 		//we want to produce the possible dimensions of a simulation
 		//that are computationally acceptable before simulation
 		//we can vectorize and encode before adopting a simulation and rule strategy
-		this.map = CodeMap(input, output, context)
+		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
 	}
 
 	simMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
+		var simList=this.simList();
 		for(var  i = 0; i<Object.keys(map).length; i++){
 			var key = Object.keys(map)[i]
-			map[key]
+			map[key]['symbol']=simList[i]
 		}
 	}
 
@@ -42,7 +43,6 @@ class RuleSystem{
 			String.fromCharCode('9658'), String.fromCharCode('9659'),
 			String.fromCharCode('9660'), String.fromCharCode('9661'), 
 			String.fromCharCode('9662'), String.fromCharCode('9663'),
-
 			String.fromCharCode('9664'), String.fromCharCode('9665'),
 			String.fromCharCode('9666'), String.fromCharCode('9667'), 
 			String.fromCharCode('9668'), String.fromCharCode('9669'),
@@ -58,7 +58,6 @@ class RuleSystem{
 			String.fromCharCode('9688'), String.fromCharCode('9689'),
 			String.fromCharCode('9690'), String.fromCharCode('9691'), 
 			String.fromCharCode('9692'), String.fromCharCode('9693'),
-
 			String.fromCharCode('9694'), String.fromCharCode('9695'),
 			String.fromCharCode('9696'), String.fromCharCode('9697'), 
 			String.fromCharCode('9698'), String.fromCharCode('9699'),
@@ -82,7 +81,7 @@ class RuleSystem{
 }
 
 
-
+console.log(new RuleSystem('1+1=', '4-2', 'algebra').map)
 // class Rules{
 // 	constructor(m, d){
 // 		this.m=m
