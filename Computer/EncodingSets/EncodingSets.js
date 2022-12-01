@@ -24,121 +24,40 @@ class EncodingSets{
 	}
 	arithmeticMap(){
 		//symbols:
-		return {
-			'(': {'hex':this.string2Hex('('), 'bin':this.hex2bin(this.string2Hex('('))},
-			')': {'hex':this.string2Hex(')'), 'bin':this.hex2bin(this.string2Hex(')'))},
-			'*': {'hex':this.string2Hex('*'), 'bin':this.hex2bin(this.string2Hex('*'))},
-			'+': {'hex':this.string2Hex('+'), 'bin':this.hex2bin(this.string2Hex('+'))},
-			',': {'hex':this.string2Hex(','), 'bin':this.hex2bin(this.string2Hex(','))},
-			'-': {'hex':this.string2Hex('-'), 'bin':this.hex2bin(this.string2Hex('-'))},
-			'.': {'hex':this.string2Hex('.'), 'bin':this.hex2bin(this.string2Hex('.'))},
-			'/': {'hex':this.string2Hex('/'), 'bin':this.hex2bin(this.string2Hex('/'))},
-			'0': {'hex':this.string2Hex('0'), 'bin':this.hex2bin(this.string2Hex('0'))},
-			'1': {'hex':this.string2Hex('1'), 'bin':this.hex2bin(this.string2Hex('1'))},
-			'2': {'hex':this.string2Hex('2'), 'bin':this.hex2bin(this.string2Hex('2'))},
-			'3': {'hex':this.string2Hex('3'), 'bin':this.hex2bin(this.string2Hex('3'))},
-			'4': {'hex':this.string2Hex('4'), 'bin':this.hex2bin(this.string2Hex('4'))},
-			'5': {'hex':this.string2Hex('5'), 'bin':this.hex2bin(this.string2Hex('5'))},
-			'6': {'hex':this.string2Hex('6'), 'bin':this.hex2bin(this.string2Hex('6'))},
-			'7': {'hex':this.string2Hex('7'), 'bin':this.hex2bin(this.string2Hex('7'))},
-			'8': {'hex':this.string2Hex('8'), 'bin':this.hex2bin(this.string2Hex('8'))},
-			'9': {'hex':this.string2Hex('9'), 'bin':this.hex2bin(this.string2Hex('9'))},
-			'<': {'hex':this.string2Hex('<'), 'bin':this.hex2bin(this.string2Hex('<'))},
-			'=': {'hex':this.string2Hex('='), 'bin':this.hex2bin(this.string2Hex('='))},
-			'>': {'hex':this.string2Hex('>'), 'bin':this.hex2bin(this.string2Hex('>'))},
-			'[': {'hex':this.string2Hex('['), 'bin':this.hex2bin(this.string2Hex('['))},
-			']': {'hex':this.string2Hex(']'), 'bin':this.hex2bin(this.string2Hex(']'))},
-			'^': {'hex':this.string2Hex('^'), 'bin':this.hex2bin(this.string2Hex('^'))},
-			'{': {'hex':this.string2Hex('{'), 'bin':this.hex2bin(this.string2Hex('{'))},
-			'}': {'hex':this.string2Hex('}'), 'bin':this.hex2bin(this.string2Hex('}'))},
-			'√': {'hex':this.string2Hex('√'), 'bin':this.hex2bin(this.string2Hex('√'))},
-			'∛': {'hex':this.string2Hex('∛'), 'bin':this.hex2bin(this.string2Hex('∛'))},
-			'∛': {'hex':this.string2Hex('∛'), 'bin':this.hex2bin(this.string2Hex('∛'))},
-			'∜': {'hex':this.string2Hex('∜'), 'bin':this.hex2bin(this.string2Hex('∜'))}
-			
-		}
+		var arithmeticArray = [
+			'(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+			'<', '=', '>', '[', ']', '^', '{', '}', '√', '∛', '∜'
+		]
+		var arithmeticMap=this.createMap(arithmeticArray)
+		
+		return arithmeticMap
 	}
 
 	englishMap(){
-		//symbols:
-		return {
-			'(': {'hex':this.string2Hex('('), 'bin':this.hex2bin(this.string2Hex('('))},
-			')': {'hex':this.string2Hex(')'), 'bin':this.hex2bin(this.string2Hex(')'))},
-			"'": {'hex':this.string2Hex("'"), 'bin':this.hex2bin(this.string2Hex("'"))},
-			'"': {'hex':this.string2Hex('"'), 'bin':this.hex2bin(this.string2Hex('"'))},
-			',': {'hex':this.string2Hex(','), 'bin':this.hex2bin(this.string2Hex(','))},
-			'-': {'hex':this.string2Hex('-'), 'bin':this.hex2bin(this.string2Hex('-'))},
-			'.': {'hex':this.string2Hex('.'), 'bin':this.hex2bin(this.string2Hex('.'))},
-			'!': {'hex':this.string2Hex('!'), 'bin':this.hex2bin(this.string2Hex('!'))},
-			'0': {'hex':this.string2Hex('0'), 'bin':this.hex2bin(this.string2Hex('0'))},
-			'1': {'hex':this.string2Hex('1'), 'bin':this.hex2bin(this.string2Hex('1'))},
-			'2': {'hex':this.string2Hex('2'), 'bin':this.hex2bin(this.string2Hex('2'))},
-			'3': {'hex':this.string2Hex('3'), 'bin':this.hex2bin(this.string2Hex('3'))},
-			'4': {'hex':this.string2Hex('4'), 'bin':this.hex2bin(this.string2Hex('4'))},
-			'5': {'hex':this.string2Hex('5'), 'bin':this.hex2bin(this.string2Hex('5'))},
-			'6': {'hex':this.string2Hex('6'), 'bin':this.hex2bin(this.string2Hex('6'))},
-			'7': {'hex':this.string2Hex('7'), 'bin':this.hex2bin(this.string2Hex('7'))},
-			'8': {'hex':this.string2Hex('8'), 'bin':this.hex2bin(this.string2Hex('8'))},
-			'9': {'hex':this.string2Hex('9'), 'bin':this.hex2bin(this.string2Hex('9'))},
-			'&': {'hex':this.string2Hex('&'), 'bin':this.hex2bin(this.string2Hex('&'))},
-			'@': {'hex':this.string2Hex('@'), 'bin':this.hex2bin(this.string2Hex('@'))},
-			'a': {'hex':this.string2Hex('a'), 'bin':this.hex2bin(this.string2Hex('a'))},
-			'b': {'hex':this.string2Hex('b'), 'bin':this.hex2bin(this.string2Hex('b'))},
-			'c': {'hex':this.string2Hex('c'), 'bin':this.hex2bin(this.string2Hex('c'))},
-			'd': {'hex':this.string2Hex('d'), 'bin':this.hex2bin(this.string2Hex('d'))},
-			'e': {'hex':this.string2Hex('e'), 'bin':this.hex2bin(this.string2Hex('e'))},
-			'f': {'hex':this.string2Hex('f'), 'bin':this.hex2bin(this.string2Hex('f'))},
-			'g': {'hex':this.string2Hex('g'), 'bin':this.hex2bin(this.string2Hex('g'))},
-			'h': {'hex':this.string2Hex('h'), 'bin':this.hex2bin(this.string2Hex('h'))},
-			'i': {'hex':this.string2Hex('i'), 'bin':this.hex2bin(this.string2Hex('i'))},
-			'j': {'hex':this.string2Hex('j'), 'bin':this.hex2bin(this.string2Hex('j'))},
-			'k': {'hex':this.string2Hex('k'), 'bin':this.hex2bin(this.string2Hex('k'))},
-			'l': {'hex':this.string2Hex('l'), 'bin':this.hex2bin(this.string2Hex('l'))},
-			'm': {'hex':this.string2Hex('m'), 'bin':this.hex2bin(this.string2Hex('m'))},
-			'n': {'hex':this.string2Hex('n'), 'bin':this.hex2bin(this.string2Hex('n'))},
-			'o': {'hex':this.string2Hex('o'), 'bin':this.hex2bin(this.string2Hex('o'))},
-			'p': {'hex':this.string2Hex('p'), 'bin':this.hex2bin(this.string2Hex('p'))},
-			'q': {'hex':this.string2Hex('q'), 'bin':this.hex2bin(this.string2Hex('q'))},
-			'r': {'hex':this.string2Hex('r'), 'bin':this.hex2bin(this.string2Hex('r'))},
-			's': {'hex':this.string2Hex('s'), 'bin':this.hex2bin(this.string2Hex('s'))},
-			't': {'hex':this.string2Hex('t'), 'bin':this.hex2bin(this.string2Hex('t'))},
-			'u': {'hex':this.string2Hex('u'), 'bin':this.hex2bin(this.string2Hex('u'))},
-			'v': {'hex':this.string2Hex('v'), 'bin':this.hex2bin(this.string2Hex('v'))},
-			'w': {'hex':this.string2Hex('w'), 'bin':this.hex2bin(this.string2Hex('w'))},
-			'x': {'hex':this.string2Hex('x'), 'bin':this.hex2bin(this.string2Hex('x'))},
-			'y': {'hex':this.string2Hex('y'), 'bin':this.hex2bin(this.string2Hex('y'))},
-			'z': {'hex':this.string2Hex('z'), 'bin':this.hex2bin(this.string2Hex('z'))},
-			'A': {'hex':this.string2Hex('A'), 'bin':this.hex2bin(this.string2Hex('A'))},
-			'B': {'hex':this.string2Hex('B'), 'bin':this.hex2bin(this.string2Hex('B'))},
-			'C': {'hex':this.string2Hex('C'), 'bin':this.hex2bin(this.string2Hex('C'))},
-			'D': {'hex':this.string2Hex('D'), 'bin':this.hex2bin(this.string2Hex('D'))},
-			'E': {'hex':this.string2Hex('E'), 'bin':this.hex2bin(this.string2Hex('E'))},
-			'F': {'hex':this.string2Hex('F'), 'bin':this.hex2bin(this.string2Hex('F'))},
-			'G': {'hex':this.string2Hex('G'), 'bin':this.hex2bin(this.string2Hex('G'))},
-			'H': {'hex':this.string2Hex('H'), 'bin':this.hex2bin(this.string2Hex('H'))},
-			'I': {'hex':this.string2Hex('I'), 'bin':this.hex2bin(this.string2Hex('I'))},
-			'J': {'hex':this.string2Hex('J'), 'bin':this.hex2bin(this.string2Hex('J'))},
-			'K': {'hex':this.string2Hex('K'), 'bin':this.hex2bin(this.string2Hex('K'))},
-			'L': {'hex':this.string2Hex('L'), 'bin':this.hex2bin(this.string2Hex('L'))},
-			'M': {'hex':this.string2Hex('M'), 'bin':this.hex2bin(this.string2Hex('M'))},
-			'N': {'hex':this.string2Hex('N'), 'bin':this.hex2bin(this.string2Hex('N'))},
-			'O': {'hex':this.string2Hex('O'), 'bin':this.hex2bin(this.string2Hex('O'))},
-			'P': {'hex':this.string2Hex('P'), 'bin':this.hex2bin(this.string2Hex('P'))},
-			'Q': {'hex':this.string2Hex('Q'), 'bin':this.hex2bin(this.string2Hex('Q'))},
-			'R': {'hex':this.string2Hex('R'), 'bin':this.hex2bin(this.string2Hex('R'))},
-			'S': {'hex':this.string2Hex('S'), 'bin':this.hex2bin(this.string2Hex('S'))},
-			'T': {'hex':this.string2Hex('T'), 'bin':this.hex2bin(this.string2Hex('T'))},
-			'U': {'hex':this.string2Hex('U'), 'bin':this.hex2bin(this.string2Hex('U'))},
-			'V': {'hex':this.string2Hex('V'), 'bin':this.hex2bin(this.string2Hex('V'))},
-			'W': {'hex':this.string2Hex('W'), 'bin':this.hex2bin(this.string2Hex('W'))},
-			'X': {'hex':this.string2Hex('X'), 'bin':this.hex2bin(this.string2Hex('X'))},
-			'Y': {'hex':this.string2Hex('Y'), 'bin':this.hex2bin(this.string2Hex('Y'))},
-			'Z': {'hex':this.string2Hex('Z'), 'bin':this.hex2bin(this.string2Hex('Z'))},
-			'[': {'hex':this.string2Hex('['), 'bin':this.hex2bin(this.string2Hex('['))},
-			']': {'hex':this.string2Hex(']'), 'bin':this.hex2bin(this.string2Hex(']'))}
-		}
+		var englishArray = ['(', ')', '"', "'", ",", "-", ".", "!", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+		"&", "@", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+		"q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", 
+		"I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+		"[", "]"]
 
+		var englishMap = this.createMap(englishArray)
+
+		return englishMap
+		
 	}
+
+	createMap(list){
+		var map = {}
+		for(var i = 0; i<list.length; i++){
+			map[list[i]]={
+				'hex':this.string2Hex(list[i]), 
+				'bin':this.hex2bin(this.string2Hex(list[i])),
+				'decimal':parseInt(this.hex2bin(this.string2Hex(list[i])), 2)
+			}
+		}
+		return map
+	}
+
 	verifyCodeMap(map){
 		//convert key to binary and verify they match map encoding
 		for(var i = 0; i<Object.keys(map).length; i++){
@@ -231,9 +150,9 @@ class EncodingSets{
 
 
 }
-// var es = new EncodingSets()
-// var arithmeticMap = es.mapVariables("(1+1)*5=", '10', es.arithmeticMap())
-// console.log(arithmeticMap)
+var es = new EncodingSets()
+var arithmeticMap = es.mapVariables("(1+1)*5=", '10', es.arithmeticMap())
+console.log(arithmeticMap)
 
-// var englishMap = es.mapVariables("Hello", 'World!', es.englishMap())
-// console.log(englishMap)
+var englishMap = es.mapVariables("Hello", 'World!', es.englishMap())
+console.log(englishMap)
