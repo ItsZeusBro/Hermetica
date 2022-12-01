@@ -75,7 +75,7 @@ class RuleSystem{
 		//console.log(ticks)
 		var tree = {}
 		var ticks = new Clock(coordinate1, coordinate2).ticks()
-		console.log(ticks, symbols)
+		//console.log(ticks, symbols)
 
 		for(var i = 0; i<ticks.length; i++){
 			for(var j = 0; j<ticks[i].length; j++){
@@ -85,7 +85,7 @@ class RuleSystem{
 		return tree
 	}
 	_ruleTree(symbols, ticks, tree, rule){
-		console.log(ticks)
+		//console.log(ticks)
 		var i = ticks.shift()
 		if(!tree[symbols[i]]&&ticks>=1){
 			tree[symbols[i]]={}
@@ -97,6 +97,8 @@ class RuleSystem{
 		}
 		else if(!tree[symbols[i]]&&ticks==0){
 			tree[symbols[i]]={}
+			console.log(Object.keys(tree))
+
 			tree[symbols[i]]['rule']=rule
 			return
 		}else if(tree[symbols[i]]&&ticks==0){
@@ -212,6 +214,51 @@ class RuleSystem{
 	}
 	
 }
+
+var symbols=[]
+symbols = symbols.sort()
+var coordinate1=[]
+var coordinate2=[]
+for(var i = 0; i<cellType['neighbors']; i++){
+	coordinate1.push(0)
+	coordinate2.push(symbols.length-1)
+}
+
+
+var tree = {}
+var ticks = new Clock(coordinate1, coordinate2).ticks()
+//console.log(ticks, symbols)
+
+for(var i = 0; i<ticks.length; i++){
+	for(var j = 0; j<ticks[i].length; j++){
+		this._ruleTree(symbols, ticks[i], tree)
+	}
+}
+
+_ruleTree(symbols, ticks, tree, rule){
+	//console.log(ticks)
+	var i = ticks.shift()
+	if(!tree[symbols[i]]&&ticks>=1){
+		tree[symbols[i]]={}
+		tree = tree[symbols[i]]
+		this._ruleTree(symbols, ticks, tree)
+	}else if(tree[symbols[i]]&&ticks>=1){
+		tree = tree[symbols[i]]
+		this._ruleTree(symbols, ticks, tree)
+	}
+	else if(!tree[symbols[i]]&&ticks==0){
+		tree[symbols[i]]={}
+		console.log(Object.keys(tree))
+
+		tree[symbols[i]]['rule']=rule
+		return
+	}else if(tree[symbols[i]]&&ticks==0){
+		tree[symbols[i]]['rule']=rule
+		return
+	}
+
+}
+
 
 
 new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
