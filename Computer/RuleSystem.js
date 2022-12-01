@@ -48,29 +48,51 @@ class RuleSystem{
 			map['dims'][dim]['corners']['amount']=Math.pow(2, dim)
 			map['dims'][dim]['corners']['configs']=Math.pow(Object.keys(map).length, dim)
 			map['dims'][dim]['corners']['neighbors']=dim
-			map['dims'][dim]['corners']['rules']=this.ruleTree(map['dims']['dim']['corners'], symbols) //this is a rule tree
-
+			map['dims'][dim]['corners']['rules']=this.ruleTree(symbols, map['dims'][dim]['corners']) //this is a rule tree
 		}
 	}
 	symbols(map){
 		var symbols=[]
 		for(var i = 0; i<Object.keys(map).length; i++){
 			var key = Object.keys(map)[i]
-			if(map[key]!='dims'){
+			if(key!='dims'){
+				//console.log(map[key]['symbol'])
 				symbols.push(map[key]['symbol'])
 			}
 		}
 		return symbols
 	}
 	ruleTree(symbols, cellType){
+		symbols = symbols.sort()
 		var coordinate1=[]
 		var coordinate2=[]
 		for(var i = 0; i<cellType['neighbors']-1; i++){
 			coordinate1.push(0)
 			coordinate2.push(symbols.length-1)
 		}
+		//console.log(symbols, cellType)
+		//console.log(ticks)
+		var tree = {}
 		var ticks = new Clock(coordinate1, coordinate2).ticks()
+		console.log(ticks, symbols)
+		var sentinel=tree
+		for(var i = 0; i<ticks.length; i++){
+			console.log(ticks[i])
 
+			for(var j = 0; j<ticks[i].length; j++){
+
+				if(sentinel[symbols[ticks[i][j]]]){
+					sentinel[symbols[ticks[i][j]]]=symbols[ticks[i][j]]
+					sentinel=[symbols[ticks[i][j]]]
+				}else{
+					sentinel=[symbols[ticks[i][j]]]
+
+					sentinel[symbols[ticks[i][j]]]={}
+				}
+			}
+			sentinel=tree
+		}
+		return tree
 	}
 
 	neighborhood(symbols, neighbors){
@@ -168,7 +190,7 @@ class RuleSystem{
 			String.fromCharCode('77946'), String.fromCharCode('77947'),
 			String.fromCharCode('77948'), String.fromCharCode('77949'), 
 			String.fromCharCode('77950'), String.fromCharCode('77951'),
-			String.fromCharCode('77952'),
+			String.fromCharCode('77952')
 
 			//there are almost a 1000 more of these we can use if we run out! The last one is String.fromCharCode('78895')
 		]
