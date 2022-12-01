@@ -7,77 +7,211 @@ class EncodingSets{
 	constructor(input, output){
 
 	}
-	arithmetic(input, output){
+	mapVariables(input, output, map){
 		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
+		var io=[]
+		var subset = new Set()
+		var submap={}
+		io = input.split('');
+		io = io.concat(output.split(''))
+		for(var i = 0; i<io.length; i++){
+			subset.add(io[i])
+		}
+		subset.forEach(element => {
+			submap[element]=map[element]
+		  });
+		return submap
 	}
-	arithmeticMap(input, output){
+	arithmeticMap(){
 		//symbols:
 		return {
-			'(': "0000000000101000",
-			')': "0000000000101001",
-			'*': "0000000000101010",
-			"+": "0000000000101011",
-			"-": "0000000000101101",
-			".": "0000000000101110",
-			"/": "0000000000101111",
-			"0": "0000000000110000",
-			"1": "0000000000110001",
-			"2": "0000000000110010",
-			"3": "0000000000110011",
-			"4": "0000000000110100",
-			"5": "0000000000110101",
-			"6": "0000000000110110",
-			"7": "0000000000110111",
-			"8": "0000000000111000",
-			"9": "0000000000111001",
-			"<": "0000000000111100",
-			"=": "0000000000111101",
-			">": "0000000000111110",
-			"[": "0000000001011011",
-			"]": "0000000001011101",
-			"^": "0000000001011110",
-			"{": "0000000001111011",
-			"}": "0000000001111101",
-			"√": "0010001000011010"
+			'(': {'hex':this.string2Hex('('), 'bin':this.hex2bin(this.string2Hex('('))},
+			')': {'hex':this.string2Hex(')'), 'bin':this.hex2bin(this.string2Hex(')'))},
+			'*': {'hex':this.string2Hex('*'), 'bin':this.hex2bin(this.string2Hex('*'))},
+			'+': {'hex':this.string2Hex('+'), 'bin':this.hex2bin(this.string2Hex('+'))},
+			',': {'hex':this.string2Hex(','), 'bin':this.hex2bin(this.string2Hex(','))},
+			'-': {'hex':this.string2Hex('-'), 'bin':this.hex2bin(this.string2Hex('-'))},
+			'.': {'hex':this.string2Hex('.'), 'bin':this.hex2bin(this.string2Hex('.'))},
+			'/': {'hex':this.string2Hex('/'), 'bin':this.hex2bin(this.string2Hex('/'))},
+			'0': {'hex':this.string2Hex('0'), 'bin':this.hex2bin(this.string2Hex('0'))},
+			'1': {'hex':this.string2Hex('1'), 'bin':this.hex2bin(this.string2Hex('1'))},
+			'2': {'hex':this.string2Hex('2'), 'bin':this.hex2bin(this.string2Hex('2'))},
+			'3': {'hex':this.string2Hex('3'), 'bin':this.hex2bin(this.string2Hex('3'))},
+			'4': {'hex':this.string2Hex('4'), 'bin':this.hex2bin(this.string2Hex('4'))},
+			'5': {'hex':this.string2Hex('5'), 'bin':this.hex2bin(this.string2Hex('5'))},
+			'6': {'hex':this.string2Hex('6'), 'bin':this.hex2bin(this.string2Hex('6'))},
+			'7': {'hex':this.string2Hex('7'), 'bin':this.hex2bin(this.string2Hex('7'))},
+			'8': {'hex':this.string2Hex('8'), 'bin':this.hex2bin(this.string2Hex('8'))},
+			'9': {'hex':this.string2Hex('9'), 'bin':this.hex2bin(this.string2Hex('9'))},
+			'<': {'hex':this.string2Hex('<'), 'bin':this.hex2bin(this.string2Hex('<'))},
+			'=': {'hex':this.string2Hex('='), 'bin':this.hex2bin(this.string2Hex('='))},
+			'>': {'hex':this.string2Hex('>'), 'bin':this.hex2bin(this.string2Hex('>'))},
+			'[': {'hex':this.string2Hex('['), 'bin':this.hex2bin(this.string2Hex('['))},
+			']': {'hex':this.string2Hex(']'), 'bin':this.hex2bin(this.string2Hex(']'))},
+			'^': {'hex':this.string2Hex('^'), 'bin':this.hex2bin(this.string2Hex('^'))},
+			'{': {'hex':this.string2Hex('{'), 'bin':this.hex2bin(this.string2Hex('{'))},
+			'}': {'hex':this.string2Hex('}'), 'bin':this.hex2bin(this.string2Hex('}'))},
+			'√': {'hex':this.string2Hex('√'), 'bin':this.hex2bin(this.string2Hex('√'))},
+			'∛': {'hex':this.string2Hex('∛'), 'bin':this.hex2bin(this.string2Hex('∛'))},
+			'∛': {'hex':this.string2Hex('∛'), 'bin':this.hex2bin(this.string2Hex('∛'))},
+			'∜': {'hex':this.string2Hex('∜'), 'bin':this.hex2bin(this.string2Hex('∜'))}
+			
+		}
+	}
+
+	englishMap(){
+		//symbols:
+		return {
+			'(': {'hex':this.string2Hex('('), 'bin':this.hex2bin(this.string2Hex('('))},
+			')': {'hex':this.string2Hex(')'), 'bin':this.hex2bin(this.string2Hex(')'))},
+			"'": {'hex':this.string2Hex("'"), 'bin':this.hex2bin(this.string2Hex("'"))},
+			'"': {'hex':this.string2Hex('"'), 'bin':this.hex2bin(this.string2Hex('"'))},
+			',': {'hex':this.string2Hex(','), 'bin':this.hex2bin(this.string2Hex(','))},
+			'-': {'hex':this.string2Hex('-'), 'bin':this.hex2bin(this.string2Hex('-'))},
+			'.': {'hex':this.string2Hex('.'), 'bin':this.hex2bin(this.string2Hex('.'))},
+			'!': {'hex':this.string2Hex('!'), 'bin':this.hex2bin(this.string2Hex('!'))},
+			'0': {'hex':this.string2Hex('0'), 'bin':this.hex2bin(this.string2Hex('0'))},
+			'1': {'hex':this.string2Hex('1'), 'bin':this.hex2bin(this.string2Hex('1'))},
+			'2': {'hex':this.string2Hex('2'), 'bin':this.hex2bin(this.string2Hex('2'))},
+			'3': {'hex':this.string2Hex('3'), 'bin':this.hex2bin(this.string2Hex('3'))},
+			'4': {'hex':this.string2Hex('4'), 'bin':this.hex2bin(this.string2Hex('4'))},
+			'5': {'hex':this.string2Hex('5'), 'bin':this.hex2bin(this.string2Hex('5'))},
+			'6': {'hex':this.string2Hex('6'), 'bin':this.hex2bin(this.string2Hex('6'))},
+			'7': {'hex':this.string2Hex('7'), 'bin':this.hex2bin(this.string2Hex('7'))},
+			'8': {'hex':this.string2Hex('8'), 'bin':this.hex2bin(this.string2Hex('8'))},
+			'9': {'hex':this.string2Hex('9'), 'bin':this.hex2bin(this.string2Hex('9'))},
+			'&': {'hex':this.string2Hex('&'), 'bin':this.hex2bin(this.string2Hex('&'))},
+			'@': {'hex':this.string2Hex('@'), 'bin':this.hex2bin(this.string2Hex('@'))},
+			'a': {'hex':this.string2Hex('a'), 'bin':this.hex2bin(this.string2Hex('a'))},
+			'b': {'hex':this.string2Hex('b'), 'bin':this.hex2bin(this.string2Hex('b'))},
+			'c': {'hex':this.string2Hex('c'), 'bin':this.hex2bin(this.string2Hex('c'))},
+			'd': {'hex':this.string2Hex('d'), 'bin':this.hex2bin(this.string2Hex('d'))},
+			'e': {'hex':this.string2Hex('e'), 'bin':this.hex2bin(this.string2Hex('e'))},
+			'f': {'hex':this.string2Hex('f'), 'bin':this.hex2bin(this.string2Hex('f'))},
+			'g': {'hex':this.string2Hex('g'), 'bin':this.hex2bin(this.string2Hex('g'))},
+			'h': {'hex':this.string2Hex('h'), 'bin':this.hex2bin(this.string2Hex('h'))},
+			'i': {'hex':this.string2Hex('i'), 'bin':this.hex2bin(this.string2Hex('i'))},
+			'j': {'hex':this.string2Hex('j'), 'bin':this.hex2bin(this.string2Hex('j'))},
+			'k': {'hex':this.string2Hex('k'), 'bin':this.hex2bin(this.string2Hex('k'))},
+			'l': {'hex':this.string2Hex('l'), 'bin':this.hex2bin(this.string2Hex('l'))},
+			'm': {'hex':this.string2Hex('m'), 'bin':this.hex2bin(this.string2Hex('m'))},
+			'n': {'hex':this.string2Hex('n'), 'bin':this.hex2bin(this.string2Hex('n'))},
+			'o': {'hex':this.string2Hex('o'), 'bin':this.hex2bin(this.string2Hex('o'))},
+			'p': {'hex':this.string2Hex('p'), 'bin':this.hex2bin(this.string2Hex('p'))},
+			'q': {'hex':this.string2Hex('q'), 'bin':this.hex2bin(this.string2Hex('q'))},
+			'r': {'hex':this.string2Hex('r'), 'bin':this.hex2bin(this.string2Hex('r'))},
+			's': {'hex':this.string2Hex('s'), 'bin':this.hex2bin(this.string2Hex('s'))},
+			't': {'hex':this.string2Hex('t'), 'bin':this.hex2bin(this.string2Hex('t'))},
+			'u': {'hex':this.string2Hex('u'), 'bin':this.hex2bin(this.string2Hex('u'))},
+			'v': {'hex':this.string2Hex('v'), 'bin':this.hex2bin(this.string2Hex('v'))},
+			'w': {'hex':this.string2Hex('w'), 'bin':this.hex2bin(this.string2Hex('w'))},
+			'x': {'hex':this.string2Hex('x'), 'bin':this.hex2bin(this.string2Hex('x'))},
+			'y': {'hex':this.string2Hex('y'), 'bin':this.hex2bin(this.string2Hex('y'))},
+			'z': {'hex':this.string2Hex('z'), 'bin':this.hex2bin(this.string2Hex('z'))},
+			'A': {'hex':this.string2Hex('A'), 'bin':this.hex2bin(this.string2Hex('A'))},
+			'B': {'hex':this.string2Hex('B'), 'bin':this.hex2bin(this.string2Hex('B'))},
+			'C': {'hex':this.string2Hex('C'), 'bin':this.hex2bin(this.string2Hex('C'))},
+			'D': {'hex':this.string2Hex('D'), 'bin':this.hex2bin(this.string2Hex('D'))},
+			'E': {'hex':this.string2Hex('E'), 'bin':this.hex2bin(this.string2Hex('E'))},
+			'F': {'hex':this.string2Hex('F'), 'bin':this.hex2bin(this.string2Hex('F'))},
+			'G': {'hex':this.string2Hex('G'), 'bin':this.hex2bin(this.string2Hex('G'))},
+			'H': {'hex':this.string2Hex('H'), 'bin':this.hex2bin(this.string2Hex('H'))},
+			'I': {'hex':this.string2Hex('I'), 'bin':this.hex2bin(this.string2Hex('I'))},
+			'J': {'hex':this.string2Hex('J'), 'bin':this.hex2bin(this.string2Hex('J'))},
+			'K': {'hex':this.string2Hex('K'), 'bin':this.hex2bin(this.string2Hex('K'))},
+			'L': {'hex':this.string2Hex('L'), 'bin':this.hex2bin(this.string2Hex('L'))},
+			'M': {'hex':this.string2Hex('M'), 'bin':this.hex2bin(this.string2Hex('M'))},
+			'N': {'hex':this.string2Hex('N'), 'bin':this.hex2bin(this.string2Hex('N'))},
+			'O': {'hex':this.string2Hex('O'), 'bin':this.hex2bin(this.string2Hex('O'))},
+			'P': {'hex':this.string2Hex('P'), 'bin':this.hex2bin(this.string2Hex('P'))},
+			'Q': {'hex':this.string2Hex('Q'), 'bin':this.hex2bin(this.string2Hex('Q'))},
+			'R': {'hex':this.string2Hex('R'), 'bin':this.hex2bin(this.string2Hex('R'))},
+			'S': {'hex':this.string2Hex('S'), 'bin':this.hex2bin(this.string2Hex('S'))},
+			'T': {'hex':this.string2Hex('T'), 'bin':this.hex2bin(this.string2Hex('T'))},
+			'U': {'hex':this.string2Hex('U'), 'bin':this.hex2bin(this.string2Hex('U'))},
+			'V': {'hex':this.string2Hex('V'), 'bin':this.hex2bin(this.string2Hex('V'))},
+			'W': {'hex':this.string2Hex('W'), 'bin':this.hex2bin(this.string2Hex('W'))},
+			'X': {'hex':this.string2Hex('X'), 'bin':this.hex2bin(this.string2Hex('X'))},
+			'Y': {'hex':this.string2Hex('Y'), 'bin':this.hex2bin(this.string2Hex('Y'))},
+			'Z': {'hex':this.string2Hex('Z'), 'bin':this.hex2bin(this.string2Hex('Z'))},
+			'[': {'hex':this.string2Hex('['), 'bin':this.hex2bin(this.string2Hex('['))},
+			']': {'hex':this.string2Hex(']'), 'bin':this.hex2bin(this.string2Hex(']'))}
 		}
 
 	}
 	verifyCodeMap(map){
 		//convert key to binary and verify they match map encoding
 		for(var i = 0; i<Object.keys(map).length; i++){
+
 			var key = Object.keys(map)[i]
-			var bin = map[Object.keys(map)[i]]
-			if(this.toBinary([key])!=bin){
-				throw Error('encoding error', key, bin, "should match toBinary("+key+") function result", this.toBinary([key]))
+			var hex = map[Object.keys(map)[i]]['hex']
+
+			if(this.string2Hex(key)!=hex){
+				throw Error('encoding error', key, hex, "should match string2Hex("+hex+") function result", this.string2Hex(key))
 			}
-			if(this.toUnicode([bin])!=key){
-				throw Error('decoding error', bin, key, "should match toUnicode("+bin+") function result", this.toUnicode([bin]))
+			
+			if(this.hex2String(hex)!=key){
+				throw Error('decoding error', hex, key, "should match hex2String("+hex+") function result", this.hex2String(hex))
 			}
+
 		}
 	}
 
-	unicode2Bin(input) {
-		
-		return this.hex2Unicode(this.unicodeToHex(input));
-	}
 	hex2bin(hex){
-		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
-		return ("00000000" + (parseInt(hex, 16)).toString(2)).substr(-8);
+		https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
+		hex = hex.replace("0x", "").toLowerCase();
+		var out = "";
+		for(var c of hex) {
+			switch(c) {
+				case '0': out += "0000"; break;
+				case '1': out += "0001"; break;
+				case '2': out += "0010"; break;
+				case '3': out += "0011"; break;
+				case '4': out += "0100"; break;
+				case '5': out += "0101"; break;
+				case '6': out += "0110"; break;
+				case '7': out += "0111"; break;
+				case '8': out += "1000"; break;
+				case '9': out += "1001"; break;
+				case 'a': out += "1010"; break;
+				case 'b': out += "1011"; break;
+				case 'c': out += "1100"; break;
+				case 'd': out += "1101"; break;
+				case 'e': out += "1110"; break;
+				case 'f': out += "1111"; break;
+				default: return "";
+			}
+		}
+	
+		return out;
 	}
 
-	bin2Hex(bin){
-		return parseInt(bin, 2).toString(16)
-	}
-	unicodeToHex(input){
-		return input.hexEncode().hexDecode()
-	}
-	hex2Unicode(hex){
-		return hex.toString('utf-16')
-	}
-	bin2Unicode(bin){
-		return this.hex2Unicode(this.bin2Hex(bin))
+	english(input, output){
+		//reduce the string to a minimal encoding map that is a subset of english symbols that embrace both input and output symbols
+
 	}
 
+	string2Hex(string){
+		return this.buffer2Hex(this.stringToBuffer(string))
+	}
+	hex2String(hex){
+		return this.bufferToString(this.hex2Buffer(hex))
+	}
+	stringToBuffer(string){
+		return Buffer.from(string, 'utf16le')
+	}
+
+	buffer2Hex(buffer){
+		return  buffer.toString('hex');
+	}
+	bufferToString(buffer) {
+		return Buffer.from(buffer).toString('utf16le')
+	}
+	
+	hex2Buffer(hex){
+		return Buffer.from(hex.trim(), 'hex')
+	}
+	
 	calculus(input, output){
 		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
 
@@ -94,111 +228,12 @@ class EncodingSets{
 		//reduce the string to a minimal encoding map that is a subset of regex symbols that embrace both input and output symbols
 
 	}
-	english(input, output){
-		//reduce the string to a minimal encoding map that is a subset of english symbols that embrace both input and output symbols
 
-	}
 
 }
+// var es = new EncodingSets()
+// var arithmeticMap = es.mapVariables("(1+1)*5=", '10', es.arithmeticMap())
+// console.log(arithmeticMap)
 
-//new EncodingSets().verifyCodeMap(new EncodingSets().arithmeticMap())
-console.log(new EncodingSets().unicode2Bin('√'))
-
-//  Binary	    Oct Dec	Hex			Glyph
-// 						1963	1965	1967
-// 0010 0000	040	32	20	 				space
-// 0010 0001	041	33	21					!
-// 0010 0010	042	34	22					"
-// 0010 0011	043	35	23					#
-// 0010 0100	044	36	24					$
-// 0010 0101	045	37	25					%
-// 0010 0110	046	38	26					&
-// 0010 0111	047	39	27					'
-// 0010 1000	050	40	28					(
-// 0010 1001	051	41	29					)
-// 0010 1010	052	42	2A					*
-// 0010 1011	053	43	2B					+
-// 0010 1100	054	44	2C					,
-// 0010 1101	055	45	2D					-
-// 0010 1110	056	46	2E					.
-// 0010 1111	057	47	2F					/
-// 0011 0000	060	48	30					0
-// 0011 0001	061	49	31					1
-// 0011 0010	062	50	32					2
-// 0011 0011	063	51	33					3
-// 0011	0100	064	52	34					4
-// 0011 0101	065	53	35					5
-// 0011 0110	066	54	36					6
-// 0011 0111	067	55	37					7
-// 0011 1000	070	56	38					8
-// 0011 1001	071	57	39					9
-// 0011 1010	072	58	3A					:
-// 0011 1011	073	59	3B					;
-// 0011 1100	074	60	3C					<
-// 0011 1101	075	61	3D					=
-// 0011 1110	076	62	3E					>
-// 0011 1111	077	63	3F					?
-// 0100 0000	100	64	40	 @	      `	    @
-// 0100 0001	101	65	41					A
-// 0100 0010	102	66	42					B
-// 0100 0011	103	67	43					C
-// 0100 0100	104	68	44					D
-// 0100 0101	105	69	45					E
-// 0100 0110	106	70	46					F
-// 0100 0111	107	71	47					G
-// 0100 1000	110	72	48					H
-// 0100 1001	111	73	49					I
-// 0100 1010	112	74	4A					J
-// 0100 1011	113	75	4B					K
-// 0100 1100	114	76	4C					L
-// 0100 1101	115	77	4D					M
-// 0100 1110	116	78	4E					N
-// 0100 1111	117	79	4F					O
-// 0101 0000	120	80	50					P
-// 0101 0001	121	81	51					Q
-// 0101 0010	122	82	52					R
-// 0101 0011	123	83	53					S
-// 0101 0100	124	84	54					T
-// 0101 0101	125	85	55					U
-// 0101 0110	126	86	56					V
-// 0101 0111	127	87	57					W
-// 0101 1000	130	88	58					X
-// 0101 1001	131	89	59					Y
-// 0101 1010	132	90	5A					Z
-// 0101 1011	133	91	5B					[
-// 0101 1100	134	92	5C	  \		 ~		\
-// 0101 1101	135	93	5D					]
-// 0101 1110	136	94	5E			 ↑	    ^
-// 0101 1111	137	95	5F			 ←	    _
-// 0110 0000	140	96	60		     @		`
-// 0110 0001	141	97	61					a
-// 0110 0010	142	98	62					b
-// 0110 0011	143	99	63					c
-// 0110 0100	144	100	64					d
-// 0110 0101	145	101	65					e
-// 0110 0110	146	102	66					f
-// 0110 0111	147	103	67					g
-// 0110 1000	150	104	68					h
-// 0110 1001	151	105	69					i
-// 0110 1010	152	106	6A					j
-// 0110 1011	153	107	6B					k
-// 0110 1100	154	108	6C					l
-// 0110 1101	155	109	6D					m
-// 0110 1110	156	110	6E					n
-// 0110 1111	157	111	6F					o
-// 0111 0000	160	112	70					p
-// 0111 0001	161	113	71					q
-// 0111 0010	162	114	72					r
-// 0111 0011	163	115	73					s
-// 0111 0100	164	116	74					t
-// 0111 0101	165	117	75					u
-// 0111 0110	166	118	76					v
-// 0111 0111	167	119	77					w
-// 0111 1000	170	120	78					x
-// 0111 1001	171	121	79					y
-// 0111 1010	172	122	7A					z
-// 0111 1011	173	123	7B					{
-// 0111 1100	174	124	7C	  ACK	¬		|
-// 0111 1101	175	125	7D					}
-// 0111 1110	176	126	7E	  ESC	|	    ~
-
+// var englishMap = es.mapVariables("Hello", 'World!', es.englishMap())
+// console.log(englishMap)
