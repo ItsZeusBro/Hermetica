@@ -10,20 +10,18 @@ import util from 'node:util'
 
 import { CodeMap } from "./CodeMap/CodeMap.js"
 import {Clock} from "../Matrix/Coordinates.js"
-class RuleSystem{
-	constructor(input, output, context, dims){
+export class RuleSystem{
+	constructor(input, output, context, neighbor_count){
 		//we want to produce the possible dimensions of a simulation
 		//that are computationally acceptable before simulation
 		//we can vectorize and encode before adopting a simulation and rule strategy
-		this.dims=dims
+		this.neighbor_count=neighbor_count
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
-		if(input.length>=output.length){
-			this.map['dims']=this._dims(input)
-		}else{
-			this.map['dims']=this._dims(output)
+		this.map['neighborhoods']={}
+		for(var i = 1; i<=neighbor_count; i++){
+			this.map['neighborhoods'][i]={}
 		}
-
 		this.rules(this.map)
 	}
 
@@ -34,8 +32,7 @@ class RuleSystem{
 			var key = Object.keys(map)[i]
 			map[key]['symbol']=simList[i]
 		}
-		map[' ']={}
-		map[' ']['symbol']=' '
+
 	}
 
 	rules(map){
@@ -45,26 +42,24 @@ class RuleSystem{
 		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
 		//and 1 is the empty cell possibility 
 		var symbols = this.symbols(map)
-		for(var i = 0; i<Object.keys(map['dims']).length; i++){
-			var dim = Object.keys(map['dims'])[i]
-			map['dims'][dim]['neigborhoodTypes']={}
-			map['dims'][dim]['neigborhoodTypes']=this.neighborhood(map['dims'][dim]['neigborhoodTypes'], parseInt(dim), symbols)
-
+		for(var i = 0; i<Object.keys(map['neighborhoods']).length; i++){
+			var neighbor_count = Object.keys(map['neighborhoods'])[i]
+			this.neighborhood(map['neighborhoods'][neighbor_count], parseInt(neighbor_count), symbols)
 		}
+
 	}
 	symbols(map){
 		var symbols=[]
 		for(var i = 0; i<Object.keys(map).length; i++){
 			var key = Object.keys(map)[i]
-			if(key!='dims'){
+			if(key!='neighborhoods'){
 				symbols.push(map[key]['symbol'])
 			}
 		}
 		return symbols
 	}
-	next_rule(){
-		
-	}
+
+
 	neighborhood(neighborhoods, neighbor_count, symbols){
 		//the number of neighborhoods is symbols.length^(neighborcount+1)
 		//where 1 accounts for an empty space
@@ -75,18 +70,18 @@ class RuleSystem{
 			symbolcoord1.push(0)
 			symbolcoord2.push(symbols.length-1)
 		}
-		var tree = {}
+
 		var ticks = new Clock(symbolcoord1, symbolcoord2).ticks()
 		for(var i = 0; i<ticks.length; i++){
 			for(var j = 0; j<ticks[i].length; j++){
-				this._ruleTree(symbols, ticks[i], tree)
+				this._ruleTree(symbols, ticks[i], neighborhoods)
 			}
 		}
-		return tree
 	}
 
 
 	_ruleTree(symbols, ticks, tree){
+
 		var i = ticks.shift()
 		if(!tree[symbols[i]]&&ticks.length>=1){
 			tree[symbols[i]]={}
@@ -119,18 +114,11 @@ class RuleSystem{
 		return neighborhoods
 
 	}
-	_dims(string){
-		var l = string.length;
-		var dims={}
-		for(var i = 1; i<=this.dims; i++){
-			dims[i]={}
-			dims[i]['m']=Math.ceil(Math.pow(l, 1/i));
-		}
-		return dims;
-	}
+
 
 	simList(){
 		return [
+			' ',
 			String.fromCharCode('77825'), 
 			String.fromCharCode('77826'), String.fromCharCode('77827'),
 			String.fromCharCode('77828'), String.fromCharCode('77829'), 
@@ -203,16 +191,15 @@ class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 5, colors: true}))
-
-		//console.log(this.map)
+		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
 	}
 	
 }
 
 
-//6 neighbors works for up to 3 dimensions; 8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
-new RuleSystem('hello', 'world', 'english', 6).log()
+//4 neighbors works for up to 2 dimensions; 
+//6 neighbors works for up to 3 dimensions; 
+//8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
 
 
 
@@ -237,7 +224,7 @@ new RuleSystem('hello', 'world', 'english', 6).log()
 // }
 // 
 
-
+//LEAVE THIS: IT HELPS UNDERSTAND MATRIX NEIGHBORHOODS AND DIMENSIONS
 
 
 // function neighborProfile(ticks){

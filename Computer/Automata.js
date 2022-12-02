@@ -2,128 +2,19 @@ import { Matrix } from "../Matrix/Matrix.js"
 import {Clock, Comparator} from "../Matrix/Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
-
-
-
-//automata should only be responsible for managing the matrix refering to the automata
-//for any given generationautomata
-//simulation should be responsible for keeping track and exporting data
-
+import { RuleSystem } from "./RuleSystem.js"
 
 
 export class Automata{
-	constructor(vector, output_size, dimensions){
-		this.m;
-		this.d=dimensions
-		this.vector=vector
-		this.output_size=output_size
-		this.population;
-		this.matrix;
-		this.init(vector, output_size, dimensions)
-
-		//console.log(this.matrix.matrix)
-	}
-
-	init(vector, output_size){
-		//based on the size of the input vector and expected output size
-		//we need to initialize this.population and find the dimensions of the matrix
-		//using m^d+1 we get the number of cells in the automata based on m and d
-		//we want a minimal sized automata simulation that meets the requirements
-		//get (d+1th) root of the vector 
-		if(vector.length>=output_size){
-			this.m = Math.ceil(Math.pow(vector.length, 1/(this.d)))
-
+	constructor(input, output, context){
+		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
+		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
+		//care of by RuleSystem
+		if(input.length>output.length){
+			this.m=Math.ceil(Math.pow(input.length, 1/i))
 		}else{
-			this.m = Math.ceil(Math.pow(output_size, 1/(this.d)))
-
+			this.m=Math.ceil(Math.pow(output.length, 1/i))
 		}
-		this.matrix = new Matrix(this.m, this.d)
-		this.population = this.populate(this, vector)
-		this.neighborhoods(this)
-	}
-	
-	populate(automata, vector){
-		//console.log(automata, vector)
-		for(var i = 0; i<automata.matrix.matrix.length; i++){
-			if(vector[i]){
-				automata.matrix.matrix[i]['data']['mode']=vector[i];
-
-			}else{
-				automata.matrix.matrix[i]['data']['mode']=0
-
-			}
-		}
-		return JSON.parse(JSON.stringify(automata))
-	}
-
-	stringifyMode(automata){
-		//console.log(automata.matrix.matrix)
-		var string=""
-		for(var i =0; i<automata.matrix.matrix.length; i++){
-			string+=automata.matrix.matrix[i]['data']['mode']
-		}
-		return string
-	}
-	copy(automata1, automata2){
-		for(var i = 0; i<automata1.matrix.matrix.length;i++){
-			automata1.matrix.matrix[i]['data']= JSON.parse(JSON.stringify(automata2.matrix.matrix[i]['data']))
-		}
-	}
-
-	neighborhoods(automata){
-		//create a list of neighbors for each cell
-		for(var i=0; i<automata.matrix.matrix.length; i++){
-			var coordinate=automata.matrix.matrix[i].coordinate
-			var neighbors = this.neighborhood(automata, coordinate)
-			automata.matrix.matrix[i]['data']['neighborhood']=neighbors
-		}
-	}
-
-	neighborhood(automata, coordinate){
-		//the difference between the cell and any of its neighbors is that for each coordinate (except for the one being calculated)
-		//it must be the case that all of the dimensions for the potential neighbor have a difference with an absolute value of 1
-		//if any of the ticks have a dimension less than 0, remove it
-		//if any of the ticks have a dimension greater than m, remove it
-		var neighbors=[]
-
-		for(var i = 0; i<coordinate.length; i++){
-			var max = automata.add(coordinate, 1, i)
-			var min = automata.subtract(coordinate, 1, i)
-			if(this.valid(max, 0, automata.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, max)){
-				//we want the actual cell coresponding to max
-				neighbors.push(automata.matrix.get(max)['data']['mode'])
-			}else{
-				neighbors.push(null)
-			}
-			if(this.valid(min, 0, automata.m-1)&& !new Comparator(coordinate.length).isEqual(coordinate, min)){
-				neighbors.push(automata.matrix.get(min)['data']['mode'])
-			}else{
-				neighbors.push(null)
-			}
-		}
-		return neighbors
-
-	}
-	add(coordinate, n, i){
-		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]=coordinate1[i]+n
-		return coordinate1
-	}
-
-	subtract(coordinate, n, i){
-		var coordinate1 = JSON.parse(JSON.stringify(coordinate))
-		coordinate1[i]=coordinate1[i]-n
-		return coordinate1
-	}
-
-	valid(coordinate, min, max){
-		//check to see if any of the coordinates dimensions exceed the limits set by min and max
-		for(var i = 0; i<coordinate.length; i++){
-			if(coordinate[i]<min||coordinate[i]>max){
-				return false
-			}
-		}
-		return true
 	}
 
 	log(automata){
@@ -134,6 +25,7 @@ export class Automata{
 	}
 
 }
+//
 
 // const automata = new Automata(20,2)
 // automata.simulate()

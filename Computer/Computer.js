@@ -125,15 +125,15 @@ class Computer{
 
 
 
-var vectorizer = new Vectorizer()
-//ultimately our simulation engine's solution should match the solution 
-//for other inputs similarly defined for the purpose intended for a function
-//That means the same simulation should be checked against other inputs and 
-//the generation should be the only thing that matters for the result, so long as it is correct
-//vecrorizer.asciiStringToVector('world')
-//console.log(vectorizer.vectorToAsciiString())
-var input = new Automata(vectorizer.asciiStringToVector('1+1'), '2'.length*8, 1)
-var output = new Automata(vectorizer.asciiStringToVector('2'), '1+1'.length*8, 1)
-var rules = new Rules(input.m, input.d)
-//console.log(rules)
-new Computer(input, output, rules)
+// var vectorizer = new Vectorizer()
+// //ultimately our simulation engine's solution should match the solution 
+// //for other inputs similarly defined for the purpose intended for a function
+// //That means the same simulation should be checked against other inputs and 
+// //the generation should be the only thing that matters for the result, so long as it is correct
+// //vecrorizer.asciiStringToVector('world')
+// //console.log(vectorizer.vectorToAsciiString())
+// var input = new Automata(vectorizer.asciiStringToVector('1+1'), '2'.length*8, 1)
+// var output = new Automata(vectorizer.asciiStringToVector('2'), '1+1'.length*8, 1)
+// var rules = new Rules(input.m, input.d)
+// //console.log(rules)
+// new Computer(input, output, rules)
