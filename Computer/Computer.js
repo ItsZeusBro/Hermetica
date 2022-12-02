@@ -1,5 +1,3 @@
-import { Matrix } from "../Matrix/Matrix.js"
-import {CoordinateClock, Comparator} from "../Matrix/Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
 import {Automata} from "./Automata.js"
