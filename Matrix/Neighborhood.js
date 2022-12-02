@@ -70,15 +70,17 @@ class Neighborhood{
 	}
 
 	_write(n, m, d, neighborhood){
+		console.log(d)
 		var file = n+'*'+m+'_'+d+'.neighborhood'
-		fs.writeFileSync(file, zlib.gzip(Buffer.from(neighborhood)))
+		fs.writeFileSync(file, JSON.stringify(neighborhood))
 	}
 
 
 	_read(n, m, d){
+
 		//this fetches a file, validates it then returns the neighborhood object
 		var file = n+'*'+m+'_'+d+'.neighborhood'
-		return JSON.parse(Buffer.toString(zlib.unzip(fs.readFileSync(file))))
+		return JSON.parse(fs.readFileSync(file))
 
 	}
 
@@ -90,4 +92,4 @@ class Neighborhood{
 
 var n = new Neighborhood(2, 3)
 n.gen(2, 3)
-console.log(n._read(2, 3))
+console.log(n._read(2, 2, 3))
