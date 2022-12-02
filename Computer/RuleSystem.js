@@ -50,7 +50,6 @@ class RuleSystem{
 			map['dims'][dim]['neigborhoodTypes']={}
 			map['dims'][dim]['neigborhoodTypes']=this.neighborhood(map['dims'][dim]['neigborhoodTypes'], parseInt(dim), symbols)
 
-
 		}
 	}
 	symbols(map){
@@ -63,7 +62,9 @@ class RuleSystem{
 		}
 		return symbols
 	}
-	
+	next_rule(){
+		
+	}
 	neighborhood(neighborhoods, neighbor_count, symbols){
 		//the number of neighborhoods is symbols.length^(neighborcount+1)
 		//where 1 accounts for an empty space
