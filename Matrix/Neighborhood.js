@@ -1,18 +1,49 @@
 import {CoordinateClock} from "./Coordinates.js"
 import fs from "node:fs"
 import zlib from "node:zlib"
+import {createHash} from 'node:crypto'
+import process from 'node:process';
+
+
+  
 class Neighborhood{
-	constructor(m, d){
+	constructor(n, m, d){
+		this.file=null;
+		for(var i=0; i<n.length; i++){
+
+			for(var j=0; j<m.length; j++){
+				for(var k=0; k<d.length; k++){
+					console.log(n[i], m[j], d[k])
+					console.log(this._exists(n[i], m[j], d[k]))
+					if(this._exists(n[i], m[j], d[k])==false){
+						if(n[i]==m[i]){
+							//we are only doing square matricies right now!!!!!!
+							console.log(n[i], m[j], d[k])
+
+							this.gen(n[i], m[j], d[k])
+						}
+
+					}
+				}
+			}
+		}
 		//we want to generate a neighborhood file
 		//if it does not exist, then we want to use it 
 		//with this class
-		// if(!this.exists(m, d)){this.gen(m, d)}
 		
-		// this.n = this.get(m, d)
-
 	}
 
-	gen(m, d){
+	clean(n){
+		if(n.file){
+			n=n.file[0]
+			m=n.file[1]
+			d=n.file[2]
+			var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
+			fs.unlink(file)
+		}
+	}
+
+	gen(n, m, d){
 		//this creates a coordinate clock, and finds the neighbors for each coordinate
 		//then creates a neighborhood object, then stores it to a file in some compressed form
 		var c1=[]
@@ -22,28 +53,32 @@ class Neighborhood{
 			c2.push(m)
 		}
 		var coordinates = new CoordinateClock(c1, c2).coordinates()
-
-		this._write(m, m, d, this.neighborProfile(coordinates))
+		var profile = this.neighborProfile(coordinates)
+		
+		for(var i = 0; i<Object.keys(profile).length; i++){
+			//we want to hash the neighbor profile so we can do a quick check
+			//we want this hash to match rule hash
+			var neighborhoodSig = profile[Object.keys(profile)[i]]['neighbors'].sort()
+			neighborhoodSig = createHash('sha256').update(JSON.stringify(neighborhoodSig)).digest('hex');
+			profile[Object.keys(profile)[i]]['signature']=neighborhoodSig
+		}
+		this.file = [m, m, d]
+		if(this._write(m, m, d, profile)==true){this.file=null}
 	}
 
 	neighborProfile(coordinates){
 	//each point should be a key in an object
 		var profile = {}
-		for(var i = 0; i<coordinates.length; i++){
-			var point = ""
-			for(var j=0; j<coordinates[i].length; j++){
-				point+=coordinates[i][j]
-			}
-			profile[point]={}
-		}
 
-		for(var i = 0; i<Object.keys(profile).length; i++){
-			var coordinate = Object.keys(profile)[i].split("")
+		for(var i = 0; i<coordinates.length; i++){
+			var point = coordinates[i].join("")
+			profile[point]={}
+			var coordinate = coordinates[i]
 			var neighbors=[]
-			for(var j = 0; j<Object.keys(profile).length; j++){
+			for(var j = 0; j<coordinates.length; j++){
 				//we want to check how many neighbors the coordinate has
 				if(i!=j){
-					var coordinate2 = Object.keys(profile)[j].split("")
+					var coordinate2 = coordinates[j]
 					var count1=0
 					for(var n=0; n<coordinate.length; n++){
 						if((Math.abs(coordinate[n]-coordinate2[n])==1)){
@@ -63,26 +98,30 @@ class Neighborhood{
 				}
 
 			}
-			profile[Object.keys(profile)[i]]['neighbors']=neighbors
+			profile[point]['neighbors']=neighbors
 		}
 
 		return profile
 	}
 
 	_write(n, m, d, neighborhood){
-		console.log(d)
-		var file = n+'*'+m+'_'+d+'.neighborhood'
+		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		fs.writeFileSync(file, JSON.stringify(neighborhood))
+		return true
 	}
 
-
+	_exists(n, m, d){
+		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
+		return fs.existsSync(file)
+	}
 	_read(n, m, d){
 
 		//this fetches a file, validates it then returns the neighborhood object
-		var file = n+'*'+m+'_'+d+'.neighborhood'
+		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		return JSON.parse(fs.readFileSync(file))
 
 	}
+
 
 	validate(neighborhood){
 		//takes the hash of the neighborhood file and compares it to the header in the neighborhood 
@@ -90,6 +129,19 @@ class Neighborhood{
 	}
 }
 
-var n = new Neighborhood(2, 3)
-n.gen(2, 3)
-console.log(n._read(2, 2, 3))
+var n=[]
+var m=[]
+//NEIGHBORHOOD PROFILE ONLY WORKS UP TO 9, THEN IT GETS BUGGY. WE NEED TO FIND OUT WHY
+for(var i=1; i<=9; i++){n.push(i); m.push(i)}
+var n = new Neighborhood(n, m, [1, 2, 3, 4])
+
+process.on('SIGINT', (n) => {
+	n.clean()
+	console.log('Received SIGINT. Press Control-D to exit.');
+  });
+
+// var coordinate1=[0, 0, 0]
+// var coordinate2=[2, 2, 2]
+// var coordinates = new CoordinateClock(coordinate1, coordinate2).coordinates()
+// console.log(n.neighborProfile(coordinates))
+// //console.log(n._read(2, 2, 3))
