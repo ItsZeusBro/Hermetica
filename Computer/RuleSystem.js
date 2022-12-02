@@ -9,7 +9,7 @@
 import util from 'node:util'
 
 import { CodeMap } from "./CodeMap/CodeMap.js"
-import {Clock} from "../Matrix/Coordinates.js"
+import {CoordinateClock} from "../Matrix/Coordinates.js"
 export class RuleSystem{
 	constructor(input, output, context, neighbor_count){
 		//we want to produce the possible dimensions of a simulation
@@ -72,32 +72,32 @@ export class RuleSystem{
 			symbolcoord2.push(symbols.length-1)
 		}
 
-		var ticks = new Clock(symbolcoord1, symbolcoord2).ticks()
-		for(var i = 0; i<ticks.length; i++){
-			for(var j = 0; j<ticks[i].length; j++){
-				this._ruleTree(symbols, ticks[i], neighborhoods)
+		var coordinates = new CoordinateClock(symbolcoord1, symbolcoord2).coordinates()
+		for(var i = 0; i<coordinates.length; i++){
+			for(var j = 0; j<coordinates[i].length; j++){
+				this._ruleTree(symbols, coordinates[i], neighborhoods)
 			}
 		}
 	}
 
 
-	_ruleTree(symbols, ticks, tree){
+	_ruleTree(symbols, coordinates, tree){
 
-		var i = ticks.shift()
-		if(!tree[symbols[i]]&&ticks.length>=1){
+		var i = coordinates.shift()
+		if(!tree[symbols[i]]&&coordinates.length>=1){
 			tree[symbols[i]]={}
 			tree = tree[symbols[i]]
-			this._ruleTree(symbols, ticks, tree)
-		}else if(tree[symbols[i]]&&ticks.length>=1){
+			this._ruleTree(symbols, coordinates, tree)
+		}else if(tree[symbols[i]]&&coordinates.length>=1){
 			tree = tree[symbols[i]]
-			this._ruleTree(symbols, ticks, tree)
+			this._ruleTree(symbols, coordinates, tree)
 		}
-		else if(!tree[symbols[i]]&&ticks.length==0){
+		else if(!tree[symbols[i]]&&coordinates.length==0){
 			tree[symbols[i]]={}
 
 			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)]
 			return
-		}else if(tree[symbols[i]]&& ticks.length==0){
+		}else if(tree[symbols[i]]&& coordinates.length==0){
 			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)] 
 			return
 		}

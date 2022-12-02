@@ -1,6 +1,6 @@
 import util from 'node:util'
-import { Comparator, Clock } from './Coordinates.js'
-
+import { Comparator, CoordinateClock } from './Coordinates.js'
+import {Neighborhoods} from './Neighborhood.js'
 
 class Cell{
 	constructor(data=null, coordinate){
@@ -17,7 +17,7 @@ export class Matrix {
 		this.m=m
 		this.d=d
 		this.verify()
-		this.clock = new Clock(this._min(), this._max())
+		this.clock = new CoordinateClock(this._min(), this._max())
 		this.comparator = new Comparator(d)
 		this.matrix = this._matrix()
 		this.validate()
@@ -34,6 +34,9 @@ export class Matrix {
 		}
 	}
 	
+	neighborhood(coordinate){
+
+	}
 
 	validate(){
 		for(var i = 0; i<this.matrix.length-2; i++){
@@ -54,11 +57,11 @@ export class Matrix {
 		return this.m*Math.pow(this.m, this.d-1)
 	}
 
-	_matrix(){
+	_matrix(vector){
 		var matrix=[]
 		for(var i = 0; i<this.count(); i++){
 			var coordinate = this.clock.next()
-			matrix.push(new Cell({}, coordinate))		
+			matrix.push(new Cell({'mode':vector[i], 'neighbors':this.neighborhood(coordinate)}, coordinate))		
 		}
 		return matrix
 	}	
@@ -129,3 +132,75 @@ export class Matrix {
 		}
 	}
 }
+
+
+
+
+// var symbols=[' ',String.fromCharCode('77826'), String.fromCharCode('77827'), String.fromCharCode('77828'), String.fromCharCode('77829')]
+// symbols = symbols.sort()
+// var coordinate1=[]
+// var coordinate2=[]
+// for(var i = 0; i<3; i++){
+// 	coordinate1.push(0)
+// 	coordinate2.push(symbols.length-1)
+// }
+
+
+// var tree = {}
+// var coordinates = new Clock(coordinate1, coordinate2).coordinates()
+// //console.log(coordinates, symbols)
+
+// for(var i = 0; i<coordinates.length; i++){
+// 	for(var j = 0; j<coordinates[i].length; j++){
+// 		_ruleTree(symbols, coordinates[i], tree)
+// 	}
+// }
+// 
+
+//LEAVE THIS: IT HELPS UNDERSTAND MATRIX NEIGHBORHOODS AND DIMENSIONS
+
+
+// function neighborProfile(coordinates){
+// 	//each point should be a key in an object
+// 	var profile = {}
+// 	for(var i = 0; i<coordinates.length; i++){
+// 		var point = ""
+// 		for(var j=0; j<coordinates[i].length; j++){
+// 			point+=coordinates[i][j]
+// 		}
+// 		profile[point]={}
+// 	}
+
+// 	for(var i = 0; i<Object.keys(profile).length; i++){
+// 		var coordinate = Object.keys(profile)[i].split("")
+// 		var neighbors=[]
+// 		for(var j = 0; j<Object.keys(profile).length; j++){
+// 			//we want to check how many neighbors the coordinate has
+// 			if(i!=j){
+// 				var coordinate2 = Object.keys(profile)[j].split("")
+// 				var count1=0
+// 				for(var n=0; n<coordinate.length; n++){
+// 					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
+// 						count1+=1
+// 						var count2=0
+// 						for(var k=0; k<coordinate.length; k++){
+// 							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
+// 								count2+=1
+// 							}
+// 						}
+// 					}
+// 				}
+// 				if(count1==1&&!count2){
+// 					neighbors.push(coordinate2.join(''))
+// 				}
+
+// 			}
+
+// 		}
+// 		profile[Object.keys(profile)[i]]['neighbors']=neighbors
+// 	}
+// 	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
+
+// }
+// var coordinates = new Clock([0,0,0,0,0], [2, 2,2,2,2]).coordinates()
+// neighborProfile(coordinates)

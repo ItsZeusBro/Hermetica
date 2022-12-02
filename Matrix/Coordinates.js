@@ -1,4 +1,4 @@
-export class Clock{
+export class CoordinateClock{
 	constructor(coordinate1, coordinate2, min, max){
 		//when it comes to neighbors, we create a +1 and -1 across all dimensions
 		this.coordinate1=coordinate1
@@ -13,19 +13,19 @@ export class Clock{
 	_max(){
 		return this.coordinate2
 	}
-	ticks(){
-		var ticks=[]
+	coordinates(){
+		var coordinates=[]
 		while(true){
 			var next = this.next()
 			if(next&&this.valid(next)){
 				if(new Comparator(this.coordinate1.length).isEqual(this.coordinate2, next)){
-					ticks.push(next)
-					return ticks
+					coordinates.push(next)
+					return coordinates
 				}else{
-					ticks.push(next)
+					coordinates.push(next)
 				}
 			}else{
-				return ticks
+				return coordinates
 			}
 			
 		}
@@ -123,4 +123,4 @@ export class Comparator{
 
 }
 
-// console.log(new Clock([-1,-1,-1], [2, 2, 2], 0, 2).ticks())
+// console.log(new Clock([-1,-1,-1], [2, 2, 2], 0, 2).coordinates())

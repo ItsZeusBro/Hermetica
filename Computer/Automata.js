@@ -1,12 +1,12 @@
 import { Matrix } from "../Matrix/Matrix.js"
-import {Clock, Comparator} from "../Matrix/Coordinates.js"
+import {CoordinateClock, Comparator} from "../Matrix/Coordinates.js"
 import util from 'node:util'
 import {createHash} from 'node:crypto'
 import { RuleSystem } from "./RuleSystem.js"
 
 
 export class Automata{
-	constructor(input, output, context){
+	constructor(input, output, context, dim){
 		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
 		//care of by RuleSystem
@@ -14,7 +14,9 @@ export class Automata{
 		this.rs = new RuleSystem(input, output, context, 4)
 		this.dimensions=this._dimensions(input, output, this.rs)
 		this.rs.log()
-		console.log(this.dimensions)
+		this.matrix = new Matrix(this.dimensions[dim]['m'], dim)
+		this.matrix.log()
+
 		//next we want a group of matrix dimensions
 
 	}
@@ -31,22 +33,16 @@ export class Automata{
 		return dimensions
 
 	}
-		// this.m;
-		// if(input.length>output.length){
-		// 	this.m=Math.ceil(Math.pow(input.length, 1/i))
-		// }else{
-		// 	this.m=Math.ceil(Math.pow(output.length, 1/i))
-		// }
+
 	log(automata){
 		for(var i = 0; i<automata.matrix.matrix.length; i++){
 			console.log(automata.matrix.matrix[i])
 		}
-
 	}
 
 }
 
-new Automata('1+1=', '4-2', 'algebra')
+new Automata('1+1=', '4-2', 'algebra', 1)
 //
 
 // const automata = new Automata(20,2)
