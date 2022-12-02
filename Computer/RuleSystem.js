@@ -10,20 +10,35 @@ import util from 'node:util'
 
 import { CodeMap } from "./CodeMap/CodeMap.js"
 import {CoordinateClock} from "../Matrix/Coordinates.js"
+import {Neighborhood} from "./Neighborhood.js"
 export class RuleSystem{
-	constructor(input, output, context, neighbor_count){
+	constructor(input, output, context, dimensions){
 		//we want to produce the possible dimensions of a simulation
 		//that are computationally acceptable before simulation
 		//we can vectorize and encode before adopting a simulation and rule strategy
-		this.neighbor_count=neighbor_count
+		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
 		this.symbols=this._symbols(this.map)
 		this.simMap(this.map)
-		this.map['neighborhoods']={}
-		for(var i = 1; i<=neighbor_count; i++){
-			this.map['neighborhoods'][i]={}
+		this.map['input']=input
+		this.map['output']=output
+		this.map['context']=context
+		this.map['rules']={}
+
+		for(var i = 0; i<dimensions.length; i++){
+			this.map['rules'][dimensions[i]]={}
+
+			
+			if(input.length>output.length){
+				//square shape
+				this.map['rules'][dimensions[i]]['shape']=Math.ceil(Math.pow(input.length, 1/dimensions[i]))
+			}else{
+				this.map['rules'][dimensions[i]]['shape']=Math.ceil(Math.pow(output.length, 1/dimensions[i]))
+			}
+			this.map['rules'][dimensions[i]]['neighborhood'] = new Neighborhood()._read(this.map['rules'][dimensions[i]]['shape'], this.map['rules'][dimensions[i]]['shape'], dimensions[i])
+
 		}
-		this.rules(this.map)
+		//this.rules(this.map)
 	}
 
 	simMap(map){
@@ -43,6 +58,7 @@ export class RuleSystem{
 		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
 		//and 1 is the empty cell possibility 
 		var symbols = this._symbols(map)
+		var keys=Object.keys(map)
 		for(var i = 0; i<Object.keys(map['neighborhoods']).length; i++){
 			var neighbor_count = Object.keys(map['neighborhoods'])[i]
 			this.neighborhood(map['neighborhoods'][neighbor_count], parseInt(neighbor_count), symbols)
@@ -64,7 +80,6 @@ export class RuleSystem{
 	neighborhood(neighborhoods, neighbor_count, symbols){
 		//the number of neighborhoods is symbols.length^(neighborcount+1)
 		//where 1 accounts for an empty space
-		symbols = symbols.sort()
 		var symbolcoord1=[]
 		var symbolcoord2=[]
 		for(var i = 0; i<neighbor_count; i++){
@@ -106,7 +121,6 @@ export class RuleSystem{
 
 	rule(symbols){
 		//based on the number of symbols, return the proper rule
-		symbols = symbols.sort()
 		var neighbor_count = symbols.length;
 		var rule_set = this.map['neighborhoods'][neighbor_count]
 		for(var i = 0; i<symbols.length; i++){
@@ -202,9 +216,8 @@ export class RuleSystem{
 //8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
 // var symbols = [' ', String.fromCharCode('77825'), String.fromCharCode('77826')]
 
-// var rs = new RuleSystem('1+1=', '2', 'algebra', 4)
-// rs.log()
-// console.log(symbols.sort())
+var rs = new RuleSystem('1+1=', '2', 'algebra', [1, 2, 3, 4])
+rs.log()
 // console.log(rs.rule(symbols))
 
 
