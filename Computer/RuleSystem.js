@@ -50,7 +50,7 @@ export class RuleSystem{
 		}
 
 	}
-
+//
 	rules(map){
 		//we need rules for each of the dimensions and symbols in use
 		//these are based on neighborhoods which have the following properties
