@@ -13,9 +13,7 @@ class Neighborhood{
 
 			for(var j=0; j<m.length; j++){
 				for(var k=0; k<d.length; k++){
-					console.log(n[i], m[j], d[k])
-					console.log(this._exists(n[i], m[j], d[k]))
-						if(n[i]==m[i]){								//we are only doing square matricies right now!!!!!!
+						if(n[i]==m[j]){								//we are only doing square matricies right now!!!!!!
 
 							if(this._exists(n[i], m[j], d[k])==false){
 
