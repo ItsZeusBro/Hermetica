@@ -1,4 +1,6 @@
 import {CoordinateClock} from "./Coordinates.js"
+import fs from "node:fs"
+import zlib from "node:zlib"
 class Neighborhood{
 	constructor(m, d){
 		//we want to generate a neighborhood file
@@ -21,7 +23,7 @@ class Neighborhood{
 		}
 		var coordinates = new CoordinateClock(c1, c2).coordinates()
 
-		this._store(m+'*'+m+'_'+d+'.neighborhood', this.neighborProfile(coordinates))
+		this._write(m, m, d, this.neighborProfile(coordinates))
 	}
 
 	neighborProfile(coordinates){
@@ -67,11 +69,17 @@ class Neighborhood{
 		return profile
 	}
 
-	_store(file, neighborhood){
-		
+	_write(n, m, d, neighborhood){
+		var file = n+'*'+m+'_'+d+'.neighborhood'
+		fs.writeFileSync(file, zlib.gzip(Buffer.from(neighborhood)))
 	}
-	get(m, d){
+
+
+	_read(n, m, d){
 		//this fetches a file, validates it then returns the neighborhood object
+		var file = n+'*'+m+'_'+d+'.neighborhood'
+		return JSON.parse(Buffer.toString(zlib.unzip(fs.readFileSync(file))))
+
 	}
 
 	validate(neighborhood){
@@ -80,4 +88,6 @@ class Neighborhood{
 	}
 }
 
-new Neighborhood(2, 3).gen(2, 3)
+var n = new Neighborhood(2, 3)
+n.gen(2, 3)
+console.log(n._read(2, 3))
