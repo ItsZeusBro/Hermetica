@@ -160,47 +160,4 @@ export class Matrix {
 //LEAVE THIS: IT HELPS UNDERSTAND MATRIX NEIGHBORHOODS AND DIMENSIONS
 
 
-// function neighborProfile(coordinates){
-// 	//each point should be a key in an object
-// 	var profile = {}
-// 	for(var i = 0; i<coordinates.length; i++){
-// 		var point = ""
-// 		for(var j=0; j<coordinates[i].length; j++){
-// 			point+=coordinates[i][j]
-// 		}
-// 		profile[point]={}
-// 	}
 
-// 	for(var i = 0; i<Object.keys(profile).length; i++){
-// 		var coordinate = Object.keys(profile)[i].split("")
-// 		var neighbors=[]
-// 		for(var j = 0; j<Object.keys(profile).length; j++){
-// 			//we want to check how many neighbors the coordinate has
-// 			if(i!=j){
-// 				var coordinate2 = Object.keys(profile)[j].split("")
-// 				var count1=0
-// 				for(var n=0; n<coordinate.length; n++){
-// 					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
-// 						count1+=1
-// 						var count2=0
-// 						for(var k=0; k<coordinate.length; k++){
-// 							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
-// 								count2+=1
-// 							}
-// 						}
-// 					}
-// 				}
-// 				if(count1==1&&!count2){
-// 					neighbors.push(coordinate2.join(''))
-// 				}
-
-// 			}
-
-// 		}
-// 		profile[Object.keys(profile)[i]]['neighbors']=neighbors
-// 	}
-// 	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
-
-// }
-// var coordinates = new Clock([0,0,0,0,0], [2, 2,2,2,2]).coordinates()
-// neighborProfile(coordinates)
