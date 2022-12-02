@@ -15,14 +15,14 @@ class Neighborhood{
 				for(var k=0; k<d.length; k++){
 					console.log(n[i], m[j], d[k])
 					console.log(this._exists(n[i], m[j], d[k]))
-					if(this._exists(n[i], m[j], d[k])==false){
-						if(n[i]==m[i]){
-							//we are only doing square matricies right now!!!!!!
-							console.log(n[i], m[j], d[k])
+						if(n[i]==m[i]){								//we are only doing square matricies right now!!!!!!
 
-							this.gen(n[i], m[j], d[k])
-						}
+							if(this._exists(n[i], m[j], d[k])==false){
 
+								console.log(n[i], m[j], d[k])
+
+								this.gen(n[i], m[j], d[k])
+							}
 					}
 				}
 			}
