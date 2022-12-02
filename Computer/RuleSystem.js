@@ -203,14 +203,16 @@ class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 5, colors: true}))
+
+		//console.log(this.map)
 	}
 	
 }
 
 
-
-new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra', 6).log()
+//6 neighbors works for up to 3 dimensions; 8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
+new RuleSystem('hello', 'world', 'english', 6).log()
 
 
 
