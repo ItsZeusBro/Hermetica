@@ -11,16 +11,17 @@ import util from 'node:util'
 import { CodeMap } from "./CodeMap/CodeMap.js"
 import {Clock} from "../Matrix/Coordinates.js"
 class RuleSystem{
-	constructor(input, output, context){
+	constructor(input, output, context, dims){
 		//we want to produce the possible dimensions of a simulation
 		//that are computationally acceptable before simulation
 		//we can vectorize and encode before adopting a simulation and rule strategy
+		this.dims=dims
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
 		if(input.length>=output.length){
-			this.map['dims']=this.dims(input)
+			this.map['dims']=this._dims(input)
 		}else{
-			this.map['dims']=this.dims(output)
+			this.map['dims']=this._dims(output)
 		}
 
 		this.rules(this.map)
@@ -44,15 +45,17 @@ class RuleSystem{
 		var symbols = this.symbols(map)
 		for(var i = 0; i<Object.keys(map['dims']).length; i++){
 			var dim = Object.keys(map['dims'])[i]
-			map['dims'][dim]['corner']={}
-			map['dims'][dim]['corner']['amount']=Math.pow(2, dim)
-			map['dims'][dim]['corner']['configs']=Math.pow(Object.keys(map).length, dim)
-			map['dims'][dim]['corner']['neighbors']=dim
-			map['dims'][dim]['corner']['rules']=this.ruleTree(symbols, map['dims'][dim]['corner']) //this is a rule tree
-
-			map['dims'][dim]['face']={}
-
-			map['dims'][dim]['body']={}
+			console.log(dim)
+			map['dims'][dim]['neigborhoodTypes']={}
+			var neighbor_count = parseInt(dim)
+			console.log(neighbor_count)
+			var c=neighbor_count
+			for(var j =1; j<=neighbor_count+1; j++){
+				//this loop iterates the number of types of neighborhoods starting from dim (representing the number of neighbors)
+				//all the way up to dim+1 types, where we add a neighbor for each iteration
+				map['dims'][dim]['neigborhoodTypes'][c]={}
+				c++
+			}
 
 		}
 	}
@@ -125,10 +128,10 @@ class RuleSystem{
 		return neighborhoods
 
 	}
-	dims(string){
+	_dims(string){
 		var l = string.length;
 		var dims={}
-		for(var i = 1; i<=3; i++){
+		for(var i = 1; i<=this.dims; i++){
 			dims[i]={}
 			dims[i]['m']=Math.ceil(Math.pow(l, 1/i));
 
@@ -214,29 +217,9 @@ class RuleSystem{
 }
 
 
-// function _ruleTree(symbols, ticks, tree, rule){
-// 	//console.log(ticks)
-// 	var i = ticks.shift()
-// 	if(!tree[symbols[i]]&&ticks.length>=1){
-// 		tree[symbols[i]]={}
-// 		tree = tree[symbols[i]]
-// 		_ruleTree(symbols, ticks, tree)
-// 	}else if(tree[symbols[i]]&&ticks.length>=1){
-// 		tree = tree[symbols[i]]
-// 		_ruleTree(symbols, ticks, tree)
-// 	}
-// 	else if(!tree[symbols[i]]&&ticks.length==0){
-// 		tree[symbols[i]]={}
-// 		console.log(Object.keys(tree))
 
-// 		tree[symbols[i]]['rule']=rule
-// 		return
-// 	}else if(tree[symbols[i]]&&ticks.length==0){
-// 		tree[symbols[i]]['rule']=rule
-// 		return
-// 	}
+new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra', 5).log()
 
-// }
 
 
 // var symbols=[' ',String.fromCharCode('77826'), String.fromCharCode('77827'), String.fromCharCode('77828'), String.fromCharCode('77829')]
@@ -262,117 +245,48 @@ class RuleSystem{
 
 
 
-//new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra').log()
 
-function neighborProfile(ticks){
-	//each point should be a key in an object
-	var profile = {}
-	for(var i = 0; i<ticks.length; i++){
-		var point = ""
-		for(var j=0; j<ticks[i].length; j++){
-			point+=ticks[i][j]
-		}
-		profile[point]={}
-	}
-
-	for(var i = 0; i<Object.keys(profile).length; i++){
-		var coordinate = Object.keys(profile)[i].split("")
-		var neighbors=[]
-		for(var j = 0; j<Object.keys(profile).length; j++){
-			//we want to check how many neighbors the coordinate has
-			if(i!=j){
-				var coordinate2 = Object.keys(profile)[j].split("")
-				var count1=0
-				for(var n=0; n<coordinate.length; n++){
-					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
-						count1+=1
-						var count2=0
-						for(var k=0; k<coordinate.length; k++){
-							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
-								count2+=1
-							}
-						}
-					}
-				}
-				if(count1==1&&!count2){
-					neighbors.push(coordinate2.join(''))
-				}
-
-			}
-
-		}
-		profile[Object.keys(profile)[i]]['neighbors']=neighbors
-	}
-	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
-
-}
-var ticks = new Clock([0,0,0,0, 0], [2, 2, 2, 2, 2]).ticks()
-neighborProfile(ticks)
-
-// class Rules{
-// 	constructor(m, d){
-// 		this.m=m
-// 		this.d=d
-// 		this.rule_map=this._rule_map()
-// 		this.context_map=this._context_map(this.rule_map)
-// 	}
-// 	export(){
-// 		return this.context_map
-// 	}
-// 	_rule_map(){
-// 		//we know we have (3^(2^d)) rule possibilities because a neighbor is either 1, 0, or null
-// 		//we need to map the possible contexts to these rules
-// 		var map={}
-// 		for(var i =0; i<Math.pow(3, 2*this.d); i++){
-// 			map[i]=Math.floor(Math.random() * 2)
+// function neighborProfile(ticks){
+// 	//each point should be a key in an object
+// 	var profile = {}
+// 	for(var i = 0; i<ticks.length; i++){
+// 		var point = ""
+// 		for(var j=0; j<ticks[i].length; j++){
+// 			point+=ticks[i][j]
 // 		}
-// 		//the map should have a rule number along side the rule for the number
-// 		return map
+// 		profile[point]={}
 // 	}
-// 	_context_map(rule_map){
-// 		//context should interpret the rule number and call upon map to return the rule
-// 		//there should be 2^d cells in any neighborhood (some neighbors are null)
-// 		//we know that there are 3^(2^d) rules derived from 2^d cells
-// 		var context_map={}
-// 		//we want to derive a number from 0 to 3^(2^d) from the context and create a context map connected to the rule map
-// 		//so if there are four neighbors max, we want to translate these combinatoric contexts into strings (we can substitute -1 for null)
-// 		//we need the max number of neighbors which is 2*d (which is the number of dimensions in a coordinate plane)
-// 		var coordinate1=[]
-// 		var coordinate2=[]
-// 		for(var i = 0; i<(2*this.d); i++){
-// 			coordinate1.push(0)
-// 			coordinate2.push(2)
-// 		}
-// 		var ticks = new Clock(coordinate1, coordinate2).ticks()
-// 		for(var i = 0; i<ticks.length; i++){
-// 			var string=''
-// 			for(var j =0; j<ticks[i].length; j++){
-				
-// 				string+=ticks[i][j]
+
+// 	for(var i = 0; i<Object.keys(profile).length; i++){
+// 		var coordinate = Object.keys(profile)[i].split("")
+// 		var neighbors=[]
+// 		for(var j = 0; j<Object.keys(profile).length; j++){
+// 			//we want to check how many neighbors the coordinate has
+// 			if(i!=j){
+// 				var coordinate2 = Object.keys(profile)[j].split("")
+// 				var count1=0
+// 				for(var n=0; n<coordinate.length; n++){
+// 					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
+// 						count1+=1
+// 						var count2=0
+// 						for(var k=0; k<coordinate.length; k++){
+// 							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
+// 								count2+=1
+// 							}
+// 						}
+// 					}
+// 				}
+// 				if(count1==1&&!count2){
+// 					neighbors.push(coordinate2.join(''))
+// 				}
+
 // 			}
-// 			context_map[string]=this.rule_map[i]
-// 		}
-// 		//console.log(context_map)
-// 		return context_map
-// 		//(-1, -1, -1, -1) ... (1, 1, 1, 1)
-// 	}
-// 	context(neighborhood){
-// 		//should translate neighborhood to context and return the rule using context_map connected to rule_map
-// 		//console.log(neighborhood)
-// 		var string=''
-// 		for(var i = 0; i<neighborhood.length; i++){
-			
-// 			if(neighborhood[i]==null){
-// 				string+=0
-// 			}else if(neighborhood[i]==0){
 
-// 				string+=1
-// 			}else if(neighborhood[i]==1){
-
-// 				string+=2
-// 			}
 // 		}
-		
-// 		return this.context_map[string]
+// 		profile[Object.keys(profile)[i]]['neighbors']=neighbors
 // 	}
+// 	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
+
 // }
+// var ticks = new Clock([0,0,0,0,0], [2, 2,2,2,2]).ticks()
+// neighborProfile(ticks)
