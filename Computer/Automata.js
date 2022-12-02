@@ -15,6 +15,7 @@ export class Automata{
 		}else{
 			this.m=Math.ceil(Math.pow(output.length, 1/i))
 		}
+
 	}
 
 	log(automata){

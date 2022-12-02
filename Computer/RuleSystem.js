@@ -103,15 +103,15 @@ export class RuleSystem{
 	}
 
 
-	rule(neighborhoods, symbols){
-		//the list of symbols in the neighborhood should map to a neighborhood with a rule
-		//if only we could use a set as a key for an object!
-		//this just works!
+	rule(symbols){
+		//based on the number of symbols, return the proper rule
 		symbols = symbols.sort()
+		var neighbor_count = symbols.length;
+		var rule_set = this.map['neighborhoods'][neighbor_count]
 		for(var i = 0; i<symbols.length; i++){
-			neighborhoods = neighborhoods[symbols[i]]
+			rule_set = rule_set[symbols[i]]
 		}
-		return neighborhoods
+		return rule_set
 
 	}
 
@@ -196,78 +196,16 @@ export class RuleSystem{
 	
 }
 
-
 //4 neighbors works for up to 2 dimensions; 
 //6 neighbors works for up to 3 dimensions; 
 //8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
+var symbols = [' ', String.fromCharCode('77825'), String.fromCharCode('77826')]
+
+var rs = new RuleSystem('1+1=', '2', 'algebra', 4)
+rs.log()
+console.log(symbols.sort())
+console.log(rs.rule(symbols))
 
 
 
-// var symbols=[' ',String.fromCharCode('77826'), String.fromCharCode('77827'), String.fromCharCode('77828'), String.fromCharCode('77829')]
-// symbols = symbols.sort()
-// var coordinate1=[]
-// var coordinate2=[]
-// for(var i = 0; i<3; i++){
-// 	coordinate1.push(0)
-// 	coordinate2.push(symbols.length-1)
-// }
 
-
-// var tree = {}
-// var ticks = new Clock(coordinate1, coordinate2).ticks()
-// //console.log(ticks, symbols)
-
-// for(var i = 0; i<ticks.length; i++){
-// 	for(var j = 0; j<ticks[i].length; j++){
-// 		_ruleTree(symbols, ticks[i], tree)
-// 	}
-// }
-// 
-
-//LEAVE THIS: IT HELPS UNDERSTAND MATRIX NEIGHBORHOODS AND DIMENSIONS
-
-
-// function neighborProfile(ticks){
-// 	//each point should be a key in an object
-// 	var profile = {}
-// 	for(var i = 0; i<ticks.length; i++){
-// 		var point = ""
-// 		for(var j=0; j<ticks[i].length; j++){
-// 			point+=ticks[i][j]
-// 		}
-// 		profile[point]={}
-// 	}
-
-// 	for(var i = 0; i<Object.keys(profile).length; i++){
-// 		var coordinate = Object.keys(profile)[i].split("")
-// 		var neighbors=[]
-// 		for(var j = 0; j<Object.keys(profile).length; j++){
-// 			//we want to check how many neighbors the coordinate has
-// 			if(i!=j){
-// 				var coordinate2 = Object.keys(profile)[j].split("")
-// 				var count1=0
-// 				for(var n=0; n<coordinate.length; n++){
-// 					if((Math.abs(coordinate[n]-coordinate2[n])==1)){
-// 						count1+=1
-// 						var count2=0
-// 						for(var k=0; k<coordinate.length; k++){
-// 							if(n!=k&&(coordinate[k]-coordinate2[k]!=0)){
-// 								count2+=1
-// 							}
-// 						}
-// 					}
-// 				}
-// 				if(count1==1&&!count2){
-// 					neighbors.push(coordinate2.join(''))
-// 				}
-
-// 			}
-
-// 		}
-// 		profile[Object.keys(profile)[i]]['neighbors']=neighbors
-// 	}
-// 	console.log(util.inspect(profile, {showHidden: true, depth: 4, colors: true}))
-
-// }
-// var ticks = new Clock([0,0,0,0,0], [2, 2,2,2,2]).ticks()
-// neighborProfile(ticks)
