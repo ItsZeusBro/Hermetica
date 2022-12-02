@@ -17,6 +17,7 @@ export class RuleSystem{
 		//we can vectorize and encode before adopting a simulation and rule strategy
 		this.neighbor_count=neighbor_count
 		this.map = new CodeMap(input, output, context).map
+		this.symbols=this._symbols(this.map)
 		this.simMap(this.map)
 		this.map['neighborhoods']={}
 		for(var i = 1; i<=neighbor_count; i++){
@@ -41,14 +42,14 @@ export class RuleSystem{
 		//every matrix has 2^d corners
 		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
 		//and 1 is the empty cell possibility 
-		var symbols = this.symbols(map)
+		var symbols = this._symbols(map)
 		for(var i = 0; i<Object.keys(map['neighborhoods']).length; i++){
 			var neighbor_count = Object.keys(map['neighborhoods'])[i]
 			this.neighborhood(map['neighborhoods'][neighbor_count], parseInt(neighbor_count), symbols)
 		}
 
 	}
-	symbols(map){
+	_symbols(map){
 		var symbols=[]
 		for(var i = 0; i<Object.keys(map).length; i++){
 			var key = Object.keys(map)[i]
@@ -199,12 +200,12 @@ export class RuleSystem{
 //4 neighbors works for up to 2 dimensions; 
 //6 neighbors works for up to 3 dimensions; 
 //8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
-var symbols = [' ', String.fromCharCode('77825'), String.fromCharCode('77826')]
+// var symbols = [' ', String.fromCharCode('77825'), String.fromCharCode('77826')]
 
-var rs = new RuleSystem('1+1=', '2', 'algebra', 4)
-rs.log()
-console.log(symbols.sort())
-console.log(rs.rule(symbols))
+// var rs = new RuleSystem('1+1=', '2', 'algebra', 4)
+// rs.log()
+// console.log(symbols.sort())
+// console.log(rs.rule(symbols))
 
 
 

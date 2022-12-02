@@ -10,14 +10,33 @@ export class Automata{
 		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
 		//care of by RuleSystem
-		if(input.length>output.length){
-			this.m=Math.ceil(Math.pow(input.length, 1/i))
-		}else{
-			this.m=Math.ceil(Math.pow(output.length, 1/i))
-		}
+		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
+		this.rs = new RuleSystem(input, output, context, 4)
+		this.dimensions=this._dimensions(input, output, this.rs)
+		this.rs.log()
+		console.log(this.dimensions)
+		//next we want a group of matrix dimensions
 
 	}
+	_dimensions(input, output, rs){
+		var size = 0
+		if(input.length>=output.length){size=input;}
+		else{size=output}
+		var dimensions = {}
+		for(var i = 1; i<=3; i++){
+			dimensions[i]={}
+			dimensions[i]['m']=Math.ceil(Math.pow(size.length, 1/i))
+		}
 
+		return dimensions
+
+	}
+		// this.m;
+		// if(input.length>output.length){
+		// 	this.m=Math.ceil(Math.pow(input.length, 1/i))
+		// }else{
+		// 	this.m=Math.ceil(Math.pow(output.length, 1/i))
+		// }
 	log(automata){
 		for(var i = 0; i<automata.matrix.matrix.length; i++){
 			console.log(automata.matrix.matrix[i])
@@ -26,6 +45,8 @@ export class Automata{
 	}
 
 }
+
+new Automata('1+1=', '4-2', 'algebra')
 //
 
 // const automata = new Automata(20,2)
