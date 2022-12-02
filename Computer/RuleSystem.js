@@ -34,6 +34,8 @@ class RuleSystem{
 			var key = Object.keys(map)[i]
 			map[key]['symbol']=simList[i]
 		}
+		map[' ']={}
+		map[' ']['symbol']=' '
 	}
 
 	rules(map){
@@ -45,17 +47,9 @@ class RuleSystem{
 		var symbols = this.symbols(map)
 		for(var i = 0; i<Object.keys(map['dims']).length; i++){
 			var dim = Object.keys(map['dims'])[i]
-			console.log(dim)
 			map['dims'][dim]['neigborhoodTypes']={}
-			var neighbor_count = parseInt(dim)
-			console.log(neighbor_count)
-			var c=neighbor_count
-			for(var j =1; j<=neighbor_count+1; j++){
-				//this loop iterates the number of types of neighborhoods starting from dim (representing the number of neighbors)
-				//all the way up to dim+1 types, where we add a neighbor for each iteration
-				map['dims'][dim]['neigborhoodTypes'][c]={}
-				c++
-			}
+			map['dims'][dim]['neigborhoodTypes']=this.neighborhood(map['dims'][dim]['neigborhoodTypes'], parseInt(dim), symbols)
+
 
 		}
 	}
@@ -69,17 +63,19 @@ class RuleSystem{
 		}
 		return symbols
 	}
-	ruleTree(symbols, cellType){
+	
+	neighborhood(neighborhoods, neighbor_count, symbols){
+		//the number of neighborhoods is symbols.length^(neighborcount+1)
+		//where 1 accounts for an empty space
 		symbols = symbols.sort()
-		var coordinate1=[]
-		var coordinate2=[]
-		for(var i = 0; i<cellType['neighbors']; i++){
-			coordinate1.push(0)
-			coordinate2.push(symbols.length-1)
+		var symbolcoord1=[]
+		var symbolcoord2=[]
+		for(var i = 0; i<neighbor_count; i++){
+			symbolcoord1.push(0)
+			symbolcoord2.push(symbols.length-1)
 		}
-
 		var tree = {}
-		var ticks = new Clock(coordinate1, coordinate2).ticks()
+		var ticks = new Clock(symbolcoord1, symbolcoord2).ticks()
 		for(var i = 0; i<ticks.length; i++){
 			for(var j = 0; j<ticks[i].length; j++){
 				this._ruleTree(symbols, ticks[i], tree)
@@ -88,7 +84,8 @@ class RuleSystem{
 		return tree
 	}
 
-	_ruleTree(symbols, ticks, tree, rule){
+
+	_ruleTree(symbols, ticks, tree){
 		var i = ticks.shift()
 		if(!tree[symbols[i]]&&ticks.length>=1){
 			tree[symbols[i]]={}
@@ -101,22 +98,15 @@ class RuleSystem{
 		else if(!tree[symbols[i]]&&ticks.length==0){
 			tree[symbols[i]]={}
 
-			tree[symbols[i]]['rule']=rule
+			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)]
 			return
-		}else if(tree[symbols[i]]&&ticks.length==0){
-			tree[symbols[i]]['rule']=rule
+		}else if(tree[symbols[i]]&& ticks.length==0){
+			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)] 
 			return
 		}
 	}
 
-	neighborhood(symbols, neighbors){
-		//neighbors is the number of neighbors, and symbols is the list we use to construct all the neighborhood configurations
 
-		//we have a neighbors*symbols clock that we need to fill in
-		var neighborhoods={}
-		
-		//we need to construct a tree based on the ticks
-	}
 	rule(neighborhoods, symbols){
 		//the list of symbols in the neighborhood should map to a neighborhood with a rule
 		//if only we could use a set as a key for an object!
@@ -134,10 +124,10 @@ class RuleSystem{
 		for(var i = 1; i<=this.dims; i++){
 			dims[i]={}
 			dims[i]['m']=Math.ceil(Math.pow(l, 1/i));
-
 		}
 		return dims;
 	}
+
 	simList(){
 		return [
 			String.fromCharCode('77825'), 
@@ -211,14 +201,15 @@ class RuleSystem{
 	}
 
 	log(){
-		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
+		//console.log(this.map)
+		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
 	}
 	
 }
 
 
 
-new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra', 5).log()
+new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra', 6).log()
 
 
 
@@ -241,7 +232,7 @@ new RuleSystem('(1+1)*(3*3)=', '36-18', 'algebra', 5).log()
 // 		_ruleTree(symbols, ticks[i], tree)
 // 	}
 // }
-// console.log(util.inspect(tree, {showHidden: false, depth: null, colors: true}))
+// 
 
 
 
