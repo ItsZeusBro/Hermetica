@@ -18,8 +18,9 @@ export class RuleSystem{
 		//we can vectorize and encode before adopting a simulation and rule strategy
 		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
-		this.symbols=this._symbols(this.map)
 		this.simMap(this.map)
+		this.translations(this.map)
+
 		this.map['input']=input
 		this.map['output']=output
 		this.map['context']=context
@@ -38,7 +39,7 @@ export class RuleSystem{
 			this.map['rules'][dimensions[i]]['neighborhood'] = new Neighborhood()._read(this.map['rules'][dimensions[i]]['shape'], this.map['rules'][dimensions[i]]['shape'], dimensions[i])
 
 		}
-		//this.rules(this.map)
+		this.rules(this.map)
 	}
 
 	simMap(map){
@@ -46,76 +47,37 @@ export class RuleSystem{
 		var simList=this.simList();
 		for(var  i = 0; i<Object.keys(map['symbols']).length; i++){
 			var key = Object.keys(map['symbols'])[i]
-			map['symbols'][key]['symbol']=simList[i]
+			map['symbols'][key]['translation']=simList[i]
 		}
 
 	}
 //
 	rules(map){
-		//we need rules for each of the dimensions and symbols in use
-		//these are based on neighborhoods which have the following properties
-		//every matrix has 2^d corners
-		//every corner has (n+1)^d rule configurations where n is the number of symbols that they can take
-		//and 1 is the empty cell possibility 
-		var symbols = this._symbols(map)
-		var keys=Object.keys(map)
-		for(var i = 0; i<Object.keys(map['neighborhoods']).length; i++){
-			var neighbor_count = Object.keys(map['neighborhoods'])[i]
-			this.neighborhood(map['neighborhoods'][neighbor_count], parseInt(neighbor_count), symbols)
-		}
-
-	}
-	_symbols(map){
-		var symbols=[]
-		for(var i = 0; i<Object.keys(map).length; i++){
-			var key = Object.keys(map)[i]
-			if(key!='neighborhoods'){
-				symbols.push(map[key]['symbol'])
+		var symbols=this._symbols
+		var rules = map['rules']
+		var keys = Object.keys(rules)
+		for(var i = 0; i<keys.length; i++){
+			var cells = Object.keys(rules[keys[i]]['neighborhood'])
+			for(var j=0; j<cells.length; j++){
+				var neighbors = rules[keys[i]]['neighborhood'][cells[j]]['neighbors']
+				var neighborAssociation=[]
+				for(var k=0; k<neighbors.length; k++){
+					neighborAssociation.push({[neighbors[k]]:map['translations'][Math.floor(Math.random() * map['translations'].length)]})
+				}
+				rules[keys[i]]['neighborhood'][cells[j]]['neighbors']=neighborAssociation
 			}
 		}
-		return symbols
+		
 	}
-
-
-	neighborhood(neighborhoods, neighbor_count, symbols){
-		//the number of neighborhoods is symbols.length^(neighborcount+1)
-		//where 1 accounts for an empty space
-		var symbolcoord1=[]
-		var symbolcoord2=[]
-		for(var i = 0; i<neighbor_count; i++){
-			symbolcoord1.push(0)
-			symbolcoord2.push(symbols.length-1)
+	translations(map){
+		var translations=[]
+		for(var i = 0; i<Object.keys(map['symbols']).length; i++){
+			var key = Object.keys(map['symbols'])[i]
+			
+			translations.push(map['symbols'][key]['translation'])
+			
 		}
-
-		var coordinates = new CoordinateClock(symbolcoord1, symbolcoord2).coordinates()
-		for(var i = 0; i<coordinates.length; i++){
-			for(var j = 0; j<coordinates[i].length; j++){
-				this._ruleTree(symbols, coordinates[i], neighborhoods)
-			}
-		}
-	}
-
-
-	_ruleTree(symbols, coordinates, tree){
-
-		var i = coordinates.shift()
-		if(!tree[symbols[i]]&&coordinates.length>=1){
-			tree[symbols[i]]={}
-			tree = tree[symbols[i]]
-			this._ruleTree(symbols, coordinates, tree)
-		}else if(tree[symbols[i]]&&coordinates.length>=1){
-			tree = tree[symbols[i]]
-			this._ruleTree(symbols, coordinates, tree)
-		}
-		else if(!tree[symbols[i]]&&coordinates.length==0){
-			tree[symbols[i]]={}
-
-			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)]
-			return
-		}else if(tree[symbols[i]]&& coordinates.length==0){
-			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)] 
-			return
-		}
+		map['translations']=translations
 	}
 
 
@@ -127,9 +89,7 @@ export class RuleSystem{
 			rule_set = rule_set[symbols[i]]
 		}
 		return rule_set
-
 	}
-
 
 	simList(){
 		return [
@@ -223,3 +183,11 @@ rs.log()
 
 
 
+
+// for(var i = 0; i<Object.keys(profile).length; i++){
+// 	//we want to hash the neighbor profile so we can do a quick check
+// 	//we want this hash to match rule hash
+// 	var neighborhoodSig = profile[Object.keys(profile)[i]]['neighbors'].sort()
+// 	neighborhoodSig = createHash('sha256').update(JSON.stringify(neighborhoodSig)).digest('hex');
+// 	profile[Object.keys(profile)[i]]['signature']=neighborhoodSig
+// }

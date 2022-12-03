@@ -56,13 +56,6 @@ export class Neighborhood{
 		var coordinates = new CoordinateClock(c1, c2).coordinates()
 		var profile = this.neighborProfile(coordinates)
 		
-		for(var i = 0; i<Object.keys(profile).length; i++){
-			//we want to hash the neighbor profile so we can do a quick check
-			//we want this hash to match rule hash
-			var neighborhoodSig = profile[Object.keys(profile)[i]]['neighbors'].sort()
-			neighborhoodSig = createHash('sha256').update(JSON.stringify(neighborhoodSig)).digest('hex');
-			profile[Object.keys(profile)[i]]['signature']=neighborhoodSig
-		}
 		this.file = [m, m, d]
 		if(this._write(m, m, d, profile)==true){this.file=null}
 	}
@@ -93,13 +86,12 @@ export class Neighborhood{
 						}
 					}
 					if(count1==1&&!count2){
-						neighbors.push(coordinate2.join(''))
+						profile[point][coordinate2.join('')]=null
 					}
 
 				}
 
 			}
-			profile[point]['neighbors']=neighbors
 		}
 
 		return profile
