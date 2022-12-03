@@ -226,6 +226,7 @@ export class RuleSystem{
 	//public api
 	rule(neighborhood){
 		//a neighborhood looks like this
+		//console.log(neighborhood, neighbor_codes, neighbor_count)
 
 		var neighbor_keys = Object.keys(neighborhood)
 		var neighbor_count = neighbor_keys.length
@@ -234,6 +235,7 @@ export class RuleSystem{
 			neighbor_codes.push(neighborhood[neighbor_keys[i]])
 		}
 		neighbor_codes.sort()
+
 		var rule = this.map['ruleTree'][neighbor_count]
 		for(var i = 0; i<neighbor_count; i++){
 			rule = rule[neighbor_codes[i]]
@@ -299,7 +301,7 @@ export class RuleSystem{
 }
 
 
-var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
+//var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
 //rs.log()
 // console.log(["〃", "、"].sort())
 // var neighborhood = {
