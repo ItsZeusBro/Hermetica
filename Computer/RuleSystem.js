@@ -13,8 +13,14 @@ export class RuleSystem{
 		this.io(input, output, this.map)
 		this.map['context']=context
 		this.map['rules']={}
+		this.map['ruleTree']={}
+		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions; 4-8 for 4 dimensions 
+		for(var i = 1; i<=8; i++){
+			this.map['ruleTree'][i]={}
+			this.ruleTree(this.map['ruleTree'][i],i, this.map['codes'].slice())
+		}
 
-		for(var i = 0; i<dimensions.length; i++){
+		for(var i = 1; i<dimensions.length; i++){
 			this.map['rules'][dimensions[i]]={}
 
 			if(input.length>output.length){
@@ -27,6 +33,7 @@ export class RuleSystem{
 
 		}
 		this.rules(this.map)
+
 		this.hash(this.map)
 	}
 
@@ -36,6 +43,7 @@ export class RuleSystem{
 		this.map['output']=output
 		this.map['outputVector']=this.translate(output, map['symbols']).split("")
 	}
+
 
 	translate(string, symbols){
 		var translation=""
@@ -64,7 +72,7 @@ export class RuleSystem{
 			for(var j=0; j<cells.length; j++){
 				var neighborKeys = Object.keys(rules[keys[i]]['neighborhood'][cells[j]])
 				for(var k=0; k<neighborKeys.length; k++){
-					rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['codes'][Math.floor(Math.random() * map['codes'].length)]
+					//rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['codes'][Math.floor(Math.random() * map['codes'].length)]
 				}
 			}
 		}
@@ -82,15 +90,6 @@ export class RuleSystem{
 	}
 
 
-	rule(symbols){
-		//based on the number of symbols, return the proper rule
-		var neighbor_count = symbols.length;
-		var rule_set = this.map['neighborhoods'][neighbor_count]
-		for(var i = 0; i<symbols.length; i++){
-			rule_set = rule_set[symbols[i]]
-		}
-		return rule_set
-	}
 
 	hash(map){
 		var ruleKeys = Object.keys(map['rules'])
@@ -180,11 +179,78 @@ export class RuleSystem{
 	}
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
 	}
+
+	ruleTree(tree, neighbor_count, symbols){
+		console.log(symbols)
+		//the number of neighborhoods is symbols.length^(neighborcount+1)
+		//where 1 accounts for an empty space
+		symbols.sort()
+		var symbolcoord1=[]
+		var symbolcoord2=[]
+		for(var i = 0; i<neighbor_count; i++){
+			symbolcoord1.push(0)
+			symbolcoord2.push(symbols.length-1)
+		}
+
+		var coordinates = new CoordinateClock(symbolcoord1, symbolcoord2).coordinates()
+		for(var i = 0; i<coordinates.length; i++){
+			for(var j = 0; j<coordinates[i].length; j++){
+				this._ruleTree(symbols, coordinates[i], tree)
+			}
+		}
+	}
+
+
+	_ruleTree(symbols, coordinates, tree){
+
+		var i = coordinates.shift()
+		if(!tree[symbols[i]]&&coordinates.length>=1){
+			tree[symbols[i]]={}
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, coordinates, tree)
+		}else if(tree[symbols[i]]&&coordinates.length>=1){
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, coordinates, tree)
+		}
+		else if(!tree[symbols[i]]&&coordinates.length==0){
+			tree[symbols[i]]={}
+
+			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)]
+			return
+		}else if(tree[symbols[i]]&& coordinates.length==0){
+			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)] 
+			return
+		}
+	}
+
+
+	// rule(symbols){
+	// 	//based on the number of symbols, return the proper rule
+	// 	symbols = symbols.sort()
+	// 	var neighbor_count = symbols.length;
+	// 	var rule_set = this.map['neighborhoods'][neighbor_count]
+	// 	for(var i = 0; i<symbols.length; i++){
+	// 		rule_set = rule_set[symbols[i]]
+	// 	}
+	// 	return rule_set
+
+	// }
+
 	
 }
 
 
 var rs = new RuleSystem('1+1=', '2', 'algebra', [1, 2, 3, 4])
 rs.log()
+
+//rs.rule(1, "00", "01")
+
+//we can take the coordinate tree, and update it as a reference, and it should affect the matrix
+// {
+// 	'00':{
+// 		'01'://some symbol,
+// 		'10'://some symbol	
+// 	}
+// }

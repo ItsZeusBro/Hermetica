@@ -86,17 +86,19 @@ export class Neighborhood{
 						}
 					}
 					if(count1==1&&!count2){
-						profile[point][coordinate2.join('')]=null
+						neighbors.push(coordinate2.join(''))
 					}
 
 				}
 
 			}
+			profile[point]=neighbors.sort()
 		}
 
 		return profile
 	}
 
+	
 	_write(n, m, d, neighborhood){
 		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		fs.writeFileSync(file, JSON.stringify(neighborhood))
