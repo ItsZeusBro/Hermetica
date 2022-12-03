@@ -44,9 +44,9 @@ export class RuleSystem{
 	simMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var simList=this.simList();
-		for(var  i = 0; i<Object.keys(map).length; i++){
-			var key = Object.keys(map)[i]
-			map[key]['symbol']=simList[i]
+		for(var  i = 0; i<Object.keys(map['symbols']).length; i++){
+			var key = Object.keys(map['symbols'])[i]
+			map['symbols'][key]['symbol']=simList[i]
 		}
 
 	}

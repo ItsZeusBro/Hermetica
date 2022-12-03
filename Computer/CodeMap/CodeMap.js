@@ -18,13 +18,14 @@ export class CodeMap{
 		var io=[]
 		var subset = new Set()
 		var submap={}
+		submap['symbols']={}
 		io = input.split('');
 		io = io.concat(output.split(''))
 		for(var i = 0; i<io.length; i++){
 			subset.add(io[i])
 		}
 		subset.forEach(element => {
-			submap[element]=map[element]
+			submap['symbols'][element]=map[element]
 		  });
 		return submap
 	}
