@@ -128,8 +128,8 @@ export class Neighborhood{
 var n=[]
 var m=[]
 //NEIGHBORHOOD PROFILE ONLY WORKS UP TO 9, THEN IT GETS BUGGY. WE NEED TO FIND OUT WHY
-for(var i=2; i<=9; i++){n.push(i); m.push(i)}
-var n = new Neighborhood(n, m, [2, 3, 4])
+for(var i=2; i<=20; i++){n.push(i); m.push(i)}
+var n = new Neighborhood(n, m, [2])
 
 process.on('SIGINT', (n) => {
 	n.clean()

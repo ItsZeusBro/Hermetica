@@ -24,7 +24,7 @@ export class Automata{
 
 	simulate(rs, matrix){
 		//a simulation should print (and export()) then update rules
-		while(true){
+		for(var i =0; i<50; i++){
 			//while the matrix vector is not equal to the output vector, keep updating and printing
 			matrix.print()
 			matrix=this.update(matrix)
@@ -49,7 +49,7 @@ export class Automata{
 
 }
 
-new Automata('salkijglasdkjgas,mzxncv,mzxcnv,zxcmvnkldjhassldkfgjsdlfgkjsdfasdgas', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
+new Automata('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
 //
 
 // const automata = new Automata(20,2)
