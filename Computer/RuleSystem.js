@@ -40,7 +40,7 @@ export class RuleSystem{
 		this.hash(this.map)
 		this._coordinates(this.map)
 
-		this.log()
+		//this.log()
 
 	}
 

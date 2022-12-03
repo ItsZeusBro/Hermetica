@@ -12,22 +12,41 @@ export class Automata{
 		//care of by RuleSystem
 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
 		this.rs = new RuleSystem(input, output, context, dims)
-		this.rs.log()
+		//this.rs.log()
 		this.matricies=[]
 		this.dims=dims
 		this.i=0
 		this.matrix = new Matrix(dims[this.i], this.rs)
-		this.matrix.log()
-		this.simulate(this.rs, this.matrix)
+		//this.matrix.log()
+		this.generations={}
+		this.solution=null
+		if(this.simulate(this.rs, this.matrix)){
+			this.solution=rs
+		}
 		
 	}
 
 	simulate(rs, matrix){
 		//a simulation should print (and export()) then update rules
-		for(var i =0; i<50; i++){
+		while(true){
 			//while the matrix vector is not equal to the output vector, keep updating and printing
-			matrix.print()
+			//matrix.print()
 			matrix=this.update(matrix)
+			if(matrix.vectorize().join('')==this.rs.outputVector().join('')){
+				console.log('solution found!', matrix.vectorize().join(''), '==',this.rs.outputVector().join(''))
+				return true
+			}
+
+			if(matrix.vectorize().join('')==this.rs.inputVector().join('')){
+				//console.log('simulation loops! Try again!',  matrix.vectorize().join(''), '!=',this.rs.outputVector().join(''))
+				return false
+			}
+
+			if(this.generations[matrix.vectorize().join('')]){
+				//console.log("loop found! Try again!",  matrix.vectorize().join(''))
+				return false
+			}
+			this.generations[matrix.vectorize().join('')]=1
 		}
 	}	
 
@@ -48,8 +67,16 @@ export class Automata{
 	}
 
 }
+while(true){
+	var automata = new Automata('1+2+3+4=', '10', 'algebra', [2])
+	//console.log('simulation', rs.inputVector().join(''), 'should equal', rs.outputVector().join(''))
 
-new Automata('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
+	if(automata.solution){
+		console.log('SOLUTION FOUND!')
+		break
+	}
+
+}
 //
 
 // const automata = new Automata(20,2)
