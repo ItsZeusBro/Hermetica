@@ -246,7 +246,7 @@ export class RuleSystem{
 	}
 
 	coordinates(dimension){
-		return Object.keys(this.map['rules'][dimension]['coordinates'])
+		return this.map['rules'][dimension]['coordinates']
 	}
 	_coordinates(map){
 
@@ -261,6 +261,10 @@ export class RuleSystem{
 				c2.push(parseInt(map['rules'][ruleKeys[j]]['shape'])-1)
 			}
 			var coordinates = new CoordinateClock(c1, c2).coordinates()
+			for(var i = 0; i<coordinates.length; i++){
+				coordinates[i]=coordinates[i].join('')
+			}
+
 			map['rules'][ruleKeys[j]]['coordinates']=coordinates
 		}
 
