@@ -1,13 +1,4 @@
-//Rules must create a rule system that accepts a subset of automata codes
-//that fulfills the dimensional restraints for a computation
-//then they must lend themselves to the context() function which looks at a neighborhood of symbols
-//If symbol sets are sufficiently large, we can be position agnostic in the rule system
-//in their construction to reduce complexity and search times (which should not impact the complexity requirements)
-
-//rules takes a set of encoding charachter codes and uses vectorizer to match a rule system
-//that is created using computational charachter codes. Rules should contain the input and output used by Computer and Automata
 import util from 'node:util'
-
 import { CodeMap } from "./CodeMap/CodeMap.js"
 import {CoordinateClock} from "../Matrix/Coordinates.js"
 import {Neighborhood} from "./Neighborhood.js"
@@ -15,9 +6,6 @@ import {createHash} from 'node:crypto'
 
 export class RuleSystem{
 	constructor(input, output, context, dimensions){
-		//we want to produce the possible dimensions of a simulation
-		//that are computationally acceptable before simulation
-		//we can vectorize and encode before adopting a simulation and rule strategy
 		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
@@ -29,7 +17,6 @@ export class RuleSystem{
 		for(var i = 0; i<dimensions.length; i++){
 			this.map['rules'][dimensions[i]]={}
 
-			
 			if(input.length>output.length){
 				//square shape
 				this.map['rules'][dimensions[i]]['shape']=Math.ceil(Math.pow(input.length, 1/dimensions[i]))
@@ -45,9 +32,9 @@ export class RuleSystem{
 
 	io(input, output, map){
 		this.map['input']=input
-		this.map['inputEncoding']=this.translate(input, map['symbols'])
+		this.map['inputVector']=this.translate(input, map['symbols']).split("")
 		this.map['output']=output
-		this.map['outputEncoding']=this.translate(output, map['symbols'])
+		this.map['outputVector']=this.translate(output, map['symbols']).split("")
 	}
 
 	translate(string, symbols){
@@ -198,23 +185,6 @@ export class RuleSystem{
 	
 }
 
-//4 neighbors works for up to 2 dimensions; 
-//6 neighbors works for up to 3 dimensions; 
-//8 neighbors works for up to 4 dimensions (4 dimension rule sets gives a core dump)
-// var symbols = [' ', String.fromCharCode('77825'), String.fromCharCode('77826')]
 
 var rs = new RuleSystem('1+1=', '2', 'algebra', [1, 2, 3, 4])
 rs.log()
-// console.log(rs.rule(symbols))
-
-
-
-
-
-// for(var i = 0; i<Object.keys(profile).length; i++){
-// 	//we want to hash the neighbor profile so we can do a quick check
-// 	//we want this hash to match rule hash
-// 	var neighborhoodSig = profile[Object.keys(profile)[i]]['neighbors'].sort()
-// 	neighborhoodSig = createHash('sha256').update(JSON.stringify(neighborhoodSig)).digest('hex');
-// 	profile[Object.keys(profile)[i]]['signature']=neighborhoodSig
-// }
