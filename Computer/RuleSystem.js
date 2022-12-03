@@ -22,7 +22,6 @@ export class RuleSystem{
 			this.map['ruleTree'][i]={}
 			this.ruleTree(this.map['ruleTree'][i],i, this.map['codes'].slice())
 		}
-		console.log(this.map)
 
 		for(var i = 0; i<dimensions.length; i++){
 			this.map['rules'][dimensions[i]]={}
@@ -40,6 +39,9 @@ export class RuleSystem{
 
 		this.hash(this.map)
 		this._coordinates(this.map)
+
+		this.log()
+
 	}
 
 	io(input, output, map){
@@ -77,7 +79,7 @@ export class RuleSystem{
 			for(var j=0; j<cells.length; j++){
 				var neighborKeys = Object.keys(rules[keys[i]]['neighborhood'][cells[j]])
 				for(var k=0; k<neighborKeys.length; k++){
-					//rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['codes'][Math.floor(Math.random() * map['codes'].length)]
+					rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['codes'][Math.floor(Math.random() * map['codes'].length)]
 				}
 			}
 		}
@@ -266,7 +268,7 @@ export class RuleSystem{
 			}
 			var coordinates = new CoordinateClock(c1, c2).coordinates()
 			for(var i = 0; i<coordinates.length; i++){
-				coordinates[i]=coordinates[i].join('')
+				coordinates[i]=coordinates[i].join(',')
 			}
 
 			map['rules'][ruleKeys[j]]['coordinates']=coordinates
@@ -292,12 +294,12 @@ export class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 2, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
 	}
 }
 
 
-//var rs = new RuleSystem('salkijglasdkjgas,mzxncv,mzxcnv,zxcmvnkldjhassldkfgjsdlfgkjsdfasdgas', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2, 3, 4])
+var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
 //rs.log()
 // console.log(["〃", "、"].sort())
 // var neighborhood = {

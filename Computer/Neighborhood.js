@@ -65,7 +65,7 @@ export class Neighborhood{
 		var profile = {}
 
 		for(var i = 0; i<coordinates.length; i++){
-			var point = coordinates[i].join("")
+			var point = coordinates[i].join(",")
 			profile[point]={}
 			var coordinate = coordinates[i]
 			var neighbors=[]
@@ -86,7 +86,7 @@ export class Neighborhood{
 						}
 					}
 					if(count1==1&&!count2){
-						neighbors.push(coordinate2.join(''))
+						neighbors.push(coordinate2.join(','))
 
 					}
 
