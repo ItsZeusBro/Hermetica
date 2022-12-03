@@ -11,6 +11,8 @@ import util from 'node:util'
 import { CodeMap } from "./CodeMap/CodeMap.js"
 import {CoordinateClock} from "../Matrix/Coordinates.js"
 import {Neighborhood} from "./Neighborhood.js"
+import {createHash} from 'node:crypto'
+
 export class RuleSystem{
 	constructor(input, output, context, dimensions){
 		//we want to produce the possible dimensions of a simulation
@@ -19,10 +21,8 @@ export class RuleSystem{
 		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
-		this.translations(this.map)
-
-		this.map['input']=input
-		this.map['output']=output
+		this.codes(this.map)
+		this.io(input, output, this.map)
 		this.map['context']=context
 		this.map['rules']={}
 
@@ -36,10 +36,26 @@ export class RuleSystem{
 			}else{
 				this.map['rules'][dimensions[i]]['shape']=Math.ceil(Math.pow(output.length, 1/dimensions[i]))
 			}
-			this.map['rules'][dimensions[i]]['neighborhood'] = new Neighborhood()._read(this.map['rules'][dimensions[i]]['shape'], this.map['rules'][dimensions[i]]['shape'], dimensions[i])
+			this.map['rules'][dimensions[i]]['neighborhood']=new Neighborhood()._read(this.map['rules'][dimensions[i]]['shape'], this.map['rules'][dimensions[i]]['shape'], dimensions[i])
 
 		}
 		this.rules(this.map)
+		this.hash(this.map)
+	}
+
+	io(input, output, map){
+		this.map['input']=input
+		this.map['inputEncoding']=this.translate(input, map['symbols'])
+		this.map['output']=output
+		this.map['outputEncoding']=this.translate(output, map['symbols'])
+	}
+
+	translate(string, symbols){
+		var translation=""
+		for(var i = 0; i<string.length; i++){
+			translation+=symbols[string[i]]['code']
+		}
+		return translation
 	}
 
 	simMap(map){
@@ -47,11 +63,11 @@ export class RuleSystem{
 		var simList=this.simList();
 		for(var  i = 0; i<Object.keys(map['symbols']).length; i++){
 			var key = Object.keys(map['symbols'])[i]
-			map['symbols'][key]['translation']=simList[i]
+			map['symbols'][key]['code']=simList[i]
 		}
 
 	}
-//
+
 	rules(map){
 		var symbols=this._symbols
 		var rules = map['rules']
@@ -61,21 +77,21 @@ export class RuleSystem{
 			for(var j=0; j<cells.length; j++){
 				var neighborKeys = Object.keys(rules[keys[i]]['neighborhood'][cells[j]])
 				for(var k=0; k<neighborKeys.length; k++){
-					rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['translations'][Math.floor(Math.random() * map['translations'].length)]
+					rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['codes'][Math.floor(Math.random() * map['codes'].length)]
 				}
 			}
 		}
 		
 	}
-	translations(map){
-		var translations=[]
+	codes(map){
+		var codes=[]
 		for(var i = 0; i<Object.keys(map['symbols']).length; i++){
 			var key = Object.keys(map['symbols'])[i]
 			
-			translations.push(map['symbols'][key]['translation'])
+			codes.push(map['symbols'][key]['code'])
 			
 		}
-		map['translations']=translations
+		map['codes']=codes
 	}
 
 
@@ -87,6 +103,14 @@ export class RuleSystem{
 			rule_set = rule_set[symbols[i]]
 		}
 		return rule_set
+	}
+
+	hash(map){
+		var ruleKeys = Object.keys(map['rules'])
+		for(var i = 0; i<ruleKeys.length; i++){
+			var rule = JSON.stringify(map['rules'][ruleKeys[i]]['neighborhood'])
+			map['rules'][ruleKeys[i]]['nhHash']=createHash('sha256').update(rule).digest('hex'); 
+		}
 	}
 
 	simList(){
@@ -162,6 +186,11 @@ export class RuleSystem{
 		]
 	}
 
+	export(to, filetype){
+		//filetype can be csv
+		//or plain txt
+		//or zip file
+	}
 	log(){
 		//console.log(this.map)
 		console.log(util.inspect(this.map, {showHidden: false, depth: null, colors: true}))

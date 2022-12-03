@@ -11,11 +11,12 @@ export class Automata{
 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
 		//care of by RuleSystem
 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
-		this.rs = new RuleSystem(input, output, context, 4)
-		this.dimensions=this._dimensions(input, output, this.rs)
+		this.rs = new RuleSystem(input, output, context, [1, 2, 3, 4])
 		this.rs.log()
-		this.matrix = new Matrix(this.dimensions[dim]['m'], dim)
-		this.matrix.log()
+		// this.dimensions=this._dimensions(input, output, this.rs)
+		// this.rs.log()
+		// this.matrix = new Matrix(this.dimensions[dim]['m'], dim)
+		// this.matrix.log()
 
 		//next we want a group of matrix dimensions
 
