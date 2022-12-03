@@ -217,26 +217,28 @@ export class RuleSystem{
 		else if(!tree[symbols[i]]&&coordinates.length==0){
 			tree[symbols[i]]={}
 
-			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)]
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)]
 			return
 		}else if(tree[symbols[i]]&& coordinates.length==0){
-			tree[symbols[i]]['rule']=symbols[Math.floor(Math.random() * symbols.length)] 
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)] 
 			return
 		}
 	}
 
 
-	// rule(symbols){
-	// 	//based on the number of symbols, return the proper rule
-	// 	symbols = symbols.sort()
-	// 	var neighbor_count = symbols.length;
-	// 	var rule_set = this.map['neighborhoods'][neighbor_count]
-	// 	for(var i = 0; i<symbols.length; i++){
-	// 		rule_set = rule_set[symbols[i]]
-	// 	}
-	// 	return rule_set
-
+	rule(neighborhood){
+		//a neighborhood looks like this
+	// {
+	//	
+	// 	'01'://some symbol,
+	// 	'10'://some symbol	
+	// 	
 	// }
+		Object.keys(neighborhood)
+		//returns just a code
+		return rule_set
+
+	}
 
 	
 }
@@ -248,9 +250,3 @@ rs.log()
 //rs.rule(1, "00", "01")
 
 //we can take the coordinate tree, and update it as a reference, and it should affect the matrix
-// {
-// 	'00':{
-// 		'01'://some symbol,
-// 		'10'://some symbol	
-// 	}
-// }

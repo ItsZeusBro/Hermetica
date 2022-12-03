@@ -87,6 +87,7 @@ export class Neighborhood{
 					}
 					if(count1==1&&!count2){
 						neighbors.push(coordinate2.join(''))
+
 					}
 
 				}
@@ -127,8 +128,8 @@ export class Neighborhood{
 var n=[]
 var m=[]
 //NEIGHBORHOOD PROFILE ONLY WORKS UP TO 9, THEN IT GETS BUGGY. WE NEED TO FIND OUT WHY
-for(var i=1; i<=9; i++){n.push(i); m.push(i)}
-var n = new Neighborhood(n, m, [1, 2, 3, 4])
+for(var i=2; i<=9; i++){n.push(i); m.push(i)}
+var n = new Neighborhood(n, m, [2, 3, 4])
 
 process.on('SIGINT', (n) => {
 	n.clean()
