@@ -23,33 +23,32 @@ export class Automata{
 		if(this.simulate(this.rs, this.matrix)){
 			this.solution=rs
 		}
-		
 	}
 
 	simulate(rs, matrix){
 		//a simulation should print (and export()) then update rules
 		while(true){
 			//while the matrix vector is not equal to the output vector, keep updating and printing
-			//matrix.print()
+			matrix.print()
 			matrix=this.update(matrix)
+			
 			if(matrix.vectorize().join('')==this.rs.outputVector().join('')){
 				console.log('solution found!', matrix.vectorize().join(''), '==',this.rs.outputVector().join(''))
 				return true
 			}
 
 			if(matrix.vectorize().join('')==this.rs.inputVector().join('')){
-				//console.log('simulation loops! Try again!',  matrix.vectorize().join(''), '!=',this.rs.outputVector().join(''))
+				// console.log('simulation loops! Try again!',  matrix.vectorize().join(''), '!=',this.rs.outputVector().join(''))
 				return false
 			}
 
 			if(this.generations[matrix.vectorize().join('')]){
-				//console.log("loop found! Try again!",  matrix.vectorize().join(''))
+				// console.log("loop found! Try again!",  matrix.vectorize().join(''))
 				return false
 			}
 			this.generations[matrix.vectorize().join('')]=1
 		}
 	}	
-
 
 	update(old_matrix){
 		return new Matrix(this.dims[this.i], this.rs, true, old_matrix)
@@ -65,17 +64,16 @@ export class Automata{
 			console.log(automata.matrix.matrix[i])
 		}
 	}
-
 }
+
 while(true){
 	var automata = new Automata('1+2+3+4=', '10', 'algebra', [2])
-	//console.log('simulation', rs.inputVector().join(''), 'should equal', rs.outputVector().join(''))
+	// console.log('simulation', rs.inputVector().join(''), 'should equal', rs.outputVector().join(''))
 
 	if(automata.solution){
 		console.log('SOLUTION FOUND!')
 		break
 	}
-
 }
 //
 
