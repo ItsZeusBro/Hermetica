@@ -1,4 +1,4 @@
-import {CoordinateClock} from "../Matrix/Coordinates.js"
+import {CoordinateClock} from "../../Matrix/Coordinates.js"
 import fs from "node:fs"
 import zlib from "node:zlib"
 import {createHash} from 'node:crypto'
@@ -9,24 +9,21 @@ import process from 'node:process';
 export class Neighborhood{
 	constructor(n, m, d){
 		this.file=null;
-		
 		//we want to generate a neighborhood file
 		//if it does not exist, then we want to use it 
 		//with this class
-		if(n&&n&&d){
+		if(n&&m&&d){
 			this.init(n, m, d)
 		}
 	}
+
 	init(n, m, d){
 		for(var i=0; i<n.length; i++){
 			for(var j=0; j<m.length; j++){
 				for(var k=0; k<d.length; k++){
-						if(n[i]==m[j]){								//we are only doing square matricies right now!!!!!!
-
+						if(n[i]==m[j]){		//we are only doing square matricies right now!!!!!!
 						if(this._exists(n[i], m[j], d[k])==false){
-
 							//console.log(n[i], m[j], d[k])
-
 							this.gen(n[i], m[j], d[k])
 						}
 					}
@@ -34,6 +31,7 @@ export class Neighborhood{
 			}
 		}
 	}
+
 	clean(n){
 		if(n.file){
 			n=n.file[0]
@@ -55,7 +53,6 @@ export class Neighborhood{
 		}
 		var coordinates = new CoordinateClock(c1, c2).coordinates()
 		var profile = this.neighborProfile(coordinates)
-		
 		this.file = [m, m, d]
 		if(this._write(m, m, d, profile)==true){this.file=null}
 	}
@@ -87,19 +84,14 @@ export class Neighborhood{
 					}
 					if(count1==1&&!count2){
 						neighbors.push(coordinate2.join(','))
-
 					}
-
 				}
-
 			}
 			profile[point]=neighbors.sort()
 		}
-
 		return profile
 	}
 
-	
 	_write(n, m, d, neighborhood){
 		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		fs.writeFileSync(file, JSON.stringify(neighborhood))
@@ -110,14 +102,12 @@ export class Neighborhood{
 		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		return fs.existsSync(file)
 	}
-	_read(n, m, d){
 
+	_read(n, m, d){
 		//this fetches a file, validates it then returns the neighborhood object
 		var file = './Neighborhoods/'+n+'*'+m+'_'+d+'.neighborhood'
 		return JSON.parse(fs.readFileSync(file))
-
 	}
-
 
 	validate(neighborhood){
 		//takes the hash of the neighborhood file and compares it to the header in the neighborhood 
@@ -125,11 +115,11 @@ export class Neighborhood{
 	}
 }
 
-var n=[]
-var m=[]
-//NEIGHBORHOOD PROFILE ONLY WORKS UP TO 9, THEN IT GETS BUGGY. WE NEED TO FIND OUT WHY
-for(var i=2; i<=20; i++){n.push(i); m.push(i)}
-var n = new Neighborhood(n, m, [2])
+// var n=[]
+// var m=[]
+// //NEIGHBORHOOD PROFILE ONLY WORKS UP TO 9, THEN IT GETS BUGGY. WE NEED TO FIND OUT WHY
+// for(var i=2; i<=20; i++){n.push(i); m.push(i)}
+// var n = new Neighborhood(n, m, [2])
 
 process.on('SIGINT', (n) => {
 	n.clean()

@@ -1,6 +1,6 @@
 import util from 'node:util'
 import { CodeMap } from "./CodeMap/CodeMap.js"
-import {CoordinateClock} from "./Matrix/Coordinates.js"
+import {CoordinateClock} from "../Matrix/Coordinates.js"
 import {Neighborhood} from "./Neighborhood/Neighborhood.js"
 import {createHash} from 'node:crypto'
 import {RuleTree} from "./RuleTree/RuleTree.js"
@@ -10,14 +10,11 @@ export class RuleSystem{
 		this.dimension=dimension
 		this.map = new CodeMap(input, output, context).map
 
-
-		//1-2 neighbors for 1 dimension; 
-		//2-4 for 2 dimensions; 
-		//3-6 for 3 dimensions; 
-		//4-8 for 4 dimensions 
+		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 
+		//3-6 for 3 dimensions;  4-8 for 4 dimensions 
 		this.rt = new RuleTree(this.map, dimension)
-		this.hash(this.map)
-		this._coordinates(this.map)
+		// this.hash(this.map)
+		// this._coordinates(this.map)
 	}
 
 
