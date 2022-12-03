@@ -228,15 +228,20 @@ export class RuleSystem{
 
 	rule(neighborhood){
 		//a neighborhood looks like this
-	// {
-	//	
-	// 	'01'://some symbol,
-	// 	'10'://some symbol	
-	// 	
-	// }
-		Object.keys(neighborhood)
+
+		var neighbors_keys = Object.keys(neighborhood)
+		var neighbor_count = neighbors_keys.length
+		var neighbor_codes = []
+		for(var i = 0; i<neighbor_count; i++){
+			neighbor_codes.push(neighborhood[neighbors_keys[i]])
+		}
+		neighbor_codes.sort()
+		var rule = this.map['ruleTree'][neighbor_count]
+		for(var i = 0; i<neighbor_count; i++){
+			rule = rule[neighbor_codes[i]]
+		}
 		//returns just a code
-		return rule_set
+		return rule
 
 	}
 
@@ -246,7 +251,11 @@ export class RuleSystem{
 
 var rs = new RuleSystem('1+1=', '2', 'algebra', [1, 2, 3, 4])
 rs.log()
-
-//rs.rule(1, "00", "01")
+console.log(["〃", "、"].sort())
+var neighborhood = {
+	'01':"〃",
+	'10':"、"
+}
+console.log(rs.rule(neighborhood))
 
 //we can take the coordinate tree, and update it as a reference, and it should affect the matrix
