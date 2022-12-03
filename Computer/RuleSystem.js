@@ -9,16 +9,20 @@ export class RuleSystem{
 		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
 		this.simMap(this.map)
+
 		this.codes(this.map)
+
 		this.io(input, output, this.map)
+
 		this.map['context']=context
 		this.map['rules']={}
 		this.map['ruleTree']={}
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions; 4-8 for 4 dimensions 
-		for(var i = 1; i<=8; i++){
+		for(var i = 1; i<=4; i++){
 			this.map['ruleTree'][i]={}
 			this.ruleTree(this.map['ruleTree'][i],i, this.map['codes'].slice())
 		}
+		console.log(this.map)
 
 		for(var i = 0; i<dimensions.length; i++){
 			this.map['rules'][dimensions[i]]={}
@@ -221,11 +225,11 @@ export class RuleSystem{
 	rule(neighborhood){
 		//a neighborhood looks like this
 
-		var neighbors_keys = Object.keys(neighborhood)
-		var neighbor_count = neighbors_keys.length
+		var neighbor_keys = Object.keys(neighborhood)
+		var neighbor_count = neighbor_keys.length
 		var neighbor_codes = []
 		for(var i = 0; i<neighbor_count; i++){
-			neighbor_codes.push(neighborhood[neighbors_keys[i]])
+			neighbor_codes.push(neighborhood[neighbor_keys[i]])
 		}
 		neighbor_codes.sort()
 		var rule = this.map['ruleTree'][neighbor_count]
@@ -293,8 +297,8 @@ export class RuleSystem{
 }
 
 
-// var rs = new RuleSystem('1+1=', '2', 'algebra', [2, 3, 4])
-// rs.log()
+//var rs = new RuleSystem('salkijglasdkjgas,mzxncv,mzxcnv,zxcmvnkldjhassldkfgjsdlfgkjsdfasdgas', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2, 3, 4])
+//rs.log()
 // console.log(["〃", "、"].sort())
 // var neighborhood = {
 // 	'01':"〃",

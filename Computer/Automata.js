@@ -15,7 +15,7 @@ export class Automata{
 		this.rs.log()
 		this.matricies=[]
 		this.dims=dims
-		this.i=1
+		this.i=0
 		this.matrix = new Matrix(dims[this.i], this.rs)
 		this.matrix.log()
 		this.simulate(this.rs, this.matrix)
@@ -27,13 +27,13 @@ export class Automata{
 		while(true){
 			//while the matrix vector is not equal to the output vector, keep updating and printing
 			matrix.print()
-			this.update(matrix)
+			matrix=this.update(matrix)
 		}
 	}	
 
 
 	update(old_matrix){
-		new Matrix(this.dims[this.i], this.rs, true, old_matrix)
+		return new Matrix(this.dims[this.i], this.rs, true, old_matrix)
 	}
 
 	export(){
@@ -49,7 +49,7 @@ export class Automata{
 
 }
 
-new Automata('asldkgjalkjgaoijeroigeorinagoreigjaeroigj', 'alkgjasdlkjfasldk', 'english', [2, 3, 4])
+new Automata('salkijglasdkjgas,mzxncv,mzxcnv,zxcmvnkldjhassldkfgjsdlfgkjsdfasdgas', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
 //
 
 // const automata = new Automata(20,2)
