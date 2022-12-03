@@ -1,6 +1,6 @@
 import util from 'node:util'
 import { Comparator, CoordinateClock } from './Coordinates.js'
-import {Neighborhoods} from './Neighborhood.js'
+//import {Neighborhoods} from './Neighborhood.js'
 
 class Cell{
 	constructor(data=null, coordinate){
@@ -13,14 +13,20 @@ class Cell{
 //what m represents is the length of any given object for every dimension its in
 //what n represents is the width of any given object for every dimension its in
 export class Matrix {
-	constructor(m, d){
-		this.m=m
+	constructor(d, rs, update, old_matrix){
+		this.m=rs.shape(d)
 		this.d=d
+		this.rs=rs
 		this.verify()
-		this.clock = new CoordinateClock(this._min(), this._max())
 		this.comparator = new Comparator(d)
-		this.matrix = this._matrix()
-		this.validate()
+		this.matrix;
+
+		if(update){
+			this.matrix = this.update(rs, old_matrix)
+		}else{
+			this.matrix = this._matrix(rs)
+		}
+		//this.validate()
 	}
 	
 	verify(){
@@ -34,17 +40,15 @@ export class Matrix {
 		}
 	}
 	
-	neighborhood(coordinate){
 
-	}
 
-	validate(){
-		for(var i = 0; i<this.matrix.length-2; i++){
-			if(!this.comparator.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
-				throw Error('invalid matrix coordinates found', this.matrix[i+1].coordinate, this.matrix[i].coordinate)
-			}
-		}
-	}
+	// validate(){
+	// 	for(var i = 0; i<this.matrix.length-2; i++){
+	// 		if(!this.comparator.isGreater(this.matrix[i+1].coordinate, this.matrix[i].coordinate)){
+	// 			throw Error('invalid matrix coordinates found', this.matrix[i+1].coordinate, this.matrix[i].coordinate)
+	// 		}
+	// 	}
+	// }
 
 	shape(){
 		var shape = []
@@ -57,21 +61,80 @@ export class Matrix {
 		return this.m*Math.pow(this.m, this.d-1)
 	}
 
-	_matrix(vector){
+	update(rs, old_matrix){
 		var matrix=[]
-		for(var i = 0; i<this.count(); i++){
-			var coordinate = this.clock.next()
-			matrix.push(new Cell({'mode':vector[i], 'neighbors':this.neighborhood(coordinate)}, coordinate))		
+		var coordinates = rs.coordinates(this.d)
+
+		for(var i=0; i<old_matrix.matrix.length; i++){
+			var coordinate = old_matrix.matrix[i]['coordinate']
+			var neighborhood=old_matrix.neighborhood(coordinate)
+			var mode = rs.rule(neighborhood)
+			matrix.push(this.cell(mode, old_matrix.matrix[i]['data']['neighbors'], coordinate))
+		}
+		return matrix
+	}
+	_matrix(rs){
+		var matrix=[]
+		var coordinates = rs.coordinates(this.d)
+		for(var i = 0; i<coordinates.length; i++){
+			if(rs.inputVector()[i]){
+				matrix.push(this.cell(rs.inputVector()[i], rs.neighbors(this.d, coordinates[i]), coordinates[i]))		
+			}else{
+				matrix.push(this.cell(' ', rs.neighbors(this.d, coordinates[i]), coordinates[i]))		
+
+			}
 		}
 		return matrix
 	}	
 	
-	at(coordinate, data, key){
-		var j=0;
-		for(var i=coordinate.length-1; i>=0; i--){
-			j+=coordinate[i]*Math.pow(this.m, i)
+	cell(mode, neighbors, coordinate){
+		return new Cell({'mode':mode, 'neighbors':neighbors}, coordinate)
+	}
+	mode(coordinate, mode){
+		//this changes the mode or gets it for a specific coordinate
+
+		if(mode){
+			this.matrix[this.skip(coordinate)]['data']['mode']=mode
+		}else{
+			return this.matrix[this.skip(coordinate)]['data']['mode']
 		}
-		this.matrix[j].data[key]=data
+	}
+
+	coordinates(){
+		return this.rs.coordinates(this.d)
+	}
+
+	neighbors(coordinate){
+		return this.matrix[this.skip(coordinate)]['data']['neighbors']
+	}
+
+	neighborhood(coordinate){
+
+		var neighbors = this.rs.neighbors(this.d, coordinate)
+		var neighborhood={}
+		for(var i = 0; i<neighbors.length; i++){
+			neighborhood[neighbors[i]]=this.mode(coordinate)
+		}
+		return neighborhood
+	}
+
+	at(coordinate, data, key){
+		this.matrix[this.skip(coordinate)]['data'][key]=data
+	}
+	skip(coordinate){
+		var j=0;
+		coordinate = coordinate.split(',')
+		for(var i=coordinate.length-1; i>=0; i--){
+			if(coordinate[i]=='0'){
+				j+=0
+			}else{
+				j=j+(parseInt(coordinate[i])*Math.pow(this.m, i))
+			}
+		}
+		return j
+	}
+	get(coordinate){
+		return this.matrix[this.skip(coordinate)]
 	}
 
 	in(coordinate, coordinate1, coordinate2){
@@ -85,13 +148,19 @@ export class Matrix {
 		}
 	
 	}
-
-	get(coordinate){
-		var j=0;
-		for(var i=coordinate.length-1; i>=0; i--){
-			j+=coordinate[i]*Math.pow(this.m, i)
+	vectorize(){
+		var vector=[]
+		for(var i = 0; i<this.matrix.length; i++){
+			vector.push(this.matrix[i]['data']['mode'])
 		}
-		return this.matrix[j]
+		return vector
+	}
+	print(){
+		//stringify the matrix
+		for(var i = 0; i<this.matrix.length; i++){
+			process.stdout.write(this.matrix[i]['data']['mode'])
+		}
+		process.stdout.write('\n')
 	}
 
 	copy(){
