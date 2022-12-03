@@ -20,7 +20,7 @@ export class RuleSystem{
 			this.ruleTree(this.map['ruleTree'][i],i, this.map['codes'].slice())
 		}
 
-		for(var i = 1; i<dimensions.length; i++){
+		for(var i = 0; i<dimensions.length; i++){
 			this.map['rules'][dimensions[i]]={}
 
 			if(input.length>output.length){
@@ -172,18 +172,11 @@ export class RuleSystem{
 		]
 	}
 
-	export(to, filetype){
-		//filetype can be csv
-		//or plain txt
-		//or zip file
-	}
-	log(){
-		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
-	}
+
+
+
 
 	ruleTree(tree, neighbor_count, symbols){
-		console.log(symbols)
 		//the number of neighborhoods is symbols.length^(neighborcount+1)
 		//where 1 accounts for an empty space
 		symbols.sort()
@@ -226,6 +219,7 @@ export class RuleSystem{
 	}
 
 
+	//public api
 	rule(neighborhood){
 		//a neighborhood looks like this
 
@@ -245,17 +239,48 @@ export class RuleSystem{
 
 	}
 
-	
+	shape(dim){
+		return this.map['rules'][dim]['shape']
+	}
+
+	neighborhood(dimension){
+		return this.map['rules'][dimension]['neighborhood'] 
+	}
+
+	coordinates(dimension){
+		return Object.keys(this.map['rules'][dimension]['neighborhood'])
+	}
+
+	neighbors(dimension, coordinate){
+		return this.map['rules'][dimension]['neighborhood'][coordinate]
+	}
+
+	export(to, filetype){
+		//filetype can be csv
+		//or plain txt
+		//or zip file
+	}
+	inputVector(){
+		return this.map['inputVector']
+	}
+	outputVector(){
+		return this.map['outputVector']
+	}
+
+	log(){
+		//console.log(this.map)
+		console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+	}
 }
 
 
-var rs = new RuleSystem('1+1=', '2', 'algebra', [1, 2, 3, 4])
-rs.log()
-console.log(["〃", "、"].sort())
-var neighborhood = {
-	'01':"〃",
-	'10':"、"
-}
-console.log(rs.rule(neighborhood))
+// var rs = new RuleSystem('1+1=', '2', 'algebra', [2, 3, 4])
+// rs.log()
+// console.log(["〃", "、"].sort())
+// var neighborhood = {
+// 	'01':"〃",
+// 	'10':"、"
+// }
+// console.log(rs.rule(neighborhood))
 
 //we can take the coordinate tree, and update it as a reference, and it should affect the matrix

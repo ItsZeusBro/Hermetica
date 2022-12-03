@@ -6,17 +6,20 @@ import { RuleSystem } from "./RuleSystem.js"
 
 
 export class Automata{
-	constructor(input, output, context, dim){
+	constructor(input, output, context, dims){
 		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
 		//care of by RuleSystem
 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
-		this.rs = new RuleSystem(input, output, context, [1, 2, 3, 4])
+		this.rs = new RuleSystem(input, output, context, dims)
 		this.rs.log()
 		// this.dimensions=this._dimensions(input, output, this.rs)
 		// this.rs.log()
-		// this.matrix = new Matrix(this.dimensions[dim]['m'], dim)
-		// this.matrix.log()
+		this.matricies=[]
+		for(var i = 0; i<dims.length; i++){
+			this.matricies.push(new Matrix(dims[i], this.rs))
+		}
+		this.matricies[0].log()
 
 		//next we want a group of matrix dimensions
 
@@ -43,7 +46,7 @@ export class Automata{
 
 }
 
-new Automata('1+1=', '4-2', 'algebra', 1)
+new Automata('1+1=', '4-2', 'algebra', [2, 3, 4])
 //
 
 // const automata = new Automata(20,2)
