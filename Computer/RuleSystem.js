@@ -59,12 +59,10 @@ export class RuleSystem{
 		for(var i = 0; i<keys.length; i++){
 			var cells = Object.keys(rules[keys[i]]['neighborhood'])
 			for(var j=0; j<cells.length; j++){
-				var neighbors = rules[keys[i]]['neighborhood'][cells[j]]['neighbors']
-				var neighborAssociation=[]
-				for(var k=0; k<neighbors.length; k++){
-					neighborAssociation.push({[neighbors[k]]:map['translations'][Math.floor(Math.random() * map['translations'].length)]})
+				var neighborKeys = Object.keys(rules[keys[i]]['neighborhood'][cells[j]])
+				for(var k=0; k<neighborKeys.length; k++){
+					rules[keys[i]]['neighborhood'][cells[j]][neighborKeys[k]]=map['translations'][Math.floor(Math.random() * map['translations'].length)]
 				}
-				rules[keys[i]]['neighborhood'][cells[j]]['neighbors']=neighborAssociation
 			}
 		}
 		
