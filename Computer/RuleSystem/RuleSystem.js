@@ -5,6 +5,8 @@ import {Neighborhood} from "./Neighborhood/Neighborhood.js"
 import {createHash} from 'node:crypto'
 import {RuleTree} from "./RuleTree/RuleTree.js"
 
+//REMEMBER when REFRESHING a RuleSystem, we dont have to recreate all of the components
+//This optimizes load times between simulations which can be significant
 export class RuleSystem{
 	constructor(input, output, context, dimension){
 		this.dimension=dimension
@@ -16,7 +18,6 @@ export class RuleSystem{
 		// this.hash(this.map)
 		// this._coordinates(this.map)
 	}
-
 
 	hash(map){
 		var ruleKeys = Object.keys(map['rules'])
@@ -100,7 +101,7 @@ export class RuleSystem{
 	}
 }
 
-var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm.1234567890qwertyuiopasdfghjklzxcvbnm,.1234567890qwertyuiopasdfghjklzxcvbnm,.', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', [2])
+var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', 2)
 rs.log()
 // console.log(["〃", "、"].sort())
 // var neighborhood = {
