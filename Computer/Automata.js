@@ -12,32 +12,18 @@ export class Automata{
 		//care of by RuleSystem
 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
 		this.rs = new RuleSystem(input, output, context, dims)
-		//this.rs.log()
-		// this.dimensions=this._dimensions(input, output, this.rs)
 		this.rs.log()
 		this.matricies=[]
 		for(var i = 0; i<dims.length; i++){
 			this.matricies.push(new Matrix(dims[i], this.rs))
 		}
-		this.matricies[0].log()
-		//console.log(this.matricies[0].neighborhood('01'))
+		// this.matricies[0].log()
+		// console.log(this.matricies[0].neighborhood('01'))
 
 		//next we want a group of matrix dimensions
 
 	}
-	_dimensions(input, output, rs){
-		var size = 0
-		if(input.length>=output.length){size=input;}
-		else{size=output}
-		var dimensions = {}
-		for(var i = 1; i<=3; i++){
-			dimensions[i]={}
-			dimensions[i]['m']=Math.ceil(Math.pow(size.length, 1/i))
-		}
 
-		return dimensions
-
-	}
 
 	log(automata){
 		for(var i = 0; i<automata.matrix.matrix.length; i++){
