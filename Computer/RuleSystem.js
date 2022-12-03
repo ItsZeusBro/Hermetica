@@ -35,6 +35,7 @@ export class RuleSystem{
 		this.rules(this.map)
 
 		this.hash(this.map)
+		this._coordinates(this.map)
 	}
 
 	io(input, output, map){
@@ -173,9 +174,6 @@ export class RuleSystem{
 	}
 
 
-
-
-
 	ruleTree(tree, neighbor_count, symbols){
 		//the number of neighborhoods is symbols.length^(neighborcount+1)
 		//where 1 accounts for an empty space
@@ -248,7 +246,24 @@ export class RuleSystem{
 	}
 
 	coordinates(dimension){
-		return Object.keys(this.map['rules'][dimension]['neighborhood'])
+		return Object.keys(this.map['rules'][dimension]['coordinates'])
+	}
+	_coordinates(map){
+
+		var ruleKeys = Object.keys(map['rules'])
+		for(var j = 0; j<ruleKeys.length; j++){
+			var d = parseInt([ruleKeys[j]])
+			var c1=[]
+			var c2=[]
+			for(var i = 0; i<d; i++){
+
+				c1.push(0)
+				c2.push(parseInt(map['rules'][ruleKeys[j]]['shape'])-1)
+			}
+			var coordinates = new CoordinateClock(c1, c2).coordinates()
+			map['rules'][ruleKeys[j]]['coordinates']=coordinates
+		}
+
 	}
 
 	neighbors(dimension, coordinate){
@@ -269,7 +284,7 @@ export class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
 	}
 }
 

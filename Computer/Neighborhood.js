@@ -25,7 +25,7 @@ export class Neighborhood{
 
 						if(this._exists(n[i], m[j], d[k])==false){
 
-							console.log(n[i], m[j], d[k])
+							//console.log(n[i], m[j], d[k])
 
 							this.gen(n[i], m[j], d[k])
 						}
