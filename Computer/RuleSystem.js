@@ -288,7 +288,7 @@ export class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 2, colors: true}))
 	}
 }
 

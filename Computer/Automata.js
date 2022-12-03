@@ -14,16 +14,32 @@ export class Automata{
 		this.rs = new RuleSystem(input, output, context, dims)
 		this.rs.log()
 		this.matricies=[]
-		for(var i = 0; i<dims.length; i++){
-			this.matricies.push(new Matrix(dims[i], this.rs))
-		}
-		// this.matricies[0].log()
-		// console.log(this.matricies[0].neighborhood('01'))
-
-		//next we want a group of matrix dimensions
-
+		this.dims=dims
+		this.i=1
+		this.matrix = new Matrix(dims[this.i], this.rs)
+		this.matrix.log()
+		this.simulate(this.rs, this.matrix)
+		
 	}
 
+	simulate(rs, matrix){
+		//a simulation should print (and export()) then update rules
+		while(true){
+			//while the matrix vector is not equal to the output vector, keep updating and printing
+			matrix.print()
+			this.update(matrix)
+		}
+	}	
+
+
+	update(old_matrix){
+		new Matrix(this.dims[this.i], this.rs, true, old_matrix)
+	}
+
+	export(){
+		//this should send the data to another process, and that should send to disk to free up this process
+		//writing to disk is more costly than IPC, we should only export batches of data
+	}
 
 	log(automata){
 		for(var i = 0; i<automata.matrix.matrix.length; i++){
@@ -33,7 +49,7 @@ export class Automata{
 
 }
 
-new Automata('1+1=', '4-2', 'algebra', [2, 3, 4])
+new Automata('asldkgjalkjgaoijeroigeorinagoreigjaeroigj', 'alkgjasdlkjfasldk', 'english', [2, 3, 4])
 //
 
 // const automata = new Automata(20,2)
