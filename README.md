@@ -1,4 +1,5 @@
 # Sasquatch
+<img height=500, width=350 src="https://github.com/ItsZeusBro/Sasquatch/blob/ae69abf834ebac22c671279b0f20d12f85d308fb/sasquatch.jpeg">
 
 This is basically a new hypothesis for how truth and existentialism works
 
