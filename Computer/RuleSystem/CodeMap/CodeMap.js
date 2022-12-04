@@ -28,7 +28,7 @@ export class CodeMap{
 
 	simList(){
 		return [
-			' ',
+			0, 1, 2, 3, 4, 5, 6, 7, 8, 9,' ',
 			String.fromCharCode('77825'), 
 			String.fromCharCode('77826'), String.fromCharCode('77827'),
 			String.fromCharCode('77828'), String.fromCharCode('77829'), 
