@@ -1,5 +1,4 @@
 # Sasquatch
-<img height=500, width=350 src="https://github.com/ItsZeusBro/Sasquatch/blob/ae69abf834ebac22c671279b0f20d12f85d308fb/sasquatch.jpeg">
 
 This is basically a new hypothesis for how truth and existentialism works
 
@@ -28,6 +27,8 @@ we also have to make sure that there is no possibility in the translation unit f
 As a part of the rule system, any proposition in the current state of the simulation that spells out a negation outside of the negation cell, should be translated to an equivalent statement. This does not violate the arbitrary rule principle. Rules can be arbitrarily selected without violating the existentialism of the system, so long as they are consistent.
 
 ## Big Picture:
+<img height=400, width=275 src="https://github.com/ItsZeusBro/Sasquatch/blob/ae69abf834ebac22c671279b0f20d12f85d308fb/sasquatch.jpeg">
+
 Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
 
 
