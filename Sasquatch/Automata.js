@@ -4,14 +4,13 @@ import util from 'node:util'
 import {createHash} from 'node:crypto'
 import { RuleSystem } from "./RuleSystem.js"
 
-
 export class Automata{
 	constructor(input, output, context, dims){
 		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
 		//care of by RuleSystem
 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
-		this.rs = new RuleSystem(input, output, context, dims)
+		this.rs = new RuleSystem(input, output, context, dimension)
 		//this.rs.log()
 		this.matricies=[]
 		this.dims=dims
@@ -31,7 +30,7 @@ export class Automata{
 			//while the matrix vector is not equal to the output vector, keep updating and printing
 			matrix.print()
 			matrix=this.update(matrix)
-			
+
 			if(matrix.vectorize().join('')==this.rs.outputVector().join('')){
 				console.log('solution found!', matrix.vectorize().join(''), '==',this.rs.outputVector().join(''))
 				return true

@@ -5,22 +5,21 @@ import {Neighborhood} from "./Neighborhood/Neighborhood.js"
 import {createHash} from 'node:crypto'
 import {RuleTree} from "./RuleTree/RuleTree.js"
 import fs from "node:fs"
+import path from "node:path"
 
 //REMEMBER when REFRESHING a RuleSystem, we dont have to recreate all of the components
 //This optimizes load times between simulations which can be significant
 export class RuleSystem{
-	constructor(input, output, context, dimensions){
-		this.dimensions=dimensions
+	constructor(input, output, context, dimension){
+		this.input=input
+		this.output=output
+		this.dimensions=dimension
 		this.map = new CodeMap(input, output, context).map
-
-		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 
-		//3-6 for 3 dimensions;  4-8 for 4 dimensions 
-		for(var i=0; i<dimensions.length; i++){
-			this.rt = new RuleTree(this.map, dimensions[i], './RuleTree/RuleTrees/')
-		}
-		
+		this.map['dimension']=dimension
+		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions;  4-8 for 4 dimensions 
+		this.rule_trees = new RuleTree(this.map)).create()
+		this._coordinates(this.map)
 		// this.hash(this.map)
-		// this._coordinates(this.map)
 	}
 
 	hash(map){
@@ -32,10 +31,28 @@ export class RuleSystem{
 	}
 
 	//public api
+	refresh(tree, symbols, payload){
+		for(var i = 0; i<Object.keys(tree).length; i++){
+			var keys = Object.keys(tree)
+			if(typeof tree[keys[i]]==='string'){
+				if(payload){
+					//ai rule generation
+					tree[keys[i]]=payload[0]
+					payload.shift()
+				}else{
+					//random rule generation
+					tree[keys[i]]=symbols[Math.floor(Math.random() * symbols.length)]
+				}
+			}else{
+				this.refresh(tree[keys[i]], symbols)
+			}
+		}
+		return
+	}
+
 	rule(neighborhood){
 		//a neighborhood looks like this
 		//console.log(neighborhood, neighbor_codes, neighbor_count)
-
 		var neighbor_keys = Object.keys(neighborhood)
 		var neighbor_count = neighbor_keys.length
 		var neighbor_codes = []
@@ -63,6 +80,28 @@ export class RuleSystem{
 	coordinates(dimension){
 		return this.map['rules'][dimension]['coordinates']
 	}
+
+	neighbors(dimension, coordinate){
+		return this.map['rules'][dimension]['neighborhood'][coordinate]
+	}
+
+	input(){
+		return this.map['inputVector']
+	}
+
+	output(){
+		return this.map['outputVector']
+	}
+	log(element){
+		//console.log(this.map)
+		if(element){
+			console.log(util.inspect(element, {showHidden: false, depth: 3, colors: true}))
+
+		}else{
+			console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+		}
+	}
+	//setup functions
 	_coordinates(map){
 		var ruleKeys = Object.keys(map['rules'])
 		for(var j = 0; j<ruleKeys.length; j++){
@@ -78,34 +117,6 @@ export class RuleSystem{
 				coordinates[i]=coordinates[i].join(',')
 			}
 			map['rules'][ruleKeys[j]]['coordinates']=coordinates
-		}
-	}
-
-	neighbors(dimension, coordinate){
-		return this.map['rules'][dimension]['neighborhood'][coordinate]
-	}
-
-
-
-	import(from){
-		return Buffer. fs.readFileSync(from)
-	}
-
-	inputVector(){
-		return this.map['inputVector']
-	}
-
-	outputVector(){
-		return this.map['outputVector']
-	}
-
-	log(element){
-		//console.log(this.map)
-		if(element){
-			console.log(util.inspect(element, {showHidden: false, depth: 3, colors: true}))
-
-		}else{
-			console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
 		}
 	}
 }

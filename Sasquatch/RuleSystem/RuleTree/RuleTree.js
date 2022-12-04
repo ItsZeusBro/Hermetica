@@ -2,9 +2,18 @@ import {CoordinateClock} from "../../Matrix/Coordinates.js"
 import fs from "node:fs"
 
 export class RuleTree{
-    constructor(map, dimension, file){
-		console.log(file)
+    constructor(map){
 		this.map = map
+    }
+
+	create(map){
+		//theta represents the code length which is mathematically related to a minimal set of codes
+		//corresponding to the input and output
+		//we only want to create the file if its not already created
+		if(exists()){
+
+		}
+
 		this.map['ruleTree']={}
 		//1-2 neighbors for 1 dimension; 
 		//2-4 for 2 dimensions; 
@@ -15,14 +24,26 @@ export class RuleTree{
 			this.map['ruleTree']={}
 			this.map['ruleTree'][neighbor_count]={}
 			this.ruleTree(this.map['ruleTree'][neighbor_count], neighbor_count,  this.map['codes'].slice())
-			this.export(file, dimension, this.map['ruleTree'], this.map['codes'])
+			this.export(this.map)
 		}
-    }
-	export(file, dimension, tree, codes){
-		fs.writeFileSync(file+JSON.stringify(dimension)+"_"+codes.length+'.RuleTree', JSON.stringify({'tree':tree, 'dimensions':dimension, 'codes':codes}))
 	}
 
-	import(file, dimension){}
+	resolve(map){
+		//theta is the number of unique codes in the rule tree
+		path.resolve('./RuleTree/RuleTrees/')
+		return file+JSON.stringify(dimension)+"_"+theta+'.RuleTree'
+	}
+	exists(map){
+		fs.existsSync()
+	}
+
+	export(map){
+		fs.writeFileSync(this.resolve(dimension, theta), JSON.stringify({'tree':tree, 'dimensions':dimension, 'codes':codes}))
+	}
+
+	import(dimension, theta){
+		
+	}
 
 	//if we have a list of symbols, which we know are alphabetically sorted, 
 	//and we have a neighbor_count, then we can deterministically create trees
@@ -56,7 +77,6 @@ export class RuleTree{
 		}
 	}
 
-
 	_ruleTree(symbols, coordinates, tree){
 		var i = coordinates.shift()
 		if(!tree[symbols[i]]&&coordinates.length>=1){
@@ -76,24 +96,5 @@ export class RuleTree{
 			return
 		}
 		
-	}
-	
-	refresh(tree, symbols, payload){
-		for(var i = 0; i<Object.keys(tree).length; i++){
-			var keys = Object.keys(tree)
-			if(typeof tree[keys[i]]==='string'){
-				if(payload){
-					//ai rule generation
-					tree[keys[i]]=payload[0]
-					payload.shift()
-				}else{
-					//random rule generation
-					tree[keys[i]]=symbols[Math.floor(Math.random() * symbols.length)]
-				}
-			}else{
-				this.refresh(tree[keys[i]], symbols)
-			}
-		}
-		return
 	}
 }
