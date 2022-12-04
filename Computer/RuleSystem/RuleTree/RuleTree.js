@@ -3,18 +3,15 @@ import {CoordinateClock} from "../../Matrix/Coordinates.js"
 export class RuleTree{
     constructor(map, dimension){
 		this.map = map
-		this.map['ruleTree']={
-			'tree':{},
-			'ruleRefs':[]
-		}
+		this.map['ruleTree']={}
 		//1-2 neighbors for 1 dimension; 
 		//2-4 for 2 dimensions; 
 		//3-6 for 3 dimensions; 
 		//4-8 for 4 dimensions 
 		this.map['codes']=this.map['codes'].sort()
 		for(var neighbor_count=dimension; neighbor_count<=2*dimension; neighbor_count++){
-			this.map['ruleTree']['tree'][neighbor_count]={}
-			this.ruleTree(this.map['ruleTree']['tree'][neighbor_count], neighbor_count,  this.map['codes'].slice())
+			this.map['ruleTree'][neighbor_count]={}
+			this.ruleTree(this.map['ruleTree'][neighbor_count], neighbor_count,  this.map['codes'].slice())
 		}
     }
 
@@ -62,17 +59,24 @@ export class RuleTree{
 		}
 		else if(!tree[symbols[i]]&&coordinates.length==0){
 			tree[symbols[i]]={}
-			var rule = [symbols[Math.floor(Math.random() * symbols.length)]]
-			tree[symbols[i]]=rule[0]
-			this.map['ruleTree']['ruleRefs'].push(rule)
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)]
 			return
 		}else if(tree[symbols[i]]&& coordinates.length==0){
-			var rule = [symbols[Math.floor(Math.random() * symbols.length)]]
-			tree[symbols[i]]=rule[0]
-			this.map['ruleTree']['ruleRefs'].push(rule)
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)] 
 			return
 		}
 		
 	}
-
+	
+	refresh(tree, symbols){
+		for(var i = 0; i<Object.keys(tree).length; i++){
+			var keys = Object.keys(tree)
+			if(typeof tree[keys[i]]==='string'){
+				tree[keys[i]]=symbols[Math.floor(Math.random() * symbols.length)]
+			}else{
+				this.refresh(tree[keys[i]], symbols)
+			}
+		}
+		return
+	}
 }

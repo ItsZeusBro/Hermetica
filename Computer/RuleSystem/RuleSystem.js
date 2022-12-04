@@ -4,6 +4,7 @@ import {CoordinateClock} from "../Matrix/Coordinates.js"
 import {Neighborhood} from "./Neighborhood/Neighborhood.js"
 import {createHash} from 'node:crypto'
 import {RuleTree} from "./RuleTree/RuleTree.js"
+import fs from "node:fs"
 
 //REMEMBER when REFRESHING a RuleSystem, we dont have to recreate all of the components
 //This optimizes load times between simulations which can be significant
@@ -15,6 +16,7 @@ export class RuleSystem{
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 
 		//3-6 for 3 dimensions;  4-8 for 4 dimensions 
 		this.rt = new RuleTree(this.map, dimension)
+		
 		// this.hash(this.map)
 		// this._coordinates(this.map)
 	}
@@ -81,10 +83,15 @@ export class RuleSystem{
 		return this.map['rules'][dimension]['neighborhood'][coordinate]
 	}
 
-	export(to, filetype){
+	export(data, to, filetype){
 		//filetype can be csv
 		//or plain txt
 		//or zip file
+		fs.writeFileSync(to, Buffer.from(data))
+	}
+
+	import(from){
+		return Buffer. fs.readFileSync(from)
 	}
 
 	inputVector(){
@@ -95,19 +102,21 @@ export class RuleSystem{
 		return this.map['outputVector']
 	}
 
-	log(){
+	log(element){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 5, colors: true}))
+		if(element){
+			console.log(util.inspect(element, {showHidden: false, depth: 3, colors: true}))
+
+		}else{
+			console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+		}
 	}
 }
 
-var rs = new RuleSystem('1234', '1234', 'english', 2)
-rs.log()
-// console.log(["〃", "、"].sort())
-// var neighborhood = {
-// 	'01':"〃",
-// 	'10':"、"
-// }
-// console.log(rs.rule(neighborhood))
+var rs = new RuleSystem('abcdefghijklmn', 'abcdefghijklmn', 'english', 1)
+console.log(rs.map['ruleTree']['2'])
 
-//we can take the coordinate tree, and update it as a reference, and it should affect the matrix
+rs.rt.refresh(rs.map['ruleTree'], rs.map['codes'])
+console.log()
+console.log()
+console.log(rs.map['ruleTree']['2'])
