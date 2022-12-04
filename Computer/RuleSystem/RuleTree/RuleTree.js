@@ -26,17 +26,47 @@ export class RuleTree{
 	//3:3:{3:r, 4:r, 5:r}, 4:{4:r, 5:r}, 5{5:r}}
 	//4:{4:{4:r, 5:r}, 5{5:r}}
 	//5:{5{5:r}}
-	
 	ruleTree(tree, neighbor_count, symbols){
-		if(!neighbor_count){
-			return
+		//the number of neighborhoods is symbols.length^(neighborcount+1)
+		//where 1 accounts for an empty space
+		symbols.sort()
+		var symbolcoord1=[]
+		var symbolcoord2=[]
+		for(var i = 0; i<neighbor_count; i++){
+			symbolcoord1.push(0)
+			symbolcoord2.push(symbols.length-1)
 		}
-		for(var i = 0; i<symbols.length; i++){
-			tree[symbols[i]]={}
-			for(var j = 0; j<neighbor_count; j++){
-				this.ruleTree(tree[symbols[i]], neighbor_count-1, symbols.slice(i+1))
-			}
 
+		var coordinates = new CoordinateClock(symbolcoord1, symbolcoord2).coordinates()
+		for(var i = 0; i<coordinates.length; i++){
+			for(var j = 0; j<coordinates[i].length; j++){
+				this._ruleTree(symbols, coordinates[i], tree)
+			}
 		}
 	}
+
+
+	_ruleTree(symbols, coordinates, tree){
+		coordinates.sort()
+		var i = coordinates.shift()
+		if(!tree[symbols[i]]&&coordinates.length>=1){
+			tree[symbols[i]]={}
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, coordinates, tree)
+		}else if(tree[symbols[i]]&&coordinates.length>=1){
+			tree = tree[symbols[i]]
+			this._ruleTree(symbols, coordinates, tree)
+		}
+		else if(!tree[symbols[i]]&&coordinates.length==0){
+			tree[symbols[i]]={}
+
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)]
+			return
+		}else if(tree[symbols[i]]&& coordinates.length==0){
+			tree[symbols[i]]=symbols[Math.floor(Math.random() * symbols.length)] 
+			return
+		}
+		
+	}
+
 }
