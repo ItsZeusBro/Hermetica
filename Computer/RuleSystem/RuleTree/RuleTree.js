@@ -8,7 +8,7 @@ export class RuleTree{
 		//3-6 for 3 dimensions; 
 		//4-8 for 4 dimensions 
 		map['codes']=map['codes'].sort()
-		for(var neighbor_count = dimension; neighbor_count<=2*dimension; neighbor_count++){
+		for(var neighbor_count=dimension; neighbor_count<=2*dimension; neighbor_count++){
 			map['ruleTree'][neighbor_count]={}
 			this.ruleTree(map['ruleTree'][neighbor_count], neighbor_count,  map['codes'].slice())
 		}
@@ -26,11 +26,17 @@ export class RuleTree{
 	//3:3:{3:r, 4:r, 5:r}, 4:{4:r, 5:r}, 5{5:r}}
 	//4:{4:{4:r, 5:r}, 5{5:r}}
 	//5:{5{5:r}}
+	
 	ruleTree(tree, neighbor_count, symbols){
-		
-	}
+		if(!neighbor_count){
+			return
+		}
+		for(var i = 0; i<symbols.length; i++){
+			tree[symbols[i]]={}
+			for(var j = 0; j<neighbor_count; j++){
+				this.ruleTree(tree[symbols[i]], neighbor_count-1, symbols.slice(i+1))
+			}
 
-	_ruleTree(symbols, coordinates, tree){
-		
+		}
 	}
 }

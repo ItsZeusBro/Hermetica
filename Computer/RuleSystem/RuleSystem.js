@@ -97,11 +97,11 @@ export class RuleSystem{
 
 	log(){
 		//console.log(this.map)
-		console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+		console.log(util.inspect(this.map, {showHidden: false, depth: 5, colors: true}))
 	}
 }
 
-var rs = new RuleSystem('1234567890qwertyuiopasdfghjklzxcvbnm', 'aksduowqxkzjvhxkczjvzxc,mvniruweqoiruqewghaskjdhgasdkj', 'english', 2)
+var rs = new RuleSystem('1234', '1234', 'english', 2)
 rs.log()
 // console.log(["〃", "、"].sort())
 // var neighborhood = {
