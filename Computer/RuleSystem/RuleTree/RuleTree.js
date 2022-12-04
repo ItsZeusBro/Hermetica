@@ -78,11 +78,18 @@ export class RuleTree{
 		
 	}
 	
-	refresh(tree, symbols){
+	refresh(tree, symbols, payload){
 		for(var i = 0; i<Object.keys(tree).length; i++){
 			var keys = Object.keys(tree)
 			if(typeof tree[keys[i]]==='string'){
-				tree[keys[i]]=symbols[Math.floor(Math.random() * symbols.length)]
+				if(payload){
+					//ai rule generation
+					tree[keys[i]]=payload[0]
+					payload.shift()
+				}else{
+					//random rule generation
+					tree[keys[i]]=symbols[Math.floor(Math.random() * symbols.length)]
+				}
 			}else{
 				this.refresh(tree[keys[i]], symbols)
 			}
