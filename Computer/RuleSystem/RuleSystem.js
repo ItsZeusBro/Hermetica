@@ -9,13 +9,15 @@ import fs from "node:fs"
 //REMEMBER when REFRESHING a RuleSystem, we dont have to recreate all of the components
 //This optimizes load times between simulations which can be significant
 export class RuleSystem{
-	constructor(input, output, context, dimension){
-		this.dimension=dimension
+	constructor(input, output, context, dimensions){
+		this.dimensions=dimensions
 		this.map = new CodeMap(input, output, context).map
 
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 
 		//3-6 for 3 dimensions;  4-8 for 4 dimensions 
-		this.rt = new RuleTree(this.map, dimension)
+		for(var i=0; i<dimensions.length; i++){
+			this.rt = new RuleTree(this.map, dimensions[i], './RuleTree/RuleTrees/')
+		}
 		
 		// this.hash(this.map)
 		// this._coordinates(this.map)
@@ -83,12 +85,7 @@ export class RuleSystem{
 		return this.map['rules'][dimension]['neighborhood'][coordinate]
 	}
 
-	export(data, to, filetype){
-		//filetype can be csv
-		//or plain txt
-		//or zip file
-		fs.writeFileSync(to, Buffer.from(data))
-	}
+
 
 	import(from){
 		return Buffer. fs.readFileSync(from)
@@ -113,10 +110,11 @@ export class RuleSystem{
 	}
 }
 
-var rs = new RuleSystem('abcdefghijklmn', 'abcdefghijklmn', 'english', 1)
-console.log(rs.map['ruleTree']['2'])
+var rs = new RuleSystem('abcdefghijklmn', 'abcdefghijklmn', 'english', [1, 2, 3])
+//rs.log()
+// console.log(rs.map['ruleTree']['2'])
 
-rs.rt.refresh(rs.map['ruleTree'], rs.map['codes'])
-console.log()
-console.log()
-console.log(rs.map['ruleTree']['2'])
+// rs.rt.refresh(rs.map['ruleTree'], rs.map['codes'])
+// console.log()
+// console.log()
+// console.log(rs.map['ruleTree']['2'])
