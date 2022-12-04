@@ -1,6 +1,6 @@
 import {CoordinateClock} from "../../Matrix/Coordinates.js"
 import fs from "node:fs"
-
+import path from "node:path"
 export class RuleTree{
     constructor(map){
 		this.map = map
@@ -11,7 +11,7 @@ export class RuleTree{
 		//corresponding to the input and output
 		//we only want to create the file if its not already created
 		if(exists()){
-
+			
 		}
 
 		this.map['ruleTree']={}
@@ -28,21 +28,25 @@ export class RuleTree{
 		}
 	}
 
-	resolve(map){
-		//theta is the number of unique codes in the rule tree
-		path.resolve('./RuleTree/RuleTrees/')
-		return file+JSON.stringify(dimension)+"_"+theta+'.RuleTree'
-	}
+
 	exists(map){
-		fs.existsSync()
+		var path = new Utils().resolve('RuleSystem/RuleTree/RuleTrees/')
+		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+		return fs.existsSync(path)
 	}
 
 	export(map){
-		fs.writeFileSync(this.resolve(dimension, theta), JSON.stringify({'tree':tree, 'dimensions':dimension, 'codes':codes}))
+		var path = new Utils().resolve('RuleSystem/RuleTree/RuleTrees/')
+		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+		fs.writeFileSync(path, JSON.stringify(tree))
 	}
 
-	import(dimension, theta){
-		
+	import(map, dimension){
+		var path = new Utils().resolve('RuleSystem/RuleTree/RuleTrees/')
+		map['dimension']=dimension
+		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+		var obj = JSON.parse(fs.readFileSync(path))
+		map['ruleTree']=obj
 	}
 
 	//if we have a list of symbols, which we know are alphabetically sorted, 
@@ -98,3 +102,4 @@ export class RuleTree{
 		
 	}
 }
+console.log(path.resolve('./').split('Sasquatch/Sasquatch')[0]+'Sasquatch/Sasquatch/RuleSystem/RuleTree/RuleTrees/')

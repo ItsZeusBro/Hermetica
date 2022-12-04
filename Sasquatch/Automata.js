@@ -1,79 +1,79 @@
-import { Matrix } from "../Matrix/Matrix.js"
-import {CoordinateClock, Comparator} from "../Matrix/Coordinates.js"
-import util from 'node:util'
-import {createHash} from 'node:crypto'
-import { RuleSystem } from "./RuleSystem.js"
+// import { Matrix } from "../Matrix/Matrix.js"
+// import {CoordinateClock, Comparator} from "../Matrix/Coordinates.js"
+// import util from 'node:util'
+// import {createHash} from 'node:crypto'
+// import { RuleSystem } from "./RuleSystem.js"
+import path from "node:path"
+// export class Automata{
+// 	constructor(input, output, context, dims){
+// 		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
+// 		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
+// 		//care of by RuleSystem
+// 		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
+// 		this.rs = new RuleSystem(input, output, context, dimension)
+// 		//this.rs.log()
+// 		this.matricies=[]
+// 		this.dims=dims
+// 		this.i=0
+// 		this.matrix = new Matrix(dims[this.i], this.rs)
+// 		//this.matrix.log()
+// 		this.generations={}
+// 		this.solution=null
+// 		if(this.simulate(this.rs, this.matrix)){
+// 			this.solution=rs
+// 		}
+// 	}
 
-export class Automata{
-	constructor(input, output, context, dims){
-		//the number of cells for the automata simulation is determined by input or output (whichever is greater)
-		//the symbol set and neighborhood types (which are just the number of neighbors and an alphabetical tree lookup) is taken
-		//care of by RuleSystem
-		//this works for 2d and 1d matricies, increase to 6 for 3d matrix, or 8 for 4d
-		this.rs = new RuleSystem(input, output, context, dimension)
-		//this.rs.log()
-		this.matricies=[]
-		this.dims=dims
-		this.i=0
-		this.matrix = new Matrix(dims[this.i], this.rs)
-		//this.matrix.log()
-		this.generations={}
-		this.solution=null
-		if(this.simulate(this.rs, this.matrix)){
-			this.solution=rs
-		}
-	}
+// 	simulate(rs, matrix){
+// 		//a simulation should print (and export()) then update rules
+// 		while(true){
+// 			//while the matrix vector is not equal to the output vector, keep updating and printing
+// 			matrix.print()
+// 			matrix=this.update(matrix)
 
-	simulate(rs, matrix){
-		//a simulation should print (and export()) then update rules
-		while(true){
-			//while the matrix vector is not equal to the output vector, keep updating and printing
-			matrix.print()
-			matrix=this.update(matrix)
+// 			if(matrix.vectorize().join('')==this.rs.outputVector().join('')){
+// 				console.log('solution found!', matrix.vectorize().join(''), '==',this.rs.outputVector().join(''))
+// 				return true
+// 			}
 
-			if(matrix.vectorize().join('')==this.rs.outputVector().join('')){
-				console.log('solution found!', matrix.vectorize().join(''), '==',this.rs.outputVector().join(''))
-				return true
-			}
+// 			if(matrix.vectorize().join('')==this.rs.inputVector().join('')){
+// 				// console.log('simulation loops! Try again!',  matrix.vectorize().join(''), '!=',this.rs.outputVector().join(''))
+// 				return false
+// 			}
 
-			if(matrix.vectorize().join('')==this.rs.inputVector().join('')){
-				// console.log('simulation loops! Try again!',  matrix.vectorize().join(''), '!=',this.rs.outputVector().join(''))
-				return false
-			}
+// 			if(this.generations[matrix.vectorize().join('')]){
+// 				// console.log("loop found! Try again!",  matrix.vectorize().join(''))
+// 				return false
+// 			}
+// 			this.generations[matrix.vectorize().join('')]=1
+// 		}
+// 	}	
 
-			if(this.generations[matrix.vectorize().join('')]){
-				// console.log("loop found! Try again!",  matrix.vectorize().join(''))
-				return false
-			}
-			this.generations[matrix.vectorize().join('')]=1
-		}
-	}	
+// 	update(old_matrix){
+// 		return new Matrix(this.dims[this.i], this.rs, true, old_matrix)
+// 	}
 
-	update(old_matrix){
-		return new Matrix(this.dims[this.i], this.rs, true, old_matrix)
-	}
+// 	export(){
+// 		//this should send the data to another process, and that should send to disk to free up this process
+// 		//writing to disk is more costly than IPC, we should only export batches of data
+// 	}
 
-	export(){
-		//this should send the data to another process, and that should send to disk to free up this process
-		//writing to disk is more costly than IPC, we should only export batches of data
-	}
+// 	log(automata){
+// 		for(var i = 0; i<automata.matrix.matrix.length; i++){
+// 			console.log(automata.matrix.matrix[i])
+// 		}
+// 	}
+// }
 
-	log(automata){
-		for(var i = 0; i<automata.matrix.matrix.length; i++){
-			console.log(automata.matrix.matrix[i])
-		}
-	}
-}
+// while(true){
+// 	var automata = new Automata('1+2+3+4=', '10', 'algebra', [2])
+// 	// console.log('simulation', rs.inputVector().join(''), 'should equal', rs.outputVector().join(''))
 
-while(true){
-	var automata = new Automata('1+2+3+4=', '10', 'algebra', [2])
-	// console.log('simulation', rs.inputVector().join(''), 'should equal', rs.outputVector().join(''))
-
-	if(automata.solution){
-		console.log('SOLUTION FOUND!')
-		break
-	}
-}
+// 	if(automata.solution){
+// 		console.log('SOLUTION FOUND!')
+// 		break
+// 	}
+// }
 //
 
 // const automata = new Automata(20,2)
@@ -103,3 +103,4 @@ while(true){
 //we want a data set with the following features
 //context_rule_map, population (for all dimensions), input, function purpose and description, output, generation number, every n generations on the way to the solution
 //WE ALSO WANT TO INCLUDE TEST CASES FOR THE FUNCTION IN THE FEATURE SET
+
