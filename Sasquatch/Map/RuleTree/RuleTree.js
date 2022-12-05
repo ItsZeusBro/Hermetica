@@ -146,15 +146,16 @@ export class RuleTree{
 
 
 	}
-
-	neighborhoods(codes, n){
-		var neighborhoods=[]
+	treeInsert(tree, neighborhood){
+		
+	}
+	neighborhoods(tree={}, codes, n){
 		for(var i = 0; i<n; i++){
 			//add n neighborhoods for all codes 
 			for(var j = 0; j<codes.length; j++){
 				//add n neighbors to a neighborhood starting with codes[i]
 				var prev = this.nextNeighborhood(codes, code[i], prev, n)
-				neighborhoods.push(prev)
+				this.treeInsert(tree, prev)
 			}
 		}
 		return neighborhoods
