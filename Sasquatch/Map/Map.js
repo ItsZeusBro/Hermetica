@@ -92,7 +92,7 @@ export class Map{
 	}
 }
 
-var map = new Map('abcdefghijklmn', 'abcdefghijklmn', 'english', 1)
+var map = new Map('abcdefghijklmn', 'abcdefghijklmn', 'english', 2)
 map.log()
 
 
