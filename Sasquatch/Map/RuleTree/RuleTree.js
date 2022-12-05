@@ -12,19 +12,15 @@ export class RuleTree{
 	create(map){
 		if(this.exists(map, true)){
 			//this means we have an absolute match on the neighborhood tree and the rules
+			//no need to refresh, we just need to use the rules in map['rules'] for the simulation
 			this.import(map)
 			return
-		}// }else if(this.exists(map, false)){
-		// 	//we are only checking for the maps existence, we can
-		// 	//refresh with map['rules'] if they exist
-		// 	//or refresh with random rules if they dont
-		// 	this.import(map)
-		// 	if(map['rules']){
-		// 		this.refresh(map, map['rules'])
-		// 	}else{
-		// 		this.refresh(map)
-		// 	}
-		// }
+		}else if(this.exists(map, false)){
+			//we are only checking for the maps existence, we want to
+			//refresh with random rules
+			this.import(map)
+			this.refresh(map, [])
+		}
 		else{
 			//creating a rule tree from scratch with map['rules'] if they exist
 			//or randomly if they dont
@@ -61,7 +57,6 @@ export class RuleTree{
 				}else{
 					tree[neighborhood[i]]=rule
 				}
-
 			}
 		}
 	}
@@ -177,13 +172,11 @@ export class RuleTree{
 			}else{
 				return false
 			}
-
 		}else{
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
 			return fs.existsSync(path)
 		}
-
 	}
 
 	exprt(map, rules){
@@ -199,15 +192,12 @@ export class RuleTree{
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
 			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
-
 		}
-
 	}
 
 	import(map, rules){
 		if(rules){
 			if(map['rules']){
-
 				//we have a hash of the rules
 				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
 				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
@@ -232,24 +222,27 @@ export class RuleTree{
 	}
 
 	
-	// refresh(codes, n, tree={}, rules=[]){
-	// 	//add neighborhoods of size n for all codes 
-	// 	codes.sort()
-	// 	codes.reverse()
-	// 	for(var j = 0; j<codes.length; j++){
-	// 		var prev;
-	// 		do{
-	// 			prev = this.nextNeighborhood(codes, codes[j], prev, n)
-	// 			if(prev){this.treeInsert(tree, prev, rules[0])}
-	// 			rules.shift()
-	// 		}while(prev)
-	// 		//when prev returns null, we start with the next code
-	// 	}
-	// 	return tree
-	// }
+	refresh(map, rules){
+		//we need to fetch the neighborhoods from map
+		var keys=Object.keys(map['ruleTree']['neighborhoods'])
+		if(rules.length){
+			//use the rules provided
+			for(var i = 0; i<keys.length; i++){
+				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
+					treeInsert(tree, map['ruleTree']['neighborhoods'][keys[i]][j], rules[0])
+					rules.shift()
+				}
+			}
+		}else{
+			//use random rules
+			for(var i = 0; i<keys.length; i++){
+				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
+					treeInsert(tree, map['ruleTree']['neighborhoods'][keys[i]][j], this.randomRule(map['codes']))
+				}
+			}
 
-	
-
+		}		
+	}
 }
 
 // var codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
