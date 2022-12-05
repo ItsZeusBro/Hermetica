@@ -6,46 +6,34 @@ import {Utils} from "../Utils/Utils.js"
 export class RuleTree{
     constructor(map){
 		this.map = map
-		this.create(map)
+		this.createRuleTree(map)
     }
 	
-	create(map){
-		if(this.exists(map, true)){
-			//this means we have an absolute match on the neighborhood tree and the rules
-			//no need to refresh, we just need to use the rules in map['rules'] for the simulation
-			this.import(map)
-			return
-		}else if(this.exists(map, false)){
-			//we are only checking for the maps existence, we want to
-			//refresh with random rules
-			this.import(map)
-			this.refresh(map, [])
-			this.exprt(map)
+	createRuleTree(map){
+		//creating a rule tree from scratch with map['rules'] if they exist
+		//or randomly if they dont
+		//1-2 neighbors for 1 dimension; 
+		//2-4 for 2 dimensions; 
+		//3-6 for 3 dimensions; 
+		//4-8 for 4 dimensions;
+		map['codes']=map['codes'].sort()
+		map['ruleTree']={}
+		map['ruleTree']['neighborhoods']={}
+		if(!map['rules']){ map['rules']=[] }
+		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
+			map['ruleTree'][neighbor_count]={}
+			this.ruleTree(
+				map['codes'].slice(), 
+				neighbor_count, 
+				map['ruleTree'][neighbor_count], 
+				map['rules'], 
+				map['ruleTree']['neighborhoods']
+			)
 		}
-		else{
-			//creating a rule tree from scratch with map['rules'] if they exist
-			//or randomly if they dont
-			//1-2 neighbors for 1 dimension; 
-			//2-4 for 2 dimensions; 
-			//3-6 for 3 dimensions; 
-			//4-8 for 4 dimensions 
-			map['codes']=map['codes'].sort()
-			map['ruleTree']={}
-			map['ruleTree']['neighborhoods']={}
-			if(!map['rules']){ map['rules']=[] }
-			for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
-				map['ruleTree'][neighbor_count]={}
-				this.ruleTree(
-					map['codes'].slice(), 
-					neighbor_count, 
-					map['ruleTree'][neighbor_count], 
-					map['rules'], 
-					map['ruleTree']['neighborhoods']
-				)
-			}
-			this.exprt(map)
-		}		
-	}
+		this.exprt(map, true)
+		this.exprt(map, false)
+	}		
+
 	treeInsert(tree, neighborhood, rule){
 		for(var i=0; i<neighborhood.length; i++){
 			if(tree[neighborhood[i]]){
@@ -60,6 +48,7 @@ export class RuleTree{
 			}
 		}
 	}
+
 	//these neighborhoods stay forever, so efficiency is not a huge deal
 	ruleTree(codes, n, tree={}, rules=[], neighborhoods={}){
 		//add neighborhoods of size n for all codes 
@@ -92,6 +81,7 @@ export class RuleTree{
 	randomRule(symbols){
 		return symbols[Math.floor(Math.random() * symbols.length)]
 	}
+
 	nextNeighborhood(codes, code, prev, n){
 		//find the next neighborhood starting with code, using codes, for a neighborhood with n neighbors
 		//using the prev neighborhood
@@ -180,48 +170,55 @@ export class RuleTree{
 	}
 
 	exprt(map, rules){
-		if(rules){
-			if(map['rules']){
-				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
-				fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
-			}else{
-				return false
-			}
-		}else{
+		if((rules==true)&&(this.exists(map, rules)==false)){
+			//we dont have to export
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+		}else if((rules==true)&&(this.exists(map, rules)==true)){
+
+			return
+		}else if((rules==false)&&(this.exists(map, rules)==false)){
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
 			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+			return
+		}else{
+
+			return
 		}
 	}
 
 	import(map, rules){
-		if(rules){
-			if(map['rules']){
-				//we have a hash of the rules
-				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
-				var obj = JSON.parse(fs.readFileSync(path))
-				map['ruleTree']=obj['tree']
-				map['rules']=obj['rules']
-			}else{
-				return false
-			}
-		}else{
+		if((rules==true)&&(this.exists(map, rules)==true)){
+			//we dont have to export
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			var obj = JSON.parse(fs.readFileSync(path))
+			map['ruleTree']=obj['tree']
+			map['rules']=obj['rules']
+			return true
+		}else if((rules==true)&&(this.exists(map, rules)==false)){
+			return false
+
+		}else if((rules==false)&&(this.exists(map, rules)==true)){
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
 			var obj = JSON.parse(fs.readFileSync(path))
 			map['ruleTree']=obj['tree']
 			map['rules']=[]
-			return
+			return true
+		}else{
+			
+			return false
 		}
 	}
+
 
 	hash(string){
 		return new Utils().hash(JSON.stringify(string))
 	}
 
-	
 	refresh(map, rules){
 		//we need to fetch the neighborhoods from map
 		var keys=Object.keys(map['ruleTree']['neighborhoods'])
