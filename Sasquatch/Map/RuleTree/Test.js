@@ -1,12 +1,14 @@
 import {RuleTree} from "./RuleTree.js"
 import {Map} from "../Map.js"
+import {CodeMap} from "../CodeMap/CodeMap.js"
+
 class Test{
+
     constructor(){
         this.tests()
     }
 
     tests(){
-        this.createRuleTree()
         this.ruleTree()
         this.nextNeighborhood()
         this.treeInsert()
@@ -16,47 +18,32 @@ class Test{
         this.exists()
         this.exprt()
         this.import()
-
     }
-    createRuleTree(){
+
+    ruleTree(){
         var maps=[]
-        for(var i = 1; i<=10; i++){
+        var dims=1
+        for(var i = 1; i<=dims; i++){
             var map = new Map('abcdef', 'abcdef', 'english', i)
-            new RuleTree().createRuleTree(map.map)
+            map.log()
+            new RuleTree().ruleTree(map.map)
             map.log()
             maps.push(map.map)
         }
+
         var maps2=[]
-        for(var i = 1; i<=10; i++){
+        for(var i = 1; i<=dims; i++){
             var map = new Map('abcdef', 'abcdef', 'english', i)
-            new RuleTree().createRuleTree(map.map)
+            new RuleTree().ruleTree(map.map)
             map.log()
             maps2.push(map.map)
         }
 
-        for(var i=0; i<=9; i++){
+        for(var i=0; i<=dims-1; i++){
             //neighborhoods should be the samec
             for(var neighbor_count=maps[i]['dimension']; neighbor_count<=2*maps2[i]['dimension']; neighbor_count++){
-                if(
-                    maps[i]['ruleTree']['neighborhoods'][neighbor_count].length
-                    !=
-                    maps2[i]['ruleTree']['neighborhoods'][neighbor_count].length
-                ){
-                    throw Error('neighborhoods for both maps should have the same length')
-                }
-                for(var j=0; j<maps[i]['ruleTree']['neighborhoods'][neighbor_count].length; j++){
-                    if(
-                        maps[i]['ruleTree']['neighborhoods'][neighbor_count][j].length
-                        !=
-                        maps2[i]['ruleTree']['neighborhoods'][neighbor_count][j].length
-                    ){
-                        throw Error('neighborhoods for both sub-maps should have the same length')
-                    }
-                }
-
                 for(var j=0; j<maps[i]['ruleTree']['neighborhoods'][neighbor_count].length; j++){
                     for(var k=0; k<maps[i]['ruleTree']['neighborhoods'][neighbor_count][j].length; k++){
-                        //console.log(maps[i]['ruleTree']['neighborhoods'][neighbor_count][j][k], maps2[i]['ruleTree']['neighborhoods'][neighbor_count][j][k])
                         if(
                             maps[i]['ruleTree']['neighborhoods'][neighbor_count][j][k]
                             !=
@@ -64,39 +51,21 @@ class Test{
                         ){
                             throw Error('neighborhoods for both sub-maps should have the same chars')
                         }
+
                     }
-                    
                 }
             }
         }
 
-    }
-
-    ruleTree(){
-
-        var maps=[]
-        for(var i = 1; i<=3; i++){
-            var map = new Map('abcdef', 'abcdef', 'english', i)
-            map.log()
-            maps.push(map.map)
-        }
-        var maps2=[]
-        for(var i = 1; i<=3; i++){
-            var map = new Map('abcdef', 'abcdef', 'english', i)
-            map.log()
-            maps2.push(map.map)
-        }
-
-        for(var neighbor_count=maps[i]['dimension']; neighbor_count<=2*maps2[i]['dimension']; neighbor_count++){
-            var codes1 = map1['codes'];
-            var n1 = neighbor_count;
-            var neighborhoods1={}
-            var rulesIn1=[]
-            var rulesOut1=[]
-
+        for(var i=0; i<=dims-1; i++){
+            var rule_count=maps[i]['rules']
 
         }
-        
+
+        //we want a test where we match the next rule with the next neighborhood, and assert that it is found
+        //in the rule tree using a rule() search
+
+
     }
 
     nextNeighborhood(){
@@ -132,6 +101,5 @@ class Test{
     }
 
 }
-
 
 new Test()

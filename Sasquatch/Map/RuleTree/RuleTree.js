@@ -7,14 +7,15 @@ export class RuleTree{
     constructor(){
     }
 	
-	createRuleTree(map){
+	ruleTree(map){
 		//creating a rule tree from scratch with map['rules'] if they exist
 		//or randomly if they dont
 		//1-2 neighbors for 1 dimension; 
 		//2-4 for 2 dimensions; 
 		//3-6 for 3 dimensions; 
 		//4-8 for 4 dimensions;
-		map['codes']=map['codes'].sort()
+		map['codes']=map['codes']
+		//console.log(map['codes'])
 		map['ruleTree']={}
 		map['ruleTree']['neighborhoods']={}
 		if(!map['rules']){ map['rules']=[] }
@@ -22,7 +23,7 @@ export class RuleTree{
 			map['ruleTree'][neighbor_count]={}
 			var rulesOut=[]
 			var rulesIn=map['rules']
-			this.ruleTree(
+			this._ruleTree(
 				map, 
 				map['codes'].slice(), 
 				neighbor_count, 
@@ -35,12 +36,11 @@ export class RuleTree{
 	}
 
 	//these neighborhoods stay forever, so efficiency is not a huge deal
-	ruleTree(map, codes, n, neighborhoods={}, rulesIn=[], rulesOut=[]){
+	_ruleTree(map, codes, n, neighborhoods={}, rulesIn=[], rulesOut=[]){
 		//add neighborhoods of size n for all codes 
 		codes.sort()
 		codes.reverse()
 		neighborhoods[n]=[]
-
 		for(var j = 0; j<codes.length; j++){
 			var prev;
 			do{
@@ -54,7 +54,6 @@ export class RuleTree{
 						var rule = rulesIn.shift()
 						this.treeInsert(map, prev, rule)
 						rulesOut.push(rule)
-
 					}
 					neighborhoods[n].push(prev.slice())
 				}
@@ -178,14 +177,14 @@ export class RuleTree{
 		if(rules){
 			if(map['rules']){
 				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+				path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'_'+this.hash(map['rules'])+'.RuleTree'
 				return fs.existsSync(path)
 			}else{
 				return false
 			}
 		}else{
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'.RuleTree'
 			return fs.existsSync(path)
 		}
 	}
@@ -194,14 +193,14 @@ export class RuleTree{
 		if((rules==true)&&(this.exists(map, rules)==false)){
 			//we dont have to export
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'_'+this.hash(map['rules'])+'.RuleTree'
 			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
 		}else if((rules==true)&&(this.exists(map, rules)==true)){
 
 			return
 		}else if((rules==false)&&(this.exists(map, rules)==false)){
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'.RuleTree'
 			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
 			return
 		}else{
@@ -214,7 +213,7 @@ export class RuleTree{
 		if((rules==true)&&(this.exists(map, rules)==true)){
 			//we dont have to export
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'_'+this.hash(map['rules'])+'.RuleTree'
 			var obj = JSON.parse(fs.readFileSync(path))
 			map['ruleTree']=obj['tree']
 			map['rules']=obj['rules']
@@ -224,7 +223,7 @@ export class RuleTree{
 
 		}else if((rules==false)&&(this.exists(map, rules)==true)){
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			path+=JSON.stringify(map['dimension'])+"_"+map['codes'].length+'.RuleTree'
 			var obj = JSON.parse(fs.readFileSync(path))
 			map['ruleTree']=obj['tree']
 			map['rules']=[]
