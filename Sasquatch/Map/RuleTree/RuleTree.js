@@ -89,7 +89,6 @@ export class RuleTree{
 								return prev
 							}
 						}
-
 					}else{
 						//this is the best case scenario, we just decrement prev[i]
 						//and return
@@ -125,7 +124,6 @@ export class RuleTree{
 			}
 		}
 	}
-
 
 	refresh(map, rules){
 		//we need to fetch the neighborhoods from map
@@ -229,7 +227,6 @@ export class RuleTree{
 			return false
 		}
 	}
-
 
 	hash(string){
 		return new Utils().hash(JSON.stringify(string))

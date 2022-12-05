@@ -16,8 +16,7 @@ export class Map{
 		this.map = new CodeMap(input, output, context).map
 		this.map['dimension']=dimension
 		this.map['omega']=this.map['codes'].length
-		new RuleTree(this.map, true)
-		// this._coordinates(this.map)
+		//new RuleTree(this.map, true)
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions;  4-8 for 4 dimensions 
 	}
 
@@ -41,8 +40,6 @@ export class Map{
 
 	}
 
-
-
 	input(){
 		return this.map['inputVector']
 	}
@@ -60,23 +57,7 @@ export class Map{
 		}
 	}
 	//setup functions
-	_coordinates(map){
-		var ruleKeys = Object.keys(map['rules'])
-		for(var j = 0; j<ruleKeys.length; j++){
-			var d = parseInt([ruleKeys[j]])
-			var c1=[]
-			var c2=[]
-			for(var i = 0; i<d; i++){
-				c1.push(0)
-				c2.push(parseInt(map['rules'][ruleKeys[j]]['shape'])-1)
-			}
-			var coordinates = new CoordinateClock(c1, c2).coordinates()
-			for(var i = 0; i<coordinates.length; i++){
-				coordinates[i]=coordinates[i].join(',')
-			}
-			map['rules'][ruleKeys[j]]['coordinates']=coordinates
-		}
-	}
+
 
 	hash(map){
 		//if we hash the relevant details of a simulation and store the hash alongside it
@@ -91,8 +72,3 @@ export class Map{
 		
 	}
 }
-
-var map = new Map('abcdefghijklmn', 'abcdefghijklmn', 'english', 3)
-map.log()
-
-
