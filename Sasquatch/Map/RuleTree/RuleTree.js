@@ -149,21 +149,39 @@ export class RuleTree{
 	treeInsert(tree, neighborhood){
 		
 	}
-	neighborhoods(tree={}, codes, n){
-		for(var i = 0; i<n; i++){
-			//add n neighborhoods for all codes 
-			for(var j = 0; j<codes.length; j++){
-				//add n neighbors to a neighborhood starting with codes[i]
-				var prev = this.nextNeighborhood(codes, code[i], prev, n)
+	neighborhoods(codes, n, tree={}){
+		//add neighborhoods of size n for all codes 
+		for(var j = 0; j<codes.length; j++){
+			var prev;
+			do{
+				prev = this.nextNeighborhood(codes, code[i], prev, n)
 				this.treeInsert(tree, prev)
-			}
+			}while(prev)
+			//when prev returns null, we start with the next code
 		}
-		return neighborhoods
+		return tree
 	}
 
 	nextNeighborhood(codes, code, prev, n){
 		//find the next neighborhood starting with code, using codes, for a neighborhood with n neighbors
 		//using the prev neighborhood
+		if(prev){
+			//prev starts with a code that we cannot change, all the others can be changed in descending order
+			//the rule is the following
+			//decrement the last code by one (in prev), if its at the base code (the last code in codes)
+			//decrement the second to last code by one, if that is at the base code (the last code in codes)
+			//decrement the third to last... if we reach the first code, and there is nothing to decrement
+			//return null
+			
+		}else{
+			//send back the first in the set
+			//the rule for this is a list of n length all positions having the same code
+			prev=[]
+			for(var i = 0; i<n; i++){
+				prev.push(code)
+			}
+			return prev
+		}
 
 	}
 	rule(neighborhood){
