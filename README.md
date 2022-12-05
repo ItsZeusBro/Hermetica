@@ -46,3 +46,8 @@ In general we can solve any problem including the most general function of "dedu
 ## Future Optimization:
 One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
 On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
+
+## A good reason for Arbitrary Deterministic Encoding
+Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
+
+So if abc as input uses 123 for its translation and def uses 123 for its translation, they both share the same relativity for all function inputs and outputs, and if the problem is associated with this relativity, (like problems involving mathematical induction), then we can probably have the same simulation and generation output correspond to multiple inputs and outputs for different functions.
