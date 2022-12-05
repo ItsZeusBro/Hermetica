@@ -48,7 +48,7 @@ export class RuleTree{
 				console.log(this.map)
 			}
 			this.exprt(this.map)
-		// }		
+		}		
 	}
 	treeInsert(tree, neighborhood, rule){
 		for(var i=0; i<neighborhood.length; i++){
@@ -168,17 +168,33 @@ export class RuleTree{
 	}
 
 
-	exists(map){
-		var path = new Utils().resolve('Map/RuleTree/RuleTrees/')
-		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
-		return fs.existsSync(path)
+	exists(map, rules){
+		if(rules){
+			if(map['rules']){
+				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+				return fs.existsSync(path)
+			}else{
+				return false
+			}
+
+		}else{
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			return fs.existsSync(path)
+		}
+
 	}
 
 	exprt(map, rules){
 		if(rules){
-			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
-			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+			if(map['rules']){
+				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+				fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+			}else{
+				return false
+			}
 		}else{
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
@@ -190,12 +206,17 @@ export class RuleTree{
 
 	import(map, rules){
 		if(rules){
-			//we have a hash of the rules
-			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
-			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
-			var obj = JSON.parse(fs.readFileSync(path))
-			map['ruleTree']=obj['tree']
-			map['rules']=obj['rules']
+			if(map['rules']){
+
+				//we have a hash of the rules
+				var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+				path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+				var obj = JSON.parse(fs.readFileSync(path))
+				map['ruleTree']=obj['tree']
+				map['rules']=obj['rules']
+			}else{
+				return false
+			}
 		}else{
 			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
 			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
@@ -206,6 +227,9 @@ export class RuleTree{
 		}
 	}
 
+	hash(string){
+		return new Utils().hash(JSON.stringify(string))
+	}
 
 	
 	// refresh(codes, n, tree={}, rules=[]){
@@ -225,9 +249,7 @@ export class RuleTree{
 	// }
 
 	
-	hash(anything){
-		return createHash('sha256').update(JSON.stringify(anything)).digest('hex');
-	}
+
 }
 
 // var codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
