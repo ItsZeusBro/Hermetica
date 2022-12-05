@@ -20,6 +20,7 @@ export class RuleTree{
 			//refresh with random rules
 			this.import(map)
 			this.refresh(map, [])
+			this.exprt(map)
 		}
 		else{
 			//creating a rule tree from scratch with map['rules'] if they exist
@@ -28,22 +29,21 @@ export class RuleTree{
 			//2-4 for 2 dimensions; 
 			//3-6 for 3 dimensions; 
 			//4-8 for 4 dimensions 
-			this.map['codes']=this.map['codes'].sort()
-			this.map['ruleTree']={}
-			this.map['ruleTree']['neighborhoods']={}
+			map['codes']=map['codes'].sort()
+			map['ruleTree']={}
+			map['ruleTree']['neighborhoods']={}
 			if(!map['rules']){ map['rules']=[] }
-			for(var neighbor_count=this.map['dimension']; neighbor_count<=2*this.map['dimension']; neighbor_count++){
-				this.map['ruleTree'][neighbor_count]={}
+			for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
+				map['ruleTree'][neighbor_count]={}
 				this.ruleTree(
-					this.map['codes'].slice(), 
+					map['codes'].slice(), 
 					neighbor_count, 
-					this.map['ruleTree'][neighbor_count], 
+					map['ruleTree'][neighbor_count], 
 					map['rules'], 
-					this.map['ruleTree']['neighborhoods']
+					map['ruleTree']['neighborhoods']
 				)
-				console.log(this.map)
 			}
-			this.exprt(this.map)
+			this.exprt(map)
 		}		
 	}
 	treeInsert(tree, neighborhood, rule){
@@ -229,7 +229,7 @@ export class RuleTree{
 			//use the rules provided
 			for(var i = 0; i<keys.length; i++){
 				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
-					treeInsert(tree, map['ruleTree']['neighborhoods'][keys[i]][j], rules[0])
+					this.treeInsert(map['ruleTree'][keys[i]], map['ruleTree']['neighborhoods'][keys[i]][j], rules[0])
 					rules.shift()
 				}
 			}
@@ -237,10 +237,9 @@ export class RuleTree{
 			//use random rules
 			for(var i = 0; i<keys.length; i++){
 				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
-					treeInsert(tree, map['ruleTree']['neighborhoods'][keys[i]][j], this.randomRule(map['codes']))
+					this.treeInsert(map['ruleTree'][keys[i]], map['ruleTree']['neighborhoods'][keys[i]][j], this.randomRule(map['codes']))
 				}
 			}
-
 		}		
 	}
 }
