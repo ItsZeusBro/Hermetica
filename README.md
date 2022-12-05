@@ -42,3 +42,6 @@ In general any function can be solved with the following:
 
 In general we can solve any problem including the most general function of "deduction". So all deductions can be achieved with a single simulation, rule set, and generation, by piping the output of the simulation back into the simulation to find the next deduction.
 
+
+## Future Optimization:
+One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times!
