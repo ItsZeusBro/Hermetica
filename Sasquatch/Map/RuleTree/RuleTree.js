@@ -20,18 +20,22 @@ export class RuleTree{
 		if(!map['rules']){ map['rules']=[] }
 		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
 			map['ruleTree'][neighbor_count]={}
+			var rulesOut=[]
+			var rulesIn=map['rules']
 			this.ruleTree(
 				map, 
 				map['codes'].slice(), 
 				neighbor_count, 
-				map['rules'], 
-				map['ruleTree']['neighborhoods']
+				rulesIn, 
+				map['ruleTree']['neighborhoods'],
+				rulesOut
 			)
+			map['rules']=rulesOut
 		}
 	}
 
 	//these neighborhoods stay forever, so efficiency is not a huge deal
-	ruleTree(map, codes, n, rules=[], neighborhoods={}){
+	ruleTree(map, codes, n, rulesIn=[], neighborhoods={}, rulesOut=[]){
 		//add neighborhoods of size n for all codes 
 		codes.sort()
 		codes.reverse()
@@ -42,13 +46,15 @@ export class RuleTree{
 			do{
 				prev = this.nextNeighborhood(codes, codes[j], prev, n)
 				if(prev){
-					if(rules.length){
-						this.treeInsert(map, prev, rules[0])
-						rules.shift()
-					}else{
+					if(!rulesIn.length){
 						var rule=this.randomRule(codes)
-						rules.push(rule)
+						rulesOut.push(rule)
 						this.treeInsert(map, prev, rule)
+					}else{
+						var rule = rulesIn.shift()
+						this.treeInsert(map, prev, rule)
+						rulesOut.push(rule)
+
 					}
 					neighborhoods[n].push(prev.slice())
 				}
