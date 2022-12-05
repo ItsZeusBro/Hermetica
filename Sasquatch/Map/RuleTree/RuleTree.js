@@ -183,8 +183,14 @@ export class RuleTree{
 				}else{
 					if(prev[i]==codes[codes.length-1]){
 						//this means that we have to change the base code at this position to one less the
-						//decremented most significant code
+						//decremented most significant code, we need to find the most significant code
 						//so we n
+						
+					}else{
+						//this is the best case scenario, we just decrement prev[i]
+						//and return
+						prev[i]=codes[codes.indexOf(prev[i])-1]
+						return prev
 					}
 				}
 			}
