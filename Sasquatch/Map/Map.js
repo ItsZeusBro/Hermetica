@@ -53,10 +53,10 @@ export class Map{
 	log(element){
 		//console.log(this.map)
 		if(element){
-			console.log(util.inspect(element, {showHidden: false, depth: 3, colors: true}))
+			console.log(util.inspect(element, {showHidden: false, depth: 4, colors: true}))
 
 		}else{
-			console.log(util.inspect(this.map, {showHidden: false, depth: 3, colors: true}))
+			console.log(util.inspect(this.map, {showHidden: false, depth: 4, colors: true}))
 		}
 	}
 	//setup functions
