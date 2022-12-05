@@ -1,11 +1,13 @@
 // import util from 'node:util'
-import {Utils} from "../../Utils.js"
+import {Utils} from "./Utils/Utils.js"
 import { CodeMap } from "./CodeMap/CodeMap.js"
-import {CoordinateClock} from "../Matrix/Coordinates.js"
+import {CoordinateClock} from "./Matrix/Coordinates.js"
 import {Neighborhood} from "./Neighborhood/Neighborhood.js"
 import {createHash} from 'node:crypto'
 import {RuleTree} from "./RuleTree/RuleTree.js"
 import fs from "node:fs"
+import util from 'node:util'
+
 
 //REMEMBER when REFRESHING a RuleSystem, we dont have to recreate all of the components
 //This optimizes load times between simulations which can be significant
@@ -13,10 +15,10 @@ export class Map{
 	constructor(input, output, context, dimension){
 		this.map = new CodeMap(input, output, context).map
 		this.map['dimension']=dimension
-		this.map['omega']=map['codes'].length
-		this._coordinates(this.map)
+		this.map['omega']=this.map['codes'].length
+		new RuleTree(this.map)
+		// this._coordinates(this.map)
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions;  4-8 for 4 dimensions 
-		//new RuleTree(this.map)
 	}
 
 
@@ -90,7 +92,7 @@ export class Map{
 	}
 }
 
-var map = new Map('abcdefghijklmn', 'abcdefghijklmn', 'english', [1, 2, 3])
+var map = new Map('abcdefghijklmn', 'abcdefghijklmn', 'english', 1)
 map.log()
 
 

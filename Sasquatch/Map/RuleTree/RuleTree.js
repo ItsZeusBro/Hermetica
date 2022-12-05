@@ -1,6 +1,8 @@
-import {CoordinateClock} from "../../Matrix/Coordinates.js"
+import {CoordinateClock} from "../Matrix/Coordinates.js"
 import fs from "node:fs"
 import path from "node:path"
+import {Utils} from "../Utils/Utils.js"
+
 export class RuleTree{
     constructor(map){
 		this.map = map
@@ -11,18 +13,18 @@ export class RuleTree{
 		//theta represents the code length which is mathematically related to a minimal set of codes
 		//corresponding to the input and output
 		//we only want to create the file if its not already created
-		if(exists(map)){
-			this.map = import(map)
+		if(this.exists(map)){
+			this.map = this.import(map)
 		}else{
 			//1-2 neighbors for 1 dimension; 
 			//2-4 for 2 dimensions; 
 			//3-6 for 3 dimensions; 
 			//4-8 for 4 dimensions 
 			this.map['codes']=this.map['codes'].sort()
-			for(var neighbor_count=dimension; neighbor_count<=2*dimension; neighbor_count++){
-				this.map['ruleTree']={}
+			this.map['ruleTree']={}
+			for(var neighbor_count=this.map['dimension']; neighbor_count<=2*this.map['dimension']; neighbor_count++){
 				this.map['ruleTree'][neighbor_count]={}
-				this.ruleTree(this.map['ruleTree'][neighbor_count], neighbor_count,  this.map['codes'].slice())
+				this.ruleTree(this.map['ruleTree'][neighbor_count], neighbor_count, this.map['codes'].slice())
 			}
 			this.export(this.map)
 		}		
@@ -37,7 +39,7 @@ export class RuleTree{
 	export(map){
 		var path = new Utils().resolve('Map/RuleTree/RuleTrees/')
 		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
-		fs.writeFileSync(path, JSON.stringify(tree))
+		fs.writeFileSync(path, JSON.stringify(map['ruleTree']))
 	}
 
 	import(map){
@@ -85,10 +87,10 @@ export class RuleTree{
 		if(!tree[symbols[i]]&&coordinates.length>=1){
 			tree[symbols[i]]={}
 			tree = tree[symbols[i]]
-			this._ruleTree(symbols, coordinates, tree)
+			this._ruleTree(symbols, coordinates, tree, payload, rules)
 		}else if(tree[symbols[i]]&&coordinates.length>=1){
 			tree = tree[symbols[i]]
-			this._ruleTree(symbols, coordinates, tree)
+			this._ruleTree(symbols, coordinates, tree, payload, rules)
 		}
 		else if(!tree[symbols[i]]&&coordinates.length==0){
 			tree[symbols[i]]={}
@@ -148,7 +150,7 @@ export class RuleTree{
 		//returns just a code
 		return rule
 	}
-	
+
 	hash(map){
 		var ruleKeys = Object.keys(map['rules'])
 		for(var i = 0; i<ruleKeys.length; i++){

@@ -1,4 +1,4 @@
-import {CoordinateClock} from "../../Matrix/Coordinates.js"
+import {CoordinateClock} from "../Matrix/Coordinates.js"
 import fs from "node:fs"
 import zlib from "node:zlib"
 import {createHash} from 'node:crypto'
