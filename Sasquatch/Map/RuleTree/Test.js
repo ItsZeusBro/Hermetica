@@ -51,14 +51,20 @@ class Test{
                         ){
                             throw Error('neighborhoods for both sub-maps should have the same chars')
                         }
-
                     }
                 }
             }
         }
 
-        for(var i=0; i<=dims-1; i++){
-            var rule_count=maps[i]['rules']
+        for(var m=0; m<=dims-1; m++){
+            var rule_count=maps[m]['rules'].length
+            for(var r = 0; r<rule_count; r++){
+                for(var i=0; i<maps[m]['ruleTree']['neighborhoods'][neighbor_count].length; i++){
+                    for(var j=0; j<maps[m]['ruleTree']['neighborhoods'][neighbor_count][i].length; j++){
+                    
+                    }
+                }
+            }
 
         }
 
