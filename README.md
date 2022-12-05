@@ -44,4 +44,5 @@ In general we can solve any problem including the most general function of "dedu
 
 
 ## Future Optimization:
-One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times!
+One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
+On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
