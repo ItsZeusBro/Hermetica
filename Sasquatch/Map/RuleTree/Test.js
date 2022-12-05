@@ -71,8 +71,32 @@ class Test{
         }
 
     }
+
     ruleTree(){
 
+        var maps=[]
+        for(var i = 1; i<=3; i++){
+            var map = new Map('abcdef', 'abcdef', 'english', i)
+            map.log()
+            maps.push(map.map)
+        }
+        var maps2=[]
+        for(var i = 1; i<=3; i++){
+            var map = new Map('abcdef', 'abcdef', 'english', i)
+            map.log()
+            maps2.push(map.map)
+        }
+
+        for(var neighbor_count=maps[i]['dimension']; neighbor_count<=2*maps2[i]['dimension']; neighbor_count++){
+            var codes1 = map1['codes'];
+            var n1 = neighbor_count;
+            var neighborhoods1={}
+            var rulesIn1=[]
+            var rulesOut1=[]
+
+
+        }
+        
     }
 
     nextNeighborhood(){

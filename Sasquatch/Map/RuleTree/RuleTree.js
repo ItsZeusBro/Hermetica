@@ -26,8 +26,8 @@ export class RuleTree{
 				map, 
 				map['codes'].slice(), 
 				neighbor_count, 
-				rulesIn, 
 				map['ruleTree']['neighborhoods'],
+				rulesIn, 
 				rulesOut
 			)
 			map['rules']=rulesOut
@@ -35,7 +35,7 @@ export class RuleTree{
 	}
 
 	//these neighborhoods stay forever, so efficiency is not a huge deal
-	ruleTree(map, codes, n, rulesIn=[], neighborhoods={}, rulesOut=[]){
+	ruleTree(map, codes, n, neighborhoods={}, rulesIn=[], rulesOut=[]){
 		//add neighborhoods of size n for all codes 
 		codes.sort()
 		codes.reverse()
