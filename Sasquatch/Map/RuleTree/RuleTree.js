@@ -5,8 +5,8 @@ import {Utils} from "../Utils/Utils.js"
 
 export class RuleTree{
     constructor(map){
-		this.map = map
-		this.create(map)
+		// this.map = map
+		// this.create(map)
     }
 	
 	create(map){
@@ -157,10 +157,10 @@ export class RuleTree{
 		for(var j = 0; j<codes.length; j++){
 			var prev;
 			do{
-				prev = this.nextNeighborhood(codes, codes[i], prev, n)
-				this.treeInsert(tree, prev)
+				prev = this.nextNeighborhood(codes, codes[j], prev, n)
+				if(prev){this.treeInsert(tree, prev)}
 			}while(prev)
-			//when prev returns null, we start with the next code
+			// 	//when prev returns null, we start with the next code
 		}
 		return tree
 	}
@@ -179,17 +179,28 @@ export class RuleTree{
 				if(i==0){
 					//this means we changed nothing in prev
 					//we need to return null
-					return null
+					return
 				}else{
 					if(prev[i]==codes[codes.length-1]){
-						//this means that we have to change the base code at this position to one less the
-						//decremented most significant code, we need to find the most significant code
-						//so we n
-						
+						//we need to find the most significant code
+						//so we need to reverse search for a code in prev that is not equal to codes[codes.length-1]
+						//we need to decrement that code by 1, and
+						for(var j=i; j>0; j--){
+							if(prev[j]!=codes[codes.length-1]){
+								prev[j]=codes[codes.indexOf(prev[j])+1]
+								var c=prev[j]
+								// then have all the antecedent codes match that significant code
+								for(var k=j+1; k<prev.length; k++){
+									prev[k]=c
+								}
+								return prev
+							}
+						}
+
 					}else{
 						//this is the best case scenario, we just decrement prev[i]
 						//and return
-						prev[i]=codes[codes.indexOf(prev[i])-1]
+						prev[i]=codes[codes.indexOf(prev[i])+1]
 						return prev
 					}
 				}
@@ -232,3 +243,7 @@ export class RuleTree{
 		}
 	}
 }
+
+var codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+var n = 3
+new RuleTree().neighborhoods(codes, n)
