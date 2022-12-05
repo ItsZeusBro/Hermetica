@@ -10,18 +10,24 @@ export class RuleTree{
     }
 	
 	create(map){
-
-		// if(this.exists(map)&&(map['rules']==undefined)){
-		// 	//if the rule file exists, and there are no predefined rules, 
-		// 	//its a random experiment and we just import the rules
-		// 	//and refresh each iteration
-		// 	this.map = this.import(map)
-		// }else if(this.exists(map)&&(map['rules'])){
-		// 	//if the file exists and the rules do as well
-		// 	//we need to fetch the file and refresh the rules
-		// 	this.import(this.map)
-		// 	this.refresh(this.map)
-		// }else{
+		if(this.exists(map, true)){
+			//this means we have an absolute match on the neighborhood tree and the rules
+			this.import(map)
+			return
+		}// }else if(this.exists(map, false)){
+		// 	//we are only checking for the maps existence, we can
+		// 	//refresh with map['rules'] if they exist
+		// 	//or refresh with random rules if they dont
+		// 	this.import(map)
+		// 	if(map['rules']){
+		// 		this.refresh(map, map['rules'])
+		// 	}else{
+		// 		this.refresh(map)
+		// 	}
+		// }
+		else{
+			//creating a rule tree from scratch with map['rules'] if they exist
+			//or randomly if they dont
 			//1-2 neighbors for 1 dimension; 
 			//2-4 for 2 dimensions; 
 			//3-6 for 3 dimensions; 
@@ -29,7 +35,7 @@ export class RuleTree{
 			this.map['codes']=this.map['codes'].sort()
 			this.map['ruleTree']={}
 			this.map['ruleTree']['neighborhoods']={}
-
+			if(!map['rules']){ map['rules']=[] }
 			for(var neighbor_count=this.map['dimension']; neighbor_count<=2*this.map['dimension']; neighbor_count++){
 				this.map['ruleTree'][neighbor_count]={}
 				this.ruleTree(
@@ -41,7 +47,7 @@ export class RuleTree{
 				)
 				console.log(this.map)
 			}
-			this.export(this.map)
+			this.exprt(this.map)
 		// }		
 	}
 	treeInsert(tree, neighborhood, rule){
@@ -75,7 +81,9 @@ export class RuleTree{
 						this.treeInsert(tree, prev, rules[0])
 						rules.shift()
 					}else{
-						this.treeInsert(tree, prev, this.randomRule(codes))
+						var rule=this.randomRule(codes)
+						rules.push(rule)
+						this.treeInsert(tree, prev, rule)
 					}
 					console.log(prev)
 					neighborhoods[n].push(prev.slice())
@@ -166,46 +174,59 @@ export class RuleTree{
 		return fs.existsSync(path)
 	}
 
-	export(map){
-		var path = new Utils().resolve('Map/RuleTree/RuleTrees/')
-		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
-		fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+	exprt(map, rules){
+		if(rules){
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+		}else{
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			fs.writeFileSync(path, JSON.stringify({'tree':map['ruleTree'], 'rules':map['rules']}))
+
+		}
+
 	}
 
-	import(map){
-		var path = new Utils().resolve('Map/RuleTree/RuleTrees/')
-		path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
-		var obj = JSON.parse(fs.readFileSync(path))
-		map['ruleTree']=obj['tree']
-		map['rules']=obj['rules']
-		return
+	import(map, rules){
+		if(rules){
+			//we have a hash of the rules
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/RuleMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'_'+this.hash(map['rules'])+'.RuleTree'
+			var obj = JSON.parse(fs.readFileSync(path))
+			map['ruleTree']=obj['tree']
+			map['rules']=obj['rules']
+		}else{
+			var path = new Utils().resolve('Map/RuleTree/RuleTrees/TreeMaps/')
+			path+=JSON.stringify(map['dimension'])+"_"+map['omega']+'.RuleTree'
+			var obj = JSON.parse(fs.readFileSync(path))
+			map['ruleTree']=obj['tree']
+			map['rules']=[]
+			return
+		}
 	}
 
 
 	
-	refresh(codes, n, tree={}, rules=[]){
-		//add neighborhoods of size n for all codes 
-		codes.sort()
-		codes.reverse()
-		for(var j = 0; j<codes.length; j++){
-			var prev;
-			do{
-				prev = this.nextNeighborhood(codes, codes[j], prev, n)
-				if(prev){this.treeInsert(tree, prev, rules[0])}
-				rules.shift()
-			}while(prev)
-			//when prev returns null, we start with the next code
-		}
-		return tree
-	}
+	// refresh(codes, n, tree={}, rules=[]){
+	// 	//add neighborhoods of size n for all codes 
+	// 	codes.sort()
+	// 	codes.reverse()
+	// 	for(var j = 0; j<codes.length; j++){
+	// 		var prev;
+	// 		do{
+	// 			prev = this.nextNeighborhood(codes, codes[j], prev, n)
+	// 			if(prev){this.treeInsert(tree, prev, rules[0])}
+	// 			rules.shift()
+	// 		}while(prev)
+	// 		//when prev returns null, we start with the next code
+	// 	}
+	// 	return tree
+	// }
 
 	
-	hash(map){
-		var ruleKeys = Object.keys(map['rules'])
-		for(var i = 0; i<ruleKeys.length; i++){
-			var rule = JSON.stringify(map['rules'][ruleKeys[i]]['neighborhood'])
-			map['rules'][ruleKeys[i]]['nhHash']=createHash('sha256').update(rule).digest('hex'); 
-		}
+	hash(anything){
+		return createHash('sha256').update(JSON.stringify(anything)).digest('hex');
 	}
 }
 
