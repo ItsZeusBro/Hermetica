@@ -6,6 +6,10 @@
 export class CodeMap{
 	constructor(input, output, context){
 		this.map;
+		if(input&&output&&context){ this.create(input, output, context) }
+	}
+
+	create(input, output, context){
 		if(context=='english'){
 			this.map=this.mapVariables(input, output, this.englishMap())
 		}else if(context=='algebra'){
@@ -15,8 +19,9 @@ export class CodeMap{
 		this.codes(this.map)
 		this.io(input, output, this.map)
 		this.map['context']=context
-
+		
 	}
+
 	simMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var simList=this.simList();

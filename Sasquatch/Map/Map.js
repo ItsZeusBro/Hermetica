@@ -15,7 +15,6 @@ export class Map{
 	constructor(input, output, context, dimension){
 		this.map = new CodeMap(input, output, context).map
 		this.map['dimension']=dimension
-		this.map['omega']=this.map['codes'].length
 		//new RuleTree(this.map, true)
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions;  4-8 for 4 dimensions 
 	}
@@ -23,6 +22,15 @@ export class Map{
 
 
 	//public api
+	rule(map, neighborhood){
+		var neighbor_count = neighborhood.length
+		var ruleTree = map['ruleTree'][neighbor_count]
+		for(var i = 0; i<neighborhood.length; i++){
+			ruleTree = ruleTree[neighborhood[i]]
+		}
+		//returns just a code
+		return ruleTree
+	}
 
 	shape(){
 		
@@ -57,7 +65,6 @@ export class Map{
 		}
 	}
 	//setup functions
-
 
 	hash(map){
 		//if we hash the relevant details of a simulation and store the hash alongside it
