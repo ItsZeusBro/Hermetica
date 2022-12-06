@@ -58,30 +58,16 @@ export class RuleTree{
 	}
 
 	nextNeighborhood(codes, code, prev, n){
-		//find the next neighborhood starting with code, using codes, for a neighborhood with n neighbors
-		//using the prev neighborhood
 		if(prev){
-			//prev starts with a code that we cannot change, all the others can be changed in descending order
-			//the rule is the following
-			//decrement the last code by one (in prev), if its at the base code (the last code in codes)
-			//decrement the second to last code by one, if that is at the base code (the last code in codes)
-			//decrement the third to last... if we reach the first code, and there is nothing to decrement
-			//return null
 			for(var i=prev.length-1; i>=0; i--){
 				if(i==0){
-					//this means we changed nothing in prev
-					//we need to return null
 					return
 				}else{
 					if(prev[i]==codes[codes.length-1]){
-						//we need to find the most significant code
-						//so we need to reverse search for a code in prev that is not equal to codes[codes.length-1]
-						//we need to decrement that code by 1, and
 						for(var j=i; j>0; j--){
 							if(prev[j]!=codes[codes.length-1]){
 								prev[j]=codes[codes.indexOf(prev[j])+1]
 								var c=prev[j]
-								// then have all the antecedent codes match that significant code
 								for(var k=j+1; k<prev.length; k++){
 									prev[k]=c
 								}
@@ -89,16 +75,12 @@ export class RuleTree{
 							}
 						}
 					}else{
-						//this is the best case scenario, we just decrement prev[i]
-						//and return
 						prev[i]=codes[codes.indexOf(prev[i])+1]
 						return prev
 					}
 				}
 			}
 		}else{
-			//send back the first in the set
-			//the rule for this is a list of n length all positions having the same code
 			prev=[]
 			for(var i = 0; i<n; i++){
 				prev.push(code)

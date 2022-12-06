@@ -25,7 +25,6 @@ class Test{
     }
 
     ruleTree(){
-
         var maps=[]
         var dims=3
         for(var i = 1; i<=dims; i++){
@@ -64,6 +63,7 @@ class Test{
 
     neighborhoods(){
         //we want to check that neighborhoods do not repeat across dimensions
+        //WE NEED TO REWRITE THE NEIGHBORHOODS ALGORITHM MORE EFFICIENTLY (SEE COMBINATIONS WITH REPETITIONS)
         
         var strings=[]
         var string=""
@@ -86,11 +86,9 @@ class Test{
                     }
                 }
             }
-            
         }
-        
-
     }
+
     arrEquals(arr1, arr2, message){
         for(var i = 0; i<arr1.length; i++){
             assert.equal(arr1[i], arr2[i], message)
@@ -117,7 +115,6 @@ class Test{
         var string=""
 
         for(var i = 1; i<=5; i++){
-
             string+=i
             strings.push(string)
         }
@@ -129,16 +126,10 @@ class Test{
                 new RuleTree().ruleTree(map.map)
                 // map.log()
                 assert.equal(map.map['nNeighborhoods']==new Utils().nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
-            }
-            
+            }   
         }
-      
-
     }
 
-    nextNeighborhood(){
-
-    }
 
     treeInsert(){
 
