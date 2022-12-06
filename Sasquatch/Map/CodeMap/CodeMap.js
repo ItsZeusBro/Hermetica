@@ -33,7 +33,6 @@ export class CodeMap{
 
 	simList(){
 		return [
-			' ',
 			String.fromCharCode('77825'), 
 			String.fromCharCode('77826'), String.fromCharCode('77827'),
 			String.fromCharCode('77828'), String.fromCharCode('77829'), 
@@ -125,9 +124,11 @@ export class CodeMap{
 			var key = Object.keys(map['symbols'])[i]
 			codes.push(map['symbols'][key]['code'])
 		}
+		codes.push(' ')
 		map['codes']=codes
 	}
 
+	
 	mapVariables(input, output, map){
 		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
 		var io=[]

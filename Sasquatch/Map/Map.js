@@ -13,6 +13,8 @@ import util from 'node:util'
 //This optimizes load times between simulations which can be significant
 export class Map{
 	constructor(input, output, context, dimension){
+		console.log(input, output, context, dimension)
+
 		this.map = new CodeMap(input, output, context).map
 		this.map['dimension']=dimension
 		//new RuleTree(this.map, true)
