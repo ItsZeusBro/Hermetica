@@ -15,7 +15,7 @@ class Test{
         this.neighborhoods()
         this.nNeighborhoods()
         this.treeInsert()
-        // this.refresh()
+        this.refresh()
         // this.randomRule()
         // this.rule()
         // this.exists()
@@ -156,7 +156,29 @@ class Test{
     }
 
     refresh(){
+        var dims=5
+        var total=0;
+        var total_rules=0;
+        for(var i = 1; i<=dims; i++){
+            //THIS IS NOT COLLISION SAFE, IT MIGHT THROW ERRORS
+            var map = new Map('abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz', 'english', i)
+            var rt = new RuleTree()
+            rt.ruleTree(map.map)
+            var rules = map.map['rules']
+            rt.refresh(map.map)
+            var rules2= map.map['rules']
+            total_rules+=rules2.length
+            for(var i = 0; i<rules2.length; i++){
+                if(rules[i]==rules2[i]){
+                    total+=1
+                }
+            }   
 
+        }
+        console.log('total rules=', total_rules, 'total refresh collisions=', total)
+        if(total_rules==total){
+            throw Error('WARNING, THIS FUNCTION IS NOT COLLISION SAFE, PERFORM TEST AGAIN TO ENSURE REFRESH() WORKS')
+        }
     }
 
     randomRule(){

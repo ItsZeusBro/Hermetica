@@ -90,22 +90,22 @@ export class RuleTree{
 
 	refresh(map, rules){
 		//we need to fetch the neighborhoods from map
-		var keys=Object.keys(map['ruleTree']['neighborhoods'])
-		if(rules.length){
+		var neighborhoods=map['neighborhoods']
+		map['rules']=[]
+		if(rules&&rules.length){
 			//use the rules provided
-			for(var i = 0; i<keys.length; i++){
-				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
-					this.treeInsert(map, map['ruleTree']['neighborhoods'][keys[i]][j], rules[0])
-					rules.shift()
-				}
+			for(var j = 0; j<neighborhoods.length; j++){
+				this.treeInsert(map, neighborhoods[j], rules[j])
+				map['rules'].push(rules[j])
 			}
 		}else{
 			//use random rules
-			for(var i = 0; i<keys.length; i++){
-				for(var j = 0; j<map['ruleTree']['neighborhoods'][keys[i]].length; j++){
-					this.treeInsert(map, map['ruleTree']['neighborhoods'][keys[i]][j], this.randomRule(map['codes']))
-				}
+			for(var j = 0; j<neighborhoods.length; j++){
+				var rule = this.randomRule(map['codes'])
+				this.treeInsert(map, neighborhoods[j], rule)
+				map['rules'].push(rule)
 			}
+		
 		}		
 	}
 
