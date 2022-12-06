@@ -27,7 +27,6 @@ export class RuleTree{
 		map['nNeighborhoods']=0
 		map['ruleTree']={}
 		var rules=map['rules'].slice()
-		console.log(map['rules'].length, map['neighborhoods'].length)
 		for(var i = 0; i<map['neighborhoods'].length; i++){
 			this.treeInsert(map, map['neighborhoods'][i], rules.shift())
 			map['nNeighborhoods']+=1
@@ -109,8 +108,6 @@ export class RuleTree{
 	}
 
 	treeInsert(map, neighborhood, rule){
-		console.log(neighborhood, rule)
-
 		var tree;
 		if(map['ruleTree'][''+neighborhood.length]){
 			tree = map['ruleTree'][''+neighborhood.length]

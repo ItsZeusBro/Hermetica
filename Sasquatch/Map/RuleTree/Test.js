@@ -23,9 +23,8 @@ class Test{
 
     ruleTree(){
 
-        //
         var maps=[]
-        var dims=1
+        var dims=3
         for(var i = 1; i<=dims; i++){
             var map = new Map('abcdef', 'abcdef', 'english', i)
             new RuleTree().ruleTree(map.map)
@@ -38,7 +37,6 @@ class Test{
             new RuleTree().ruleTree(map.map)
             maps2.push(map)
         }
-
 
         for(var m=0; m<=dims-1; m++){
             maps[m].log()
@@ -55,7 +53,6 @@ class Test{
                 if(maps[m].rule(maps[m].map, neighborhood)!=rule){
                     throw Error('neighborhood rule combination should be present in the tree through rule(neighborhood)')
                 }
-                
             }
         }
         //we want a test where we match the next rule with the next neighborhood, and assert that it is found
