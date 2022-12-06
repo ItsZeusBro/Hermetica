@@ -5,6 +5,8 @@ import {Utils} from "../Utils/Utils.js"
 
 export class RuleTree{
     constructor(){
+		this._neighborhoods;
+
     }
 	
 	ruleTree(map){
@@ -19,6 +21,7 @@ export class RuleTree{
 		//4-8 for 4 dimensions;
 		if(!map['rules']){
 			var n = this.neighborhoods(map, true)
+			this._neighborhoods = n.slice()
 			map['neighborhoods']=n[0]
 			map['rules']=n[1]
 		}else{
@@ -48,7 +51,19 @@ export class RuleTree{
 		return [neighborhoods, rules]
 	}
 
+	nextNeighborhood(){
+		return this._neighborhoods.shift()
+	}
 
+	rule(map, neighborhood){
+		var neighbor_count = neighborhood.length
+		var ruleTree = map['ruleTree'][neighbor_count]
+		for(var i = 0; i<neighborhood.length; i++){
+			ruleTree = ruleTree[neighborhood[i]]
+		}
+		//returns just a code
+		return ruleTree
+	}
 
 	treeInsert(map, neighborhood, rule){
 		var tree;

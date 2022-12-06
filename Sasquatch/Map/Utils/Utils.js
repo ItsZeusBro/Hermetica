@@ -26,27 +26,32 @@ export class Utils{
         { return n * this.factorial( n - 1 ); }
     }
     _combinationWithRepetition(r, n){
-        return (this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1))
+        if((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1))%1<=.49999999){
+            return Math.floor((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1)))
+        }else{
+            return Math.ceil((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1)))
+        }
     }
 
     combinationWithRepetition(symbols, n, out=[]){
-        if(out.length==0){
-            var next=[]
-            for(var k = 0; k<n; k++){next.push(symbols[symbols.length-1])}
-            out.unshift(next)
-            this.combinationWithRepetition(symbols, n, out)
-        }
-        if(out[0][0]==symbols[0]){return out}
-        var next=out[0].slice()
-        for(var j =n-1; j>=0; j--){
-            if(next[j]!=symbols[0]){
-                next[j]=symbols[symbols.indexOf(next[j])-1]
-                next = this._reset(symbols, symbols[symbols.indexOf(next[j])], next, j)
+        while(true){
+            if(out.length==0){
+                var next=[]
+                for(var k = 0; k<n; k++){next.push(symbols[symbols.length-1])}
                 out.unshift(next)
-                this.combinationWithRepetition(symbols, n, out)
-                return
+            }
+            if(out[0][0]==symbols[0]){return out}
+            var next=out[0].slice()
+            for(var j =n-1; j>=0; j--){
+                if(next[j]!=symbols[0]){
+                    next[j]=symbols[symbols.indexOf(next[j])-1]
+                    next = this._reset(symbols, symbols[symbols.indexOf(next[j])], next, j)
+                    out.unshift(next)
+                    break
+                }
             }
         }
+        
     }
 
     _reset(symbols, val, arr, i){
@@ -58,7 +63,10 @@ export class Utils{
     }
 
 }
-
-var out = new Utils().combinationWithRepetition([1,2, 3, 4, 5, 6, 7, 8, 9, 10], 4, [])
-console.log(out.length)
-console.log(new Utils()._combinationWithRepetition(10, 4))
+// var chars = []
+// for(var i = 1; i<10000; i++){
+//     chars.push(i)
+// }
+// var out = new Utils().combinationWithRepetition(chars, 2, [])
+// console.log(out.reverse())
+// console.log(new Utils()._combinationWithRepetition(10, 120))

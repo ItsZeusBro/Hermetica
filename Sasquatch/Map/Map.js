@@ -15,6 +15,7 @@ export class Map{
 	constructor(input, output, context, dimension){
 		this.map = new CodeMap(input, output, context).map
 		this.map['dimension']=dimension
+
 		//new RuleTree(this.map, true)
 		//1-2 neighbors for 1 dimension; 2-4 for 2 dimensions; 3-6 for 3 dimensions;  4-8 for 4 dimensions 
 	}

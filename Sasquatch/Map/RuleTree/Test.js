@@ -14,8 +14,7 @@ class Test{
         this.ruleTree()
         this.neighborhoods()
         this.nNeighborhoods()
-        // this.nextNeighborhood()
-        // this.treeInsert()
+        this.treeInsert()
         // this.refresh()
         // this.randomRule()
         // this.rule()
@@ -28,16 +27,16 @@ class Test{
         var maps=[]
         var dims=1
 
-
         for(var i = 1; i<=dims; i++){
-            var map = new Map('abcdef', 'abcdef', 'english', i)
+            var map = new Map('abcd', 'abcd', 'english', i)
             new RuleTree().ruleTree(map.map)
             maps.push(map)
+            maps[0].log()
         }
 
         var maps2=[]
         for(var i = 1; i<=dims; i++){
-            var map = new Map('abcdef', 'abcdef', 'english', i)
+            var map = new Map('abcd', 'abcd', 'english', i)
             new RuleTree().ruleTree(map.map)
             maps2.push(map)
         }
@@ -134,7 +133,26 @@ class Test{
 
 
     treeInsert(){
+        //everytime we insert a rule using a neighborhood into a tree
+        //we need to check the rule using the neighborhood
+        var maps=[]
+        var dims=3
 
+        for(var i = 1; i<=dims; i++){
+            var map = new Map('abcd', 'abcd', 'english', i)
+            var rt = new RuleTree()
+            rt.ruleTree(map.map)
+            while(true){
+                var neighborhood = rt.nextNeighborhood()            
+                if(neighborhood){
+                    var rule= rt.randomRule(map.map['codes'])
+                    rt.treeInsert(map.map, neighborhood,rule)
+                    assert.equal(rule == rt.rule(map.map, neighborhood), true, 'treeInsert Error')
+                }else{
+                    break
+                }
+            }
+        }
     }
 
     refresh(){
