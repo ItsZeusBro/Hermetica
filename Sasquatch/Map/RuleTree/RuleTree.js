@@ -155,19 +155,13 @@ export class RuleTree{
 		return symbols[Math.floor(Math.random() * symbols.length)]
 	}
 
-	rule(neighborhood){
+	rule(map, neighborhood){
 		//a neighborhood looks like this
 		//console.log(neighborhood, neighbor_codes, neighbor_count)
-		var neighbor_keys = Object.keys(neighborhood)
-		var neighbor_count = neighbor_keys.length
-		var neighbor_codes = []
-		for(var i = 0; i<neighbor_count; i++){
-			neighbor_codes.push(neighborhood[neighbor_keys[i]])
-		}
-		neighbor_codes.sort()
-		var rule = this.map['ruleTree'][neighbor_count]
-		for(var i = 0; i<neighbor_count; i++){
-			rule = rule[neighbor_codes[i]]
+		var neighbor_count = neighborhood.length
+		var rule = map['ruleTree'][neighbor_count]
+		for(var i = 0; i<neighborhood.length; i++){
+			rule = rule[neighborhood[i]]
 		}
 		//returns just a code
 		return rule

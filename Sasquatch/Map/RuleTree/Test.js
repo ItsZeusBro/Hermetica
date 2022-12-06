@@ -21,6 +21,7 @@ class Test{
     }
 
     ruleTree(){
+        
         var maps=[]
         var dims=1
         for(var i = 1; i<=dims; i++){
@@ -28,7 +29,7 @@ class Test{
             map.log()
             new RuleTree().ruleTree(map.map)
             map.log()
-            maps.push(map.map)
+            maps.push(map)
         }
 
         var maps2=[]
@@ -36,18 +37,17 @@ class Test{
             var map = new Map('abcdef', 'abcdef', 'english', i)
             new RuleTree().ruleTree(map.map)
             map.log()
-            maps2.push(map.map)
+            maps2.push(map)
         }
 
-        for(var i=0; i<=dims-1; i++){
-            //neighborhoods should be the samec
-            for(var neighbor_count=maps[i]['dimension']; neighbor_count<=2*maps2[i]['dimension']; neighbor_count++){
-                for(var j=0; j<maps[i]['ruleTree']['neighborhoods'][neighbor_count].length; j++){
-                    for(var k=0; k<maps[i]['ruleTree']['neighborhoods'][neighbor_count][j].length; k++){
+        for(var m=0; m<=dims-1; m++){
+            for(var neighbor_count=maps[m].map['dimension']; neighbor_count<=2*maps2[m].map['dimension']; neighbor_count++){
+                for(var i=0; i<maps[m].map['ruleTree']['neighborhoods'][neighbor_count].length; i++){
+                    for(var j=0; j<maps[m].map['ruleTree']['neighborhoods'][neighbor_count][i].length; j++){
                         if(
-                            maps[i]['ruleTree']['neighborhoods'][neighbor_count][j][k]
+                            maps[m].map['ruleTree']['neighborhoods'][neighbor_count][i][j]
                             !=
-                            maps2[i]['ruleTree']['neighborhoods'][neighbor_count][j][k]
+                            maps2[m].map['ruleTree']['neighborhoods'][neighbor_count][i][j]
                         ){
                             throw Error('neighborhoods for both sub-maps should have the same chars')
                         }
@@ -57,21 +57,23 @@ class Test{
         }
 
         for(var m=0; m<=dims-1; m++){
-            var rule_count=maps[m]['rules'].length
-            for(var r = 0; r<rule_count; r++){
-                for(var i=0; i<maps[m]['ruleTree']['neighborhoods'][neighbor_count].length; i++){
-                    for(var j=0; j<maps[m]['ruleTree']['neighborhoods'][neighbor_count][i].length; j++){
-                    
+            for(var neighbor_count=maps[m].map['dimension']; neighbor_count<=2*maps2[m].map['dimension']; neighbor_count++){
+                var rules = maps[m].map['rules']
+                for(var i=0; i<maps[m].map['ruleTree']['neighborhoods'][neighbor_count].length; i++){
+                    for(var j=0; j<maps[m].map['ruleTree']['neighborhoods'][neighbor_count][i].length; j++){
+                        var rule = rules.shift()
+                        var neighborhood = maps[m].map['ruleTree']['neighborhoods'][neighbor_count][i][j]
+                        console.log(rule, neighborhood, maps[m].rule(maps[m].map, neighborhood))
+                        if(maps[m].rule(maps[m].map, neighborhood)!=rule){
+                            throw Error('neighborhood rule combination should be present in the tree through rule(neighborhood)')
+                        }
                     }
                 }
             }
-
         }
 
         //we want a test where we match the next rule with the next neighborhood, and assert that it is found
         //in the rule tree using a rule() search
-
-
     }
 
     nextNeighborhood(){
