@@ -10,8 +10,8 @@ class Test{
     }
 
     tests(){
-        // this.ruleTree()
-        // this.neighborhoods()
+        this.ruleTree()
+        this.neighborhoods()
         this.nNeighborhoods()
         // this.nextNeighborhood()
         // this.treeInsert()
@@ -60,25 +60,55 @@ class Test{
         //in the rule tree using a rule() search
     }
 
+
+    neighborhoods(){
+        //we want to check that neighborhoods do not repeat across dimensions
+        
+        var strings=[]
+        var string=""
+
+        for(var i = 1; i<=5; i++){
+
+            string+=i
+            strings.push(string)
+        }
+
+        for(var d = 1; d<=5; d++){
+            for(var i = 0; i<5; i++){
+                var s = strings[i]
+                var map = new Map(s, s, 'english', d)
+                new RuleTree().ruleTree(map.map)
+                // map.log()
+                for(var j=0; j<map.map['neighborhoods'].length; j++){
+                    for(var n=j+1; n<map.map['neighborhoods'].length; n++){
+                        this.arrNotEquals(map.map['neighborhoods'][j], map.map['neighborhoods'][n])
+                    }
+                }
+            }
+            
+        }
+        
+
+    }
     arrEquals(arr1, arr2, message){
         for(var i = 0; i<arr1.length; i++){
             assert.equal(arr1[i], arr2[i], message)
         }
     }
-    neighborhoods(){
-        //we need some math, because the number of neighborhoods is not a function of the number of cells
-        //it is a function of the number of unique encodings 
 
-        var maps=[]
-        var dims=5
-        for(var i = 1; i<=dims; i++){
-            var map = new Map('a', 'a', 'english', i)
-            new RuleTree().ruleTree(map.map)
-            maps.push(map)
-            maps[i-1].log()
-            console.log(maps[i-1].map['nNeighborhoods'])
+    arrNotEquals(arr1, arr2){
+        var equal=0
+        for(var i = 0; i<arr1.length; i++){
+            if(arr1[i]==arr2[i]){
+                equal+=1
+            }
         }
-
+        if(arr1.length!=arr2.length){
+            return
+        }
+        if(equal==arr2.length){
+            throw Error(arr1, "and", arr2, "should not be equal")
+        }
     }
 
     nNeighborhoods(){
@@ -97,8 +127,7 @@ class Test{
                 var map = new Map(s, s, 'english', d)
                 new RuleTree().ruleTree(map.map)
                 // map.log()
-                console.log(map.map['nNeighborhoods'],this._nNeighborhoods(s.length+1, d))
-                console.log(map.map['nNeighborhoods']==this._nNeighborhoods(s.length+1, d))    
+                assert.equals(map.map['nNeighborhoods']==this._nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
             }
             
         }
