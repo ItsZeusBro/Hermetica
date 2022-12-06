@@ -51,3 +51,6 @@ On another note, we can have sasquatch learn to generalize simulations into func
 Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
 
 So if abc as input uses 123 for its translation and def uses 123 for its translation, they both share the same relativity for all function inputs and outputs, and if the problem is associated with this relativity, (like problems involving mathematical induction), then we can probably have the same simulation and generation output correspond to multiple inputs and outputs for different functions. This might find higher order functions that serve more than one purpose! This could converge on the physics of calculation (a general purpose simulation)!
+
+## More Applications:
+We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
