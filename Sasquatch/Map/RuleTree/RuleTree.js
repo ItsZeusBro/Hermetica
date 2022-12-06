@@ -3,6 +3,10 @@ import fs from "node:fs"
 import path from "node:path"
 import {Utils} from "../Utils/Utils.js"
 
+
+//CONSTRUCTION OF RULE TREES DOES NOT AFFECT OUR RUNTIME PERFORMANCE ON ANY GIVEN SIMULATION BECAUSE
+//WE ARE SAVING THE RULE TREES. THE RULE SETS ARE ALSO BEING SAVED BECAUSE WE ARE USING THE SAME ORDER OF
+//SYMBOLS TO CONSTRUCT THE RULES ACROSS ALL SIMULATIONS
 export class RuleTree{
     constructor(){
 		this._neighborhoods;
@@ -38,6 +42,7 @@ export class RuleTree{
 	}
 
 	neighborhoods(map, _rules=false){
+		//we can greatly optimize tree construction if we perform it during
 		var neighborhoods=[]
 		var rules=[]
 		var codes = map['codes'].slice().sort()
@@ -49,6 +54,7 @@ export class RuleTree{
 			}
 		}
 		return [neighborhoods, rules]
+	
 	}
 
 	nextNeighborhood(){
