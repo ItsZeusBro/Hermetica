@@ -40,54 +40,15 @@ export class RuleTree{
 		var codes = map['codes'].slice().sort()
 		codes.reverse()
 		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
-			for(var j = 0; j<codes.length; j++){
-				var prev;
-				do{
-					prev = this.nextNeighborhood(codes, codes[j], prev, neighbor_count)
-					if(prev){
-						neighborhoods.push(prev.slice())
-						if(_rules){
-							rules.push(this.randomRule(map['codes']))
-						}
-					}
-				}while(prev)
-				//when prev returns null, we start with the next code
+			neighborhoods.push(...new Utils().combinationWithRepetition(codes, neighbor_count))
+			if(_rules){
+				rules.push(...this.randomRule(map['codes'], neighborhoods.length))
 			}
 		}
 		return [neighborhoods, rules]
 	}
 
-	nextNeighborhood(codes, code, prev, n){
-		if(prev){
-			for(var i=prev.length-1; i>=0; i--){
-				if(i==0){
-					return
-				}else{
-					if(prev[i]==codes[codes.length-1]){
-						for(var j=i; j>0; j--){
-							if(prev[j]!=codes[codes.length-1]){
-								prev[j]=codes[codes.indexOf(prev[j])+1]
-								var c=prev[j]
-								for(var k=j+1; k<prev.length; k++){
-									prev[k]=c
-								}
-								return prev
-							}
-						}
-					}else{
-						prev[i]=codes[codes.indexOf(prev[i])+1]
-						return prev
-					}
-				}
-			}
-		}else{
-			prev=[]
-			for(var i = 0; i<n; i++){
-				prev.push(code)
-			}
-			return prev
-		}
-	}
+
 
 	treeInsert(map, neighborhood, rule){
 		var tree;
@@ -133,8 +94,17 @@ export class RuleTree{
 		}		
 	}
 
-	randomRule(symbols){
-		return symbols[Math.floor(Math.random() * symbols.length)]
+	randomRule(symbols, n){
+		var rules=[]
+		if(n){
+			for(var i = 0; i<n; i++){
+				rules.push(symbols[Math.floor(Math.random() * symbols.length)])
+			}
+			return rules
+		}else{
+			return symbols[Math.floor(Math.random() * symbols.length)]
+
+		}
 	}
 
 

@@ -14,7 +14,7 @@ class Test{
         this.ruleTree()
         this.neighborhoods()
         this.nNeighborhoods()
-        this.nextNeighborhood()
+        // this.nextNeighborhood()
         // this.treeInsert()
         // this.refresh()
         // this.randomRule()
@@ -26,7 +26,9 @@ class Test{
 
     ruleTree(){
         var maps=[]
-        var dims=3
+        var dims=1
+
+
         for(var i = 1; i<=dims; i++){
             var map = new Map('abcdef', 'abcdef', 'english', i)
             new RuleTree().ruleTree(map.map)

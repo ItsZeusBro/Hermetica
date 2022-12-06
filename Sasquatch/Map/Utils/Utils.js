@@ -47,12 +47,6 @@ export class Utils{
                 return
             }
         }
-
-
-        // //if we are at a significant index and it is not already at symbols[0], we just decrement it and
-        // //out.unshift(next)
-
-        // //use this to reset if necessary
     }
 
     _reset(symbols, val, arr, i){
