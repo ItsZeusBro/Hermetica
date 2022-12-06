@@ -16,7 +16,7 @@ class Test{
         this.nNeighborhoods()
         this.treeInsert()
         this.refresh()
-        // this.randomRule()
+        this.randomRule()
         // this.rule()
         // this.exists()
         // this.exprt()
@@ -182,7 +182,26 @@ class Test{
     }
 
     randomRule(){
+        var map = new Map('abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz', 'english', i)
+        var rt = new RuleTree()
+        rt.ruleTree(map.map)
+        var rules1= []
+        var rules2= []
 
+        for(var i = 0; i<10000; i++){
+            rules1.push(rt.randomRule(map.map['codes']))
+            rules2.push(rt.randomRule(map.map['codes']))
+        }
+        var total=0;
+        for(var i = 0; i<10000; i++){
+            if(rules1[i]==rules2[i]){
+                total+=1
+            }
+        }
+        console.log('total rules=', rules1.length, 'total random rule collisions=', total)
+        if(rules1.length==total){
+            throw Error('WARNING, THIS FUNCTION IS NOT COLLISION SAFE, PERFORM TEST AGAIN TO ENSURE REFRESH() WORKS')
+        }
     }
 
     rule(){
