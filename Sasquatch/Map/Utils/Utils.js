@@ -28,28 +28,20 @@ export class Utils{
     _combinationWithRepetition(r, n){
         return (this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1))
     }
-    //i is the significant index in the symbols list
+
     combinationWithRepetition(symbols, n, out=[]){
         if(out.length==0){
             var next=[]
-            for(var k = 0; k<n; k++){
-                next.push(symbols[symbols.length-1])
-            }
-            console.log(next)
+            for(var k = 0; k<n; k++){next.push(symbols[symbols.length-1])}
             out.unshift(next)
             this.combinationWithRepetition(symbols, n, out)
         }
         if(out[0][0]==symbols[0]){return out}
-        
         var next=out[0].slice()
-        //if you cant decrement jth index any further decrement j
-        //if you can, do so and reset
         for(var j =n-1; j>=0; j--){
             if(next[j]!=symbols[0]){
                 next[j]=symbols[symbols.indexOf(next[j])-1]
-
                 next = this._reset(symbols, symbols[symbols.indexOf(next[j])], next, j)
-                console.log(next)
                 out.unshift(next)
                 this.combinationWithRepetition(symbols, n, out)
                 return
