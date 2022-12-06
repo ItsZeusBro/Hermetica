@@ -17,58 +17,45 @@ export class RuleTree{
 		//2-4 for 2 dimensions; 
 		//3-6 for 3 dimensions; 
 		//4-8 for 4 dimensions;
-		map['ruleTree']={}
-		map['ruleTree']['neighborhoods']={}
 		if(!map['rules']){
-			map['rules']=[]
-		}
-		
-		if(map['rules'].length==0){
-			for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
-				var neighborhoods=this.neighborhoods(map['codes'], neighbor_count)
-				map['ruleTree']['neighborhoods'][neighbor_count]=neighborhoods
-				for(var i=0; i<neighborhoods.length; i++){
-					map['rules'].push(this.randomRule(map['codes']))
-				}
-			}
+			var n = this.neighborhoods(map, true)
+			map['neighborhoods']=n[0]
+			map['rules']=n[1]
 		}else{
-			//we already have rules, no need to add them
-			for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
-				var neighborhoods=this.neighborhoods(map['codes'], neighbor_count)
-				map['ruleTree']['neighborhoods'][neighbor_count]=neighborhoods	
-			}
+			map['neighborhoods']  = this.neighborhoods(map, false)[0]
 		}
-
-		//we want to construct a ruleTree from the neighborhoods and the rules
-		var rules = map['rules'].slice()
-
-		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
-			for(var i = 0; i<map['ruleTree']['neighborhoods'][neighbor_count].length; i++){
-					var rule = rules.shift()
-					var neighborhood = map['ruleTree']['neighborhoods'][neighbor_count][i]
-
-					this.treeInsert(map, neighborhood, rule)
-				
-			}
+		map['nNeighborhoods']=0
+		map['ruleTree']={}
+		var rules=map['rules'].slice()
+		console.log(map['rules'].length, map['neighborhoods'].length)
+		for(var i = 0; i<map['neighborhoods'].length; i++){
+			this.treeInsert(map, map['neighborhoods'][i], rules.shift())
+			map['nNeighborhoods']+=1
+			
 		}
-
 	}
 
-	neighborhoods(codes, n){
-		codes.sort()
-		codes.reverse()
+	neighborhoods(map, _rules=false){
 		var neighborhoods=[]
-		for(var j = 0; j<codes.length; j++){
-			var prev;
-			do{
-				prev = this.nextNeighborhood(codes, codes[j], prev, n)
-				if(prev){
-					neighborhoods.push(prev.slice())
-				}
-			}while(prev)
-			//when prev returns null, we start with the next code
+		var rules=[]
+		var codes = map['codes'].slice().sort()
+		codes.reverse()
+		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
+			for(var j = 0; j<codes.length; j++){
+				var prev;
+				do{
+					prev = this.nextNeighborhood(codes, codes[j], prev, neighbor_count)
+					if(prev){
+						neighborhoods.push(prev.slice())
+						if(_rules){
+							rules.push(this.randomRule(map['codes']))
+						}
+					}
+				}while(prev)
+				//when prev returns null, we start with the next code
+			}
 		}
-		return neighborhoods
+		return [neighborhoods, rules]
 	}
 
 	nextNeighborhood(codes, code, prev, n){
@@ -122,6 +109,8 @@ export class RuleTree{
 	}
 
 	treeInsert(map, neighborhood, rule){
+		console.log(neighborhood, rule)
+
 		var tree;
 		if(map['ruleTree'][''+neighborhood.length]){
 			tree = map['ruleTree'][''+neighborhood.length]
