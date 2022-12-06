@@ -2,6 +2,7 @@ import {RuleTree} from "./RuleTree.js"
 import {Map} from "../Map.js"
 import {CodeMap} from "../CodeMap/CodeMap.js"
 import assert from "node:assert"
+import {Utils} from "../Utils/Utils.js"
 
 class Test{
 
@@ -13,7 +14,7 @@ class Test{
         this.ruleTree()
         this.neighborhoods()
         this.nNeighborhoods()
-        // this.nextNeighborhood()
+        this.nextNeighborhood()
         // this.treeInsert()
         // this.refresh()
         // this.randomRule()
@@ -127,28 +128,14 @@ class Test{
                 var map = new Map(s, s, 'english', d)
                 new RuleTree().ruleTree(map.map)
                 // map.log()
-                assert.equal(map.map['nNeighborhoods']==this._nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
+                assert.equal(map.map['nNeighborhoods']==new Utils().nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
             }
             
         }
       
 
     }
-    _nNeighborhoods(uniqueChars, dimension){
-        var r = uniqueChars
-        var nNeighborhoods=0
-        for(var n = dimension; n<=2*dimension; n++){
-            nNeighborhoods+=(this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1))
-        }
-        return nNeighborhoods
-    }
-    factorial (n) {
-        //https://stackoverflow.com/questions/3959211/what-is-the-fastest-factorial-function-in-javascript
-        if (n === 0)
-        { return 1; }
-        else
-        { return n * this.factorial( n - 1 ); }
-    }
+
     nextNeighborhood(){
 
     }
