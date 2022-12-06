@@ -127,7 +127,7 @@ class Test{
                 var map = new Map(s, s, 'english', d)
                 new RuleTree().ruleTree(map.map)
                 // map.log()
-                assert.equals(map.map['nNeighborhoods']==this._nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
+                assert.equal(map.map['nNeighborhoods']==this._nNeighborhoods(s.length+1, d), true, 'nNeighborhoods Test Error')    
             }
             
         }
