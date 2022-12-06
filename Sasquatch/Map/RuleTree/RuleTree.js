@@ -22,6 +22,7 @@ export class RuleTree{
 		if(!map['rules']){
 			map['rules']=[]
 		}
+		
 		if(map['rules'].length==0){
 			for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
 				var neighborhoods=this.neighborhoods(map['codes'], neighbor_count)
