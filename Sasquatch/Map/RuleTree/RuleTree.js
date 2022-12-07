@@ -7,6 +7,11 @@ import {Utils} from "../Utils/Utils.js"
 //CONSTRUCTION OF RULE TREES DOES NOT AFFECT OUR RUNTIME PERFORMANCE ON ANY GIVEN SIMULATION BECAUSE
 //WE ARE SAVING THE RULE TREES. THE RULE SETS ARE ALSO BEING SAVED BECAUSE WE ARE USING THE SAME ORDER OF
 //SYMBOLS TO CONSTRUCT THE RULES ACROSS ALL SIMULATIONS
+//we dont need to worry about ruleTree construction during runtime, we just have to worry about how we 
+//access the tree which is O(nlogn) merge sort complexity. If we create a tree with all of its possiblities 
+//no matter the order of the neighbors being searched we can get it down to O(n*d) where n is the number of 
+//cells, and d is the dimension of the simulation
+
 export class RuleTree{
     constructor(){
 		this._neighborhoods;
@@ -25,6 +30,7 @@ export class RuleTree{
 		//4-8 for 4 dimensions;
 		if(!map['rules']){
 			var n = this.neighborhoods(map, true)
+
 			this._neighborhoods = n.slice()
 			map['neighborhoods']=n[0]
 			map['rules']=n[1]
@@ -37,7 +43,6 @@ export class RuleTree{
 		for(var i = 0; i<map['neighborhoods'].length; i++){
 			this.treeInsert(map, map['neighborhoods'][i], rules.shift())
 			map['nNeighborhoods']+=1
-			
 		}
 	}
 
@@ -46,11 +51,16 @@ export class RuleTree{
 		var neighborhoods=[]
 		var rules=[]
 		var codes = map['codes'].slice().sort()
+
 		codes.reverse()
 		for(var neighbor_count=map['dimension']; neighbor_count<=2*map['dimension']; neighbor_count++){
+
 			neighborhoods.push(...new Utils().combinationWithRepetition(codes, neighbor_count))
+
 			if(_rules){
-				rules.push(...this.randomRule(map['codes'], neighborhoods.length))
+				//we are grabbing a set of C(r, n) rules where r is the number of symbols
+				//and neighbor count is the number of neighbors for a cell of this type
+				rules.push(...this.randomRule(map['codes'], neighbor_count))
 			}
 		}
 		return [neighborhoods, rules]
@@ -115,10 +125,11 @@ export class RuleTree{
 		}		
 	}
 
-	randomRule(symbols, n){
+	randomRule(symbols, dimensions){
 		var rules=[]
-		if(n){
-			for(var i = 0; i<n; i++){
+		if(dimensions){
+			var number = new Utils()._combinationWithRepetition(symbols.length, dimensions)
+			for(var i = 0; i<number; i++){
 				rules.push(symbols[Math.floor(Math.random() * symbols.length)])
 			}
 			return rules

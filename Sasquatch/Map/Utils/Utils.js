@@ -61,12 +61,13 @@ export class Utils{
         }
         return arr
     }
-
 }
+
+
 // var chars = []
-// for(var i = 1; i<10000; i++){
+// for(var i = 1; i<=10; i++){
 //     chars.push(i)
 // }
 // var out = new Utils().combinationWithRepetition(chars, 2, [])
-// console.log(out.reverse())
-// console.log(new Utils()._combinationWithRepetition(10, 120))
+// console.log(out.length)
+// console.log(new Utils()._combinationWithRepetition(10, 2))

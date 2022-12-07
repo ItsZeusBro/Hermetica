@@ -17,6 +17,7 @@ class Test{
         this.treeInsert()
         this.refresh()
         this.randomRule()
+        this.allNeighborhoods()
         // this.rule()
         // this.exists()
         // this.exprt()
@@ -24,14 +25,15 @@ class Test{
     }
 
     ruleTree(){
+
         var maps=[]
-        var dims=1
+        var dims=2
 
         for(var i = 1; i<=dims; i++){
             var map = new Map('abcd', 'abcd', 'english', i)
             new RuleTree().ruleTree(map.map)
             maps.push(map)
-            maps[0].log()
+            map.log()
         }
 
         var maps2=[]
@@ -63,6 +65,7 @@ class Test{
 
 
     neighborhoods(){
+
         //we want to check that neighborhoods do not repeat across dimensions
         //WE NEED TO REWRITE THE NEIGHBORHOODS ALGORITHM MORE EFFICIENTLY (SEE COMBINATIONS WITH REPETITIONS)
         
@@ -70,7 +73,6 @@ class Test{
         var string=""
 
         for(var i = 1; i<=5; i++){
-
             string+=i
             strings.push(string)
         }
@@ -91,12 +93,14 @@ class Test{
     }
 
     arrEquals(arr1, arr2, message){
+
         for(var i = 0; i<arr1.length; i++){
             assert.equal(arr1[i], arr2[i], message)
         }
     }
 
     arrNotEquals(arr1, arr2){
+
         var equal=0
         for(var i = 0; i<arr1.length; i++){
             if(arr1[i]==arr2[i]){
@@ -112,6 +116,7 @@ class Test{
     }
 
     nNeighborhoods(){
+
         var strings=[]
         var string=""
 
@@ -156,7 +161,7 @@ class Test{
     }
 
     refresh(){
-        var dims=5
+        var dims=3
         var total=0;
         var total_rules=0;
         for(var i = 1; i<=dims; i++){
@@ -182,7 +187,7 @@ class Test{
     }
 
     randomRule(){
-        var map = new Map('abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz', 'english', i)
+        var map = new Map('abcdefghijklmnopqrstuvwxyz', 'abcdefghijklmnopqrstuvwxyz', 'english', 2)
         var rt = new RuleTree()
         rt.ruleTree(map.map)
         var rules1= []
@@ -202,6 +207,12 @@ class Test{
         if(rules1.length==total){
             throw Error('WARNING, THIS FUNCTION IS NOT COLLISION SAFE, PERFORM TEST AGAIN TO ENSURE REFRESH() WORKS')
         }
+    }
+
+    allNeighborhoods(){
+        //we should take any given neighborhood
+        //take its chars, get the CombinationWithoutRepetition
+        //test all of these combinations for the same rule
     }
 
     rule(){
