@@ -41,11 +41,24 @@ export class RuleTree{
 		map['ruleTree']={}
 		var rules=map['rules'].slice()
 		for(var i = 0; i<map['neighborhoods'].length; i++){
+			this.neighborhoodCombinations(map['neighborhoods'][i])
+        	//insert all combinations into the tree for a particular rule
 			this.treeInsert(map, map['neighborhoods'][i], rules.shift())
 			map['nNeighborhoods']+=1
 		}
 	}
 
+	neighborhoodCombinations(){
+		//we should take any given neighborhood 
+		//(which is one of the CombinationsWithRepetition(codes, neighborcount))
+		//take its chars, get the 
+		//CombinationsWithoutRepetition(map['neighborhoods], 1, map['neighborhoods'].length) 
+		//for that group of chars
+		//this will usually return combinations that are less than or equal to the group of
+		//chars going in. Use the group of chars going in to fill in the combinations
+		//where there is a missing char because of repetition, repeat it.
+
+	}
 	neighborhoods(map, _rules=false){
 		//we can greatly optimize tree construction if we perform it during
 		var neighborhoods=[]

@@ -34,7 +34,7 @@ export class Utils{
     }
 
 
-    combinationWithRepetition(symbols, n, out=[]){
+    permutationWithRepetition(symbols, n, out=[]){
         while(true){
             if(out.length==0){
                 var next=[]
@@ -54,6 +54,10 @@ export class Utils{
         }
     }
 
+    permutationWithoutRepetition(symbols, n){
+
+    }
+
     _reset(symbols, val, arr, i){
         //reseting from the significant index for arr to val
         for(var j = i; j<arr.length; j++){
@@ -71,3 +75,43 @@ export class Utils{
 // var out = new Utils().combinationWithRepetition(chars, 2, [])
 // console.log(out.length)
 // console.log(new Utils()._combinationWithRepetition(10, 2))
+
+
+
+//Permutation without repetition
+//symbols =[1,2,3,4] n=4
+//we need to find an iterative pattern
+
+//most significant digits should be ordered iteratively
+
+//we want the runtime to match the output complexity
+//the output complexity
+//[1,2,3,4], 
+//[1,2,4,3]
+//[1,3,2,4]
+//[1,3,4,2]
+//[1,4,2,3]
+//[1,4,3,2]
+
+
+//[2,1,3,4]
+//[2,1,4,3]
+//[2,3,1,4]
+//[2,3,4,1]
+//[2,4,1,3]
+//[2,4,3,1]
+
+
+//[3,1,2,4]
+//[3,1,4,2]
+//[3,2,1,4]
+//[3,2,4,1]
+//[3,4,1,2]
+//[3,4,2,1]
+
+//[4,1,2,3]
+//[4,1,3,2]
+//[4,2,1,3]
+//[4,2,3,1]
+//[4,3,1,2]
+//[4,3,2,1]

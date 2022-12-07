@@ -211,8 +211,10 @@ class Test{
 
     allNeighborhoods(){
         //we should take any given neighborhood
-        //take its chars, get the CombinationWithoutRepetition
+        //take its chars, get the CombinationsWithoutRepetition for that group
+        //insert all combinations into the tree for the rule
         //test all of these combinations for the same rule
+
     }
 
     rule(){
