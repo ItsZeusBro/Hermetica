@@ -79,39 +79,28 @@ export class Utils{
 
 
 //Permutation without repetition
-//symbols =[1,2,3,4] n=4
+//symbols =[1,2,3,4] n=4 output=24  (with repetition we have 256 combinations)
 //we need to find an iterative pattern
 
 //most significant digits should be ordered iteratively
 
 //we want the runtime to match the output complexity
 //the output complexity
-//[1,2,3,4], 
-//[1,2,4,3]
+
+//we want for every even and odd position
+//some pattern that does not repeat
+
+//[1,2,3,4],
+      x
 //[1,3,2,4]
-//[1,3,4,2]
-//[1,4,2,3]
+        x
+//[1,3,4,2]  
+      x
 //[1,4,3,2]
+        x
+//[1,4,2,3]
+    x
+//[1,2,3,4] //this repeats, so we need to remove this and shift (only check repetitions at the begining and end)
 
 
-//[2,1,3,4]
-//[2,1,4,3]
-//[2,3,1,4]
-//[2,3,4,1]
-//[2,4,1,3]
-//[2,4,3,1]
 
-
-//[3,1,2,4]
-//[3,1,4,2]
-//[3,2,1,4]
-//[3,2,4,1]
-//[3,4,1,2]
-//[3,4,2,1]
-
-//[4,1,2,3]
-//[4,1,3,2]
-//[4,2,1,3]
-//[4,2,3,1]
-//[4,3,1,2]
-//[4,3,2,1]
