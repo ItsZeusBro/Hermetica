@@ -141,7 +141,7 @@ export class Combinatorics{
 
 // console.log('removes 4', arr.slice(0, 3).concat(arr.slice(4)))
 
-console.log(new Combinatorics().PwithoutR([1, 2, 3, 4], 3))
+// console.log(new Combinatorics().PwithoutR([1, 2, 3, 4, 5], 5))
 
 //ABCD
 //we want to never choose the same set of 3 twice for the whole set

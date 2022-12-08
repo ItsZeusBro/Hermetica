@@ -21,13 +21,13 @@ export class Utils{
     }
 }
 
-console.log('# of Permutations with Repetition', 4, 3, new Utils()._PwithR(4, 3))
-console.log('# of Permutations without Repetition', 4, 3, new Utils()._PwithoutR(4, 3))
-console.log('# of Combinations with Repetition', 4, 3, new Utils()._CwithR(4, 3))
-console.log('# of Combinations without Repetition', 4, 3, new Utils()._CwithoutR(4, 3))
+// console.log('# of Permutations with Repetition', 4, 3, new Utils()._PwithR(4, 3))
+// console.log('# of Permutations without Repetition', 4, 3, new Utils()._PwithoutR(4, 3))
+// console.log('# of Combinations with Repetition', 4, 3, new Utils()._CwithR(4, 3))
+// console.log('# of Combinations without Repetition', 4, 3, new Utils()._CwithoutR(4, 3))
 
 //console.log(new Utils().CwithR(['A', 'B', 'C', 'D'], 2))
-console.log(new Utils().PwithR(['A', 'B', 'C', 'D'], 3).length)
+//console.log(new Utils().PwithR(['A', 'B', 'C', 'D'], 3).length)
 
 //console.log(new Utils()._PwithoutR([1, 2, 3, 4, 5], 5))
 // var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
