@@ -4,18 +4,13 @@ export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
     PwithoutR(symbols, n, out={}){
         //use a dictionary
-        console.log(symbols)
         if(n==0){
             return
         }
         for(var i=0; i<symbols.length; i++){
-            var symbols2=symbols.slice()
-            var symbols3=symbols2.splice(i+1)
-            out[symbols2[0]]={}
-            // console.log(out[symbols[i]])
-            // console.log(symbols2)
-            //console.log(symbols3)
-            this.PwithoutR(symbols3, n-1, out[symbols[i]])
+            out[symbols[i]]={}
+            var symbols2 = symbols.slice(0,i).concat(symbols.slice(i+1))
+            this.PwithoutR(symbols2, n-1, out[symbols[i]])
         }
         return out
     }
@@ -134,8 +129,13 @@ export class Combinatorics{
 }
 // var arr = [1, 2, 3, 4]
 
-// console.log(arr.splice(1))
-// console.log(arr)
+// console.log('removes 1', arr.slice(0,0).concat(arr.slice(1)))
+// console.log('removes 2', arr.slice(0, 1).concat(arr.slice(2)))
+
+// console.log('removes 3', arr.slice(0, 2).concat(arr.slice(3)))
+
+// console.log('removes 4', arr.slice(0, 3).concat(arr.slice(4)))
+
 console.log(new Combinatorics().PwithoutR([1, 2, 3, 4], 3))
 
 //ABCD
