@@ -12,9 +12,10 @@ class Test{
             n_s.push(i)
         }
         for(var i = 0; i<n_s.length; i++){
-            this.PwithR(symbols, n_s[i])
-            this.PwithoutR(symbols, n_s[i])
-            this.CwithR(symbols, n_s[i])
+            this.PwithR(symbols.slice(), n_s[i])
+            this.PwithoutR(symbols.slice(), n_s[i])
+            this.CwithR(symbols.slice(), n_s[i])
+            this.CwithoutR(symbols.slice(), n_s[i])
         }
 
 
@@ -37,8 +38,10 @@ class Test{
         this.uniqueCwithR(symbols.length, n, result)
     }
 
-    CwithoutR(){
-        //still need to write function
+    CwithoutR(symbols, n){
+        var result = new Combinatorics().CwithoutR(symbols, n)
+        console.log(result)
+        this.uniqueCwithoutR(symbols.length, n, result)
     }
     uniquePwithR(n, r, result){
         var set = new Set()
@@ -65,6 +68,15 @@ class Test{
             set.add(str)
         }
         assert.equal(set.size==new Combinatorics()._CwithR(n, r), true)
+    }
+
+    uniqueCwithoutR(n, r, result){
+        var set = new Set()
+        for(var i =0; i<result.length; i++){
+            var str = result[i].join("")
+            set.add(str)
+        }
+        assert.equal(set.size==new Combinatorics()._CwithoutR(n, r), true)
     }
 }
 

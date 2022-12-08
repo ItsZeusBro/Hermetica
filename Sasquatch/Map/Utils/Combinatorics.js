@@ -20,7 +20,7 @@ export class Combinatorics{
         return permutations
     }
 
-    CwithoutR(symbols, n, combination = new Set(), out= new Set()){
+    CwithoutR(symbols, n, combination = new Set(), out=[]){
         if(n==0){
             //if there are no zero difference combinations with combination
             //then add it
@@ -31,7 +31,7 @@ export class Combinatorics{
                 }
             }
             if(!exists){
-                out.add(combination)
+                out.push(Array.from(combination))
             }
         }
         for(var i = 0; i<symbols.length; i++){
@@ -171,7 +171,7 @@ export class Combinatorics{
 
 // console.log('removes 4', arr.slice(0, 3).concat(arr.slice(4)))
 
-console.log(new Combinatorics().CwithoutR([1, 2, 3, 4, 5], 3))
+console.log(new Combinatorics().CwithoutR([1, 2, 3, 4, 5, 6], 4))
 
 //ABCD
 //we want to never choose the same set of 3 twice for the whole set
