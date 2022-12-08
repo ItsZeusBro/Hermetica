@@ -32,10 +32,41 @@ export class Utils{
         symbols.push(symbol)
         return symbols
     }
+   
+    _reset(symbols, val, arr, i){
+        //reseting from the significant index for arr to val
+        for(var j = i; j<arr.length; j++){
+            arr[j]=val
+        }
+        return arr
+    }
 
+    shiftLeft(list){
+        var symbol = list.shift()
+        list.push(symbol)
+        return list
+    }
+    shiftRight(list){
+        var symbol = list.pop()
+        list.unshift(symbol)
+        return list
+    }
+    swap(i, j, list){
+        list=list.slice()
+        var b = list[i];
+        list[i] = list[j];
+        list[j] = b;
+        return list
+    }
 
-    //PERMUTATION WITH REPETITION
-    PwithR(symbols, n, out=[]){
+    //PERMUTATION WITHOUT REPETITION
+    PwithoutR(symbols, n, out=[]){
+        var withReps = this.PwithR(symbols, n, out)
+        console.log(withReps)
+    }
+
+    //COMBINATION WITH REPETITION
+    CwithR(symbols, n, out=[]){
         while(true){
             if(out.length==0){
                 var next=[]
@@ -54,80 +85,51 @@ export class Utils{
             }
         }
     }
-
-    _PwithR(n, r){
-        //where n is the number of symbols, 
-        //and r is the number of symbols 
-        //chosen for each permutation with repetition
-
-        if((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1))%1<=.49999999){
-            return Math.floor((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1)))
-        }else{
-            return Math.ceil((this.factorial((n+r-1)))/(this.factorial(n)*this.factorial(r-1)))
-        }
-    }
-    _reset(symbols, val, arr, i){
-        //reseting from the significant index for arr to val
-        for(var j = i; j<arr.length; j++){
-            arr[j]=val
-        }
-        return arr
-    }
-
-
-    //PERMUTATION WITHOUT REPETITION
-    //this._PwithoutR(symbols.length, r);
-
-    PwithoutR(symbols, r){
-        var permutations = []
-        for(var i =0; i<symbols.length; i++){
-
-        }        
-    }
-    _PwithoutRHelper(symbols){
-        var swapLastTwo={'swap':[symbols.length-1, symbols.length-2]}
-        var shiftRightLastN={'shiftRight':[symbols.length]}
-        var shiftLeftLastN={'shiftLeft':[symbols.length]}
-        var operations=[swapLastTwo,shiftRightLastN, swapLastTwo, shiftLeftLastN]
-
-        for(var i = 0; i<this._PwithoutR(symbols.length, symbols.length);i++){
-
-        }
-    }
-    shift(list){
-        var symbol = list.shift()
-        list.push(symbol)
-        return list
-    }
-    swap(i, j, list){
-        list=list.slice()
-        var b = list[i];
-        list[i] = list[j];
-        list[j] = b;
-        return list
-    }
-
+    //where n is the number of symbols, 
+    //and r is the number of symbols chosen 
     _PwithoutR(n, r){
-        //where n is the number of symbols, and r is the number of 
-        //symbols chosen for each permutation without repetition
         if((this.factorial((n)))/(this.factorial(n-r))%1<=.49999999){
             return Math.floor((this.factorial((n)))/(this.factorial(n-r)))
         }else{
             return Math.ceil((this.factorial((n)))/(this.factorial(n-r)))
         }
     }
+    _PwithR(n, r){
+        return Math.pow(n, r)
+    }
+    _CwithR(n, r){
+        if((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r))%1<=.49999999){
+            return Math.floor((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r)))
+        }else{
+            return Math.ceil((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r)))
+        }
+    }
+    _CwithoutR(n, r){
+        if((this.factorial((n)))/(this.factorial(n-r)*this.factorial(r))%1<=.49999999){
+            return Math.floor((this.factorial((n)))/((this.factorial(n-r)*this.factorial(r))))
+        }else{
+            return Math.ceil((this.factorial((n)))/((this.factorial(n-r)*this.factorial(r))))
+        }
+    }
 }
 
+console.log('# of Permutations with Repetition', 4, 3, new Utils()._PwithR(4, 3))
+console.log('# of Permutations without Repetition', 4, 3, new Utils()._PwithoutR(4, 3))
+console.log('# of Combinations with Repetition', 4, 3, new Utils()._CwithR(4, 3))
+console.log('# of Combinations without Repetition', 4, 3, new Utils()._CwithoutR(4, 3))
+
+console.log(new Utils().PwithR([1, 2, 3, 4], 4))
+
 //console.log(new Utils()._PwithoutR([1, 2, 3, 4, 5], 5))
-var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-console.log(list)
-console.log('swapping indexes 0 with 1 on ', new Utils().swap(0, 1, list))
-console.log('swapping indexes 1 with 2 on ', new Utils().swap(1, 2, list))
-console.log('swapping indexes 0 with 3 on ', new Utils().swap(0, 3, list))
-console.log('swapping indexes 1 with 5 on ', new Utils().swap(1, 5, list))
-console.log('swapping indexes 0 with 9 on ', new Utils().swap(0, 9, list))
-console.log('swapping indexes 8 with 9 on ', new Utils().swap(8, 9, list))
-console.log('swapping indexes 7 with 9 on ', new Utils().swap(7, 9, list))
+// var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// console.log(list)
+// console.log('swapping indexes 0 with 1 on ', new Utils().swap(0, 1, list))
+// console.log('swapping indexes 1 with 2 on ', new Utils().swap(1, 2, list))
+// console.log('swapping indexes 0 with 3 on ', new Utils().swap(0, 3, list))
+// console.log('swapping indexes 1 with 5 on ', new Utils().swap(1, 5, list))
+// console.log('swapping indexes 0 with 9 on ', new Utils().swap(0, 9, list))
+// console.log('swapping indexes 8 with 9 on ', new Utils().swap(8, 9, list))
+// console.log('swapping indexes 7 with 9 on ', new Utils().swap(7, 9, list))
 
 
 
