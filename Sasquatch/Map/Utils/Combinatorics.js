@@ -22,7 +22,17 @@ export class Combinatorics{
 
     CwithoutR(symbols, n, combination = new Set(), out= new Set()){
         if(n==0){
-            out.add(combination)
+            //if there are no zero difference combinations with combination
+            //then add it
+            var exists=false
+            for (const elem of out) {
+                if(this.difference(combination, elem).size==0){
+                    exists=true
+                }
+            }
+            if(!exists){
+                out.add(combination)
+            }
         }
         for(var i = 0; i<symbols.length; i++){
             this.CwithoutR(
@@ -37,7 +47,13 @@ export class Combinatorics{
         
         return out
     }
-
+    difference(setA, setB) {
+        const _difference = new Set(setA);
+        for (const elem of setB) {
+          _difference.delete(elem);
+        }
+        return _difference;
+      }
     //PERMUTATION WITH REPETITION
     PwithR(symbols, n, out=[]){
         var coordinate1=[]
