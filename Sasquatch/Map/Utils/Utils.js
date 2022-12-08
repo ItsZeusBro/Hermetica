@@ -1,5 +1,6 @@
 import path from "node:path"
 import {createHash} from 'node:crypto'
+import {CoordinateClock} from '../Matrix/Coordinates.js'
 
 export class Utils{
     
@@ -61,8 +62,28 @@ export class Utils{
 
     //PERMUTATION WITHOUT REPETITION
     PwithoutR(symbols, n, out=[]){
-        var withReps = this.PwithR(symbols, n, out)
-        console.log(withReps)
+        
+    }
+    CwithoutR(symbols, n, out=[]){
+        
+    }
+
+    //PERMUTATION WITH REPETITION
+    PwithR(symbols, n, out=[]){
+        var coordinate1=[]
+        var coordinate2=[]
+        for(var i =0; i<n; i++){
+            coordinate1.push(0)
+            coordinate2.push(symbols.length-1)
+        }
+        var ticks = new CoordinateClock(coordinate1, coordinate2).coordinates()
+        for(var i=0; i<ticks.length; i++){
+            out.push([])
+            for(var j =0; j<ticks[i].length; j++){
+                out[i].push(symbols[ticks[i][j]])
+            }
+        }
+        return out
     }
 
     //COMBINATION WITH REPETITION
@@ -85,6 +106,7 @@ export class Utils{
             }
         }
     }
+
     //where n is the number of symbols, 
     //and r is the number of symbols chosen 
     _PwithoutR(n, r){
@@ -118,7 +140,8 @@ console.log('# of Permutations without Repetition', 4, 3, new Utils()._PwithoutR
 console.log('# of Combinations with Repetition', 4, 3, new Utils()._CwithR(4, 3))
 console.log('# of Combinations without Repetition', 4, 3, new Utils()._CwithoutR(4, 3))
 
-console.log(new Utils().PwithR([1, 2, 3, 4], 4))
+//console.log(new Utils().CwithR(['A', 'B', 'C', 'D'], 2))
+console.log(new Utils().PwithR(['A', 'B', 'C', 'D'], 3).length)
 
 //console.log(new Utils()._PwithoutR([1, 2, 3, 4, 5], 5))
 // var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -132,21 +155,76 @@ console.log(new Utils().PwithR([1, 2, 3, 4], 4))
 // console.log('swapping indexes 7 with 9 on ', new Utils().swap(7, 9, list))
 
 
+//we want to never choose the same set of 3 twice for the whole set
+//
 
+//ABCD
 
+//AAA   
+//AAB   
+//AAC  
+//AAD   
+//ABA   
+//ABB   
+//ABC   
+//ABD   
+//ACA   
+//ACB   
+//ACC
+//ACD
+//ADA
+//ADB
+//ADC
+//ADD
+//
+//BAA
+//BAB
+//BAC
+//BAD
+//BBA
+//BBB
+//BBC
+//BBD
+//BCA
+//BCB
+//BCC
+//BCD
+//BDA
+//BDB
+//BDC
+//BDD
 
+//CAA
+//CAB
+//CAC
+//CAD
+//CBA
+//CBB
+//CBC
+//CBD
+//CCA
+//CCB
+//CCC
+//CCD
+//CDA
+//CDB
+//CDC
+//CDD
 
-// var chars = []
-// for(var i = 1; i<=10; i++){
-//     chars.push(i)
-// }
-// var out = new Utils().combinationWithRepetition(chars, 2, [])
-// console.log(out.length)
-// console.log(new Utils()._combinationWithRepetition(10, 2))
-
-
-
-//Permutation without repetition
-//symbols =[1,2,3,4] n=4 output=24  (with repetition we have 256 combinations)
-//we need to find an iterative pattern
+//DAA
+//DAB
+//DAC
+//DAD
+//DBA
+//DBB
+//DBC
+//DBD
+//DCA
+//DCB
+//DCC
+//DCD
+//DDA
+//DDB
+//DDC
+//DDD
 
