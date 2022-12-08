@@ -2,17 +2,22 @@ import {CoordinateClock} from '../Matrix/Coordinates.js'
 
 export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
-    PwithoutR(symbols, n, out={}){
-        //use a dictionary
+    PwithoutR(symbols, n, out={}, recursed=[false], permutation=[], permutations=[]){
         if(n==0){
+            permutations.push(permutation)
             return
         }
-        for(var i=0; i<symbols.length; i++){
-            out[symbols[i]]={}
-            var symbols2 = symbols.slice(0,i).concat(symbols.slice(i+1))
-            this.PwithoutR(symbols2, n-1, out[symbols[i]])
+        for(var i = 0; i<symbols.length; i++){
+            this.PwithoutR(
+                symbols.slice(0, i).concat(symbols.slice(i+1)), 
+                n-1, 
+                out, 
+                recursed, 
+                permutation.slice().concat(symbols[i]), 
+                permutations
+            )
         }
-        return out
+        return permutations
     }
 
     CwithoutR(symbols, n, out=[]){
