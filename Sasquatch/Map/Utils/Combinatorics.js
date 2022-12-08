@@ -20,8 +20,22 @@ export class Combinatorics{
         return permutations
     }
 
-    CwithoutR(symbols, n, out=[]){
-
+    CwithoutR(symbols, n, combination = new Set(), out= new Set()){
+        if(n==0){
+            out.add(combination)
+        }
+        for(var i = 0; i<symbols.length; i++){
+            this.CwithoutR(
+                symbols.slice(0, i).concat(symbols.slice(i+1)),
+                n-1, 
+                new Set(
+                    JSON.parse(JSON.stringify(Array.from(combination)))
+                ).add(symbols[i]),
+                out
+            )
+        }
+        
+        return out
     }
 
     //PERMUTATION WITH REPETITION
@@ -141,7 +155,7 @@ export class Combinatorics{
 
 // console.log('removes 4', arr.slice(0, 3).concat(arr.slice(4)))
 
-// console.log(new Combinatorics().PwithoutR([1, 2, 3, 4, 5], 5))
+console.log(new Combinatorics().CwithoutR([1, 2, 3, 4, 5], 3))
 
 //ABCD
 //we want to never choose the same set of 3 twice for the whole set
@@ -183,3 +197,10 @@ export class Combinatorics{
 //142     241     341     431
 //143     243     342     432
 
+
+//4 choose 3
+//Combinations without repetition
+//123
+//134
+//124
+//234
