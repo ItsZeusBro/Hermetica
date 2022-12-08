@@ -2,9 +2,24 @@ import {CoordinateClock} from '../Matrix/Coordinates.js'
 
 export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
-    PwithoutR(symbols, n, out=[]){
-        
+    PwithoutR(symbols, n, out={}){
+        //use a dictionary
+        console.log(symbols)
+        if(n==0){
+            return
+        }
+        for(var i=0; i<symbols.length; i++){
+            var symbols2=symbols.slice()
+            var symbols3=symbols2.splice(i+1)
+            out[symbols2[0]]={}
+            // console.log(out[symbols[i]])
+            // console.log(symbols2)
+            //console.log(symbols3)
+            this.PwithoutR(symbols3, n-1, out[symbols[i]])
+        }
+        return out
     }
+
     CwithoutR(symbols, n, out=[]){
 
     }
@@ -117,5 +132,49 @@ export class Combinatorics{
         return list
     }
 }
+// var arr = [1, 2, 3, 4]
 
-console.log(new Combinatorics().PwithR([1, 2, 3], 2))
+// console.log(arr.splice(1))
+// console.log(arr)
+console.log(new Combinatorics().PwithoutR([1, 2, 3, 4], 3))
+
+//ABCD
+//we want to never choose the same set of 3 twice for the whole set
+
+//Permutation with repetition
+//AAA   //BAA   //CAA   //DAA
+//AAB   //BAB   //CAB   //DAB
+//AAC   //BAC   //CAC   //DAC
+//AAD   //BAD   //CAD   //DAD
+//ABA   //BBA   //CBA   //DBA
+//ABB   //BBB   //CBB   //DBB
+//ABC   //BBC   //CBC   //DBC
+//ABD   //BBD   //CBD   //DBD
+//ACA   //BCA   //CCA   //DCA
+//ACB   //BCB   //CCB   //DCB
+//ACC   //BCC   //CCC   //DCC
+//ACD   //BCD   //CCD   //DCD
+//ADA   //BDA   //CDA   //DDA
+//ADB   //BDB   //CDB   //DDB
+//ADC   //BDC   //CDC   //DDC
+//ADD   //BDD   //CDD   //DDD
+
+//4 choose 3
+//Permutation without repetition
+
+
+//ABC     BAC     CAB     DAB
+//ABD     BAD     CAD     DAC
+//ACB     BCA     CBA     DBA
+//ACD     BCD     CBD     DBC
+//ADB     BDA     CDA     DCA
+//ADC     BDC     CDB     DCB
+
+
+//123     213     312     412
+//124     214     314     413
+//132     231     321     421
+//134     234     324     423
+//142     241     341     431
+//143     243     342     432
+
