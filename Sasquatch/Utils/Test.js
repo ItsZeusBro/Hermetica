@@ -1,83 +1,117 @@
 import {Combinatorics} from "./Combinatorics.js"
 import assert from "node:assert"
 class Test{
-    constructor(n){
-        this.tests(n)
+    constructor(r){
+        this.tests(r)
     }
-    tests(n){
+    
+    tests(r){
         var symbols=[]
-        var n_s=[]
-        for(var i = 1; i<=n; i++){
+        var r_s=[]
+        for(var i = 0; i<=r; i++){
             symbols.push(i)
-            n_s.push(i)
+            r_s.push(i+1)
         }
-        for(var i = 0; i<n_s.length; i++){
-            this.PwithR(symbols.slice(), n_s[i])
-            this.PwithoutR(symbols.slice(), n_s[i])
-            this.CwithR(symbols.slice(), n_s[i])
-            this.CwithoutR(symbols.slice(), n_s[i])
+        for(var i = 0; i<r_s.length; i++){
+            this.PwithR(symbols.slice(), r_s[i])
+            this.PwithoutR(symbols.slice(), r_s[i])
+            this.CwithR(symbols.slice(), r_s[i])
+            this.CwithoutR(symbols.slice(), r_s[i])
         }
-
-
-    }
-    PwithR(symbols, n){
-        var result = new Combinatorics().PwithR(symbols, n)
-        console.log(result)
-        this.uniquePwithR(symbols.length, n, result)
-
-    }
-    PwithoutR(symbols, n){
-        var result = new Combinatorics().PwithoutR(symbols, n)
-        console.log(result)
-        this.uniquePwithoutR(symbols.length, n, result)
-
-    }
-    CwithR(symbols, n){
-        var result = new Combinatorics().CwithR(symbols, n)
-        console.log(result)
-        this.uniqueCwithR(symbols.length, n, result)
     }
 
-    CwithoutR(symbols, n){
-        var result = new Combinatorics().CwithoutR(symbols, n)
-        console.log(result)
-        this.uniqueCwithoutR(symbols.length, n, result)
+    PwithR(symbols, r){
+        var result = new Combinatorics().PwithR(symbols, r)
+        this.uniquePwithR(result)
+        this.inRange(symbols, r, result)
+        console.log('PwithR(', symbols.length, ',',r,')', this.lengthCheckPwithR(symbols, r, result))
+
+        
     }
-    uniquePwithR(n, r, result){
+
+    lengthCheckPwithR(symbols, r, result){
+        assert.equal(result.length==new Combinatorics()._PwithR(symbols.length, r), true)
+        return new Combinatorics()._PwithR(symbols.length, r)
+    }
+
+    uniquePwithR(result){
         var set = new Set()
         for(var i =0; i<result.length; i++){
             var str = result[i].join("")
             set.add(str)
         }
-        assert.equal(set.size==new Combinatorics()._PwithR(n, r), true)
+        
     }
 
-    uniquePwithoutR(n, r, result){
+    
+    PwithoutR(symbols, r){
+        var result = new Combinatorics().PwithoutR(symbols, r)
+        this.uniquePwithoutR(result)
+        this.inRange(symbols, r, result)
+        console.log('PwithoutR(', symbols.length,',',r,')', this.lengthCheckPwithoutR(symbols, r, result))
+    }
+
+    uniquePwithoutR(result){
         var set = new Set()
         for(var i=0; i<result.length; i++){
             var str = result[i].join("")
             set.add(str)
         }
-        assert.equal(set.size==new Combinatorics()._PwithoutR(n, r), true)
     }
 
-    uniqueCwithR(n, r, result){
+    lengthCheckPwithoutR(symbols, r, result){
+        assert.equal(result.length==new Combinatorics()._PwithoutR(symbols.length, r), true)
+        return new Combinatorics()._PwithoutR(symbols.length, r)
+    }
+
+    CwithR(symbols, r){
+        var result = new Combinatorics().CwithR(symbols, r)
+        this.uniqueCwithR(result)
+        this.inRange(symbols, r, result)
+        console.log('CwithR(', symbols.length, ',', r,')', this.lengthCheckCwithR(symbols, r, result))
+    }
+
+    lengthCheckCwithR(symbols, r, result){
+        assert.equal(result.length==new Combinatorics()._CwithR(symbols.length, r), true)
+        return new Combinatorics()._CwithR(symbols.length, r)
+    }
+
+    uniqueCwithR(result){
         var set = new Set()
         for(var i =0; i<result.length; i++){
             var str = result[i].join("")
             set.add(str)
         }
-        assert.equal(set.size==new Combinatorics()._CwithR(n, r), true)
     }
 
-    uniqueCwithoutR(n, r, result){
+
+    CwithoutR(symbols, r){
+        var result = new Combinatorics().CwithoutR(symbols, r)
+        this.uniqueCwithoutR(result)
+        this.inRange(symbols, r, result)
+        console.log('CwithoutR(', symbols.length, ',', r,')',this.lengthCheckCwithoutR(symbols, r, result))
+    }
+
+    lengthCheckCwithoutR(symbols, r, result){
+        assert.equal(result.length==new Combinatorics()._CwithoutR(symbols.length, r), true)
+        return new Combinatorics()._CwithoutR(symbols.length, r)
+    }
+
+    uniqueCwithoutR(result){
         var set = new Set()
         for(var i =0; i<result.length; i++){
             var str = result[i].join("")
             set.add(str)
         }
-        assert.equal(set.size==new Combinatorics()._CwithoutR(n, r), true)
+    }
+
+    inRange(symbols, r, result){
+        for(var i = 0; i<result.length; i++){
+            for(var j = 0; j<result.length; j++){
+                symbols.includes(result[i][j])
+            }
+        }
     }
 }
 
-new Test(7)
+new Test(4)

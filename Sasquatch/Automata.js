@@ -57,7 +57,66 @@ import path from "node:path"
 // 		//this should send the data to another process, and that should send to disk to free up this process
 // 		//writing to disk is more costly than IPC, we should only export batches of data
 // 	}
+// update(rs, old_matrix){
+//     var matrix=[]
+//     var coordinates = rs.coordinates(this.d)
 
+//     for(var i=0; i<old_matrix.matrix.length; i++){
+//         var coordinate = old_matrix.matrix[i]['coordinate']
+//         var neighborhood=old_matrix.neighborhood(coordinate)
+//         var mode = rs.rule(neighborhood)
+//         matrix.push(this.cell(mode, old_matrix.matrix[i]['data']['neighbors'], coordinate))
+//     }
+//     return matrix
+// }
+// cell(mode, neighbors, coordinate){
+//     return new Cell({'mode':mode, 'neighbors':neighbors}, coordinate)
+// }
+
+// mode(coordinate, mode){
+//     //this changes the mode or gets it for a specific coordinate
+
+//     if(mode){
+//         this.matrix[this.skip(coordinate)]['data']['mode']=mode
+//     }else{
+//         return this.matrix[this.skip(coordinate)]['data']['mode']
+//     }
+// }
+
+// _matrix(rs){
+//     var matrix=[]
+//     var coordinates = rs.coordinates(this.d)
+//     for(var i = 0; i<coordinates.length; i++){
+//         if(rs.inputVector()[i]){
+//             matrix.push(this.cell(rs.inputVector()[i], rs.neighbors(this.d, coordinates[i]), coordinates[i]))		
+//         }else{
+//             matrix.push(this.cell(' ', rs.neighbors(this.d, coordinates[i]), coordinates[i]))		
+
+//         }
+//     }
+//     return matrix
+// }	
+
+// neighbors(coordinate){
+//     return this.matrix[this.skip(coordinate)]['data']['neighbors']
+// }
+
+// neighborhood(coordinate){
+
+//     var neighbors = this.rs.neighbors(this.d, coordinate)
+//     var neighborhood={}
+//     for(var i = 0; i<neighbors.length; i++){
+//         neighborhood[neighbors[i]]=this.mode(coordinate)
+//     }
+//     return neighborhood
+// }
+// vectorize(){
+//     var vector=[]
+//     for(var i = 0; i<this.matrix.length; i++){
+//         vector.push(this.matrix[i]['data']['mode'])
+//     }
+//     return vector
+// }
 // 	log(automata){
 // 		for(var i = 0; i<automata.matrix.matrix.length; i++){
 // 			console.log(automata.matrix.matrix[i])

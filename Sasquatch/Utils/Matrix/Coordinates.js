@@ -4,15 +4,15 @@ export class Coordinates{
 		//when it comes to neighbors, we create a +1 and -1 across all dimensions
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
+		this.comparator = new Comparator(coordinate1.length)
 		this._coordinates=null
 		this.previous=null
 	}
-	_min(){
-		return this.coordinate1.slice()
-	}
-	_max(){
-		return this.coordinate2.slice()
-	}
+
+	min(){ return this.coordinate1.slice() }
+
+	max(){ return this.coordinate2.slice() }
+
 	coordinates(){
 		var symbols = new Set(this.coordinate1.slice().concat(this.coordinate2.slice()))
 		symbols = Array.from(symbols)
@@ -25,22 +25,18 @@ export class Coordinates{
 		this._coordinates = new Combinatorics().PwithR(symbols, this.coordinate1.length)
 		return this._coordinates
 	}
+	
+	range(){ return this.comparator.range() }
 
-	next(){
-		//if the coordinate index is greater than max after incrementing
-		//we want to reduce it to min, 
-		//else increment the next index (break)
-		//keep this on a loop
-		
+	next(){		
 		if(this.previous==null){
-			this.previous=this._min()
+			this.previous=this.min()
 			return this.previous
 		}
 		var current=this.previous
 		for(var i = 0; i<this.previous.length; i++){
 			if(this.inc_val(current, i)==undefined){
-				current[i]=this._min()[i];
-
+				current[i]=this.min()[i];
 			}else{
 				current[i]=	this.inc_val(current, i)
 				break	
@@ -50,23 +46,61 @@ export class Coordinates{
 		return current
 	}
 
-
 	inc_val(coordinate, i){
-		//console.log(coordinate[i], this.max()[i])
-		//this should return the incremented value of the ith point on the coordinate
-		if((coordinate[i]+1)>this._max()[i]){
+		if((coordinate[i]+1)>this.max()[i]){
 			return
 		}else{
 			return coordinate[i]+1
 		}
 	}
 
+	in(coordinate, coordinate1, coordinate2){
+		if(
+			new Comparator().isGreaterEqual(coordinate, coordinate1) 
+			&& 
+			new Comparator().isLessEqual(coordinate, coordinate2)
+		){
+			return true
+		}else{
+			return false
+		}
+	}
+
+	max(){
+		var max = []
+		max.push(this.m-1)
+		for(var i=0; i<this.d-1;i++){
+			max.push(this.m-1)
+		}
+		return max
+	}
+
+	min(){
+		var origin=[]
+		for(var i=0; i<this.d; i++){
+			origin.push(0)
+		}
+		return origin
+	}
+
+	window(coordinate1, coordinate2){
+		//we want to slice the list from coordinate1 to coordinate2
+		//so we need to access the list position of coordinate1, which could be a problem if we dont
+		//use an equation 
+	}
 }
 
 export class Comparator{
 	constructor(d){
 		this.d=d
 	}
+
+	range(coordinate1, coordinate2){
+		var min = Math.min(...coordinate1)
+		var max = Math.max(...coordinate2)
+		return max-min
+	}
+
 	isEqual(coordinate1, coordinate2){
 		for(var i = 0; i<coordinate1.length; i++){
 			if(coordinate1[i] != coordinate2[i]){
@@ -91,7 +125,6 @@ export class Comparator{
 		}else{
 			return false
 		}
-
 	}
 
 	isLess(coordinate1, coordinate2){
@@ -110,7 +143,6 @@ export class Comparator{
 			return false
 		}
 	}
-
 }
 
 
