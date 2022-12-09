@@ -8,6 +8,7 @@ class Test{
     }
     tests(){
         this._mtx()
+        this.shape()
     }
     _mtx(){
         var mtx = new Matrix([0,0,0], [2, 2, 2])
@@ -38,7 +39,15 @@ class Test{
         }
     }
     shape(){
+       var _1= [-1,-1,-1]
+       var _2=[2, 2, 2]
+        var mtx = new Matrix(_1, _2)
+        mtx.log(mtx.mtx)
+        var shape = mtx.shape()
 
+        for(var i = 0; i<_1.length; i++){
+            assert.equal(shape[i]==(_2[i]-_1[i]), true)
+        }
     }
     count(){
 

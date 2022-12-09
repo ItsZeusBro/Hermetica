@@ -50,6 +50,13 @@ export class Coordinates{
 			return coordinate[i]+1
 		}
 	}
+	shape(coordinate1, coordinate2){
+		var shape=[]
+		for(var i =0; i<coordinate1.length; i++){
+			shape.push(Math.abs(coordinate1[i]-coordinate2[i]))
+		}
+		return shape
+	}
 
 	in(coordinate, coordinate1, coordinate2){
 		if(

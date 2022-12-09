@@ -13,6 +13,8 @@ export class Matrix {
 		this.coordinates = new Coordinates(coordinate1, coordinate2)
 		this.m=this.coordinates.range()
 		this.d=coordinate1.length
+		this.coordinate1=coordinate1
+		this.coordinate2=coordinate2
 		this.comparator = new Comparator(this.d)
 		this.mtx;
 		this._mtx()
@@ -34,10 +36,7 @@ export class Matrix {
 	}
 	
 	shape(){
-		var shape = []
-		for(var i=0; i<this.d; i++){
-			shape.push(this.m)
-		}
+		return this.coordinates.shape(this.coordinate2, this.coordinate1)
 	}
 
 	count(){ return this.m*Math.pow(this.m, this.d-1) }
