@@ -32,10 +32,10 @@ export class Coordinates{
 		}
 		var current=this.previous
 		for(var i = 0; i<this.previous.length; i++){
-			if(this.inc_val(current, i)==undefined){
+			if(this.incVal(current, i)==undefined){
 				current[i]=this.min()[i];
 			}else{
-				current[i]=	this.inc_val(current, i)
+				current[i]=	this.incVal(current, i)
 				break	
 			}
 		}
@@ -43,7 +43,7 @@ export class Coordinates{
 		return current
 	}
 
-	inc_val(coordinate, i){
+	incVal(coordinate, i){
 		if((coordinate[i]+1)>this.max()[i]){
 			return
 		}else{

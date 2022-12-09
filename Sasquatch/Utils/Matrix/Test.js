@@ -14,6 +14,48 @@ class Test{
         this.get()
         this.skip()
     }
+    coordinates(){
+        
+    }
+
+    next(){
+
+    }
+
+    incVal(){
+
+    }
+    in(){
+
+    }
+    window(){
+
+    }
+
+
+    range(){
+
+    }
+    isEqual(){
+
+    }
+    isGreater(){
+
+    }
+
+    isGreaterEqual(){
+
+    }
+    isLess(){
+
+    }
+    isLessEqual(){
+
+    }
+
+    copy(){
+
+    }
     _mtx(){
         console.log('_mtx() test')
         var mtx = new Matrix([0,0,0], [2, 2, 2])
@@ -103,9 +145,11 @@ class Test{
         }
     }
 
-    copy(){
+    
 
-    }
+    
+
+
 }
 
 new Test()
