@@ -14,7 +14,8 @@ export class Matrix {
 		this.m=this.coordinates.range()
 		this.d=coordinate1.length
 		this.comparator = new Comparator(this.d)
-		this.mtx=this._mtx()
+		this.mtx;
+		this._mtx()
 	}
 
 	//this can refresh a matrix with new data
@@ -25,9 +26,10 @@ export class Matrix {
 			if(data){
 				mtx.push(new Cell(data[i], coordinates[i]))
 			}else{
-				mtx.push(new Cell('', coordinates[i]))
+				mtx.push(new Cell({}, coordinates[i]))
 			}
 		}
+		this.mtx=mtx
 		return mtx
 	}
 	
