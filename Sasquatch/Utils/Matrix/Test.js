@@ -12,6 +12,7 @@ class Test{
         this.count()
         this.at()
         this.get()
+        this.skip()
     }
     _mtx(){
         console.log('_mtx() test')
@@ -39,6 +40,7 @@ class Test{
             assert.equal(typeof mtx.mtx[i].data=='object', true)
         }
     }
+
     shape(){
         console.log('shape() test')
         var _1= [-1,-1,-1]
@@ -51,6 +53,7 @@ class Test{
             assert.equal(shape[i]==(_2[i]-_1[i]), true)
         }
     }
+
     count(){
         console.log('count() test')
         var _1 = [-1,-1,-1]
@@ -58,6 +61,7 @@ class Test{
         var mtx = new Matrix(_1, _2)
         assert.equal(mtx.count(), mtx.mtx.length)
     }
+
     at(){
         console.log('at() test')
         var _1 = [-1,-1,-1]
@@ -71,10 +75,20 @@ class Test{
             assert.equal(mtx.get(coordinates[i]).data, 'someData')
         }
     }
-    skip(){
 
-        
+    skip(){
+        console.log('skip() test')
+        var _1 = [-1,-1,-1]
+        var _2 = [2, 2, 2]
+        var mtx = new Matrix(_1, _2)
+        var coordinates = mtx.coordinates.coordinates
+        for(var i = 0; i<coordinates.length; i++){
+            mtx.at(coordinates[i], i, 'someKey')
+            assert.equal(i==mtx.skip(coordinates[i]), true)
+            assert.equal(mtx.mtx[mtx.skip(coordinates[i])].data['someKey']==i, true)
+        }
     }
+
     get(){
         console.log('get() test')
         var _1 = [-1,-1,-1]
@@ -88,6 +102,7 @@ class Test{
             assert.equal(mtx.get(coordinates[i]).data, i)
         }
     }
+
     copy(){
 
     }
