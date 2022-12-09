@@ -9,10 +9,13 @@ class Test{
     tests(){
         this._mtx()
         this.shape()
+        this.count()
+        this.at()
+        this.get()
     }
     _mtx(){
+        console.log('_mtx() test')
         var mtx = new Matrix([0,0,0], [2, 2, 2])
-        mtx.log(mtx.mtx)
         //test its coordinate system
         var coordinates = new Coordinates([0,0,0], [2,2,2]).coordinates()
         for(var i=0; i<coordinates.length; i++){
@@ -26,9 +29,7 @@ class Test{
         for(var i = 0; i<coordinates.length; i++){
             data.push(i)
         }
-        console.log(data)
         mtx._mtx(data)
-        console.log(mtx.mtx)
         for(var i=0; i<coordinates.length; i++){
             assert.equal(mtx.mtx[i].data==data[i], true)
         }
@@ -39,10 +40,11 @@ class Test{
         }
     }
     shape(){
-       var _1= [-1,-1,-1]
-       var _2=[2, 2, 2]
+        console.log('shape() test')
+        var _1= [-1,-1,-1]
+        var _2=[2, 2, 2]
         var mtx = new Matrix(_1, _2)
-        mtx.log(mtx.mtx)
+        //mtx.log(mtx.mtx)
         var shape = mtx.shape()
 
         for(var i = 0; i<_1.length; i++){
@@ -50,16 +52,40 @@ class Test{
         }
     }
     count(){
-
+        console.log('count() test')
+        var _1 = [-1,-1,-1]
+        var _2 = [2, 2, 2]
+        var mtx = new Matrix(_1, _2)
+        assert.equal(mtx.count(), mtx.mtx.length)
     }
     at(){
-
+        console.log('at() test')
+        var _1 = [-1,-1,-1]
+        var _2 = [2, 2, 2]
+        var data={'someKey':null}
+        var mtx = new Matrix(_1, _2, data)
+        var coordinates = mtx.coordinates.coordinates
+        
+        for(var i=0; i<coordinates.length; i++){
+            mtx.at(coordinates[i], 'someData', 'someKey')
+            assert.equal(mtx.get(coordinates[i]).data, 'someData')
+        }
     }
     skip(){
 
     }
     get(){
-
+        console.log('get() test')
+        var _1 = [-1,-1,-1]
+        var _2 = [2, 2, 2]
+        var data={'someKey':null}
+        var mtx = new Matrix(_1, _2, data)
+        var coordinates = mtx.coordinates.coordinates
+        
+        for(var i=0; i<coordinates.length; i++){
+            mtx.at(coordinates[i], i, 'someKey')
+            assert.equal(mtx.get(coordinates[i]).data, i)
+        }
     }
     copy(){
 

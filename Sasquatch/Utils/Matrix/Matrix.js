@@ -9,7 +9,7 @@ class Cell{
 }
 
 export class Matrix {
-	constructor(coordinate1, coordinate2){
+	constructor(coordinate1, coordinate2, data){
 		this.coordinates = new Coordinates(coordinate1, coordinate2)
 		this.m=this.coordinates.range()
 		this.d=coordinate1.length
@@ -17,7 +17,7 @@ export class Matrix {
 		this.coordinate2=coordinate2
 		this.comparator = new Comparator(this.d)
 		this.mtx;
-		this._mtx()
+		this._mtx(data)
 	}
 
 	//this can refresh a matrix with new data
@@ -25,11 +25,14 @@ export class Matrix {
 		var coordinates = this.coordinates.coordinates()
 		var mtx=[]
 		for(var i = 0; i<coordinates.length; i++){
-			if(data){
+			if(Array.isArray(data)){
 				mtx.push(new Cell(data[i], coordinates[i]))
+			}else if(typeof data === 'object'){
+				mtx.push(new Cell(data, coordinates[i]))
 			}else{
 				mtx.push(new Cell({}, coordinates[i]))
 			}
+
 		}
 		this.mtx=mtx
 		return mtx
@@ -39,7 +42,7 @@ export class Matrix {
 		return this.coordinates.shape(this.coordinate2, this.coordinate1)
 	}
 
-	count(){ return this.m*Math.pow(this.m, this.d-1) }
+	count(){ return this.mtx.length }
 
 	at(coordinate, data, key){
 		this.matrix[this.skip(coordinate)]['data'][key]=data
