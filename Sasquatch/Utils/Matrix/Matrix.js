@@ -1,6 +1,5 @@
 import util from 'node:util'
 import { Comparator, Coordinates } from './Coordinates.js'
-//import {Neighborhoods} from './Neighborhood.js'
 
 class Cell{
 	constructor(data=null, coordinate){
@@ -9,14 +8,27 @@ class Cell{
 	}
 }
 
-
 export class Matrix {
 	constructor(coordinate1, coordinate2){
-		this.coordinates = new Coordinates().coordinate(coordinate1, coordinate2)
+		this.coordinates = new Coordinates(coordinate1, coordinate2)
 		this.m=this.coordinates.range()
-		this.d=coordinate.length
-		this.comparator = new Comparator(d)
-		this.matrix;
+		this.d=coordinate1.length
+		this.comparator = new Comparator(this.d)
+		this.mtx=this._mtx()
+	}
+
+	//this can refresh a matrix with new data
+	_mtx(data){
+		var coordinates = this.coordinates.coordinates()
+		var mtx=[]
+		for(var i = 0; i<coordinates.length; i++){
+			if(data){
+				mtx.push(new Cell(data[i], coordinates[i]))
+			}else{
+				mtx.push(new Cell('', coordinates[i]))
+			}
+		}
+		return mtx
 	}
 	
 	shape(){

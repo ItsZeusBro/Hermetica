@@ -1,7 +1,6 @@
-import {Combinatorics} from '../Utils/Combinatorics.js'
+import {Combinatorics} from '../Combinatorics/Combinatorics.js'
 export class Coordinates{
 	constructor(coordinate1, coordinate2){
-		//when it comes to neighbors, we create a +1 and -1 across all dimensions
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
 		this.comparator = new Comparator(coordinate1.length)
@@ -19,14 +18,12 @@ export class Coordinates{
 		var min = Math.min(...symbols)
 		var max = Math.max(...symbols)
 		symbols=[]
-		for(var i = min; i<=max; i++){
-			symbols.push(i)
-		}
+		for(var i = min; i<=max; i++){ symbols.push(i) }
 		this._coordinates = new Combinatorics().PwithR(symbols, this.coordinate1.length)
 		return this._coordinates
 	}
 	
-	range(){ return this.comparator.range() }
+	range(){ return this.comparator.range(this.coordinate1, this.coordinate2) }
 
 	next(){		
 		if(this.previous==null){
@@ -64,23 +61,6 @@ export class Coordinates{
 		}else{
 			return false
 		}
-	}
-
-	max(){
-		var max = []
-		max.push(this.m-1)
-		for(var i=0; i<this.d-1;i++){
-			max.push(this.m-1)
-		}
-		return max
-	}
-
-	min(){
-		var origin=[]
-		for(var i=0; i<this.d; i++){
-			origin.push(0)
-		}
-		return origin
 	}
 
 	window(coordinate1, coordinate2){
@@ -144,10 +124,3 @@ export class Comparator{
 		}
 	}
 }
-
-
-// console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())
-// var coordinates = new Coordinates([-1,-1,-1], [2, 2, 2])
-// for(var i= 0; i<coordinates.coordinates().length; i++){
-// 	console.log(coordinates.next())
-// }
