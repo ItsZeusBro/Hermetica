@@ -7,9 +7,9 @@ class Test{
     tests(n){
         var symbols=[]
         var n_s=[]
-        for(var i = 1; i<=n; i++){
+        for(var i = 0; i<=n; i++){
             symbols.push(i)
-            n_s.push(i)
+            n_s.push(i+1)
         }
         for(var i = 0; i<n_s.length; i++){
             this.PwithR(symbols.slice(), n_s[i])
@@ -44,6 +44,7 @@ class Test{
         this.uniqueCwithoutR(symbols.length, n, result)
     }
     uniquePwithR(n, r, result){
+        console.log(result)
         var set = new Set()
         for(var i =0; i<result.length; i++){
             var str = result[i].join("")
@@ -80,4 +81,4 @@ class Test{
     }
 }
 
-new Test(7)
+//new Test(2)

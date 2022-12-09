@@ -2,7 +2,7 @@ import {CoordinateClock} from '../Matrix/Coordinates.js'
 
 export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
-    PwithoutR(symbols, n, out={}, recursed=[false], permutation=[], permutations=[]){
+    PwithoutR(symbols, n, permutation=[], permutations=[]){
         if(n==0){
             permutations.push(permutation)
             return
@@ -11,8 +11,6 @@ export class Combinatorics{
             this.PwithoutR(
                 symbols.slice(0, i).concat(symbols.slice(i+1)), 
                 n-1, 
-                out, 
-                recursed, 
                 permutation.slice().concat(symbols[i]), 
                 permutations
             )
@@ -55,21 +53,20 @@ export class Combinatorics{
         return _difference;
       }
     //PERMUTATION WITH REPETITION
-    PwithR(symbols, n, out=[]){
-        var coordinate1=[]
-        var coordinate2=[]
-        for(var i =0; i<n; i++){
-            coordinate1.push(0)
-            coordinate2.push(symbols.length-1)
+    PwithR(symbols, n, permutation=[], permutations=[]){
+        if(n==0){
+            permutations.push(permutation)
+            return
         }
-        var ticks = new CoordinateClock(coordinate1, coordinate2).coordinates()
-        for(var i=0; i<ticks.length; i++){
-            out.push([])
-            for(var j =0; j<ticks[i].length; j++){
-                out[i].push(symbols[ticks[i][j]])
-            }
+        for(var i = 0; i<symbols.length; i++){
+            this.PwithR(
+                symbols, 
+                n-1, 
+                permutation.slice().concat(symbols[i]), 
+                permutations
+            )
         }
-        return out
+        return permutations
     }
 
     //COMBINATION WITH REPETITION
@@ -171,7 +168,7 @@ export class Combinatorics{
 
 // console.log('removes 4', arr.slice(0, 3).concat(arr.slice(4)))
 
-console.log(new Combinatorics().CwithoutR([1, 2, 3, 4, 5, 6], 4))
+console.log(new Combinatorics().PwithR([0, 1, 2], 3))
 
 //ABCD
 //we want to never choose the same set of 3 twice for the whole set
@@ -193,6 +190,8 @@ console.log(new Combinatorics().CwithoutR([1, 2, 3, 4, 5, 6], 4))
 //ADB   //BDB   //CDB   //DDB
 //ADC   //BDC   //CDC   //DDC
 //ADD   //BDD   //CDD   //DDD
+
+
 
 //4 choose 3
 //Permutation without repetition
