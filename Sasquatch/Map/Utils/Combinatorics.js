@@ -1,5 +1,3 @@
-import {CoordinateClock} from '../Matrix/Coordinates.js'
-
 export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
     PwithoutR(symbols, n, permutation=[], permutations=[]){
@@ -45,13 +43,15 @@ export class Combinatorics{
         
         return out
     }
+
     difference(setA, setB) {
         const _difference = new Set(setA);
         for (const elem of setB) {
           _difference.delete(elem);
         }
         return _difference;
-      }
+    }
+
     //PERMUTATION WITH REPETITION
     PwithR(symbols, n, permutation=[], permutations=[]){
         if(n==0){
@@ -99,9 +99,11 @@ export class Combinatorics{
             return Math.ceil((this.factorial((n)))/(this.factorial(n-r)))
         }
     }
+
     _PwithR(n, r){
         return Math.pow(n, r)
     }
+
     _CwithR(n, r){
         if((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r))%1<=.49999999){
             return Math.floor((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r)))
@@ -109,6 +111,7 @@ export class Combinatorics{
             return Math.ceil((this.factorial((n+r-1)))/(this.factorial(n-1)*this.factorial(r)))
         }
     }
+
     _CwithoutR(n, r){
         if((this.factorial((n)))/(this.factorial(n-r)*this.factorial(r))%1<=.49999999){
             return Math.floor((this.factorial((n)))/((this.factorial(n-r)*this.factorial(r))))
@@ -116,7 +119,6 @@ export class Combinatorics{
             return Math.ceil((this.factorial((n)))/((this.factorial(n-r)*this.factorial(r))))
         }
     }
-
 
     factorial (n) {
         //https://stackoverflow.com/questions/3959211/what-is-the-fastest-factorial-function-in-javascript

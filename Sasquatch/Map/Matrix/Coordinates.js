@@ -1,60 +1,49 @@
-export class CoordinateClock{
-	constructor(coordinate1, coordinate2, min, max){
+import {Combinatorics} from '../Utils/Combinatorics.js'
+export class Coordinates{
+	constructor(coordinate1, coordinate2){
 		//when it comes to neighbors, we create a +1 and -1 across all dimensions
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
-		this.min=min
-		this.max=max
+		this._coordinates=null
 		this.previous=null
 	}
 	_min(){
-		return this.coordinate1
+		return this.coordinate1.slice()
 	}
 	_max(){
-		return this.coordinate2
+		return this.coordinate2.slice()
 	}
 	coordinates(){
-		var coordinates=[]
-		while(true){
-			var next = this.next()
-			if(next&&this.valid(next)){
-				if(new Comparator(this.coordinate1.length).isEqual(this.coordinate2, next)){
-					coordinates.push(next)
-					return coordinates
-				}else{
-					coordinates.push(next)
-				}
-			}else{
-				return coordinates
-			}
-			
+		var symbols = new Set(this.coordinate1.slice().concat(this.coordinate2.slice()))
+		symbols = Array.from(symbols)
+		var min = Math.min(...symbols)
+		var max = Math.max(...symbols)
+		symbols=[]
+		for(var i = min; i<=max; i++){
+			symbols.push(i)
 		}
+		this._coordinates = new Combinatorics().PwithR(symbols, this.coordinate1.length)
+		return this._coordinates
 	}
-	valid(coordinate){
-		//check to see if any of the coordinates dimensions exceed the limits set by min and max
-		for(var i = 0; i<coordinate.length-1; i++){
-			//console.log(coordinate[i], this.min, this.max)
-			if(coordinate[i]<this.min||coordinate[i]>this.max){
-				return false
-			}
-		}
-		return true
-	}
+
 	next(){
-		//we wish to increment the coordinate by one step, sometimes that requires incrementing different dimensions
-		//if we call increment_val on a particular dimension and it returns 0, we need to increment_val on the next dimension
+		//if the coordinate index is greater than max after incrementing
+		//we want to reduce it to min, 
+		//else increment the next index (break)
+		//keep this on a loop
+		
 		if(this.previous==null){
 			this.previous=this._min()
 			return this.previous
 		}
-		var current=JSON.parse(JSON.stringify(this.previous))
+		var current=this.previous
 		for(var i = 0; i<this.previous.length; i++){
-			if(this.inc_val(current, i)){
-				current[i]=this.inc_val(current, i)
-				break
+			if(this.inc_val(current, i)==undefined){
+				current[i]=this._min()[i];
+
 			}else{
-				//in this case it returns zero, and we need to set the ith index to 0, and increment the next (iterate)	
-				current[i]=0;		
+				current[i]=	this.inc_val(current, i)
+				break	
 			}
 		}
 		this.previous=current
@@ -65,12 +54,13 @@ export class CoordinateClock{
 	inc_val(coordinate, i){
 		//console.log(coordinate[i], this.max()[i])
 		//this should return the incremented value of the ith point on the coordinate
-		if(coordinate[i]>=this._max()[i]){
-			return 0
+		if((coordinate[i]+1)>this._max()[i]){
+			return
 		}else{
 			return coordinate[i]+1
 		}
 	}
+
 }
 
 export class Comparator{
@@ -123,4 +113,9 @@ export class Comparator{
 
 }
 
-// console.log(new Clock([-1,-1,-1], [2, 2, 2], 0, 2).coordinates())
+
+// console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())
+// var coordinates = new Coordinates([-1,-1,-1], [2, 2, 2])
+// for(var i= 0; i<coordinates.coordinates().length; i++){
+// 	console.log(coordinates.next())
+// }
