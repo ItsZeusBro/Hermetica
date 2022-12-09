@@ -32,7 +32,6 @@ export class Matrix {
 			}else{
 				mtx.push(new Cell({}, coordinates[i]))
 			}
-
 		}
 		this.mtx=mtx
 		return mtx
@@ -49,16 +48,13 @@ export class Matrix {
 	}
 
 	skip(coordinate){
-		var j=0;
-		coordinate = coordinate.split(',')
-		for(var i=coordinate.length-1; i>=0; i--){
-			if(coordinate[i]=='0'){
-				j+=0
-			}else{
-				j=j+(parseInt(coordinate[i])*Math.pow(this.m, i))
+		var index=0;
+		for(var i=0; i<coordinate.length; i++){
+			if(coordinate[i]!=0){
+				index+=coordinate[i]*Math.pow(this.m, i)
 			}
 		}
-		return j
+		return index
 	}
 
 	get(coordinate){ return this.matrix[this.skip(coordinate)] }
