@@ -98,6 +98,14 @@ export class Comparator{
 		this.d=d
 	}
 
+	diff(coordinate1, coordinate2){
+		var diff = []
+		for(var i = 0; i<coordinate1.length; i++){
+			diff.push(Math.abs(coordinate1[i]-coordinate2[i]))
+		}
+		return diff
+	}
+
 	range(coordinate1, coordinate2){
 		var min = Math.min(...coordinate1)
 		var max = Math.max(...coordinate2)

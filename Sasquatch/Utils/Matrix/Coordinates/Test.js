@@ -15,6 +15,7 @@ class Test{
         this.next()
         this.incVal()
         this.in()
+        this.diff()
     }
 
     coordinates(){
@@ -87,7 +88,19 @@ class Test{
         }
     }
 
-    window(){
+    diff(){
+        var c1=[-10,-10,-10]
+        var c2=[10, 10, 10]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        for(var n = 0; n<coordinates.length-1; n++){
+            var diff = _coordinates.comparator.diff(coordinates[n], coordinates[n+1])
+
+            console.log(coordinates[n], coordinates[n+1], diff)
+            assert.equal(diff[0], 0)
+            assert.equal(diff[1], 0)
+            assert.equal(diff[2], 1)
+        }
 
     }
 
