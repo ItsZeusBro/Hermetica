@@ -17,14 +17,22 @@ class Test{
         this.coordinates()
 
     }
+
     coordinates(){
         console.log('coordinates() test')
-        for(var n = -5; n<5; n++){
-            //test its coordinate system
-            var coordinates = new Coordinates([n,n,n], [n*2, n*2, n*2]).coordinates()
-            var PwithR = new Combinatorics()._PwithR(5-n, 3)
-            assert.equal(PwithR, coordinates.length)
-        }
+        var coordinates = new Coordinates([0,0,0], [5, 5, 5]).coordinates()
+        var coordinates2 = new Coordinates([-5,-5,-5], [-10, -10, -10]).coordinates(true)
+
+
+        // var PwithR = new Combinatorics()._PwithR(6, 3)
+        // assert.equal(PwithR, coordinates.length)
+
+        // for(var n = -5; n<5; n++){
+        //     //test its coordinate system
+        //     var _n = Math.abs(Math.abs(n*2)-Math.abs(n))
+        //     console.log(_n, n*2-n)
+        //     var PwithR = new Combinatorics()._PwithR(_n, 3)
+        // }
     }
 
     next(){
@@ -119,11 +127,10 @@ class Test{
         var _2 = [2, 2, 2]
         var data={'someKey':null}
         var mtx = new Matrix(_1, _2, data)
-        var coordinates = mtx.coordinates.coordinates
-        
+        var coordinates = mtx.coordinates._coordinates
         for(var i=0; i<coordinates.length; i++){
             mtx.at(coordinates[i], 'someData', 'someKey')
-            assert.equal(mtx.get(coordinates[i]).data, 'someData')
+            assert.equal(mtx.get(coordinates[i]).data['someKey'], 'someData')
         }
     }
 
@@ -132,7 +139,7 @@ class Test{
         var _1 = [-1,-1,-1]
         var _2 = [2, 2, 2]
         var mtx = new Matrix(_1, _2)
-        var coordinates = mtx.coordinates.coordinates
+        var coordinates = mtx.coordinates._coordinates
         for(var i = 0; i<coordinates.length; i++){
             mtx.at(coordinates[i], i, 'someKey')
             assert.equal(i==mtx.skip(coordinates[i]), true)
@@ -146,11 +153,11 @@ class Test{
         var _2 = [2, 2, 2]
         var data={'someKey':null}
         var mtx = new Matrix(_1, _2, data)
-        var coordinates = mtx.coordinates.coordinates
+        var coordinates = mtx.coordinates._coordinates
         
         for(var i=0; i<coordinates.length; i++){
             mtx.at(coordinates[i], i, 'someKey')
-            assert.equal(mtx.get(coordinates[i]).data, i)
+            assert.equal(mtx.get(coordinates[i]).data['someKey'], i)
         }
     }
 }

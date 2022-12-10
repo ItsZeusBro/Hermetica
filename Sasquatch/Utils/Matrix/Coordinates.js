@@ -12,7 +12,7 @@ export class Coordinates{
 
 	max(){ return this.coordinate2.slice() }
 
-	coordinates(){
+	coordinates(sort){
 		var symbols = new Set(this.coordinate1.slice().concat(this.coordinate2.slice()))
 		symbols = Array.from(symbols)
 		var min = Math.min(...symbols)
@@ -21,6 +21,22 @@ export class Coordinates{
 		for(var i = min; i<=max; i++){ symbols.push(i) }
 		this._coordinates = new Combinatorics().PwithR(symbols, this.coordinate1.length)
 		return this._coordinates
+	}
+
+	//sorting coordinates comes down to the comparator function
+	//[]
+
+	sort(coordinates){
+		coordinates.sort(function(a, b){
+			if(new Comparator().isGreater(a, b)){
+				return 1
+			}else if(new Comparator().isLess(a, b)){
+				return -1
+			}else{
+				return 0
+			}
+		});
+		return coordinates
 	}
 	
 	range(){ return this.comparator.range(this.coordinate1, this.coordinate2) }
@@ -85,7 +101,7 @@ export class Comparator{
 	range(coordinate1, coordinate2){
 		var min = Math.min(...coordinate1)
 		var max = Math.max(...coordinate2)
-		return max-min
+		return max-min+1
 	}
 
 	isEqual(coordinate1, coordinate2){
