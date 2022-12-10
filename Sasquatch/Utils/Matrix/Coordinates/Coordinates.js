@@ -12,7 +12,7 @@ export class Coordinates{
 
 	max(){ return this.coordinate2.slice() }
 
-	coordinates(sort){
+	coordinates(){
 		var symbols = new Set(this.coordinate1.slice().concat(this.coordinate2.slice()))
 		symbols = Array.from(symbols)
 		var min = Math.min(...symbols)

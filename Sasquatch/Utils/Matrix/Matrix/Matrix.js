@@ -77,7 +77,6 @@ export class Matrix {
 				}
 			}
 		}
-		
 		return index
 	}
 

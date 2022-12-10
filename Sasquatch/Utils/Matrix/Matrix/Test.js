@@ -7,6 +7,7 @@ class Test{
     constructor(){
         this.tests()
     }
+    
     tests(){
         this._mtx()
         this.shape()
@@ -14,8 +15,8 @@ class Test{
         this.at()
         this.get()
         this.skip()
-
     }
+
     _mtx(){
         console.log('_mtx() test')
         var mtx = new Matrix([0,0,0], [2, 2, 2])

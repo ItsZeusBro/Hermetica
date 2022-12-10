@@ -1,4 +1,4 @@
-import {Coordinates} from "./Coordinates.js"
+import {Coordinates, Comparator} from "./Coordinates.js"
 import assert from "node:assert"
 import {Combinatorics} from "../../Combinatorics/Combinatorics.js"
 
@@ -7,25 +7,23 @@ class Test{
         this.tests()
     }
     tests(){
-
+        this.coordinates()
 
     }
 
     coordinates(){
         console.log('coordinates() test')
-        var coordinates = new Coordinates([0,0,0], [5, 5, 5]).coordinates()
-        var coordinates2 = new Coordinates([-5,-5,-5], [-10, -10, -10]).coordinates(true)
-
-
-        // var PwithR = new Combinatorics()._PwithR(6, 3)
-        // assert.equal(PwithR, coordinates.length)
-
-        // for(var n = -5; n<5; n++){
-        //     //test its coordinate system
-        //     var _n = Math.abs(Math.abs(n*2)-Math.abs(n))
-        //     console.log(_n, n*2-n)
-        //     var PwithR = new Combinatorics()._PwithR(_n, 3)
-        // }
+        var c1=[0,0,0]
+        var c2=[5, 5, 5]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        var PwithR = new Combinatorics()._PwithR(_coordinates.range(), c1.length)
+        assert.equal(PwithR, coordinates.length)
+        var comparator = new Comparator(c1.length)
+        for(var n = 0; n<coordinates.length-1; n++){
+            //test its coordinate system
+            assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
+        }
     }
 
     next(){
