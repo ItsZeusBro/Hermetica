@@ -90,11 +90,7 @@ export class Coordinates{
 		}
 	}
 
-	window(coordinate1, coordinate2){
-		//we want to slice the list from coordinate1 to coordinate2
-		//so we need to access the list position of coordinate1, which could be a problem if we dont
-		//use an equation 
-	}
+
 }
 
 export class Comparator{

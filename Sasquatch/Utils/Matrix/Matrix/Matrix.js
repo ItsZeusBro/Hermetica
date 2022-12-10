@@ -55,7 +55,7 @@ export class Matrix {
 		this.mtx[this.skip(coordinate)]['data'][key]=data
 	}
 
-	skip(coordinate){
+	skip(coordinate, dimensions){
 		var index=0;
 		if(this.virtual){
 
@@ -78,6 +78,19 @@ export class Matrix {
 			}
 		}
 		return index
+	}
+
+	window(coordinate1, coordinate2, dimensions){
+		//we want to slice the list from coordinate1 to coordinate2
+		//coordinates need to be reduced to a specific dimension range
+		//from dimensions, then we need to skip over the points
+		//and return the subset of points without extraneous dimensions
+		//This is an expensive operation because of the removal of extraneous
+		//dimensions
+
+		//we can use Permutation without repetition and skip to gather the data
+		//then return the new initialized Matrix object
+
 	}
 
 	get(coordinate){ return this.mtx[this.skip(coordinate)] }
