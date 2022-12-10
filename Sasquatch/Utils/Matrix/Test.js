@@ -13,9 +13,21 @@ class Test{
         this.at()
         this.get()
         this.skip()
+        this.coordinates()
+        
     }
     coordinates(){
-        
+        console.log('_mtx() test')
+        for(var n = -5; n<5; n++){
+            var mtx = new Matrix([n,n,n], [n*2, n*2, n*2])
+            //test its coordinate system
+            var coordinates = new Coordinates([n,n,n], [n*2, n*2, n*2]).coordinates()
+            for(var i=0; i<coordinates.length; i++){
+                for(var j=0; j<coordinates[i].length; j++){
+                    assert.equal(mtx.mtx[i].coordinate[j]==coordinates[i][j], true)
+                }
+            }
+        }
     }
 
     next(){
@@ -144,12 +156,6 @@ class Test{
             assert.equal(mtx.get(coordinates[i]).data, i)
         }
     }
-
-    
-
-    
-
-
 }
 
 new Test()
