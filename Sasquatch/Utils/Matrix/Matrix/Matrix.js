@@ -9,7 +9,8 @@ class Cell{
 }
 
 export class Matrix {
-	constructor(coordinate1, coordinate2, data){
+	constructor(coordinate1, coordinate2, data, mtx=null){
+		this.mtx;
 		this.coordinates = new Coordinates(coordinate1, coordinate2)
 		this.comparator = this.coordinates.comparator
 		this.virtual=this._virtual(coordinate1, coordinate2)
@@ -17,8 +18,11 @@ export class Matrix {
 		this.d=coordinate1.length
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
-		this.mtx;
-		this._mtx(data)
+		if(mtx){
+			this.mtx=mtx
+		}else{
+			this._mtx(data)
+		}
 	}
 	_virtual(coordinate1, coordinate2){
 		var min=Math.min(...coordinate1)
@@ -52,13 +56,12 @@ export class Matrix {
 	count(){ return this.mtx.length }
 
 	at(coordinate, data, key){
-		this.mtx[this.skip(coordinate)]['data'][key]=data
+		this.mtx[this.skip(coordinate)].data[key]=data
 	}
 
-	skip(coordinate, dimensions){
+	skip(coordinate){
 		var index=0;
 		if(this.virtual){
-
 			for(var i=0; i<coordinate.length; i++){
 				if(i<coordinate.length-1){
 					index+=(coordinate[i]+this.virtual)*Math.pow(this.m, coordinate.length-1-i)
@@ -80,17 +83,18 @@ export class Matrix {
 		return index
 	}
 
-	window(coordinate1, coordinate2, dimensions){
-		//we want to slice the list from coordinate1 to coordinate2
-		//coordinates need to be reduced to a specific dimension range
-		//from dimensions, then we need to skip over the points
-		//and return the subset of points without extraneous dimensions
-		//This is an expensive operation because of the removal of extraneous
-		//dimensions
+	window(coordinate1, coordinate2){
+		//THIS WILL CREATE A NEW MATRIX WITH THE SAME MTX IN MEMORY
+		var mtx = this._window(this.skip(coordinate1), this.skip(coordinate2))
+		return new Matrix(coordinate1, coordinate2, null, mtx)
+	}
 
-		//we can use Permutation without repetition and skip to gather the data
-		//then return the new initialized Matrix object
-
+	_window(index1, index2){
+		var mtx=[]
+		for(var i =index1; i<=index2; i++){
+			mtx.push(new Cell(this.mtx[i].data, this.mtx[i].coordinate))
+		}
+		return mtx
 	}
 
 	get(coordinate){ return this.mtx[this.skip(coordinate)] }
