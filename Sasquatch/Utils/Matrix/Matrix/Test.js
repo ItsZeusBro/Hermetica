@@ -59,17 +59,17 @@ class Test{
     }
 
     window(){
-        var mtx = new Matrix([0,0,0], [3, 3, 3])
-        var mtx2= mtx.window([1,1,1], [2,2,2])
+        var mtx = new Matrix([0,0,0], [5, 5, 5])
+        var mtx2= mtx.window([1,0,0], [2,3,3])
         //test its coordinate system
-        var coordinates = new Coordinates([1,1,1], [2,2,2]).coordinates()
+        var coordinates = new Coordinates([1,0,0], [2,3,3]).coordinates()
         for(var i=0; i<coordinates.length; i++){
             mtx.at(coordinates[i], 'someData', 'someKey')
 
             for(var j=0; j<coordinates[i].length; j++){
                 console.log(mtx2.get(coordinates[i]), mtx.get(coordinates[i]))
-                // assert.equal(mtx2.get(coordinates[i]).data==mtx.get(coordinates[i]).data, true)
-                // assert.equal(mtx2.get(coordinates[i]).data==mtx.get(coordinates[i]).data, true)
+                assert.equal(mtx2.get(coordinates[i]).data==mtx.get(coordinates[i]).data, true)
+                assert.equal(mtx2.get(coordinates[i]).data==mtx.get(coordinates[i]).data, true)
             }
         }
     }
