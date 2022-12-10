@@ -12,6 +12,7 @@ class Test{
         this.isLessEqual()
         this.isGreater()
         this.isGreaterEqual()
+        this.next()
     }
 
     coordinates(){
@@ -27,24 +28,40 @@ class Test{
             //test its coordinate system
             assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
             assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
-
         }
     }
 
     next(){
-        
+        console.log('coordinates() test')
+        var c1=[0,0,0]
+        var c2=[5, 5, 5]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        var comparator = new Comparator(c1.length)
+        _coordinates.next()
+        for(var n = 0; n<coordinates.length-1; n++){
+            //test its coordinate system
+            var next = _coordinates.next() 
+            var prev = _coordinates.prev
+            assert.equal(comparator.isEqual(next, prev), false)
+        }
     }
 
     incVal(){
 
     }
+
     in(){
 
     }
+
     window(){
 
     }
 
+    copy(){
+
+    }
 
     range(){
 
@@ -109,9 +126,7 @@ class Test{
         }
     }
 
-    copy(){
 
-    }
 }
 
 new Test()

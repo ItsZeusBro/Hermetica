@@ -58,6 +58,9 @@ export class Coordinates{
 		this.previous=current
 		return current
 	}
+	prev(){		
+		return previous
+	}
 
 	incVal(coordinate, i){
 		if((coordinate[i]+1)>this.max()[i]){
