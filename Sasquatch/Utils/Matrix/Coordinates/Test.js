@@ -2,7 +2,7 @@ import {Coordinates, Comparator} from "./Coordinates.js"
 import assert from "node:assert"
 import {Combinatorics} from "../../Combinatorics/Combinatorics.js"
 
-class Test{
+export class CoordinatesTest{
     constructor(){
         this.tests()
     }
@@ -89,18 +89,30 @@ class Test{
     }
 
     diff(){
-        var c1=[-10,-10,-10]
-        var c2=[10, 10, 10]
-        var _coordinates = new Coordinates(c1, c2)
-        var coordinates = _coordinates.coordinates()
-        for(var n = 0; n<coordinates.length-1; n++){
-            var diff = _coordinates.comparator.diff(coordinates[n], coordinates[n+1])
+        console.log('diff() test')
 
-            console.log(coordinates[n], coordinates[n+1], diff)
-            assert.equal(diff[0], 0)
-            assert.equal(diff[1], 0)
-            assert.equal(diff[2], 1)
-        }
+        var c1=[-10,-10,-10]
+        var c2=[-5, -5, -5]
+        var _coordinates = new Coordinates(c1, c2)
+
+        var diff = _coordinates.comparator.diff(c1, c2)
+        assert.equal(diff[0], 5)
+        assert.equal(diff[1], 5)
+        assert.equal(diff[2], 5)
+
+        c1=[-10,-10,-10]
+        c2=[10, 10, 10]
+        diff = _coordinates.comparator.diff(c1, c2)
+        assert.equal(diff[0], 20)
+        assert.equal(diff[1], 20)
+        assert.equal(diff[2], 20)
+ 
+        c1=[10,10,10]
+        c2=[100, 100, 100]
+        diff = _coordinates.comparator.diff(c1, c2)
+        assert.equal(diff[0], 90)
+        assert.equal(diff[1], 90)
+        assert.equal(diff[2], 90)
 
     }
 
@@ -174,7 +186,7 @@ class Test{
     }
 }
 
-new Test()
+// new Test()
 
 
 // console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())

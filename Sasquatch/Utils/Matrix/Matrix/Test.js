@@ -3,7 +3,7 @@ import {Coordinates} from "../Coordinates/Coordinates.js"
 import assert from "node:assert"
 import {Combinatorics} from "../../Combinatorics/Combinatorics.js"
 
-class Test{
+export class MatrixTest{
     constructor(){
         this.tests()
     }
@@ -126,7 +126,7 @@ class Test{
     }
 }
 
-new Test()
+// new Test()
 
 
 // console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())

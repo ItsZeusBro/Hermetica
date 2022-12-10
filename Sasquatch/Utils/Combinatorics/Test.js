@@ -1,7 +1,7 @@
 import {Combinatorics} from "./Combinatorics.js"
 import assert from "node:assert"
-class Test{
-    constructor(r){
+export class CombinatoricsTest{
+    constructor(r=4){
         this.tests(r)
     }
     
@@ -114,4 +114,3 @@ class Test{
     }
 }
 
-new Test(4)
