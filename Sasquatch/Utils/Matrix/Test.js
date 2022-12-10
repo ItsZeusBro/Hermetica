@@ -1,6 +1,7 @@
 import {Matrix} from "./Matrix.js"
 import {Coordinates} from "./Coordinates.js"
 import assert from "node:assert"
+import {Combinatorics} from "../Combinatorics/Combinatorics.js"
 
 class Test{
     constructor(){
@@ -14,19 +15,15 @@ class Test{
         this.get()
         this.skip()
         this.coordinates()
-        
+
     }
     coordinates(){
-        console.log('_mtx() test')
+        console.log('coordinates() test')
         for(var n = -5; n<5; n++){
-            var mtx = new Matrix([n,n,n], [n*2, n*2, n*2])
             //test its coordinate system
             var coordinates = new Coordinates([n,n,n], [n*2, n*2, n*2]).coordinates()
-            for(var i=0; i<coordinates.length; i++){
-                for(var j=0; j<coordinates[i].length; j++){
-                    assert.equal(mtx.mtx[i].coordinate[j]==coordinates[i][j], true)
-                }
-            }
+            var PwithR = new Combinatorics()._PwithR(5-n, 3)
+            assert.equal(PwithR, coordinates.length)
         }
     }
 
