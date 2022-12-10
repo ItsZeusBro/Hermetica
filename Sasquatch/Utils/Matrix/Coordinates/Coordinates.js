@@ -1,4 +1,4 @@
-import {Combinatorics} from '../Combinatorics/Combinatorics.js'
+import {Combinatorics} from '../../Combinatorics/Combinatorics.js'
 export class Coordinates{
 	constructor(coordinate1, coordinate2){
 		this.coordinate1=coordinate1

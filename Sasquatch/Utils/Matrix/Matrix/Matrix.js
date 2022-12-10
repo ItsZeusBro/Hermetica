@@ -1,5 +1,5 @@
 import util from 'node:util'
-import { Comparator, Coordinates } from './Coordinates.js'
+import { Comparator, Coordinates } from '../Coordinates/Coordinates.js'
 
 class Cell{
 	constructor(data=null, coordinate){
@@ -11,12 +11,12 @@ class Cell{
 export class Matrix {
 	constructor(coordinate1, coordinate2, data){
 		this.coordinates = new Coordinates(coordinate1, coordinate2)
-		this.m=Math.abs(this.coordinates.range())
+		this.comparator = this.coordinates.comparator
+		this.virtual=this._virtual(coordinate1, coordinate2)
+		this.m=this.coordinates.range()
 		this.d=coordinate1.length
 		this.coordinate1=coordinate1
 		this.coordinate2=coordinate2
-		this.virtual=this._virtual(coordinate1, coordinate2)
-		this.comparator = new Comparator(this.d)
 		this.mtx;
 		this._mtx(data)
 	}

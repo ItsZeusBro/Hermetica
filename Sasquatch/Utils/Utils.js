@@ -19,8 +19,6 @@ export class Utils{
         }
         return nNeighborhoods
     }
-
-
 }
 
 // console.log('# of Permutations with Repetition', 4, 3, new Utils()._PwithR(4, 3))
@@ -41,8 +39,3 @@ export class Utils{
 // console.log('swapping indexes 0 with 9 on ', new Utils().swap(0, 9, list))
 // console.log('swapping indexes 8 with 9 on ', new Utils().swap(8, 9, list))
 // console.log('swapping indexes 7 with 9 on ', new Utils().swap(7, 9, list))
-
-
-
-
-
