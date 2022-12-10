@@ -24,6 +24,29 @@ export class Matrix {
 			this._mtx(data)
 		}
 	}
+	
+	max(d){
+		var max1 = Math.max(this.coordinate1[d])
+		var max2 = Math.max(this.coordinate2[d])
+		if(max1<=max2){return max1}
+		else{return max2}
+	}
+
+	min(d){
+		var min1 = Math.min(this.coordinate1[d])
+		var min2 = Math.min(this.coordinate2[d])
+		if(min1<=min2){return min1}
+		else{return min2}
+	}
+
+	diff(coordinate1, coordinate2){
+		var diff = []
+		for(var i = 0; i<coordinate1.length; i++){
+			diff.push(Math.abs(coordinate1[i]-coordinate2[i]))
+		}
+		return diff
+	}
+
 	_virtual(coordinate1, coordinate2){
 		var min=Math.min(...coordinate1)
 		if(min<0){
@@ -61,25 +84,11 @@ export class Matrix {
 
 	skip(coordinate){
 		var index=0;
-		if(this.virtual){
-			for(var i=0; i<coordinate.length; i++){
-				if(i<coordinate.length-1){
-					index+=(coordinate[i]+this.virtual)*Math.pow(this.m, coordinate.length-1-i)
-				}else if(i==coordinate.length-1){
-					//this means we are at the 0 index position for the coordinate
-					index+=(coordinate[i]+this.virtual)
-				}
-			}
-		}else{
-			for(var i=0; i<coordinate.length; i++){
-				if(i<coordinate.length-1){
-					index+=coordinate[i]*Math.pow(this.m, coordinate.length-1-i)
-				}else if(i==coordinate.length-1){
-					//this means we are at the 0 index position for the coordinate
-					index+=coordinate[i]
-				}
-			}
+		var diff=this.comparator.diff(this.coordinate1, coordinate)
+		for(var i=0; i<coordinate.length; i++){
+			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
 		}
+		
 		return index
 	}
 

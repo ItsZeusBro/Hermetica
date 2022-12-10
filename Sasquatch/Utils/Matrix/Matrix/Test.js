@@ -15,7 +15,7 @@ class Test{
         this.at()
         this.get()
         this.skip()
-        this.window()
+        //this.window()
     }
 
     _mtx(){
@@ -97,10 +97,13 @@ class Test{
 
     skip(){
         console.log('skip() test')
-        var _1 = [-1,-1,-1]
+        var _1 = [-10,-10,-10]
         var _2 = [2, 2, 2]
         var mtx = new Matrix(_1, _2)
         var coordinates = mtx.coordinates._coordinates
+        // console.log(coordinates.length)
+        // console.log(coordinates)
+        // console.log(mtx.skip([1,1,1]))
         for(var i = 0; i<coordinates.length; i++){
             mtx.at(coordinates[i], i, 'someKey')
             assert.equal(i==mtx.skip(coordinates[i]), true)
