@@ -123,7 +123,7 @@ export class Comparator{
 	}
 
 	isGreaterEqual(coordinate1, coordinate2){
-		if(this.isEqual(coordinate1, coordinate2)&& this.isGreater(coordinate1, coordinate2)){
+		if(this.isEqual(coordinate1, coordinate2)||this.isGreater(coordinate1, coordinate2)){
 			return true
 		}else{
 			return false
@@ -140,7 +140,7 @@ export class Comparator{
 	}
 
 	isLessEqual(coordinate1, coordinate2){
-		if(this.isEqual(coordinate1, coordinate2)&& this.isLess(coordinate1, coordinate2)){
+		if(this.isEqual(coordinate1, coordinate2)||this.isLess(coordinate1, coordinate2)){
 			return true
 		}else{
 			return false
