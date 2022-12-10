@@ -13,6 +13,8 @@ class Test{
         this.isGreater()
         this.isGreaterEqual()
         this.next()
+        this.incVal()
+        this.in()
     }
 
     coordinates(){
@@ -32,7 +34,7 @@ class Test{
     }
 
     next(){
-        console.log('coordinates() test')
+        console.log('next() test')
         var c1=[0,0,0]
         var c2=[5, 5, 5]
         var _coordinates = new Coordinates(c1, c2)
@@ -48,11 +50,41 @@ class Test{
     }
 
     incVal(){
-
+        console.log('incVal() test')
+        var c1=[0,0,0]
+        var c2=[5, 5, 5]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        var comparator = new Comparator(c1.length)
+        for(var n = 0; n<coordinates.length-1; n++){
+            //test its coordinate system
+            var next=_coordinates.next()
+            for(var i = next.length-1; i>=0; i--){
+                if(_coordinates.incVal(next, i)){
+                    assert.equal(_coordinates.incVal(next, i)-next[i]==1, true)
+                }else{
+                    assert.equal((next[i]+1)>_coordinates.max()[i], true)
+                }
+            }
+        }
     }
 
     in(){
-
+        console.log('in() test')
+        var c1=[0,0,0]
+        var c2=[5, 5, 5]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        var prev = _coordinates.next()
+        _coordinates.next()
+        var next = _coordinates.next()
+        var current = _coordinates.prev()
+        for(var n = 0; n<coordinates.length-3; n++){
+            assert.equal(_coordinates.in(current,prev, next), true)
+            prev=current
+            current=next
+            next = _coordinates.next() 
+        }
     }
 
     window(){
@@ -66,9 +98,11 @@ class Test{
     range(){
 
     }
+
     isEqual(){
 
     }
+
     isGreater(){
         console.log('isGreater() test')
         var c1=[-5,-5,-5]
@@ -125,8 +159,6 @@ class Test{
             assert.equal(comparator.isLessEqual(coordinates1[n], coordinates1[n+1]), true)
         }
     }
-
-
 }
 
 new Test()

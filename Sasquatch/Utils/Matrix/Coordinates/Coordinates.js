@@ -59,7 +59,7 @@ export class Coordinates{
 		return current
 	}
 	prev(){		
-		return previous
+		return this.previous
 	}
 
 	incVal(coordinate, i){
@@ -69,6 +69,7 @@ export class Coordinates{
 			return coordinate[i]+1
 		}
 	}
+
 	shape(coordinate1, coordinate2){
 		var shape=[]
 		for(var i =0; i<coordinate1.length; i++){
