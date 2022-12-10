@@ -60,7 +60,27 @@ export class Matrix {
 	}
 
 	skip(coordinate){
-		//we want to construct a tree for mtx to make an optimal refresh rate
+		var index=0;
+		if(this.virtual){
+			for(var i=0; i<coordinate.length; i++){
+				if(i<coordinate.length-1){
+					index+=(coordinate[i]+this.virtual)*Math.pow(this.m, coordinate.length-1-i)
+				}else if(i==coordinate.length-1){
+					//this means we are at the 0 index position for the coordinate
+					index+=(coordinate[i]+this.virtual)
+				}
+			}
+		}else{
+			for(var i=0; i<coordinate.length; i++){
+				if(i<coordinate.length-1){
+					index+=coordinate[i]*Math.pow(this.m, coordinate.length-1-i)
+				}else if(i==coordinate.length-1){
+					//this means we are at the 0 index position for the coordinate
+					index+=coordinate[i]
+				}
+			}
+		}
+		return index
 	}
 
 	window(coordinate1, coordinate2){
