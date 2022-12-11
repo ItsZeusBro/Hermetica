@@ -1,5 +1,36 @@
 # Sasquatch
 
+
+## Big Picture:
+<img height=400, width=275 src="https://github.com/ItsZeusBro/Sasquatch/blob/ae69abf834ebac22c671279b0f20d12f85d308fb/sasquatch.jpeg">
+
+In general any function can be solved with the following:
+1. Vectorize an input, and its corresponding expected output
+2. run simulations until a solution is found.
+3. check simulation that works (basically a simulation works if it produces the answer for a given simulation and a corresponding rules set and terminating generation) against other inputs for the function that serves the same purpose
+4. The more times you pass new tests, the more perfect the function
+
+In general we can solve any problem including the most general function of "deduction". So all deductions can be achieved with a single simulation, rule set, and generation, by piping the output of the simulation back into the simulation to find the next deduction.
+
+
+## Future Optimization:
+One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
+On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
+
+## A good reason for Arbitrary Deterministic Encoding
+Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
+
+So if abc as input uses 123 for its translation and def uses 123 for its translation, they both share the same relativity for all function inputs and outputs, and if the problem is associated with this relativity, (like problems involving mathematical induction), then we can probably have the same simulation and generation output correspond to multiple inputs and outputs for different functions. This might find higher order functions that serve more than one purpose! This could converge on the physics of calculation (a general purpose simulation)!
+
+## More Applications:
+We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
+
+Finally, we want to use sasquatch to find an equation that can compute any simulation (any generation of a simulation) in one step
+
+## Design Goals
+We would like to calculate the computational cost of each generation for any nxn matrix a priori, and gather experimental data to see bang for buck performance of real solutions over-time, then fork the code-base and optimize simulations for a single matrix type that give us the most efficiency. (we can do more than one to diversify overtime)
+
+## Moon Shot:
 This is basically a new hypothesis for how truth and existentialism works
 
 It relies on the truth properties of "giberish". Automata produce simulations between two propositions where each proposition follows the same translation encoding rules. If the second proposition follows from the first proposition, then we say that so long as this simulation is not proved inconsistent in the future with two other propositions, then the first simulation creates a valid proof for the connection between the first two propositions.
@@ -26,36 +57,5 @@ we also have to make sure that there is no possibility in the translation unit f
 
 As a part of the rule system, any proposition in the current state of the simulation that spells out a negation outside of the negation cell, should be translated to an equivalent statement. This does not violate the arbitrary rule principle. Rules can be arbitrarily selected without violating the existentialism of the system, so long as they are consistent.
 
-## Big Picture:
-<img height=400, width=275 src="https://github.com/ItsZeusBro/Sasquatch/blob/ae69abf834ebac22c671279b0f20d12f85d308fb/sasquatch.jpeg">
-
 Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
 
-
-
-## Another potential win...
-In general any function can be solved with the following:
-1. Vectorize an input, and its corresponding expected output
-2. run simulations until a solution is found.
-3. check simulation that works (basically a simulation works if it produces the answer for a given simulation and a corresponding rules set and terminating generation) against other inputs for the function that serves the same purpose
-4. The more times you pass new tests, the more perfect the function
-
-In general we can solve any problem including the most general function of "deduction". So all deductions can be achieved with a single simulation, rule set, and generation, by piping the output of the simulation back into the simulation to find the next deduction.
-
-
-## Future Optimization:
-One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
-On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
-
-## A good reason for Arbitrary Deterministic Encoding
-Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
-
-So if abc as input uses 123 for its translation and def uses 123 for its translation, they both share the same relativity for all function inputs and outputs, and if the problem is associated with this relativity, (like problems involving mathematical induction), then we can probably have the same simulation and generation output correspond to multiple inputs and outputs for different functions. This might find higher order functions that serve more than one purpose! This could converge on the physics of calculation (a general purpose simulation)!
-
-## More Applications:
-We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
-
-Finally, we want to use sasquatch to find an equation that can compute any simulation (any generation of a simulation) in one step
-
-## Design Goals
-We would like to calculate the computational cost of each generation for any nxn matrix a priori, and gather experimental data to see bang for buck performance of real solutions over-time, then fork the code-base and optimize simulations for a single matrix type that give us the most efficiency. (we can do more than one to diversify overtime)
