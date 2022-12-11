@@ -24,9 +24,10 @@ export class Matrix {
 			this.coordinate1=coordinate1
 			this.coordinate2=coordinate2
 		}
-		this.comparator = this.coordinates.comparator
 		this.m=this.coordinates.range()
 		this.d=this.coordinate1.length
+		this.comparator = this.coordinates.comparator
+		//we need to calculate an offset from coordinate 1
 		if(mtx){ this.mtx=mtx }else{ this._mtx(data) }
 	}
 	
@@ -80,19 +81,48 @@ export class Matrix {
 		this.mtx[this.skip(coordinate)].data[key]=data
 	}
 	get(coordinate){ 
-		//console.log(coordinate)
+		console.log(coordinate, this.mtx[this.skip(coordinate)])
+
 		return this.mtx[this.skip(coordinate)] 
 	}
 
 	skip(coordinate){
-		//console.log(coordinate)
-		var index=0;
-		var diff=this.comparator.diff(this.coordinate1, coordinate)
+		//just do a binary search
+		this.log()
 
-		for(var i=0; i<coordinate.length; i++){
-			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
-		}
+		console.log(coordinate)
+
+		var index=this.binarySearch(coordinate)
+		console.log(coordinate, index)
+
 		return index
+	}
+	binarySearch(coordinate){
+		var mid;
+		mid = Math.floor((this.mtx.length-1)/2)
+
+		while(true){
+			if(this.comparator.isEqual(this.mtx[mid].coordinate, coordinate)){
+				return mid
+			}else if(this.comparator.isGreater(coordinate, this.mtx[mid].coordinate)){
+				mid=Math.floor(mid+(mid/2))
+				if(this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
+					return mid+1
+				}else if(this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
+					return mid-1
+				}
+
+			}else{
+				// if(mid%2){
+					mid=Math.floor(mid-mid/2)
+
+
+				// }else{
+				// 	mid=Math.ceil(mid-mid/2)
+
+				// }
+			}
+		}
 	}
 
 	window(coordinate1, coordinate2){

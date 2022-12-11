@@ -9,14 +9,14 @@ export class MatrixTest{
     }
     
     tests(){
-        this._mtx()
-        this.shape()
-        this.count()
-        this.at()
-        this.get()
+        // this._mtx()
+        // this.shape()
+        // this.count()
+        // this.at()
+        // this.get()
         this.skip()
-        this.window()
-        this.copy()
+        // this.window()
+        // this.copy()
     }
 
     _mtx(){
@@ -69,22 +69,32 @@ export class MatrixTest{
 
         for(var i=0; i<coordinates2.length; i++){
             mtx.at(coordinates2[i], coordinates2[i], 'someKey')
-            mtx.log() 
-            mtx2.log()
+
             var count=0
             for(var j=0; j<coordinates2[i].length; j++){
-                console.log(mtx2.get(coordinates2[i]))
-                console.log(mtx.get(coordinates2[i]))
-
-                if(
-                    mtx2.get(coordinates2[i]).data['someKey'][j]
-                    ==
-                    mtx.get(coordinates2[i]).data['someKey'][j]
-                ){
-                    count+=1
+                mtx2.log()
+                if(mtx2.get(coordinates2[i]).data['someKey']&&mtx.get(coordinates2[i]).data['someKey']){
+                    if(
+                        mtx2.get(coordinates2[i]).data['someKey'][j]
+                        ==
+                        mtx.get(coordinates2[i]).data['someKey'][j]
+                    ){
+                        count+=1
+                    }
                 }
             }
-            assert.equal(count==coordinates2[i].length, true)
+            try{
+                assert.equal(count==coordinates2[i].length, true)
+            }catch{
+                console.log(coordinates2[i])
+                mtx.log() 
+                console.log('mtx:', mtx.coordinate1, mtx.coordinate2, mtx.get(coordinates2[i]),'m:', mtx.m, 'diff', mtx.comparator.diff(coordinates2[i], mtx.coordinate1))
+                mtx2.log()
+                console.log('mtx2:', mtx2.coordinate1, mtx2.coordinate2, mtx2.get(coordinates2[i]), 'm:', mtx2.m,  'diff:', mtx2.comparator.diff(coordinates2[i], mtx2.coordinate1))
+                
+                throw Error()
+            }
+
         }
 
     }
@@ -133,24 +143,34 @@ export class MatrixTest{
 
     skip(){
         console.log('skip() test')
-        for(var j=-10; j<0; j++){
-            for(var n = 0; n<10; n++){
-                var mtx = new Matrix([j,j,j], [n, n, n])
-                var mtx2= new Matrix([j-1,j-1,j-1], [n+1, n+1, n+1]) //this one is bigger
-                var coordinates1 = mtx.coordinates._coordinates
-                var coordinates2 = mtx2.coordinates._coordinates
-                for(var i = 0; i<coordinates1.length; i++){
-                    mtx.at(coordinates1[i], i, 'someKey')
-                    mtx2.at(coordinates1[i], i, 'someKey')
-                    assert.equal(i==mtx.skip(coordinates1[i]), true)
-                    assert.equal(i!=mtx2.skip(coordinates1[i]), true) //this should not be true
-                    //because i is the index for coordinates1 which corresponds to mtx and not mtx2
-                    assert.equal(mtx.mtx[mtx.skip(coordinates1[i])].data['someKey']==i, true)
-                    assert.equal(mtx2.mtx[mtx2.skip(coordinates1[i])].data['someKey']==i, true)
+        // for(var j=-10; j<0; j++){
+        //     for(var n = 0; n<10; n++){
+        //         var mtx = new Matrix([j,j,j], [n, n, n])
+        //         var mtx2= new Matrix([j-1,j-1,j-1], [n+1, n+1, n+1]) //this one is bigger
+        //         var coordinates1 = mtx.coordinates._coordinates
+        //         var coordinates2 = mtx2.coordinates._coordinates
+        //         for(var i = 0; i<coordinates1.length; i++){
+        //             mtx.at(coordinates1[i], i, 'someKey')
+        //             mtx2.at(coordinates1[i], i, 'someKey')
+        //             assert.equal(i==mtx.skip(coordinates1[i]), true)
+        //             assert.equal(i!=mtx2.skip(coordinates1[i]), true) //this should not be true
+        //             //because i is the index for coordinates1 which corresponds to mtx and not mtx2
+        //             assert.equal(mtx.mtx[mtx.skip(coordinates1[i])].data['someKey']==i, true)
+        //             assert.equal(mtx2.mtx[mtx2.skip(coordinates1[i])].data['someKey']==i, true)
 
-                }
-            }   
-        }
+        //         }
+        //     }   
+        // }
+        var mtx = new Matrix([0,0,0], [1, 1, 1])
+        mtx.mtx[mtx.skip([0, 0, 0])]
+        mtx.mtx[mtx.skip([0, 0, 1])]
+        mtx.mtx[mtx.skip([0, 1, 0])]
+        mtx.mtx[mtx.skip([0, 1, 1])]
+        mtx.mtx[mtx.skip([1, 0, 0])]
+        mtx.mtx[mtx.skip([1, 0, 1])]
+        mtx.mtx[mtx.skip([1, 1, 0])]
+        mtx.mtx[mtx.skip([1, 1, 1])]
+
     }
 
     get(){
