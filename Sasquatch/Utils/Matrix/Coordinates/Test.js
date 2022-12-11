@@ -28,7 +28,6 @@ export class CoordinatesTest{
         var coordinates = _coordinates.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
-            //test its coordinate system
             assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
             assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
         }
@@ -43,7 +42,6 @@ export class CoordinatesTest{
         var comparator = new Comparator(c1.length)
         _coordinates.next()
         for(var n = 0; n<coordinates.length-1; n++){
-            //test its coordinate system
             var next = _coordinates.next() 
             var prev = _coordinates.prev
             assert.equal(comparator.isEqual(next, prev), false)
@@ -58,7 +56,6 @@ export class CoordinatesTest{
         var coordinates = _coordinates.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
-            //test its coordinate system
             var next=_coordinates.next()
             for(var i = next.length-1; i>=0; i--){
                 if(_coordinates.incVal(next, i)){
@@ -103,7 +100,6 @@ export class CoordinatesTest{
 
     range(){
         console.log('range() test')
-
         var c1=[3,2,0]
         var c2=[1, 10, 4]
         var _coordinates = new Coordinates(c1, c2)
@@ -113,7 +109,6 @@ export class CoordinatesTest{
 
     isEqual(){
         console.log('isEqual() test')
-
         var c1=[0,0,0]
         var c2=[10, 10, 10]
         var _coordinates = new Coordinates(c1, c2)
@@ -147,7 +142,6 @@ export class CoordinatesTest{
         var coordinates2 = _coordinates2.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates1.length-1; n++){
-            //test its coordinate system
             assert.equal(comparator.isGreaterEqual(coordinates1[n], coordinates2[n]), true)
             assert.equal(comparator.isGreaterEqual(coordinates1[n+1], coordinates1[n]), true)
         }
@@ -160,7 +154,6 @@ export class CoordinatesTest{
         var coordinates = _coordinates.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
-            //test its coordinate system
             assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
         }
     }
@@ -174,18 +167,8 @@ export class CoordinatesTest{
         var coordinates2 = _coordinates2.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates1.length-1; n++){
-            //test its coordinate system
             assert.equal(comparator.isLessEqual(coordinates1[n], coordinates2[n]), true)
             assert.equal(comparator.isLessEqual(coordinates1[n], coordinates1[n+1]), true)
         }
     }
 }
-
-// new Test()
-
-
-// console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())
-// var coordinates = new Coordinates([-1,-1,-1], [2, 2, 2])
-// for(var i= 0; i<coordinates.coordinates().length; i++){
-// 	console.log(coordinates.next())
-// }

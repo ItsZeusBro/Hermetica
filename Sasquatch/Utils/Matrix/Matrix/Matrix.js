@@ -14,7 +14,6 @@ export class Matrix {
 		this.coordinate1;
 		this.coordinate2;
 		this.coordinates;
-
 		if(coordinates){
 			this.coordinates = coordinates
 			this.coordinate1=this.coordinates.min()
@@ -27,7 +26,6 @@ export class Matrix {
 		this.m=this.coordinates.range()+1
 		this.d=this.coordinate1.length
 		this.comparator = this.coordinates.comparator
-		//we need to calculate an offset from coordinate 1
 		if(mtx){ this.mtx=mtx }else{ this._mtx(data) }
 	}
 	
@@ -45,7 +43,6 @@ export class Matrix {
 		else{return min2}
 	}
 
-	//this can refresh a mtx with new data
 	_mtx(data){
 		var coordinates = this.coordinates.coordinates()
 		var mtx=[]
@@ -69,18 +66,17 @@ export class Matrix {
 	count(){ return this.mtx.length }
 
 	at(coordinate, data, key){
-		//console.log(coordinate, this.mtx[this.skip(coordinate)])
 		this.mtx[this.skip(coordinate)].data[key]=data
 	}
-	get(coordinate){ 
-		// console.log(coordinate, this.mtx[this.skip(coordinate)])
 
+	get(coordinate){ 
 		return this.mtx[this.skip(coordinate)] 
 	}
 
 	skip(coordinate){
 		return this.binarySearch(coordinate)
 	}
+
 	binarySearch(coordinate){
 		var mid = Math.floor((this.mtx.length-1)/2)
 		var begining=0
@@ -97,16 +93,15 @@ export class Matrix {
 					return mid-1
 				}
 			}else{
-					end=mid
-					mid=Math.floor(end/2)
-					if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
-						return mid+1
-					}else if(this.mtx[mid-1]&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
-						return mid-1
-					}
+				end=mid
+				mid=Math.floor(end/2)
+				if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
+					return mid+1
+				}else if(this.mtx[mid-1]&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
+					return mid-1
+				}
 			}
 		}
-		
 	}
 
 	window(coordinate1, coordinate2){
@@ -124,8 +119,6 @@ export class Matrix {
 	_window(index1, index2){
 		var mtx=[]
 		for(var i =index1; i<=index2; i++){
-			//console.log(this.mtx)
-			//console.log(i, this.mtx[i])
 			mtx.push(new Cell(this.mtx[i].data, this.mtx[i].coordinate))
 		}
 		return mtx
@@ -133,7 +126,6 @@ export class Matrix {
 
 
 	print(){
-		//stringify the mtx
 		for(var i = 0; i<this.mtx.length; i++){
 			process.stdout.write(this.mtx[i]['data']['mode'])
 		}
