@@ -1,8 +1,11 @@
+import {Coordinates} from '../Matrix/Coordinates/Coordinates.js'
 export class Combinatorics{
      //PERMUTATION WITHOUT REPETITION
-    PwithoutR(symbols, n, permutation=[], permutations=[]){
+    PwithoutR(symbols, n, permutation=[], permutations=[], min=[], max=[]){
         if(n==0){
+
             permutations.push(permutation)
+            
             return
         }
         for(var i = 0; i<symbols.length; i++){
@@ -53,9 +56,16 @@ export class Combinatorics{
     }
 
     //PERMUTATION WITH REPETITION
-    PwithR(symbols, n, permutation=[], permutations=[]){
+    PwithR(symbols, n, permutation=[], permutations=[], min, max){
         if(n==0){
-            permutations.push(permutation)
+            if(min.length&&max.length){
+                var comparator = new Coordinates(min, max).comparator
+                if(comparator.isGreater(permutation, min)&&comparator.isLess(permutation, max)){
+                    permutations.push(permutation)
+                }
+            }else{
+                permutations.push(permutation)
+            }
             return
         }
         for(var i = 0; i<symbols.length; i++){
@@ -63,7 +73,8 @@ export class Combinatorics{
                 symbols, 
                 n-1, 
                 permutation.slice().concat(symbols[i]), 
-                permutations
+                permutations,
+                min, max
             )
         }
         return permutations

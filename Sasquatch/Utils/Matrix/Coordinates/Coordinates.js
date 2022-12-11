@@ -19,26 +19,17 @@ export class Coordinates{
 		var max = Math.max(...symbols)
 		symbols=[]
 		for(var i = min; i<=max; i++){ symbols.push(i) }
-		this._coordinates = new Combinatorics().PwithR(symbols, this.coordinate1.length)
+		this._coordinates = new Combinatorics().PwithR(
+			symbols, 
+			this.coordinate1.length, 
+			[],
+			[],
+			this.coordinate1, 
+			this.coordinate2
+		)
 		return this._coordinates
 	}
 
-	//sorting coordinates comes down to the comparator function
-	//[]
-
-	sort(coordinates){
-		coordinates.sort(function(a, b){
-			if(new Comparator().isGreater(a, b)){
-				return 1
-			}else if(new Comparator().isLess(a, b)){
-				return -1
-			}else{
-				return 0
-			}
-		});
-		return coordinates
-	}
-	
 	range(){ return this.comparator.range(this.coordinate1, this.coordinate2) }
 
 	next(){		
@@ -58,6 +49,7 @@ export class Coordinates{
 		this.previous=current
 		return current
 	}
+
 	prev(){		
 		return this.previous
 	}
@@ -89,8 +81,6 @@ export class Coordinates{
 			return false
 		}
 	}
-
-
 }
 
 export class Comparator{

@@ -55,6 +55,7 @@ export class Matrix {
 			return false
 		}
 	}
+
 	//this can refresh a mtx with new data
 	_mtx(data){
 		var coordinates = this.coordinates.coordinates()
@@ -79,6 +80,7 @@ export class Matrix {
 	count(){ return this.mtx.length }
 
 	at(coordinate, data, key){
+		//console.log(coordinate, this.mtx[this.skip(coordinate)])
 		this.mtx[this.skip(coordinate)].data[key]=data
 	}
 
@@ -88,8 +90,7 @@ export class Matrix {
 		for(var i=0; i<coordinate.length; i++){
 			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
 		}
-		
-		return index
+		return index-1
 	}
 
 	window(coordinate1, coordinate2){
