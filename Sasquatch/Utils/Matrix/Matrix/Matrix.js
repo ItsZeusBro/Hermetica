@@ -82,25 +82,23 @@ export class Matrix {
 		return this.binarySearch(coordinate)
 	}
 	binarySearch(coordinate){
-		var mid;
-		mid = Math.floor((this.mtx.length-1)/2)
-
+		var mid = Math.floor((this.mtx.length-1)/2)
+		var begining=0
+		var end = this.mtx.length-1
 		while(true){
 			if(this.mtx[mid]&&this.comparator.isEqual(this.mtx[mid].coordinate, coordinate)){
 				return mid
 			}else if(this.mtx[mid]&&this.comparator.isGreater(coordinate, this.mtx[mid].coordinate)){
-				mid=Math.floor(mid+(mid/2))
+				begining=mid
+				mid=Math.ceil((end-begining)/2)
 				if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
 					return mid+1
 				}else if(this.mtx[mid-1]&&(mid-1>=0)&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
 					return mid-1
 				}
 			}else{
-					if(mid==2&&coordinate[0]==-1&&coordinate[1]==-1&&coordinate[2]==2){
-						console.log(mid+1, this.mtx[mid+1])
-
-					}
-					mid=Math.ceil(mid-(mid/2))
+					end=mid
+					mid=Math.floor((end-begining)/2)
 					if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
 						return mid+1
 					}else if(this.mtx[mid-1]&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
