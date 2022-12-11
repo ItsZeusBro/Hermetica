@@ -90,7 +90,7 @@ export class Matrix {
 				return mid
 			}else if(this.mtx[mid]&&this.comparator.isGreater(coordinate, this.mtx[mid].coordinate)){
 				begining=mid
-				mid=Math.ceil((end-begining)/2)
+				mid=Math.ceil((end-begining)/2)+mid
 				if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
 					return mid+1
 				}else if(this.mtx[mid-1]&&(mid-1>=0)&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
@@ -98,7 +98,7 @@ export class Matrix {
 				}
 			}else{
 					end=mid
-					mid=Math.floor((end-begining)/2)
+					mid=Math.floor(end/2)
 					if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
 						return mid+1
 					}else if(this.mtx[mid-1]&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){

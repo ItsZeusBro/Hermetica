@@ -15,7 +15,7 @@ export class CoordinatesTest{
         this.next()
         this.incVal()
         this.in()
-        this.diff()
+        // this.diff()
     }
 
     coordinates(){
