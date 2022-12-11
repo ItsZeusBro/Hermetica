@@ -98,7 +98,7 @@ export class Comparator{
 	diff(coordinate1, coordinate2){
 		var diff = []
 		for(var i = 0; i<coordinate1.length; i++){
-			diff.push(Math.abs(coordinate1[i]-coordinate2[i]))
+			diff.push(coordinate1[i]-coordinate2[i])
 		}
 		return diff
 	}
@@ -119,9 +119,13 @@ export class Comparator{
 	}
 
 	isGreater(coordinate1, coordinate2){
+		var diff = this.diff(coordinate1, coordinate2)
+
 		for(var i = 0; i<coordinate1.length; i++){
-			if(coordinate1[i]>coordinate2[i]){
+			if(diff[i]>0){
 				return true
+			}else if(diff[i]<0){
+				return false
 			}
 		}
 		return false
@@ -135,8 +139,12 @@ export class Comparator{
 		}
 	}
 	isLess(coordinate1, coordinate2){
+		var diff = this.diff(coordinate1, coordinate2)
+
 		for(var i = 0; i<coordinate1.length; i++){
-			if(coordinate1[i]<coordinate2[i]){
+			if(diff[i]>0){
+				return false
+			}else if(diff[i]<0){
 				return true
 			}
 		}
