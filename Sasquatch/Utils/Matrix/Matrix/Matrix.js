@@ -45,14 +45,6 @@ export class Matrix {
 		else{return min2}
 	}
 
-	diff(coordinate1, coordinate2){
-		var diff = []
-		for(var i = 0; i<coordinate1.length; i++){
-			diff.push(Math.abs(coordinate1[i]-coordinate2[i]))
-		}
-		return diff
-	}
-
 	//this can refresh a mtx with new data
 	_mtx(data){
 		var coordinates = this.coordinates.coordinates()
@@ -81,48 +73,42 @@ export class Matrix {
 		this.mtx[this.skip(coordinate)].data[key]=data
 	}
 	get(coordinate){ 
-		console.log(coordinate, this.mtx[this.skip(coordinate)])
+		// console.log(coordinate, this.mtx[this.skip(coordinate)])
 
 		return this.mtx[this.skip(coordinate)] 
 	}
 
 	skip(coordinate){
-		//just do a binary search
-		this.log()
-
-		console.log(coordinate)
-
-		var index=this.binarySearch(coordinate)
-		console.log(coordinate, index)
-
-		return index
+		return this.binarySearch(coordinate)
 	}
 	binarySearch(coordinate){
 		var mid;
 		mid = Math.floor((this.mtx.length-1)/2)
 
 		while(true){
-			if(this.comparator.isEqual(this.mtx[mid].coordinate, coordinate)){
+			if(this.mtx[mid]&&this.comparator.isEqual(this.mtx[mid].coordinate, coordinate)){
 				return mid
-			}else if(this.comparator.isGreater(coordinate, this.mtx[mid].coordinate)){
+			}else if(this.mtx[mid]&&this.comparator.isGreater(coordinate, this.mtx[mid].coordinate)){
 				mid=Math.floor(mid+(mid/2))
-				if(this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
+				if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
 					return mid+1
-				}else if(this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
+				}else if(this.mtx[mid-1]&&(mid-1>=0)&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
 					return mid-1
 				}
-
 			}else{
-				// if(mid%2){
-					mid=Math.floor(mid-mid/2)
+					if(mid==2&&coordinate[0]==-1&&coordinate[1]==-1&&coordinate[2]==2){
+						console.log(mid+1, this.mtx[mid+1])
 
-
-				// }else{
-				// 	mid=Math.ceil(mid-mid/2)
-
-				// }
+					}
+					mid=Math.ceil(mid-(mid/2))
+					if(this.mtx[mid+1]&&this.comparator.isEqual(this.mtx[mid+1].coordinate, coordinate)){
+						return mid+1
+					}else if(this.mtx[mid-1]&&this.comparator.isEqual(this.mtx[mid-1].coordinate, coordinate)){
+						return mid-1
+					}
 			}
 		}
+		
 	}
 
 	window(coordinate1, coordinate2){
