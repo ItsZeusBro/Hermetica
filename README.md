@@ -56,3 +56,6 @@ So if abc as input uses 123 for its translation and def uses 123 for its transla
 We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
 
 Finally, we want to use sasquatch to find an equation that can compute any simulation (any generation of a simulation) in one step
+
+## Design Goals
+We would like to calculate the computational cost of each generation for any nxn matrix a priori, and gather experimental data to see bang for buck performance of real solutions over-time, then fork the code-base and optimize simulations for a single matrix type that give us the most efficiency. (we can do more than one to diversify overtime)
