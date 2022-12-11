@@ -9,14 +9,14 @@ export class MatrixTest{
     }
     
     tests(){
-        // this._mtx()
-        // this.shape()
-        // this.count()
+        this._mtx()
+        this.shape()
+        this.count()
         this.at()
-        // this.get()
-        // this.skip()
-        // this.window()
-        // this.copy()
+        this.get()
+        this.skip()
+        this.window()
+        // this.copy() //this has a problem
     }
 
     _mtx(){
@@ -51,9 +51,7 @@ export class MatrixTest{
         var _1= [-1,-1,-1]
         var _2=[2, 2, 2]
         var mtx = new Matrix(_1, _2)
-        //mtx.log(mtx.mtx)
         var shape = mtx.shape()
-
         for(var i = 0; i<_1.length; i++){
             assert.equal(shape[i]==(_2[i]-_1[i]), true)
         }
@@ -72,7 +70,6 @@ export class MatrixTest{
 
             var count=0
             for(var j=0; j<coordinates2[i].length; j++){
-                mtx2.log()
                 if(mtx2.get(coordinates2[i]).data['someKey']&&mtx.get(coordinates2[i]).data['someKey']){
                     if(
                         mtx2.get(coordinates2[i]).data['someKey'][j]
@@ -91,9 +88,7 @@ export class MatrixTest{
                 
                 throw Error()
             }
-
         }
-
     }
 
     copy(){
@@ -132,10 +127,7 @@ export class MatrixTest{
         var data={'someKey':null}
         var mtx = new Matrix(_1, _2, data)
         var coordinates = mtx.coordinates._coordinates
-        mtx.log()
-        console.log(mtx.mtx.length)
         for(var i=0; i<coordinates.length; i++){
-            console.log(coordinates[i])
             mtx.at(coordinates[i], 'someData', 'someKey')
             assert.equal(mtx.get(coordinates[i]).data['someKey'], 'someData')
         }
