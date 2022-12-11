@@ -13,13 +13,13 @@ export class PharoahMap{
 
 	create(input, output, context){
 		if(context=='english'){
-			this.map=this.mapVariables(input, output, this.englishMap())
+			this.map=this.variableMap(input, output, this.englishMap())
 		}else if(context=='algebra'){
-			this.map=this.mapVariables(input, output, this.algebraMap())
+			this.map=this.variableMap(input, output, this.algebraMap())
 		}
-		this.simMap(this.map)
+		this.pharoahMap(this.map)
 		this.codes(this.map)
-		this.io(input, output, this.map)
+		this.translate(input, output, this.map)
 		this.map['context']=context
 	}
 
@@ -103,14 +103,14 @@ export class PharoahMap{
 		]
 	}
 
-	io(input, output, map){
+	translate(input, output, map){
 		map['input']=input
-		map['inputVector']=this.translate(input, map['symbols']).split("")
+		map['inputVector']=this._translate(input, map['symbols']).split("")
 		map['output']=output
-		map['outputVector']=this.translate(output, map['symbols']).split("")
+		map['outputVector']=this._translate(output, map['symbols']).split("")
 	}
 
-	translate(string, symbols){
+	_translate(string, symbols){
 		var translation=""
 		for(var i = 0; i<string.length; i++){
 			translation+=symbols[string[i]]['code']
@@ -128,23 +128,28 @@ export class PharoahMap{
 		map['codes']=codes
 	}
 
-	
-	mapVariables(input, output, map){
+	variableMap(input, output, map){
 		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
-		var io=[]
+		var variables=[]
 		var subset = new Set()
-		var submap={}
-		submap['symbols']={}
-		io = input.split('');
-		io = io.concat(output.split(''))
-		for(var i = 0; i<io.length; i++){
-			subset.add(io[i])
+		var variableMap={}
+		variableMap['variables']={}
+		variables = input.split('');
+		variables = variables.concat(output.split(''))
+		for(var i = 0; i<variables.length; i++){
+			subset.add(variables[i])
 		}
 		subset.forEach(element => {
-			submap['symbols'][element]=map[element]
+			variableMap['variables'][element]=map[element]
 		  });
-		return submap
+		return variableMap
 	}
+
+	regex(input, output){
+		//reduce the string to a minimal encoding map that is a subset of regex symbols that embrace both input and output symbols
+		
+	}
+
 	algebraMap(){
 		//symbols:
 		var algebraList = [
@@ -178,91 +183,17 @@ export class PharoahMap{
 		return map
 	}
 
-	verifyCodeMap(map){
-		//convert key to binary and verify they match map encoding
-		for(var i = 0; i<Object.keys(map).length; i++){
+	// calculus(input, output){
+	// 	//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
 
-			var key = Object.keys(map)[i]
-			var hex = map[Object.keys(map)[i]]['hex']
-
-			if(this.string2Hex(key)!=hex){
-				throw Error('encoding error', key, hex, "should match string2Hex("+hex+") function result", this.string2Hex(key))
-			}
-			
-			if(this.hex2String(hex)!=key){
-				throw Error('decoding error', hex, key, "should match hex2String("+hex+") function result", this.hex2String(hex))
-			}
-
-		}
-	}
-
-	hex2bin(hex){
-		https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
-		hex = hex.replace("0x", "").toLowerCase();
-		var out = "";
-		for(var c of hex) {
-			switch(c) {
-				case '0': out += "0000"; break;
-				case '1': out += "0001"; break;
-				case '2': out += "0010"; break;
-				case '3': out += "0011"; break;
-				case '4': out += "0100"; break;
-				case '5': out += "0101"; break;
-				case '6': out += "0110"; break;
-				case '7': out += "0111"; break;
-				case '8': out += "1000"; break;
-				case '9': out += "1001"; break;
-				case 'a': out += "1010"; break;
-				case 'b': out += "1011"; break;
-				case 'c': out += "1100"; break;
-				case 'd': out += "1101"; break;
-				case 'e': out += "1110"; break;
-				case 'f': out += "1111"; break;
-				default: return "";
-			}
-		}
-	
-		return out;
-	}
-
-	string2Hex(string){
-		return this.buffer2Hex(this.stringToBuffer(string))
-	}
-	hex2String(hex){
-		return this.bufferToString(this.hex2Buffer(hex))
-	}
-	stringToBuffer(string){
-		return Buffer.from(string, 'utf16le')
-	}
-
-	buffer2Hex(buffer){
-		return  buffer.toString('hex');
-	}
-	bufferToString(buffer) {
-		return Buffer.from(buffer).toString('utf16le')
-	}
-	
-	hex2Buffer(hex){
-		return Buffer.from(hex.trim(), 'hex')
-	}
-	
-	calculus(input, output){
-		//reduce the string to a minimal encoding map that is a subset of calculus symbols that embrace both input and output symbols
-
-		//important observation
-		//if we have a known equation in mathematics, we can produce test cases in large quantities and find the 
-		//equation in a single simulation step that meets all test cases, then we can compbine simulations
-		//in a larger system that can one day find its own simulation called "mathematics"
-	}
-	physics(input, output){
-		//reduce the string to a minimal encoding map that is a subset of physics symbols that embrace both input and output symbols
-
-	}
-	regex(input, output){
-		//reduce the string to a minimal encoding map that is a subset of regex symbols that embrace both input and output symbols
-
-	}
-
+	// 	//important observation
+	// 	//if we have a known equation in mathematics, we can produce test cases in large quantities and find the 
+	// 	//equation in a single simulation step that meets all test cases, then we can combine simulations
+	// 	//in a larger system that can one day find its own simulation called "mathematics"
+	// }
+	// physics(input, output){
+	// 	//reduce the string to a minimal encoding map that is a subset of physics symbols that embrace both input and output symbols
+	// }
 
 }
 // var es = new EncodingMap("(1+1)*5=", '10', 'algebra')
