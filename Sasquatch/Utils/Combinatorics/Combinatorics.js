@@ -60,7 +60,7 @@ export class Combinatorics{
         if(n==0){
             if(min.length&&max.length){
                 var comparator = new Coordinates(min, max).comparator
-                if(comparator.isGreater(permutation, min)&&comparator.isLess(permutation, max)){
+                if(comparator.isGreaterEqual(permutation, min)&&comparator.isLessEqual(permutation, max)){
                     permutations.push(permutation)
                 }
             }else{

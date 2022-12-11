@@ -73,16 +73,20 @@ export class Matrix {
 		//console.log(coordinate, this.mtx[this.skip(coordinate)])
 		this.mtx[this.skip(coordinate)].data[key]=data
 	}
+	get(coordinate){ 
+		//console.log(coordinate)
+		return this.mtx[this.skip(coordinate)] 
+	}
 
 	skip(coordinate){
 		//console.log(coordinate)
 		var index=0;
 		var diff=this.comparator.diff(this.coordinate1, coordinate)
-		
+
 		for(var i=0; i<coordinate.length; i++){
 			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
 		}
-		return index-1
+		return index
 
 	}
 
@@ -100,10 +104,7 @@ export class Matrix {
 		return mtx
 	}
 
-	get(coordinate){ 
-		//console.log(coordinate)
-		return this.mtx[this.skip(coordinate)] 
-	}
+
 
 	copy(){ return {...this.mtx} }
 
