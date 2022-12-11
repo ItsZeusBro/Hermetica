@@ -106,7 +106,7 @@ export class Comparator{
 	range(coordinate1, coordinate2){
 		var min = Math.min(...coordinate1)
 		var max = Math.max(...coordinate2)
-		return max-min+1
+		return max-min
 	}
 
 	isEqual(coordinate1, coordinate2){

@@ -24,7 +24,7 @@ export class Matrix {
 			this.coordinate1=coordinate1
 			this.coordinate2=coordinate2
 		}
-		this.m=this.coordinates.range()
+		this.m=this.coordinates.range()+1
 		this.d=this.coordinate1.length
 		this.comparator = this.coordinates.comparator
 		//we need to calculate an offset from coordinate 1

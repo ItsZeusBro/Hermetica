@@ -15,7 +15,9 @@ export class CoordinatesTest{
         this.next()
         this.incVal()
         this.in()
-        // this.diff()
+        this.diff()
+        this.isEqual()
+        this.range()
     }
 
     coordinates(){
@@ -89,37 +91,36 @@ export class CoordinatesTest{
     diff(){
         console.log('diff() test')
 
-        var c1=[-10,-10,-10]
-        var c2=[-5, -5, -5]
+        var c1=[0,0,0]
+        var c2=[10, 10, 10]
         var _coordinates = new Coordinates(c1, c2)
-
-        var diff = _coordinates.comparator.diff(c1, c2)
-        assert.equal(diff[0], 5)
-        assert.equal(diff[1], 5)
-        assert.equal(diff[2], 5)
-
-        c1=[-10,-10,-10]
-        c2=[10, 10, 10]
-        diff = _coordinates.comparator.diff(c1, c2)
-        assert.equal(diff[0], 20)
-        assert.equal(diff[1], 20)
-        assert.equal(diff[2], 20)
- 
-        c1=[10,10,10]
-        c2=[100, 100, 100]
-        diff = _coordinates.comparator.diff(c1, c2)
-        assert.equal(diff[0], 90)
-        assert.equal(diff[1], 90)
-        assert.equal(diff[2], 90)
-
+        var coordinates = _coordinates.coordinates()
+        for(var i = 0; i<coordinates.length-1; i++){
+            var diff = _coordinates.comparator.diff(coordinates[i+1], coordinates[i])
+            assert.equal(_coordinates.comparator.isGreaterEqual(coordinates[i+1], diff), true)
+        }
     }
 
     range(){
+        console.log('range() test')
 
+        var c1=[3,2,0]
+        var c2=[1, 10, 4]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        assert.equal(_coordinates.range(c1, c2),10, true)
     }
 
     isEqual(){
+        console.log('isEqual() test')
 
+        var c1=[0,0,0]
+        var c2=[10, 10, 10]
+        var _coordinates = new Coordinates(c1, c2)
+        var coordinates = _coordinates.coordinates()
+        for(var i = 0; i<coordinates.length-1; i++){
+            assert.equal(_coordinates.comparator.isEqual(coordinates[i], coordinates[i]), true)
+        }
     }
 
     isGreater(){
