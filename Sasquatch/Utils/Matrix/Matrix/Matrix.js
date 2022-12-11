@@ -75,12 +75,15 @@ export class Matrix {
 	}
 
 	skip(coordinate){
+		//console.log(coordinate)
 		var index=0;
 		var diff=this.comparator.diff(this.coordinate1, coordinate)
+		
 		for(var i=0; i<coordinate.length; i++){
 			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
 		}
 		return index-1
+
 	}
 
 	window(coordinate1, coordinate2){

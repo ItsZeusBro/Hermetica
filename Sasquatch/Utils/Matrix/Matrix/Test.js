@@ -9,13 +9,13 @@ export class MatrixTest{
     }
     
     tests(){
-        this._mtx()
-        this.shape()
-        this.count()
-        this.at()
-        this.get()
+        // this._mtx()
+        // this.shape()
+        // this.count()
+        // this.at()
+        // this.get()
         this.skip()
-        this.window()
+        // this.window()
     }
 
     _mtx(){
@@ -95,29 +95,34 @@ export class MatrixTest{
 
     skip(){
         console.log('skip() test')
-        var _1 = [-10,-10,-10]
-        var _2 = [2, 2, 2]
-        var mtx = new Matrix(_1, _2)
-        var coordinates = mtx.coordinates._coordinates
-        // console.log(coordinates.length)
-        // console.log(coordinates)
-        // console.log(mtx.skip([1,1,1]))
-        for(var i = 0; i<coordinates.length; i++){
-            mtx.at(coordinates[i], i, 'someKey')
-            assert.equal(i==mtx.skip(coordinates[i]), true)
-            assert.equal(mtx.mtx[mtx.skip(coordinates[i])].data['someKey']==i, true)
+        for(var j=-20; j<0; j++){
+            var _1 = [j,j,j]
+            for(var n = 0; n<20; n++){
+                var _2 = [n, n, n]
+                var mtx = new Matrix(_1, _2)
+                var coordinates = mtx.coordinates._coordinates
+                console.log(coordinates)
+                for(var i = 0; i<coordinates.length; i++){
+                    mtx.at(coordinates[i], i, 'someKey')
+                    console.log('skip assertion', i, '==', mtx.skip(coordinates[i]))
+                    assert.equal(i==mtx.skip(coordinates[i]), true)
+                    assert.equal(mtx.mtx[mtx.skip(coordinates[i])].data['someKey']==i, true)
+                }
+            }
+            
         }
+        
 
-        mtx = new Matrix([0,0,0], [5, 5, 5])
-        var mtx2= new Matrix([1,0,0], [2,3,3])
-        //test its coordinate system
-        var coordinates2 = new Coordinates([1,0,0], [2,3,3]).coordinates()
+        // mtx = new Matrix([0,0,0], [5, 5, 5])
+        // var mtx2= new Matrix([1,0,0], [2,3,3])
+        // //test its coordinate system
+        // var coordinates2 = new Coordinates([1,0,0], [2,3,3]).coordinates()
 
-        for(var i=0; i<coordinates2.length; i++){
-            console.log(coordinates2[i])
-            console.log(mtx2.get(coordinates2[i]), mtx.get(coordinates2[i]))
-            assert.equal(mtx2.get(coordinates2[i]).data==mtx.get(coordinates2[i]).data, true)
-        }
+        // for(var i=0; i<coordinates2.length; i++){
+        //     console.log(coordinates2[i])
+        //     console.log(mtx2.get(coordinates2[i]), mtx.get(coordinates2[i]))
+        //     assert.equal(mtx2.get(coordinates2[i]).data==mtx.get(coordinates2[i]).data, true)
+        // }
     }
 
     get(){
