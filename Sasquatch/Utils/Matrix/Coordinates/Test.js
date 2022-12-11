@@ -23,13 +23,22 @@ export class CoordinatesTest{
     coordinates(){
         console.log('coordinates() test')
         var c1=[0,0,0]
-        var c2=[5, 5, 5]
+        var c2=[5,5,5]
         var _coordinates = new Coordinates(c1, c2)
         var coordinates = _coordinates.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
-            assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
-            assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
+            try{
+                assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
+                assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', comparator.isLess(coordinates[n], coordinates[n+1]),"==",true,
+                    'assertion2:', comparator.isGreater(coordinates[n+1], coordinates[n]),"==",true,
+                )
+                throw Error()
+            }
         }
     }
 
@@ -44,7 +53,15 @@ export class CoordinatesTest{
         for(var n = 0; n<coordinates.length-1; n++){
             var next = _coordinates.next() 
             var prev = _coordinates.prev
-            assert.equal(comparator.isEqual(next, prev), false)
+            try{
+                assert.equal(comparator.isEqual(next, prev), false)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', comparator.isEqual(next, prev),"==",false
+                )
+                throw Error()
+            }
         }
     }
 
@@ -58,10 +75,19 @@ export class CoordinatesTest{
         for(var n = 0; n<coordinates.length-1; n++){
             var next=_coordinates.next()
             for(var i = next.length-1; i>=0; i--){
-                if(_coordinates.incVal(next, i)){
-                    assert.equal(_coordinates.incVal(next, i)-next[i]==1, true)
-                }else{
-                    assert.equal((next[i]+1)>_coordinates.max()[i], true)
+                try{
+                    if(_coordinates.incVal(next, i)){
+                        assert.equal(_coordinates.incVal(next, i)-next[i]==1, true)
+                    }else{
+                        assert.equal((next[i]+1)>_coordinates.max()[i], true)
+                    }
+                }catch{
+                    console.log(
+                        'mtx:', coordinates,
+                        'assertion1:', _coordinates.incVal(next, i)-next[i],"==",1,
+                        'assertion2:',(next[i]+1)>_coordinates.max()[i], true
+                    )
+                    throw Error()
                 }
             }
         }
@@ -78,7 +104,15 @@ export class CoordinatesTest{
         var next = _coordinates.next()
         var current = _coordinates.prev()
         for(var n = 0; n<coordinates.length-3; n++){
-            assert.equal(_coordinates.in(current,prev, next), true)
+            try{
+                assert.equal(_coordinates.in(current,prev, next), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', _coordinates.in(current,prev, next),"==",true
+                )
+                throw Error()
+            }
             prev=current
             current=next
             next = _coordinates.next() 
@@ -87,14 +121,21 @@ export class CoordinatesTest{
 
     diff(){
         console.log('diff() test')
-
         var c1=[0,0,0]
-        var c2=[10, 10, 10]
+        var c2=[10,10,10]
         var _coordinates = new Coordinates(c1, c2)
         var coordinates = _coordinates.coordinates()
         for(var i = 0; i<coordinates.length-1; i++){
             var diff = _coordinates.comparator.diff(coordinates[i+1], coordinates[i])
-            assert.equal(_coordinates.comparator.isGreaterEqual(coordinates[i+1], diff), true)
+            try{
+                assert.equal(_coordinates.comparator.isGreaterEqual(coordinates[i+1], diff), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', _coordinates.comparator.isGreaterEqual(coordinates[i+1], diff),"==",true
+                )
+                throw Error()
+            }
         }
     }
 
@@ -104,7 +145,15 @@ export class CoordinatesTest{
         var c2=[1, 10, 4]
         var _coordinates = new Coordinates(c1, c2)
         var coordinates = _coordinates.coordinates()
-        assert.equal(_coordinates.range(c1, c2),10, true)
+        try{
+            assert.equal(_coordinates.range(c1, c2),10, true)
+        }catch{
+            console.log(
+                'mtx:', coordinates,
+                'assertion1:', _coordinates.range(c1, c2),"==",10
+            )
+            throw Error()
+        }
     }
 
     isEqual(){
@@ -114,7 +163,15 @@ export class CoordinatesTest{
         var _coordinates = new Coordinates(c1, c2)
         var coordinates = _coordinates.coordinates()
         for(var i = 0; i<coordinates.length-1; i++){
-            assert.equal(_coordinates.comparator.isEqual(coordinates[i], coordinates[i]), true)
+            try{
+                assert.equal(_coordinates.comparator.isEqual(coordinates[i], coordinates[i]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', _coordinates.comparator.isEqual(coordinates[i], coordinates[i]),"==",true
+                )
+                throw Error()
+            }
         }
     }
 
@@ -127,8 +184,15 @@ export class CoordinatesTest{
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
             //test its coordinate system
-            assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
-
+            try{
+                assert.equal(comparator.isGreater(coordinates[n+1], coordinates[n]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates,
+                    'assertion1:', comparator.isGreater(coordinates[n+1], coordinates[n]),"==",true
+                )
+                throw Error()
+            }
         }
     }
 
@@ -142,8 +206,17 @@ export class CoordinatesTest{
         var coordinates2 = _coordinates2.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates1.length-1; n++){
-            assert.equal(comparator.isGreaterEqual(coordinates1[n], coordinates2[n]), true)
-            assert.equal(comparator.isGreaterEqual(coordinates1[n+1], coordinates1[n]), true)
+            try{
+                assert.equal(comparator.isGreaterEqual(coordinates1[n], coordinates2[n]), true)
+                assert.equal(comparator.isGreaterEqual(coordinates1[n+1], coordinates1[n]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates1, coordinates2,
+                    'assertion1:', comparator.isGreaterEqual(coordinates1[n], coordinates2[n]),"==",true,
+                    'assertion2:', comparator.isGreaterEqual(coordinates1[n+1], coordinates1[n]),"==",true
+                )
+                throw Error()
+            }
         }
     }
     isLess(){
@@ -154,7 +227,15 @@ export class CoordinatesTest{
         var coordinates = _coordinates.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
-            assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
+            try{
+                assert.equal(comparator.isLess(coordinates[n], coordinates[n+1]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates1,coordinates2,
+                    'assertion1:', comparator.isLess(coordinates[n], coordinates[n+1]),"==",true
+                )
+                throw Error()
+            }
         }
     }
     isLessEqual(){
@@ -167,8 +248,19 @@ export class CoordinatesTest{
         var coordinates2 = _coordinates2.coordinates()
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates1.length-1; n++){
-            assert.equal(comparator.isLessEqual(coordinates1[n], coordinates2[n]), true)
-            assert.equal(comparator.isLessEqual(coordinates1[n], coordinates1[n+1]), true)
+
+            try{
+                assert.equal(comparator.isLessEqual(coordinates1[n], coordinates2[n]), true)
+                assert.equal(comparator.isLessEqual(coordinates1[n], coordinates1[n+1]), true)
+            }catch{
+                console.log(
+                    'mtx:', coordinates1,coordinates2,
+                    'assertion1:', comparator.isLessEqual(coordinates1[n], coordinates2[n]),"==",true,
+                    'assertion2:', comparator.isLessEqual(coordinates1[n], coordinates1[n+1]),"==",true
+
+                )
+                throw Error()
+            }
         }
     }
 }

@@ -33,15 +33,16 @@ export class MatrixTest{
                         'm:', mtx.m, 
                         'assertion:', mtx.mtx[i].coordinate[j],"==",coordinates[i][j]
                     )
-
                     throw Error()
                 }
             }
         }
+
         var data = []
         for(var i = 0; i<coordinates.length; i++){
             data.push(i)
         }
+        
         mtx._mtx(data)
         for(var i=0; i<coordinates.length; i++){
             try{
