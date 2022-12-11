@@ -3,7 +3,9 @@
 //It doesnt even have to be the entire encoding superset, it just has to embrace enough of the superset
 //to fully encode the input and output for optimal efficiency. In otherwords, we want to strip away
 //extraneous symbols that encode nothing of the underlying string and its expected output.
-export class CodeMap{
+
+export class PharoahMap{
+
 	constructor(input, output, context){
 		this.map;
 		if(input&&output&&context){ this.create(input, output, context) }
@@ -19,19 +21,18 @@ export class CodeMap{
 		this.codes(this.map)
 		this.io(input, output, this.map)
 		this.map['context']=context
-		
 	}
 
-	simMap(map){
+	pharoahMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
-		var simList=this.simList();
+		var cairoGlyphs=this.cairoGlyphs();
 		for(var  i = 0; i<Object.keys(map['symbols']).length; i++){
 			var key = Object.keys(map['symbols'])[i]
-			map['symbols'][key]['code']=simList[i]
+			map['symbols'][key]['code']=cairoGlyphs[i]
 		}
 	}
 
-	simList(){
+	cairoGlyphs(){
 		return [
 			String.fromCharCode('77825'), 
 			String.fromCharCode('77826'), String.fromCharCode('77827'),
@@ -98,7 +99,6 @@ export class CodeMap{
 			String.fromCharCode('77948'), String.fromCharCode('77949'), 
 			String.fromCharCode('77950'), String.fromCharCode('77951'),
 			String.fromCharCode('77952')
-
 			//there are almost a 1000 more of these we can use if we run out! The last one is String.fromCharCode('78895')
 		]
 	}
