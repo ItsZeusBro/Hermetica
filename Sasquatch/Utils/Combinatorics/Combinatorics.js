@@ -74,7 +74,8 @@ export class Combinatorics{
                 n-1, 
                 permutation.slice().concat(symbols[i]), 
                 permutations,
-                min, max
+                min, 
+                max
             )
         }
         return permutations

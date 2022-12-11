@@ -13,20 +13,25 @@ export class Coordinates{
 	max(){ return this.coordinate2.slice() }
 
 	coordinates(){
-		var symbols = new Set(this.coordinate1.slice().concat(this.coordinate2.slice()))
+		var symbols = this.coordinate1.slice()
+		symbols = symbols.concat(this.coordinate2.slice())
+		symbols = new Set(symbols)
 		symbols = Array.from(symbols)
 		var min = Math.min(...symbols)
 		var max = Math.max(...symbols)
-		symbols=[]
-		for(var i = min; i<=max; i++){ symbols.push(i) }
+		var _symbols=[]
+		for(var i = min; i<=max; i++){ _symbols.push(i) }
+		//console.log(_symbols, this.coordinate1.length)
+
 		this._coordinates = new Combinatorics().PwithR(
-			symbols, 
+			_symbols, 
 			this.coordinate1.length, 
 			[],
 			[],
 			this.coordinate1, 
 			this.coordinate2
 		)
+		console.log(this._coordinates)
 		return this._coordinates
 	}
 
@@ -115,8 +120,8 @@ export class Comparator{
 	}
 
 	isGreater(coordinate1, coordinate2){
-		for(var i = coordinate1.length-1; i>=0; i--){
-			if(coordinate1[i]<coordinate2[i]){
+		for(var i = 0; i<coordinate1.length; i++){
+			if(coordinate1[i]>coordinate2[i]){
 				return true
 			}
 		}
@@ -131,8 +136,8 @@ export class Comparator{
 		}
 	}
 	isLess(coordinate1, coordinate2){
-		for(var i = coordinate1.length-1; i>=0; i--){
-			if(coordinate1[i]>coordinate2[i]){
+		for(var i = 0; i<coordinate1.length; i++){
+			if(coordinate1[i]<coordinate2[i]){
 				return true
 			}
 		}

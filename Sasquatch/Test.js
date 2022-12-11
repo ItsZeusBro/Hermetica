@@ -8,8 +8,8 @@ class Test{
     }
 
     tests(){
-        new CombinatoricsTest()
-        new CoordinatesTest()
+        // new CombinatoricsTest()
+        // new CoordinatesTest()
         new MatrixTest()
     }
     
