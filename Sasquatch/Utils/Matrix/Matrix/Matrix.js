@@ -9,11 +9,10 @@ class Cell{
 }
 
 export class Matrix {
-	constructor(coordinate1, coordinate2, data, mtx=null){
+	constructor(coordinate1, coordinate2, data, mtx){
 		this.mtx;
 		this.coordinates = new Coordinates(coordinate1, coordinate2)
 		this.comparator = this.coordinates.comparator
-		this.virtual=this._virtual(coordinate1, coordinate2)
 		this.m=this.coordinates.range()
 		this.d=coordinate1.length
 		this.coordinate1=coordinate1
@@ -45,15 +44,6 @@ export class Matrix {
 			diff.push(Math.abs(coordinate1[i]-coordinate2[i]))
 		}
 		return diff
-	}
-
-	_virtual(coordinate1, coordinate2){
-		var min=Math.min(...coordinate1)
-		if(min<0){
-			return Math.abs(min)
-		}else{
-			return false
-		}
 	}
 
 	//this can refresh a mtx with new data
@@ -107,7 +97,10 @@ export class Matrix {
 		return mtx
 	}
 
-	get(coordinate){ return this.mtx[this.skip(coordinate)] }
+	get(coordinate){ 
+		//console.log(coordinate)
+		return this.mtx[this.skip(coordinate)] 
+	}
 
 	copy(){ return {...this.mtx} }
 
