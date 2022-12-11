@@ -24,8 +24,6 @@ export class CoordinatesTest{
         var c2=[5, 5, 5]
         var _coordinates = new Coordinates(c1, c2)
         var coordinates = _coordinates.coordinates()
-        var PwithR = new Combinatorics()._PwithR(_coordinates.range(), c1.length)
-        assert.equal(PwithR, coordinates.length)
         var comparator = new Comparator(c1.length)
         for(var n = 0; n<coordinates.length-1; n++){
             //test its coordinate system
@@ -113,10 +111,6 @@ export class CoordinatesTest{
         assert.equal(diff[0], 90)
         assert.equal(diff[1], 90)
         assert.equal(diff[2], 90)
-
-    }
-
-    copy(){
 
     }
 

@@ -8,9 +8,9 @@ class Test{
     }
 
     tests(){
-        // new CoordinatesTest()
+        new CombinatoricsTest()
+        new CoordinatesTest()
         new MatrixTest()
-        // new CombinatoricsTest()
     }
     
 }

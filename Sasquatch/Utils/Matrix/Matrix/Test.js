@@ -16,6 +16,7 @@ export class MatrixTest{
         this.get()
         this.skip()
         this.window()
+        this.copy()
     }
 
     _mtx(){
@@ -64,11 +65,42 @@ export class MatrixTest{
         var mtx2= mtx.window([1, 0, 0].reverse(), [2,3,3].reverse())
         //test its coordinate system
         var coordinates2 = new Coordinates([1, 0, 0].reverse(), [2,3,3].reverse()).coordinates()
+
         for(var i=0; i<coordinates2.length; i++){
+            console.log(coordinates2[i])
+
             mtx.at(coordinates2[i], coordinates2[i], 'someKey')
+            // var count=0
+            // console.log(mtx2.get(coordinates2[i]).data['someKey'], mtx.get(coordinates2[i]).data['someKey'])
+            // for(var j=0; j<coordinates2[i].length; j++){
+            //     if(mtx2.get(coordinates2[i]).data['someKey'][j]==mtx.get(coordinates2[i]).data['someKey'][j]){
+            //         count+=1
+            //     }
+            // }
+            // assert.equal(count==coordinates2[i].length, true)
+        }
+        console.log(mtx.mtx)
+        console.log(mtx2.mtx)
+    }
+
+    copy(){
+        var mtx = new Matrix([0,0,0], [5,5,5])
+        var mtx2= mtx.copy()
+        //test its coordinate system
+        var coordinates1 = new Coordinates([0,0,0], [5,5,5]).coordinates()
+
+        for(var i=0; i<coordinates1.length; i++){
+            mtx.at(coordinates1[i], coordinates1[i], 'someKey')
+            mtx2.at(coordinates1[i], coordinates1[i]+1, 'someKey')
+
+            var count=0
             for(var j =0; j<coordinates2[i].length; j++){
-                assert.equal(mtx2.get(coordinates2[i]).data[j]==mtx.get(coordinates2[i]).data[j], true)
+                console.log(mtx2.get(coordinates2[i]).data['someKey'][j], mtx.get(coordinates1[i]).data['someKey'][j])
+                if(mtx2.get(coordinates2[i]).data['someKey'][j]==mtx.get(coordinates1[i]).data['someKey'][j]){
+                    count+=1
+                }
             }
+            assert.equal(count!=coordinates2[i].length, true)
         }
     }
 
@@ -111,12 +143,8 @@ export class MatrixTest{
                     assert.equal(mtx2.mtx[mtx2.skip(coordinates1[i])].data['someKey']==i, true)
 
                 }
-            }
-            
+            }   
         }
-        
-
-        
     }
 
     get(){
@@ -132,14 +160,4 @@ export class MatrixTest{
             assert.equal(mtx.get(coordinates[i]).data['someKey'], i)
         }
     }
-
 }
-
-// new Test()
-
-
-// console.log(new Coordinates([-1,-1,-1], [2, 2, 2]).coordinates())
-// var coordinates = new Coordinates([-1,-1,-1], [2, 2, 2])
-// for(var i= 0; i<coordinates.coordinates().length; i++){
-// 	console.log(coordinates.next())
-// }

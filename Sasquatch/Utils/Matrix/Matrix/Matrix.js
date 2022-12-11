@@ -9,19 +9,25 @@ class Cell{
 }
 
 export class Matrix {
-	constructor(coordinate1, coordinate2, data, mtx){
+	constructor(coordinate1, coordinate2, data, mtx, coordinates){
 		this.mtx;
-		this.coordinates = new Coordinates(coordinate1, coordinate2)
+		this.coordinate1;
+		this.coordinate2;
+		this.coordinates;
+
+		if(coordinates){
+			this.coordinates = coordinates
+			this.coordinate1=this.coordinates.min()
+			this.coordinate2=this.coordinates.max()
+		}else{ 
+			this.coordinates=new Coordinates(coordinate1, coordinate2) 
+			this.coordinate1=coordinate1
+			this.coordinate2=coordinate2
+		}
 		this.comparator = this.coordinates.comparator
 		this.m=this.coordinates.range()
-		this.d=coordinate1.length
-		this.coordinate1=coordinate1
-		this.coordinate2=coordinate2
-		if(mtx){
-			this.mtx=mtx
-		}else{
-			this._mtx(data)
-		}
+		this.d=this.coordinate1.length
+		if(mtx){ this.mtx=mtx }else{ this._mtx(data) }
 	}
 	
 	max(d){
@@ -87,7 +93,6 @@ export class Matrix {
 			index+=diff[i]*Math.pow(this.m, coordinate.length-1-i)
 		}
 		return index
-
 	}
 
 	window(coordinate1, coordinate2){
@@ -96,17 +101,21 @@ export class Matrix {
 		return new Matrix(coordinate1, coordinate2, null, mtx)
 	}
 
+	copy(){
+		//this optimizes copying a matrix, by reducing combinatoric complexity
+		//also reduces load times for data
+		return new Matrix(null, null, null, this.mtx.slice(), this.coordinates)
+	}
+
 	_window(index1, index2){
 		var mtx=[]
 		for(var i =index1; i<=index2; i++){
+			console.log(index1, index2)
 			mtx.push(new Cell(this.mtx[i].data, this.mtx[i].coordinate))
 		}
 		return mtx
 	}
 
-
-
-	copy(){ return {...this.mtx} }
 
 	print(){
 		//stringify the mtx
@@ -124,5 +133,3 @@ export class Matrix {
 		}
 	}
 }
-
-// var mtx = new Matrix([-2,-2,-2], [-1 -1, -1])

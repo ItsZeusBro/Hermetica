@@ -84,6 +84,9 @@ export class Coordinates{
 }
 
 export class Comparator{
+	//													  d= 0  1  2               2, 1, 0
+	// IMPORTANT!!! COORDINATE NOTATION IS REVERSE NOTATION [1, 0, 0] is actually [0, 0, 1]
+
 	constructor(d){
 		this.d=d
 	}
@@ -113,7 +116,7 @@ export class Comparator{
 
 	isGreater(coordinate1, coordinate2){
 		for(var i = coordinate1.length-1; i>=0; i--){
-			if(coordinate1[i]>coordinate2[i]){
+			if(coordinate1[i]<coordinate2[i]){
 				return true
 			}
 		}
@@ -127,10 +130,9 @@ export class Comparator{
 			return false
 		}
 	}
-
 	isLess(coordinate1, coordinate2){
 		for(var i = coordinate1.length-1; i>=0; i--){
-			if(coordinate1[i]<coordinate2[i]){
+			if(coordinate1[i]>coordinate2[i]){
 				return true
 			}
 		}

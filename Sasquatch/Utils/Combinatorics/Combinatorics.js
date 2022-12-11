@@ -56,7 +56,7 @@ export class Combinatorics{
     }
 
     //PERMUTATION WITH REPETITION
-    PwithR(symbols, n, permutation=[], permutations=[], min, max){
+    PwithR(symbols, n, permutation=[], permutations=[], min=[], max=[]){
         if(n==0){
             if(min.length&&max.length){
                 var comparator = new Coordinates(min, max).comparator
