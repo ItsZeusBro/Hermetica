@@ -62,26 +62,31 @@ export class MatrixTest{
     window(){
         console.log('window() test')
         var mtx = new Matrix([0,0,0], [5,5,5])
-        console.log(mtx.mtx)
         var mtx2= mtx.window([1, 0, 0].reverse(), [2,3,3].reverse())
         //test its coordinate system
+
         var coordinates2 = new Coordinates([1, 0, 0].reverse(), [2,3,3].reverse()).coordinates()
 
         for(var i=0; i<coordinates2.length; i++){
-            console.log(coordinates2[i])
-
             mtx.at(coordinates2[i], coordinates2[i], 'someKey')
-            // var count=0
-            // console.log(mtx2.get(coordinates2[i]).data['someKey'], mtx.get(coordinates2[i]).data['someKey'])
-            // for(var j=0; j<coordinates2[i].length; j++){
-            //     if(mtx2.get(coordinates2[i]).data['someKey'][j]==mtx.get(coordinates2[i]).data['someKey'][j]){
-            //         count+=1
-            //     }
-            // }
-            // assert.equal(count==coordinates2[i].length, true)
+            mtx.log() 
+            mtx2.log()
+            var count=0
+            for(var j=0; j<coordinates2[i].length; j++){
+                console.log(mtx2.get(coordinates2[i]))
+                console.log(mtx.get(coordinates2[i]))
+
+                if(
+                    mtx2.get(coordinates2[i]).data['someKey'][j]
+                    ==
+                    mtx.get(coordinates2[i]).data['someKey'][j]
+                ){
+                    count+=1
+                }
+            }
+            assert.equal(count==coordinates2[i].length, true)
         }
-        console.log(mtx.mtx)
-        console.log(mtx2.mtx)
+
     }
 
     copy(){
@@ -101,7 +106,7 @@ export class MatrixTest{
                     count+=1
                 }
             }
-            assert.equal(count!=coordinates2[i].length, true)
+            assert.equal(count!=coordinates1[i].length, true)
         }
     }
 

@@ -55,7 +55,6 @@ export class Matrix {
 	//this can refresh a mtx with new data
 	_mtx(data){
 		var coordinates = this.coordinates.coordinates()
-		console.log(coordinates)
 		var mtx=[]
 		for(var i = 0; i<coordinates.length; i++){
 			if(Array.isArray(data)){

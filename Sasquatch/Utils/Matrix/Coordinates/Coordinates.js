@@ -31,7 +31,6 @@ export class Coordinates{
 			this.coordinate1, 
 			this.coordinate2
 		)
-		console.log(this._coordinates)
 		return this._coordinates
 	}
 
