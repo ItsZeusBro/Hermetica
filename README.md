@@ -8,7 +8,8 @@ In general any function can be solved with the following:
 1. Vectorize an input, and its corresponding expected output
 2. run simulations until a solution is found.
 3. check simulation that works (basically a simulation works if it produces the answer for a given simulation and a corresponding rules set and terminating generation) against other inputs for the function that serves the same purpose
-4. The more times you pass new tests, the more perfect the function
+4. The more times you pass new tests with the given simulation, the more perfect the function. 
+5. Eventually we want to find a function for a contiguous set of inputs to greatly optimize the functions performance in a hardware simulation environment
 
 In general we can solve any problem including the most general function of "deduction". So all deductions can be achieved with a single simulation, rule set, and generation, by piping the output of the simulation back into the simulation to find the next deduction.
 
