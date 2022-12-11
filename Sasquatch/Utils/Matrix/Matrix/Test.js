@@ -16,7 +16,7 @@ export class MatrixTest{
         this.get()
         this.skip()
         this.window()
-        // this.copy() //this has a problem
+        this.copy() //this has a problem
     }
 
     _mtx(){
@@ -92,14 +92,15 @@ export class MatrixTest{
     }
 
     copy(){
+        console.log('copy() test')
         var mtx = new Matrix([0,0,0], [5,5,5])
         var mtx2= mtx.copy()
         //test its coordinate system
-        var coordinates1 = new Coordinates([0,0,0], [5,5,5]).coordinates()
+        var coordinates1=mtx.coordinates
 
         for(var i=0; i<coordinates1.length; i++){
             mtx.at(coordinates1[i], coordinates1[i], 'someKey')
-            mtx2.at(coordinates1[i], coordinates1[i]+1, 'someKey')
+            mtx2.at(coordinates1[i], coordinates1[i+1], 'someKey')
 
             var count=0
             for(var j =0; j<coordinates1[i].length; j++){
@@ -153,16 +154,6 @@ export class MatrixTest{
                 }
             }   
         }
-        // var mtx = new Matrix([0,0,0], [1, 1, 1])
-        // mtx.mtx[mtx.skip([0, 0, 0])]
-        // mtx.mtx[mtx.skip([0, 0, 1])]
-        // mtx.mtx[mtx.skip([0, 1, 0])]
-        // mtx.mtx[mtx.skip([0, 1, 1])]
-        // mtx.mtx[mtx.skip([1, 0, 0])]
-        // mtx.mtx[mtx.skip([1, 0, 1])]
-        // mtx.mtx[mtx.skip([1, 1, 0])]
-        // mtx.mtx[mtx.skip([1, 1, 1])]
-
     }
 
     get(){
