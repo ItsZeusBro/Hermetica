@@ -6,28 +6,46 @@
 import {Utils} from "../../Utils/Utils.js"
 export class PharoahMap{
 
-	constructor(input, output, context){
+	constructor(input, output){
 		this.map;
-		if(input&&output&&context){ this.create(input, output, context) }
+		if(input&&output){ 
+			this.map = this.pharoahMap(input, output) 
+		}
 	}
 
-	pharoahMap(input, output, context){
-		if(context=='english'){
-			this.map=this.variableMap(input, output, this.latinMap())
-		}else if(context=='algebra'){
-			this.map=this.variableMap(input, output, this.algebraMap())
+	pharoahMap(input, output){
+        var variableMap = this.variableMap(input, output, this.latinMap())
+        var translationMap = this.translationMap(variableMap)
+		this.map=translationMap
+		this.map=this.translate(input, output, this.map)
+		this.map = this.codes(this.map)
+		return this.map
+	}
+
+	variableMap(input, output, map){
+		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
+		var variables=[]
+		var subset = new Set()
+		var variableMap={}
+		variableMap['variables']={}
+		variables = input.split('');
+		variables = variables.concat(output.split(''))
+		for(var i = 0; i<variables.length; i++){
+			subset.add(variables[i])
 		}
-		this.translationMap(this.map)
-		this.translate(input, output, this.map)
-		this.codes(this.map)
-		this.map['context']=context
+		subset.forEach(element => {
+			variableMap['variables'][element]=map[element]
+		});
+		return variableMap
 	}
 
 	translationMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var cairoGlyphs=this.cairoList();
+		// console.log(map)
 		for(var  i = 0; i<Object.keys(map['variables']).length; i++){
 			var key = Object.keys(map['variables'])[i]
+			// console.log(key)
 			map['variables'][key]['code']=cairoGlyphs[i]
 		}
 		return map
@@ -35,9 +53,10 @@ export class PharoahMap{
 
 	translate(input, output, map){
 		map['input']=input
-		map['inputVector']=this._translate(input, map['symbols']).split("")
+		map['inputVector']=this._translate(input, map).split("")
 		map['output']=output
-		map['outputVector']=this._translate(output, map['symbols']).split("")
+		map['outputVector']=this._translate(output, map).split("")
+		return map
 	}
 
 	_translate(string, symbolMap){
@@ -57,30 +76,16 @@ export class PharoahMap{
 
 	codes(map){
 		var codes=[]
-		for(var i = 0; i<Object.keys(map['symbols']).length; i++){
-			var key = Object.keys(map['symbols'])[i]
-			codes.push(map['symbols'][key]['code'])
+		for(var i = 0; i<Object.keys(map['variables']).length; i++){
+			var key = Object.keys(map['variables'])[i]
+			codes.push(map['variables'][key]['code'])
 		}
 		codes.push(' ')
 		map['codes']=codes
+		return map
 	}
 
-	variableMap(input, output, map){
-		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
-		var variables=[]
-		var subset = new Set()
-		var variableMap={}
-		variableMap['variables']={}
-		variables = input.split('');
-		variables = variables.concat(output.split(''))
-		for(var i = 0; i<variables.length; i++){
-			subset.add(variables[i])
-		}
-		subset.forEach(element => {
-			variableMap['variables'][element]=map[element]
-		  });
-		return variableMap
-	}
+
 
 	regexList(){
 		return this.latinList()		
