@@ -5,7 +5,7 @@ export class UtilsTest{
     constructor(){
         this.hex2bin()
         this.bin2hex()
-
+        this.string2Hex()
     }
 
     hex2bin(){
@@ -27,6 +27,14 @@ export class UtilsTest{
     }
 
     string2Hex(){
+        console.log('string2hex()')
+        for(var i = 0; i<100; i++){
+            var str = new Rand().str(i)
+            console.log(str)
+            var hex = new Utils().string2Hex(str)
+            console.log(hex)
+            assert.equal(str, new Utils().hex2String(hex))
+        }
     }
 
     hex2String(){
