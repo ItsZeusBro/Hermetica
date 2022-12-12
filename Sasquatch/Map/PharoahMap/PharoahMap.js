@@ -1,8 +1,3 @@
-//This is responsible for encoding strings to symbols accepted by automata, computer, and rules
-//these strings are categorized by a minimal superset of codes that fully encode the string
-//It doesnt even have to be the entire encoding superset, it just has to embrace enough of the superset
-//to fully encode the input and output for optimal efficiency. In otherwords, we want to strip away
-//extraneous symbols that encode nothing of the underlying string and its expected output.
 import {Utils} from "../../Utils/Utils.js"
 export class PharoahMap{
 
@@ -18,12 +13,11 @@ export class PharoahMap{
         var translationMap = this.translationMap(variableMap)
 		this.map=translationMap
 		this.map=this.translate(input, output, this.map)
-		this.map = this.codes(this.map)
+		this.map = this.reverse(this.map)
 		return this.map
 	}
 
 	variableMap(input, output, map){
-		//reduce the string to a minimal encoding map that is a subset of arithmetic symbols that embrace both input and output symbols
 		var variables=[]
 		var subset = new Set()
 		var variableMap={}
@@ -40,7 +34,6 @@ export class PharoahMap{
 	}
 
 	translationMap(map){
-		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var cairoGlyphs=this.cairoList();
 		// console.log(map)
 		var keys=Object.keys(map['variables'])
@@ -75,19 +68,15 @@ export class PharoahMap{
 		return this._charMap(char, map)['code']
 	}
 	
-
-	codes(map){
-		var codes=[]
-		for(var i = 0; i<Object.keys(map['variables']).length; i++){
-			var key = Object.keys(map['variables'])[i]
-			codes.push(map['variables'][key]['code'])
+	reverse(map){
+		var keys=Object.keys(map['variables'])
+		keys.sort()
+		map['reverse']={}
+		for(var i = 0; i<keys.length; i++){
+			map['reverse'][map['variables'][keys[i]]['code']]=keys[i]
 		}
-		codes.push(' ')
-		map['codes']=codes
 		return map
 	}
-
-
 
 	regexList(){
 		return this.latinList()		
@@ -136,32 +125,3 @@ export class PharoahMap{
 		return map
 	}
 }
-// var es = new EncodingMap("(1+1)*5=", '10', 'algebra')
-// console.log(es.map)
-
-
-	// arabicList(){
-	// 	var arabicList =[] 
-	// 	for(var i = 1536; i<=1791; i++){
-	// 		arabicList.push(String.fromCharCode(i+''))
-	// 	}
-	// 	return arabicList
-	// }
-
-	// CJKList(){
-	// 	var CJKList =[] 
-	// 	for(var i = 19968; i<=20168; i++){
-	// 		'\u{1F603}'
-	// 		CJKList.push(String.fromCharCode(i+''))
-	// 	}
-	// 	return CJKList
-	// }
-		// algebraMap(){
-	// 	//symbols:
-
-	// 	var algebraMap=this.createMap(algebraList)
-	// 	return algebraMap
-	// }
-	// arabicMap(){
-	// 	return this.createMap(this.arabicList)
-	// }
