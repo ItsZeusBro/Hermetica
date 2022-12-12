@@ -4,19 +4,26 @@ export class UtilsTest{
 
     constructor(){
         this.hex2bin()
+        this.bin2hex()
+
     }
 
     hex2bin(){
         console.log('hex2bin()')
-        for(var i = 0; i<10000; i++){
+        for(var i = 0; i<100; i++){
             var hex = new Rand().hex(i)
             var bin = new Utils().hex2bin(hex)
             assert.equal(hex, new Utils().bin2hex(bin))
         }
-
     }
     bin2hex(){
-
+        console.log('bin2hex()')
+        for(var i = 0; i<100; i++){
+            var bytes = new Rand().bytes(i)
+            //console.log(bytes)
+            var hex = new Utils().bin2hex(bytes)
+            assert.equal(bytes, new Utils().hex2bin(hex))
+        }
     }
 
     string2Hex(){

@@ -175,6 +175,15 @@ export class Rand{
 	hex(n){
 		return new Utils().string2Hex(this.str(n)).toUpperCase()
 	}
+	bytes(n){
+		var bytes=''
+		for(var i = 0; i<n; i++){
+			for(var j = 0; j<8; j++){
+				bytes+=this.mod10()
+			}
+		}
+		return bytes
+	}
 	cjk(){
 		var cjk =[] 
 		for(var i = 19968; i<=20168; i++){
