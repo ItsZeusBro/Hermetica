@@ -103,15 +103,26 @@ class PharoahMapTest{
         }
 	}  
 
-	pharoahMap(){
+	translationMap(){
         console.log('pharoahMap()')
         var input=new Rand().Str(10)
         var output=new Rand().Str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
-        var pharoahMap = new PharoahMap().pharoahMap(variableMap)
-        console.log(pharoahMap)
+        var translationMap = new PharoahMap().translationMap(variableMap)
+        for(var i=0; i<Object.keys(translationMap['variables']).length;i++){
+            var key = Object.keys(translationMap['variables'])[i]
+            var hex = translationMap['variables'][key]['hex']
+            var bin = translationMap['variables'][key]['bin']
+            var decimal = translationMap['variables'][key]['decimal']
+            var code = translationMap['variables'][key]['code']
+            assert(set.has(key), true)
+            assert(new Utils().string2Hex(key) == hex, true)
+            assert(new Utils().hex2bin(hex) == bin, true)
+            assert(new Utils().bin2Decimal(bin) == decimal, true)
+            assert(new PharoahMap()._translate(key, translationMap) == code, true)
+        }
 	}
 
 	translate(){

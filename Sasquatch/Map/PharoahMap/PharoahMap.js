@@ -11,19 +11,19 @@ export class PharoahMap{
 		if(input&&output&&context){ this.create(input, output, context) }
 	}
 
-	create(input, output, context){
+	pharoahMap(input, output, context){
 		if(context=='english'){
 			this.map=this.variableMap(input, output, this.latinMap())
 		}else if(context=='algebra'){
 			this.map=this.variableMap(input, output, this.algebraMap())
 		}
-		this.pharoahMap(this.map)
-		this.codes(this.map)
+		this.translationMap(this.map)
 		this.translate(input, output, this.map)
+		this.codes(this.map)
 		this.map['context']=context
 	}
 
-	pharoahMap(map){
+	translationMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var cairoGlyphs=this.cairoList();
 		for(var  i = 0; i<Object.keys(map['variables']).length; i++){
@@ -40,13 +40,20 @@ export class PharoahMap{
 		map['outputVector']=this._translate(output, map['symbols']).split("")
 	}
 
-	_translate(string, symbols){
+	_translate(string, symbolMap){
 		var translation=""
 		for(var i = 0; i<string.length; i++){
-			translation+=symbols[string[i]]['code']
+			translation+=this._charCode(string[i], symbolMap)
 		}
 		return translation
 	}
+	_charMap(char, symbolMap){
+		return symbolMap['variables'][char]
+	}
+	_charCode(char, symbolMap){
+		return this._charMap(char, symbolMap)['code']
+	}
+	
 
 	codes(map){
 		var codes=[]
