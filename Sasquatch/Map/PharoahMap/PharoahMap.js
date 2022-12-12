@@ -3,7 +3,7 @@
 //It doesnt even have to be the entire encoding superset, it just has to embrace enough of the superset
 //to fully encode the input and output for optimal efficiency. In otherwords, we want to strip away
 //extraneous symbols that encode nothing of the underlying string and its expected output.
-
+import {Utils} from "../../Utils/Utils.js"
 export class PharoahMap{
 
 	constructor(input, output, context){
@@ -26,9 +26,9 @@ export class PharoahMap{
 	pharoahMap(map){
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var cairoGlyphs=this.cairoGlyphs();
-		for(var  i = 0; i<Object.keys(map['symbols']).length; i++){
-			var key = Object.keys(map['symbols'])[i]
-			map['symbols'][key]['code']=cairoGlyphs[i]
+		for(var  i = 0; i<Object.keys(map['variables']).length; i++){
+			var key = Object.keys(map['variables'])[i]
+			map['variables'][key]['code']=cairoGlyphs[i]
 		}
 	}
 
@@ -147,7 +147,7 @@ export class PharoahMap{
 
 	regex(input, output){
 		//reduce the string to a minimal encoding map that is a subset of regex symbols that embrace both input and output symbols
-		
+
 	}
 
 	algebraMap(){
@@ -157,27 +157,35 @@ export class PharoahMap{
 			'<', '=', '>', '[', ']', '^', '{', '}', '√', '∛', '∜'
 		]
 		var algebraMap=this.createMap(algebraList)
-		
 		return algebraMap
 	}
 
-	englishMap(){
-		var englishArray = [' ','(', ')', '"', "'", ",", "-", ".", "!", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-		"&", "@", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
-		"q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", 
-		"I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-		"[", "]"]
-		var englishMap = this.createMap(englishArray)
-		return englishMap
+	latinMap(){
+		var latin = [
+            ' ', "!", '"', '#', '$', '%', "&", "'", '(', ')', '*',  '+', ",", "-", ".",'/',
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            ':', ';', '<', '=', '>', '?', '@',   
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", 
+            "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+            "[", '\\', ']', '^', '_', '`', 
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+		    "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 
+            '{', '|', '}', '~'
+        ]
+		var latinMap = this.createMap(latin)
+		return latinMap
 	}
 
+	asciiMap(){
+
+	}
 	createMap(list){
 		var map = {}
 		for(var i = 0; i<list.length; i++){
 			map[list[i]]={
-				'hex':this.string2Hex(list[i]), 
-				'bin':this.hex2bin(this.string2Hex(list[i])),
-				'decimal':parseInt(this.hex2bin(this.string2Hex(list[i])), 2)
+				'hex':new Utils().string2Hex(list[i]), 
+				'bin':new Utils().hex2bin(new Utils().string2Hex(list[i])),
+				'decimal':parseInt(new Utils().hex2bin(new Utils().string2Hex(list[i])), 2)
 			}
 		}
 		return map
