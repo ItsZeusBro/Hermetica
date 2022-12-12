@@ -14,6 +14,9 @@ export class UtilsTest{
         
         this.buffer2Hex()
         this.hex2Buffer()
+
+        this.bin2Decimal()
+        this.decimal2Bin()
     }
 
     hex2bin(){
@@ -99,12 +102,23 @@ export class UtilsTest{
     }
 
     bin2Decimal(){
-
+        console.log('bin2Decimal()')
+        for(var i = 1; i<100; i++){
+            var bytes = new Rand().bytes(5)
+            assert.equal(parseInt(bytes, 2), new Utils().bin2Decimal(bytes))
+        }
     }
 
     decimal2Bin(){
+        console.log('decimal2Bin()')
+        for(var i = 0; i<1000; i++){
+            var decimal = new Rand().int(1000)
+            var bin = new Utils().decimal2Bin(decimal)
+            console.log(decimal, bin)
+            assert.equal(decimal, new Utils().bin2Decimal(bin))
+        }
 
-    }
+    }  
 
     objectComparator(){
 

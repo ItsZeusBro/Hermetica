@@ -1,6 +1,7 @@
 import path from "node:path"
 import {createHash} from 'node:crypto'
 import {Combinatorics} from "./Combinatorics/Combinatorics.js"
+import {Coordinates} from "./Matrix/Coordinates/Coordinates.js"
 
 export class Utils{
     resolve(pathFromProjectHome){
@@ -76,12 +77,65 @@ export class Utils{
 		}
 		return out;
 	}
+	bin2Decimal(bin){
+		//start from the right
+		var i = bin.length-1;
+		var decimal=0
+		var j = 0;
+		while(i>=0){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, j)
+			}
+			i--
+			j++
+		}
+		return decimal
+	}
+
+	decimal2Bin(decimal){
+		var bin=[]
+		var i = 0
+		while(true){
+			if(decimal>Math.pow(2, i)){
+				bin.push(0)
+				i++
+			}else{
+				bin[0]=1
+				break
+			}
+		}
+		var count=Math.pow(2, bin.length-1)
+		i=bin.length-1
+		for(var j=1; j<bin.length; j++){
+			if(count+Math.pow(2, i-1)<decimal){
+				bin[j]=1
+				count+=Math.pow(2, i-1)
+			}else if(count+Math.pow(2, i-1)==decimal){
+				bin[j]=1
+				return bin
+			}else{
+				//count+Math.pow(2, i) is greater than decimal, meaning
+				//we do nothing and move to the next binary position
+			}
+			i--
+		}
+		
+		return bin
+	}
+
+	decimal2Hex(decimal){
+
+	}
+	hex2Decimal(hex){
+
+	}
+	
 
 	string2Hex(string){
 		return this.buffer2Hex(this.string2Buffer(string)).toUpperCase()
 	}
 	hex2String(hex){
-		return this.buffer2String(this.hex2Buffer(hex.trim().toUpperCase()))
+		return this.buffer2String(this.hex2Buffer(hex.toUpperCase()))
 	}
 	string2Buffer(string){
 		return Buffer.from(string, 'utf16le')
@@ -95,15 +149,10 @@ export class Utils{
 	}
 	
 	hex2Buffer(hex){
-		return Buffer.from(hex.trim().toUpperCase(), 'hex')
-	}
-	bin2Decimal(bin){
-		return parseInt(bin.trim(), 2)
+		return Buffer.from(hex.toUpperCase(), 'hex')
 	}
 
-	decimal2Bin(decimal){
-		return Number(decimal).toString(2)
-	}
+
 
 	objectComparator(...keys){
 		return (a, b) => {
@@ -129,7 +178,7 @@ export class Rand{
         this.rand=this
     }
     str(n){return this.rand._str(this.rand.range(0, n))}
-    int(){return this.rand.range(0,3)}
+    int(n){return this.rand.range(0,n)}
     arr(n){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.thing())}; return arr}
     thing(){
         return[
@@ -178,6 +227,7 @@ export class Rand{
 	buffer(n){
 		return new Utils().hex2Buffer(this.hex(n))
 	}
+
 	
 	bytes(n){
 		var bytes=''
