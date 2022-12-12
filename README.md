@@ -18,6 +18,8 @@ In general we can solve any problem including the most general function of "dedu
 One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
 On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
 
+Functions that are found and enshrined can be infused into the simulation engine on the way to solving unknown problems. This is only a good idea if they are truly optimal, otherwise dependant solutions become outdated and sub-optimal if they dont keep up with the more optimal function. In otherwords, if A depends on B and B gets replaced with B' then A is still dependent on B and B' has no bearing on the impact of A and all the compute time spent on finding A with B gets wasted if A is to improve.
+
 ## A good reason for Arbitrary Deterministic Encoding
 Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
 
