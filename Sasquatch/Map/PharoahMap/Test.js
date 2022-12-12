@@ -1,51 +1,89 @@
 import {PharoahMap} from "./PharoahMap.js"
-
+import {Utils} from "../../Utils/Utils.js"
+import assert from "node:assert"
 class PharoahMapTest{
     constructor(){
         this.tests()
     }
     
     tests(){
-        this.createMap()
+        //this.createMap()
+        this.latinList()
+        this.cairoList()
+        this.regexList()
+        this.latinMap()
+        this.cairoMap()
     }
     getRandomRange(min, max) {
         return Math.random() * (max - min) + min;
-      }
-    latinMap(){
+    }
 
-		var latinMap = new PharoahMap().latinMap()
-        var mapList=[]
-        for(var i=0; i<Object.keys(latinMap).length; i++){
-            var key=Object.keys(latinMap)[i]
-            mapList.push({'key':key, 'value':latinMap[key]})
+    latinList(){
+        console.log('latinList()')
+		var latinList = new PharoahMap().latinList()
+        //console.log(latinList)
+        for(var i=0; i<latinList.length-1; i++){
+            var latin1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i])), 2)
+            var latin2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i+1])), 2)
+            assert.equal(latin2-latin1, 256)
         }
-
-
-        for(var i=0; i<Object.keys(latinMap).length; i++){
-            var key=Object.keys(latinMap)[i]
-            mapList.push({'key':key, 'value':latinMap[key]})
-        }
-
 	}
-    // create(){
-    //     var input=""
-    //     var output=""
-    //     var min = 6000
-    //     var max = 7000
-    //     for(var i =0; i<100; i++){
-    //         input+=String.fromCharCode(''+this.getRandomRange(min, max))
-    //         output+=String.fromCharCode(''+this.getRandomRange(min, max))
-    //     }
-	// 	console.log(new PharoahMap(input, output, 'english'))
-	// }
+    regexList(){
+        console.log('regexList()')
+		var regexList = new PharoahMap().regexList()
+        //console.log(regexList)
+        for(var i=0; i<regexList.length-1; i++){
+            var regex1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i])), 2)
+            var regex2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i+1])), 2)
+            assert.equal(regex2-regex1, 256)
+        }
+    }
+    cairoList(){
+        console.log('cairoList()')
+		var cairoList = new PharoahMap().cairoList()
+        //console.log(cairoList)
+        for(var i=0; i<cairoList.length-1; i++){
+            var cairo1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i])), 2)
+            var cairo2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i+1])), 2)
+            assert.equal(cairo2-cairo1, 256)
+        }
+	}
+
+    create(){
+        var input=""
+        var output=""
+        var min = 6000
+        var max = 7000
+        for(var i =0; i<100; i++){
+            input+=String.fromCharCode(''+this.getRandomRange(min, max))
+            output+=String.fromCharCode(''+this.getRandomRange(min, max))
+        }
+		console.log(new PharoahMap(input, output, 'english'))
+	}
+
+    latinMap(){
+        console.log('latinMap()')
+        var latinList = new PharoahMap().latinList()
+		var latinMap = new PharoahMap().latinMap()
+        for(var i = 0; i<latinList.length; i++){
+            assert.equal(new Utils().string2Hex(latinList[i]), latinMap[latinList[i]]['hex'])
+        }
+    }
+
+    cairoMap(){
+        console.log('cairoMap()')
+        var cairoList = new PharoahMap().cairoList()
+		var cairoMap = new PharoahMap().cairoMap()
+        for(var i = 0; i<cairoList.length; i++){
+            assert.equal(new Utils().string2Hex(cairoList[i]), cairoMap[cairoList[i]]['hex'])
+        }
+	}
 
 	pharoahMap(){
-		
-	}
-
-	cairoGlyphs(){
 
 	}
+
+
 
 	translate(){
 
@@ -97,3 +135,25 @@ class PharoahMapTest{
 }
 
 new PharoahMapTest()
+
+
+    // arabicList(){
+    //     console.log('arabicList()')
+	// 	var arabicList = new PharoahMap().arabicList()
+    //     console.log(arabicList)
+    //     for(var i=0; i<arabicList.length-1; i++){
+    //         var arabic1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(arabicList[i])), 2)
+    //         var arabic2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(arabicList[i+1])), 2)
+    //         assert.equal(arabic2-arabic1, 256)
+    //     }
+	// }
+    // CJKList(){
+    //     console.log('CJKList()')
+	// 	var cjkList = new PharoahMap().CJKList()
+    //     console.log(cjkList)
+    //     for(var i=0; i<cjkList.length-1; i++){
+    //         var cjk1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cjkList[i])), 2)
+    //         var cjk2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cjkList[i+1])), 2)
+    //         assert.equal(cjk2-cjk1, 256)
+    //     }
+    // }
