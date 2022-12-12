@@ -118,7 +118,6 @@ export class UtilsTest{
         for(var i = 0; i<10000; i++){
             var decimal = new Rand().int(i)
             var bin = new Utils().decimal2Bin(decimal)
-            console.log(decimal, bin)
             assert.equal(decimal, new Utils().bin2Decimal(bin))
         }
     }  
@@ -128,7 +127,7 @@ export class UtilsTest{
         for(var i = 5; i<20; i++){
             var hex = new Rand().hex(i)
             var decimal = new Utils().hex2Decimal(hex)
-            console.log(hex, decimal)
+            // console.log(hex, decimal)
             assert.equal(hex, new Utils().bin2hex(new Utils().decimal2Bin(decimal)))
         }
     }
@@ -138,7 +137,7 @@ export class UtilsTest{
         for(var i = 0; i<10000; i++){
             var hex = new Rand().hex(i)
             var decimal = new Utils().hex2Decimal(hex)
-            console.log(hex, decimal)
+            // console.log(hex, decimal)
             assert.equal(hex, new Utils().decimal2Hex(decimal))
         }
     }

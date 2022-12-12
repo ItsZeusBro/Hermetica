@@ -35,18 +35,25 @@ export class Utils{
 				case '7': out += "0111"; break;
 				case '8': out += "1000"; break;
 				case '9': out += "1001"; break;
-				case 'A': out += "1010"; break;
-				case 'B': out += "1011"; break;
-				case 'C': out += "1100"; break;
-				case 'D': out += "1101"; break;
-				case 'E': out += "1110"; break;
-				case 'F': out += "1111"; break;
+				case 'a': out += "1010"; break;
+				case 'b': out += "1011"; break;
+				case 'c': out += "1100"; break;
+				case 'd': out += "1101"; break;
+				case 'e': out += "1110"; break;
+				case 'f': out += "1111"; break;
 				default: return "";
 			}
 		}
 		return out;
 	}
 	bin2hex(bin){
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
+		}
 		var out = "";
 		var accumulator=''
 		for(var c = 1; c<=bin.length; c++) {
@@ -63,12 +70,12 @@ export class Utils{
 					case "0111": out += '7'; break;
 					case "1000": out += '8'; break;
 					case "1001": out += '9'; break;
-					case "1010": out += 'A'; break;
-					case "1011": out += 'B'; break;
-					case "1100": out += 'C'; break;
-					case "1101": out += 'D'; break;
-					case "1110": out += 'E'; break;
-					case "1111": out += 'F'; break;
+					case "1010": out += 'a'; break;
+					case "1011": out += 'b'; break;
+					case "1100": out += 'c'; break;
+					case "1101": out += 'd'; break;
+					case "1110": out += 'e'; break;
+					case "1111": out += 'f'; break;
 					default: return "";
 				}
 				accumulator=""
@@ -78,6 +85,13 @@ export class Utils{
 	}
 	bin2Decimal(bin){
 		//start from the right
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
+		}
 		var i = bin.length-1;
 		var decimal=0
 		var j = 0;
@@ -94,26 +108,26 @@ export class Utils{
 	decimal2Bin(decimal){
 		var bin=""
 		var i = 0
-		if(decimal==0){
-			return "00000000"
-		}
+		console.log(decimal)
 		while(true){
 			if(decimal>Math.pow(2, i)){
 				bin = bin.concat('0')
 				i++
-			}else if(decimal==Math.pow(2, i)){
+			}else if(decimal<=Math.pow(2, i)){
 				bin = bin.concat('0')
-				i=bin.length-1
-				break
-			}else{
-				bin = this.setCharAt(bin, 0, '1')
-				i=bin.length-1
 				break
 			}
 		}
 
-
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
+		}
 		var count=0
+		i=bin.length-1
 		for(var j=0; j<bin.length; j++){
 			if(count+Math.pow(2, i)<decimal){
 				bin = this.setCharAt(bin, j, '1')
@@ -121,21 +135,16 @@ export class Utils{
 			}else if(count+Math.pow(2, i)==decimal){
 				bin = this.setCharAt(bin, j, '1')
 				break
+			}else{
+				//count+Math.pow(2, i)>decimal
+				
 			}
 			i--
-		}
-		while(true){
-			if(bin.length%8==0){
-				break
-			}else{
-				while((bin.length%8)!=0){
-					bin='0'.concat(bin)
-				}
-			}
 		}
 		
 		return bin
 	}
+
 	setCharAt(str, index, chr) {
 		return str.substring(0, index) + chr + str.substring(index+1);
 	}
@@ -148,24 +157,24 @@ export class Utils{
 	}
 
 	string2Hex(string){
-		return this.buffer2Hex(this.string2Buffer(string)).toUpperCase()
+		return this.buffer2Hex(this.string2Buffer(string))
 	}
 	hex2String(hex){
-		return this.buffer2String(this.hex2Buffer(hex.toUpperCase()))
+		return this.buffer2String(this.hex2Buffer(hex))
 	}
 	string2Buffer(string){
 		return Buffer.from(string, 'utf16le')
 	}
 
 	buffer2Hex(buffer){
-		return  buffer.toString('hex').toUpperCase();
+		return  buffer.toString('hex');
 	}
 	buffer2String(buffer) {
 		return Buffer.from(buffer).toString('utf16le')
 	}
 	
 	hex2Buffer(hex){
-		return Buffer.from(hex.toUpperCase(), 'hex')
+		return Buffer.from(hex, 'hex')
 	}
 
 
@@ -238,7 +247,7 @@ export class Rand{
 	
 	}
 	hex(n){
-		return new Utils().bin2hex(this.bytes(n)).toUpperCase()
+		return new Utils().bin2hex(this.bytes(n))
 	}
 	buffer(n){
 		return new Utils().hex2Buffer(this.hex(n))
