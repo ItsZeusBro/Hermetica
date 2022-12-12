@@ -78,27 +78,27 @@ export class Utils{
 	}
 
 	string2Hex(string){
-		return this.buffer2Hex(this.stringToBuffer(string))
+		return this.buffer2Hex(this.string2Buffer(string)).toUpperCase()
 	}
 	hex2String(hex){
-		return this.bufferToString(this.hex2Buffer(hex))
+		return this.buffer2String(this.hex2Buffer(hex.trim().toUpperCase()))
 	}
-	stringToBuffer(string){
+	string2Buffer(string){
 		return Buffer.from(string, 'utf16le')
 	}
 
 	buffer2Hex(buffer){
-		return  buffer.toString('hex');
+		return  buffer.toString('hex').toUpperCase();
 	}
-	bufferToString(buffer) {
+	buffer2String(buffer) {
 		return Buffer.from(buffer).toString('utf16le')
 	}
 	
 	hex2Buffer(hex){
-		return Buffer.from(hex.trim(), 'hex')
+		return Buffer.from(hex.trim().toUpperCase(), 'hex')
 	}
 	bin2Decimal(bin){
-		return parseInt(bin, 2)
+		return parseInt(bin.trim(), 2)
 	}
 
 	decimal2Bin(decimal){
@@ -173,8 +173,12 @@ export class Rand{
 	
 	}
 	hex(n){
-		return new Utils().string2Hex(this.str(n)).toUpperCase()
+		return new Utils().bin2hex(this.bytes(n)).toUpperCase()
 	}
+	buffer(n){
+		return new Utils().hex2Buffer(this.hex(n))
+	}
+	
 	bytes(n){
 		var bytes=''
 		for(var i = 0; i<n; i++){

@@ -6,6 +6,10 @@ export class UtilsTest{
         this.hex2bin()
         this.bin2hex()
         this.string2Hex()
+        this.hex2String()
+        this.string2Buffer()
+        this.buffer2Hex()
+        this.buffer2String()
     }
 
     hex2bin(){
@@ -30,38 +34,74 @@ export class UtilsTest{
         console.log('string2hex()')
         for(var i = 0; i<100; i++){
             var str = new Rand().str(i)
-            console.log(str)
             var hex = new Utils().string2Hex(str)
-            console.log(hex)
             assert.equal(str, new Utils().hex2String(hex))
         }
     }
 
     hex2String(){
+        console.log('hex2String()')
+        for(var i = 0; i<100; i++){
+            if(i%2==0){
+                var hex = new Rand().hex(i)
+                var str = new Utils().hex2String(hex)    
+                assert.equal(hex, new Utils().string2Hex(str))
+            }
+            
+        }
     }
 
-    stringToBuffer(){
+    string2Buffer(){
+        console.log('string2Buffer()')
+        for(var i = 0; i<100; i++){
+            var str = new Rand().str(i)
+            var buffer = new Utils().string2Buffer(str)
+            assert.equal(str, new Utils().buffer2String(buffer))
+        }
+    }
+    buffer2String(){
+        console.log('buffer2String()')
+        for(var i = 1; i<100; i++){
+            if(i%2==0){
+                var buffer = new Rand().buffer(i)
+                var str = new Utils().buffer2String(buffer)
+                for(var i = 0; i<buffer.length; i++){
+                    assert.equal(buffer[i], new Utils().string2Buffer(str)[i])
+                }
+            }
+        }
     }
 
     buffer2Hex(){
+        console.log('buffer2Hex()')
+        for(var i = 0; i<100; i++){
+            var hex = new Rand().hex(i)
+            var buffer = new Utils().hex2Buffer(hex)
+            assert.equal(hex, new Utils().buffer2Hex(buffer))
+        }
     }
 
-    bufferToString() {
-    }
+
 
     hex2Buffer(){
+
     }
 
     bin2Decimal(){
+
     }
 
     decimal2Bin(){
+
     }
 
     objectComparator(){
+
     }
 
-    str(){}
+    str(){
+
+    }
 
     int(){
 
@@ -103,7 +143,9 @@ export class UtilsTest{
 
     }
 
-    latin(){}
+    latin(){
+
+    }
 
     arabic(){
 
