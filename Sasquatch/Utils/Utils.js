@@ -22,7 +22,6 @@ export class Utils{
 
     hex2bin(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
-		hex = hex.replace("0x", "").toLowerCase();
 		var out = "";
 		for(var c of hex) {
 			switch(c) {
@@ -36,12 +35,12 @@ export class Utils{
 				case '7': out += "0111"; break;
 				case '8': out += "1000"; break;
 				case '9': out += "1001"; break;
-				case 'a': out += "1010"; break;
-				case 'b': out += "1011"; break;
-				case 'c': out += "1100"; break;
-				case 'd': out += "1101"; break;
-				case 'e': out += "1110"; break;
-				case 'f': out += "1111"; break;
+				case 'A': out += "1010"; break;
+				case 'B': out += "1011"; break;
+				case 'C': out += "1100"; break;
+				case 'D': out += "1101"; break;
+				case 'E': out += "1110"; break;
+				case 'F': out += "1111"; break;
 				default: return "";
 			}
 		}
@@ -93,47 +92,60 @@ export class Utils{
 	}
 
 	decimal2Bin(decimal){
-		var bin=[]
+		var bin=""
 		var i = 0
 		if(decimal==0){
-			return 0
+			return "00000000"
 		}
 		while(true){
-			if(decimal>=Math.pow(2, i)){
-				bin.push(0)
+			if(decimal>Math.pow(2, i)){
+				bin = bin.concat('0')
 				i++
+			}else if(decimal==Math.pow(2, i)){
+				bin = bin.concat('0')
+				i=bin.length-1
+				break
 			}else{
-				bin[0]=1
+				bin = this.setCharAt(bin, 0, '1')
+				i=bin.length-1
 				break
 			}
 		}
-		var count=Math.pow(2, bin.length-1)
-		i=bin.length-1
-		for(var j=1; j<bin.length; j++){
-			if(count+Math.pow(2, i-1)<decimal){
-				bin[j]=1
-				count+=Math.pow(2, i-1)
-			}else if(count+Math.pow(2, i-1)==decimal){
-				bin[j]=1
-				return bin
-			}else{
-				//count+Math.pow(2, i-1) is greater than decimal, meaning
-				//we do nothing and move to the next binary position
-				bin[j]=0
+
+
+		var count=0
+		for(var j=0; j<bin.length; j++){
+			if(count+Math.pow(2, i)<decimal){
+				bin = this.setCharAt(bin, j, '1')
+				count+=Math.pow(2, i)
+			}else if(count+Math.pow(2, i)==decimal){
+				bin = this.setCharAt(bin, j, '1')
+				break
 			}
 			i--
+		}
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				while((bin.length%8)!=0){
+					bin='0'.concat(bin)
+				}
+			}
 		}
 		
 		return bin
 	}
+	setCharAt(str, index, chr) {
+		return str.substring(0, index) + chr + str.substring(index+1);
+	}
 
 	decimal2Hex(decimal){
-
+		return this.bin2hex(this.decimal2Bin(decimal))
 	}
 	hex2Decimal(hex){
-
+		return this.bin2Decimal(this.hex2bin(hex))
 	}
-	
 
 	string2Hex(string){
 		return this.buffer2Hex(this.string2Buffer(string)).toUpperCase()
