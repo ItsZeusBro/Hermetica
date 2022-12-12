@@ -5,11 +5,15 @@ export class UtilsTest{
     constructor(){
         this.hex2bin()
         this.bin2hex()
+
         this.string2Hex()
         this.hex2String()
+
         this.string2Buffer()
-        this.buffer2Hex()
         this.buffer2String()
+        
+        this.buffer2Hex()
+        this.hex2Buffer()
     }
 
     hex2bin(){
@@ -65,8 +69,8 @@ export class UtilsTest{
             if(i%2==0){
                 var buffer = new Rand().buffer(i)
                 var str = new Utils().buffer2String(buffer)
-                for(var i = 0; i<buffer.length; i++){
-                    assert.equal(buffer[i], new Utils().string2Buffer(str)[i])
+                for(var j = 0; j<buffer.length; j++){
+                    assert.equal(buffer[j], new Utils().string2Buffer(str)[j])
                 }
             }
         }
@@ -84,7 +88,14 @@ export class UtilsTest{
 
 
     hex2Buffer(){
-
+        console.log('hex2Buffer()')
+        for(var i = 0; i<100; i++){
+            var buffer = new Rand().buffer(i)
+            var hex = new Utils().buffer2Hex(buffer)
+            for(var j=0; j<buffer.length; j++){
+                assert.equal(buffer[j], new Utils().hex2Buffer(hex)[j])
+            }
+        }
     }
 
     bin2Decimal(){
