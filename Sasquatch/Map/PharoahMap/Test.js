@@ -14,6 +14,7 @@ class PharoahMapTest{
         this.latinMap()
         this.cairoMap()
         this.variableMap()
+        this.pharoahMap()
     }
     getRandomRange(min, max) {
         return Math.random() * (max - min) + min;
@@ -95,11 +96,7 @@ class PharoahMapTest{
         var output=new Rand().Str(10)
         var io = input.concat(output)
         var set = new Set(io)
-        // console.log(input)
-        // console.log(output)
-        // console.log(set)
         var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
-        // console.log(variableMap)
         for(var i=0; i<Object.keys(variableMap['variables']).length;i++){
             var key = Object.keys(variableMap['variables'])[i]
             assert(set.has(key), true)
@@ -107,7 +104,14 @@ class PharoahMapTest{
 	}  
 
 	pharoahMap(){
-
+        console.log('pharoahMap()')
+        var input=new Rand().Str(10)
+        var output=new Rand().Str(10)
+        var io = input.concat(output)
+        var set = new Set(io)
+        var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
+        var pharoahMap = new PharoahMap().pharoahMap(variableMap)
+        console.log(pharoahMap)
 	}
 
 	translate(){
@@ -115,20 +119,6 @@ class PharoahMapTest{
 	}
 
 	_translate(){
-
-	}
-
-	codes(){
-
-	}
-
-
-
-	algebraMap(){
-
-	}
-
-	englishMap(){
 
 	}
 
