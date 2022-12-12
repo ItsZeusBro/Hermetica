@@ -105,7 +105,6 @@ export class UtilsTest{
         console.log('bin2Decimal()')
         for(var i = 1; i<100; i++){
             var bytes = new Rand().bytes(5)
-            console.log(parseInt(bytes, 2), bytes, new Utils().bin2Decimal(bytes))
             assert.equal(parseInt(bytes, 2), new Utils().bin2Decimal(bytes))
         }
     }
@@ -115,7 +114,6 @@ export class UtilsTest{
         for(var i = 0; i<1000; i++){
             var decimal = new Rand().int(1000)
             var bin = new Utils().decimal2Bin(decimal)
-            console.log(decimal, bin)
             assert.equal(decimal, new Utils().bin2Decimal(bin))
         }
     }  
