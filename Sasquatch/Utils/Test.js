@@ -16,7 +16,7 @@ export class UtilsTest{
         this.hex2Buffer()
 
         this.bin2Decimal()
-        // this.decimal2Bin()
+        this.decimal2Bin()
     }
 
     hex2bin(){

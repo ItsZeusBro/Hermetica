@@ -95,8 +95,11 @@ export class Utils{
 	decimal2Bin(decimal){
 		var bin=[]
 		var i = 0
+		if(decimal==0){
+			return 0
+		}
 		while(true){
-			if(decimal>Math.pow(2, i)){
+			if(decimal>=Math.pow(2, i)){
 				bin.push(0)
 				i++
 			}else{
@@ -114,8 +117,9 @@ export class Utils{
 				bin[j]=1
 				return bin
 			}else{
-				//count+Math.pow(2, i) is greater than decimal, meaning
+				//count+Math.pow(2, i-1) is greater than decimal, meaning
 				//we do nothing and move to the next binary position
+				bin[j]=0
 			}
 			i--
 		}
