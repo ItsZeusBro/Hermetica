@@ -13,7 +13,7 @@ export class PharoahMap{
 
 	create(input, output, context){
 		if(context=='english'){
-			this.map=this.variableMap(input, output, this.englishMap())
+			this.map=this.variableMap(input, output, this.latinMap())
 		}else if(context=='algebra'){
 			this.map=this.variableMap(input, output, this.algebraMap())
 		}

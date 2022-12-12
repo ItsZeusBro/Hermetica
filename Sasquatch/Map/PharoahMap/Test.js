@@ -1,5 +1,5 @@
 import {PharoahMap} from "./PharoahMap.js"
-import {Utils} from "../../Utils/Utils.js"
+import {Utils, Rand} from "../../Utils/Utils.js"
 import assert from "node:assert"
 class PharoahMapTest{
     constructor(){
@@ -13,6 +13,7 @@ class PharoahMapTest{
         this.regexList()
         this.latinMap()
         this.cairoMap()
+        this.variableMap()
     }
     getRandomRange(min, max) {
         return Math.random() * (max - min) + min;
@@ -79,11 +80,35 @@ class PharoahMapTest{
         }
 	}
 
+    regexMap(){
+        console.log('regexMap()')
+        var regexList = new PharoahMap().regexList()
+		var regexMap = new PharoahMap().regexMap()
+        for(var i = 0; i<cairoList.length; i++){
+            assert.equal(new Utils().string2Hex(regexList[i]), regexMap[regexList[i]]['hex'])
+        }
+	}
+
+    variableMap(){
+        console.log('variableMap()')
+        var input=new Rand().Str(10)
+        var output=new Rand().Str(10)
+        var io = input.concat(output)
+        var set = new Set(io)
+        // console.log(input)
+        // console.log(output)
+        // console.log(set)
+        var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
+        // console.log(variableMap)
+        for(var i=0; i<Object.keys(variableMap['variables']).length;i++){
+            var key = Object.keys(variableMap['variables'])[i]
+            assert(set.has(key), true)
+        }
+	}  
+
 	pharoahMap(){
 
 	}
-
-
 
 	translate(){
 
@@ -97,13 +122,7 @@ class PharoahMapTest{
 
 	}
 
-	variableMap(){
 
-	}
-
-	regex(){
-		
-	}
 
 	algebraMap(){
 
