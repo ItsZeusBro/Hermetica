@@ -43,8 +43,10 @@ export class PharoahMap{
 		//this should produce a minimal simulation map of ascii art that is mapped to the charachter encodings of the input and output
 		var cairoGlyphs=this.cairoList();
 		// console.log(map)
-		for(var  i = 0; i<Object.keys(map['variables']).length; i++){
-			var key = Object.keys(map['variables'])[i]
+		var keys=Object.keys(map['variables'])
+		keys.sort()
+		for(var  i = 0; i<keys.length; i++){
+			var key = keys[i]
 			// console.log(key)
 			map['variables'][key]['code']=cairoGlyphs[i]
 		}
@@ -59,18 +61,18 @@ export class PharoahMap{
 		return map
 	}
 
-	_translate(string, symbolMap){
+	_translate(string, map){
 		var translation=""
 		for(var i = 0; i<string.length; i++){
-			translation+=this._charCode(string[i], symbolMap)
+			translation+=this._charCode(string[i], map)
 		}
 		return translation
 	}
-	_charMap(char, symbolMap){
-		return symbolMap['variables'][char]
+	_charMap(char, map){
+		return map['variables'][char]
 	}
-	_charCode(char, symbolMap){
-		return this._charMap(char, symbolMap)['code']
+	_charCode(char, map){
+		return this._charMap(char, map)['code']
 	}
 	
 

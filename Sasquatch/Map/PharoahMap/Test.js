@@ -18,45 +18,20 @@ class PharoahMapTest{
     }
     
     pharoahMap(){
+        console.log('pharoahMap()')
         var input=""
         var output=""
         var min = 10
         var max = 20
         var input=new Rand().Str(100)
         var output=new Rand().Str(100)
-		console.log(new PharoahMap(input, output).map)
+		var map = new PharoahMap(input, output).map
+        this._translatationMap(map)
+        this.io(input, output, map)
+        this._translate(input, output, map)
 	}
 
-    latinList(){
-        console.log('latinList()')
-		var latinList = new PharoahMap().latinList()
-        //console.log(latinList)
-        for(var i=0; i<latinList.length-1; i++){
-            var latin1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i])), 2)
-            var latin2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i+1])), 2)
-            assert.equal(latin2-latin1, 256)
-        }
-	}
-    regexList(){
-        console.log('regexList()')
-		var regexList = new PharoahMap().regexList()
-        //console.log(regexList)
-        for(var i=0; i<regexList.length-1; i++){
-            var regex1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i])), 2)
-            var regex2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i+1])), 2)
-            assert.equal(regex2-regex1, 256)
-        }
-    }
-    cairoList(){
-        console.log('cairoList()')
-		var cairoList = new PharoahMap().cairoList()
-        //console.log(cairoList)
-        for(var i=0; i<cairoList.length-1; i++){
-            var cairo1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i])), 2)
-            var cairo2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i+1])), 2)
-            assert.equal(cairo2-cairo1, 256)
-        }
-	}
+    
 
     latinMap(){
         console.log('latinMap()')
@@ -91,12 +66,18 @@ class PharoahMapTest{
         var output=new Rand().Str(10)
         var io = input.concat(output)
         var set = new Set(io)
-        var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
-        for(var i=0; i<Object.keys(variableMap['variables']).length;i++){
-            var key = Object.keys(variableMap['variables'])[i]
+        var map = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
+        this.io(input, output, map)
+	}  
+    io(input, output, map){
+        var io = input.concat(output)
+        var set = new Set(io)
+        for(var i=0; i<Object.keys(map['variables']).length;i++){
+            var key = Object.keys(map['variables'])[i]
             assert(set.has(key), true)
         }
-	}  
+
+    }
 
 	translationMap(){
         console.log('translationMap()')
@@ -105,31 +86,78 @@ class PharoahMapTest{
         var io = input.concat(output)
         var set = new Set(io)
         var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
-        console.log(variableMap)
         var translationMap = new PharoahMap().translationMap(variableMap)
-        for(var i=0; i<Object.keys(translationMap['variables']).length;i++){
-            var key = Object.keys(translationMap['variables'])[i]
-            var hex = translationMap['variables'][key]['hex']
-            var bin = translationMap['variables'][key]['bin']
-            var decimal = translationMap['variables'][key]['decimal']
-            var code = translationMap['variables'][key]['code']
-            assert(set.has(key), true)
+        this._translatationMap(translationMap)
+	}
+    _translatationMap(map){
+        for(var i=0; i<Object.keys(map['variables']).length;i++){
+            var key = Object.keys(map['variables'])[i]
+            var hex = map['variables'][key]['hex']
+            var bin = map['variables'][key]['bin']
+            var decimal = map['variables'][key]['decimal']
+            var code = map['variables'][key]['code']
             assert(new Utils().string2Hex(key) == hex, true)
             assert(new Utils().hex2bin(hex) == bin, true)
             assert(new Utils().bin2Decimal(bin) == decimal, true)
-            assert(new PharoahMap()._translate(key, translationMap) == code, true)
+            assert(new PharoahMap()._translate(key, map) == code, true)
+        }
+    }
+    codes(){
+
+    }
+
+	translate(){
+        var input=new Rand().Str(10)
+        var output=new Rand().Str(10)
+        var io = input.concat(output)
+        var set = new Set(io)
+        var map = new PharoahMap(input, output).map
+
+	}
+
+	_translate(input, output, map){
+        assert.equal(map['input'], input)
+        assert.equal(map['output'], output)
+        var io = new Set(input.concat(output))
+        io = Array.from(io).sort()
+        var symbolList = new PharoahMap().cairoList()
+        var symbolMap = {}
+        for(var i = 0; i<io.length; i++){
+            symbolMap[io[i]]=symbolList[i]
+            assert.equal(symbolMap[io[i]], new PharoahMap()._translate(io[i], map))
         }
 	}
 
-	translate(){
-
+    latinList(){
+        console.log('latinList()')
+		var latinList = new PharoahMap().latinList()
+        //console.log(latinList)
+        for(var i=0; i<latinList.length-1; i++){
+            var latin1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i])), 2)
+            var latin2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(latinList[i+1])), 2)
+            assert.equal(latin2-latin1, 256)
+        }
 	}
-
-	_translate(){
-
+    regexList(){
+        console.log('regexList()')
+		var regexList = new PharoahMap().regexList()
+        //console.log(regexList)
+        for(var i=0; i<regexList.length-1; i++){
+            var regex1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i])), 2)
+            var regex2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(regexList[i+1])), 2)
+            assert.equal(regex2-regex1, 256)
+        }
+    }
+    cairoList(){
+        console.log('cairoList()')
+		var cairoList = new PharoahMap().cairoList()
+        //console.log(cairoList)
+        for(var i=0; i<cairoList.length-1; i++){
+            var cairo1 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i])), 2)
+            var cairo2 = parseInt(new Utils().hex2bin(new Utils().string2Hex(cairoList[i+1])), 2)
+            assert.equal(cairo2-cairo1, 256)
+        }
 	}
-
-
 
     // verifyCodeMap(map){
 	// 	//convert key to binary and verify they match map encoding
