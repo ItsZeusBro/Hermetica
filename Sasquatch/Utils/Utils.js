@@ -44,16 +44,11 @@ export class Utils{
 				default: return "";
 			}
 		}
-		return out;
+		
+		return this.binFormat(out);
 	}
 	bin2hex(bin){
-		while(true){
-			if(bin.length%8==0){
-				break
-			}else{
-				bin='0'.concat(bin)
-			}
-		}
+		bin = this.binFormat(bin)
 		var out = "";
 		var accumulator=''
 		for(var c = 1; c<=bin.length; c++) {
@@ -81,17 +76,11 @@ export class Utils{
 				accumulator=""
 			}
 		}
-		return out;
+		return this.hexFormat(out);
 	}
 	bin2Decimal(bin){
 		//start from the right
-		while(true){
-			if(bin.length%8==0){
-				break
-			}else{
-				bin='0'.concat(bin)
-			}
-		}
+		bin=this.binFormat(bin)
 		var i = bin.length-1;
 		var decimal=0
 		var j = 0;
@@ -119,13 +108,7 @@ export class Utils{
 			}
 		}
 
-		while(true){
-			if(bin.length%8==0){
-				break
-			}else{
-				bin='0'.concat(bin)
-			}
-		}
+		bin = this.binFormat(bin)
 		var count=0
 		i=bin.length-1
 		for(var j=0; j<bin.length; j++){
@@ -142,7 +125,7 @@ export class Utils{
 			i--
 		}
 		
-		return bin
+		return this.binFormat(bin)
 	}
 
 	setCharAt(str, index, chr) {
@@ -150,34 +133,63 @@ export class Utils{
 	}
 
 	decimal2Hex(decimal){
-		return this.bin2hex(this.decimal2Bin(decimal))
+		return this.hexFormat(this.bin2hex(this.decimal2Bin(decimal)))
 	}
 	hex2Decimal(hex){
-		return this.bin2Decimal(this.hex2bin(hex))
+		return this.bin2Decimal(this.binFormat(this.hex2bin(hex)))
 	}
 
 	string2Hex(string){
-		return this.buffer2Hex(this.string2Buffer(string))
+		return this.hexFormat(this.buffer2Hex(this.string2Buffer(string)))
 	}
 	hex2String(hex){
-		return this.buffer2String(this.hex2Buffer(hex))
+		return this.buffer2String(this.hex2Buffer(this.strip(hex)))
 	}
 	string2Buffer(string){
 		return Buffer.from(string, 'utf16le')
 	}
 
 	buffer2Hex(buffer){
-		return  buffer.toString('hex');
+		return  this.hexFormat(buffer.toString('hex'))
 	}
 	buffer2String(buffer) {
 		return Buffer.from(buffer).toString('utf16le')
 	}
 	
 	hex2Buffer(hex){
-		return Buffer.from(hex, 'hex')
+		return Buffer.from(this.strip(hex), 'hex')
 	}
 
-
+	binFormat(bin){
+		bin = this.strip(bin)
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
+		}
+		return bin
+	}
+	strip(str){
+		for(var i = 0; i<str.length; i++){
+			if(str[i]==0){
+				str = str.slice(1)
+			}
+		}
+		return str
+	}
+	hexFormat(hex){
+		hex = this.strip(hex)
+		while(true){
+			if(hex.length%8==0){
+				break
+			}else{
+				hex='0'.concat(hex)
+			}
+		}
+		return hex
+	}
 
 	objectComparator(...keys){
 		return (a, b) => {
@@ -247,13 +259,22 @@ export class Rand{
 	
 	}
 	hex(n){
-		return new Utils().bin2hex(this.bytes(n))
+		var hex = new Utils().bin2hex(this.bytes(n))
+		return new Utils().hexFormat(hex)
 	}
 	buffer(n){
 		return new Utils().hex2Buffer(this.hex(n))
 	}
 
-	
+	nibbles(n){
+		var nibbles=''
+		for(var i = 0; i<n; i++){
+			for(var j = 0; j<4; j++){
+				nibbles+=this.mod10()
+			}
+		}
+		return nibbles
+	}
 	bytes(n){
 		var bytes=''
 		for(var i = 0; i<n; i++){

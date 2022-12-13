@@ -18,8 +18,8 @@ export class UtilsTest{
         this.bin2Decimal()
         this.decimal2Bin()
 
-        this.hex2Decimal()
-        this.decimal2Hex()
+        // this.hex2Decimal()
+        // this.decimal2Hex()
 
     }
 
@@ -46,6 +46,7 @@ export class UtilsTest{
         for(var i = 0; i<200; i++){
             var str = new Rand().str(i)
             var hex = new Utils().string2Hex(str)
+            console.log(hex)
             assert.equal(str, new Utils().hex2String(hex))
         }
     }
@@ -125,10 +126,11 @@ export class UtilsTest{
     hex2Decimal(){
         console.log('hex2Decimal()')
         for(var i = 5; i<20; i++){
+
             var hex = new Rand().hex(i)
             var decimal = new Utils().hex2Decimal(hex)
             // console.log(hex, decimal)
-            assert.equal(hex, new Utils().bin2hex(new Utils().decimal2Bin(decimal)))
+            assert.equal(new Utils().hex2bin(hex), new Utils().decimal2Bin(decimal))
         }
     }
 
