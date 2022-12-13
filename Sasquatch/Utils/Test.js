@@ -8,7 +8,7 @@ export class UtilsTest{
 
         // this.string2Hex()
         this.hex2String()
-
+        this._buffer2String()
         // this.string2Buffer()
         // this.buffer2String()
         
@@ -22,7 +22,11 @@ export class UtilsTest{
         // this.decimal2Hex()
 
     }
-
+    _buffer2String(){
+        var buff = new Encoding().string2Buffer('hello world!')
+        var string = new Encoding()._buffer2String(buff)
+        console.log(string)
+    }
     hex2bin(){
         console.log('hex2bin()')
         for(var i = 1; i<200; i++){
@@ -52,7 +56,7 @@ export class UtilsTest{
 
     hex2String(){
         console.log('hex2String()')
-        for(var i = 1; i<10; i++){
+        for(var i = 1; i<100; i++){
             if(i%2==0){
                 var hex = new Encoding().hex(i)
                 var str = new Encoding().hex2String(hex)  

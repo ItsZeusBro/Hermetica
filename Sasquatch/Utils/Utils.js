@@ -247,36 +247,47 @@ export class Encoding{
 	string2Buffer(string){
 		string=string.slice()
 		// console.log(Buffer.from(string))
-		return Buffer.from(string, 'hex')
+		return Buffer.from(string)
 	}
 
 	buffer2Hex(buffer){
-		buffer = this.stripBuffer(buffer)
 		return  this.strip(buffer.toString('hex'))
 	}
 	buffer2String(buffer) {
 		buffer=buffer.subarray()
-		return Buffer.from(buffer).toString()
-	}
-	stripBuffer(buffer){
-		buffer=buffer.subarray()
-		var i =0;
-		while(true){
-			if(buffer[i]=='0'){
-				buffer = buffer.slice(1)
-				i--
-			}else{
-				break
-			}
-			i++
-		}
-
-		return buffer
+		return this._buffer2String(buffer)
 	}
 	hex2Buffer(hex){
 		hex = hex.slice()
-		return Buffer.from(this.strip(hex))
+		return Buffer.from(this.strip(hex), 'hex')
 	}
+	_buffer2String(buffer){
+		var str=''
+		for (let pair of buffer.entries()) {
+			// get the byte of character
+			const charCode = pair[1];
+			// use String.fromCharCode() to get the appropriate character
+			// for the byte
+			str+=String.fromCharCode(charCode)
+		  }
+		return str
+	}
+	// stripBuffer(buffer){
+	// 	buffer=buffer.subarray()
+	// 	var i =0;
+	// 	while(true){
+	// 		if(buffer[i]=='0'){
+	// 			buffer = buffer.slice(1)
+	// 			i--
+	// 		}else{
+	// 			break
+	// 		}
+	// 		i++
+	// 	}
+
+	// 	return buffer
+	// }
+
 
 	binFormat(bin){
 		bin=bin.slice()
