@@ -3,11 +3,11 @@ import assert from "node:assert"
 export class UtilsTest{
 
     constructor(){
-        this.hex2bin()
-        this.bin2hex()
+        // this.hex2bin()
+        // this.bin2hex()
 
-        this.string2Hex()
-        // this.hex2String()
+        // this.string2Hex()
+        this.hex2String()
 
         // this.string2Buffer()
         // this.buffer2String()
@@ -42,20 +42,21 @@ export class UtilsTest{
 
     string2Hex(){
         console.log('string2hex()')
-        for(var i = 0; i<200; i++){
+        for(var i = 10; i<200; i++){
             var str = new Rand().str(i)
             var hex = new Encoding().string2Hex(str)
-            assert.equal(str, new Encoding().hex2String(hex))
+            assert.equal(str, new Encoding().hex2String(new Encoding().strip(hex)))
         }
     }
 
     hex2String(){
         console.log('hex2String()')
-        for(var i = 0; i<200; i++){
+        for(var i = 1; i<10; i++){
             if(i%2==0){
-                var hex = new Rand().hex(i)
-                var str = new Utils().hex2String(hex)    
-                assert.equal(hex, new Utils().string2Hex(str))
+                var hex = new Encoding().hex(i)
+                var str = new Encoding().hex2String(hex)  
+                console.log(hex, str)  
+                assert.equal(hex, new Encoding().string2Hex(str))
             }
             
         }

@@ -240,22 +240,39 @@ export class Encoding{
 	}
 	hex2String(hex){
 		hex=hex.slice()
-		return this.buffer2String(this.hex2Buffer(this.strip(hex)))
+		var buffer = this.hex2Buffer(this.strip(hex))
+		var string = this.buffer2String(buffer)
+		console.log(buffer, string)
+		return string
 	}
 	string2Buffer(string){
 		string=string.slice()
-		return Buffer.from(string, 'utf16le')
+		return Buffer.from(string, 'hex')
 	}
 
 	buffer2Hex(buffer){
-		buffer = buffer.subarray()
+		buffer = this.stripBuffer(buffer)
 		return  this.strip(buffer.toString('hex'))
 	}
 	buffer2String(buffer) {
-		buffer = buffer.subarray()
-		return Buffer.from(buffer).toString('utf16le')
+		buffer=buffer.subarray()
+		return Buffer.from(buffer).toString('hex')
 	}
-	
+	stripBuffer(buffer){
+		buffer=buffer.subarray()
+		var i =0;
+		while(true){
+			if(buffer[i]=='0'){
+				buffer = buffer.slice(1)
+				i--
+			}else{
+				break
+			}
+			i++
+		}
+
+		return buffer
+	}
 	hex2Buffer(hex){
 		hex = hex.slice()
 		return Buffer.from(this.strip(hex), 'hex')
@@ -288,9 +305,6 @@ export class Encoding{
 				return str
 			}
 			i++
-		}
-		for(var i = 0; i<str.length; i++){
-			
 		}
 		return str
 	}
