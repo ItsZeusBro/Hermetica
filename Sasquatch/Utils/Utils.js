@@ -331,6 +331,6 @@ export class Encoding{
 				bytes+=new Rand().mod10()
 			}
 		}
-		return bytes
+		return this.binFormat(bytes)
 	}
 }

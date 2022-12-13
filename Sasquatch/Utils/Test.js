@@ -4,9 +4,9 @@ export class UtilsTest{
 
     constructor(){
         this.hex2bin()
-        // this.bin2hex()
+        this.bin2hex()
 
-        // this.string2Hex()
+        this.string2Hex()
         // this.hex2String()
 
         // this.string2Buffer()
@@ -28,17 +28,15 @@ export class UtilsTest{
         for(var i = 1; i<200; i++){
             var hex = new Encoding().hex(i)
             var bin = new Encoding().hex2bin(hex)
-            console.log(hex, bin)
             assert.equal(hex, new Encoding().bin2hex(bin))
         }
     }
     bin2hex(){
         console.log('bin2hex()')
         for(var i = 0; i<200; i++){
-            var bytes = new Rand().bytes(i)
-            //console.log(bytes)
-            var hex = new Utils().bin2hex(bytes)
-            assert.equal(bytes, new Utils().hex2bin(hex))
+            var bytes = new Encoding().bytes(i)
+            var hex = new Encoding().bin2hex(bytes)
+            assert.equal(bytes, new Encoding().hex2bin(hex))
         }
     }
 
@@ -46,9 +44,8 @@ export class UtilsTest{
         console.log('string2hex()')
         for(var i = 0; i<200; i++){
             var str = new Rand().str(i)
-            var hex = new Utils().string2Hex(str)
-            console.log(hex)
-            assert.equal(str, new Utils().hex2String(hex))
+            var hex = new Encoding().string2Hex(str)
+            assert.equal(str, new Encoding().hex2String(hex))
         }
     }
 
