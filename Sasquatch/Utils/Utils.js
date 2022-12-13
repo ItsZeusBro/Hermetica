@@ -242,11 +242,11 @@ export class Encoding{
 		hex=hex.slice()
 		var buffer = this.hex2Buffer(this.strip(hex))
 		var string = this.buffer2String(buffer)
-		console.log(buffer, string)
 		return string
 	}
 	string2Buffer(string){
 		string=string.slice()
+		// console.log(Buffer.from(string))
 		return Buffer.from(string, 'hex')
 	}
 
@@ -256,7 +256,7 @@ export class Encoding{
 	}
 	buffer2String(buffer) {
 		buffer=buffer.subarray()
-		return Buffer.from(buffer).toString('hex')
+		return Buffer.from(buffer).toString()
 	}
 	stripBuffer(buffer){
 		buffer=buffer.subarray()
@@ -275,7 +275,7 @@ export class Encoding{
 	}
 	hex2Buffer(hex){
 		hex = hex.slice()
-		return Buffer.from(this.strip(hex), 'hex')
+		return Buffer.from(this.strip(hex))
 	}
 
 	binFormat(bin){

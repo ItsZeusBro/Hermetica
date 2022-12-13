@@ -45,6 +45,7 @@ export class UtilsTest{
         for(var i = 10; i<200; i++){
             var str = new Rand().str(i)
             var hex = new Encoding().string2Hex(str)
+            console.log('a;lgkas;dglk', str, hex)
             assert.equal(str, new Encoding().hex2String(new Encoding().strip(hex)))
         }
     }
@@ -66,8 +67,8 @@ export class UtilsTest{
         console.log('string2Buffer()')
         for(var i = 0; i<200; i++){
             var str = new Rand().str(i)
-            var buffer = new Utils().string2Buffer(str)
-            assert.equal(str, new Utils().buffer2String(buffer))
+            var buffer = new Encoding().string2Buffer(str)
+            assert.equal(str, new Encoding().buffer2String(buffer))
         }
     }
     buffer2String(){
