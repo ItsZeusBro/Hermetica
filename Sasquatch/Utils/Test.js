@@ -1,22 +1,22 @@
-import {Utils, Rand} from "./Utils.js"
+import {Encoding, Utils, Rand} from "./Utils.js"
 import assert from "node:assert"
 export class UtilsTest{
 
     constructor(){
         this.hex2bin()
-        this.bin2hex()
+        // this.bin2hex()
 
-        this.string2Hex()
-        this.hex2String()
+        // this.string2Hex()
+        // this.hex2String()
 
-        this.string2Buffer()
-        this.buffer2String()
+        // this.string2Buffer()
+        // this.buffer2String()
         
-        this.buffer2Hex()
-        this.hex2Buffer()
+        // this.buffer2Hex()
+        // this.hex2Buffer()
 
-        this.bin2Decimal()
-        this.decimal2Bin()
+        // this.bin2Decimal()
+        // this.decimal2Bin()
 
         // this.hex2Decimal()
         // this.decimal2Hex()
@@ -25,10 +25,11 @@ export class UtilsTest{
 
     hex2bin(){
         console.log('hex2bin()')
-        for(var i = 0; i<200; i++){
-            var hex = new Rand().hex(i)
-            var bin = new Utils().hex2bin(hex)
-            assert.equal(hex, new Utils().bin2hex(bin))
+        for(var i = 1; i<200; i++){
+            var hex = new Encoding().hex(i)
+            var bin = new Encoding().hex2bin(hex)
+            console.log(hex, bin)
+            assert.equal(hex, new Encoding().bin2hex(bin))
         }
     }
     bin2hex(){
@@ -92,8 +93,6 @@ export class UtilsTest{
             assert.equal(hex, new Utils().buffer2Hex(buffer))
         }
     }
-
-
 
     hex2Buffer(){
         console.log('hex2Buffer()')
