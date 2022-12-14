@@ -20,10 +20,15 @@ export class UtilsTest{
 
         // this.hex2Decimal()
         // this.decimal2Hex()
-        this.range()
-        this.str()
-        this.decimal2BinBE()
-        this.decimal2BinLE()
+
+
+
+        // this.range()
+        // this.str()
+        this.decimal2BytesBE()
+        this.decimal2BytesLE()
+        this.nibble2ByteBE()
+        this.nibble2ByteLE()
 
     }
     str(){
@@ -61,16 +66,50 @@ export class UtilsTest{
         }
     }
 
-    decimal2BinBE(){
+    decimal2BytesBE(){
         for(var i = 0; i<=1114111; i++){
             //javascript assumes parseInt is little endian
-            assert.equal(parseInt(new Encoding().decimal2BinBE(i).split('').reverse().join(''), 2)==i, true)
+            console.log(new Encoding().decimal2BytesBE(i))
+            //assert.equal(parseInt(new Encoding().decimal2BinBE(i).split('').reverse().join(''), 2)==i, true)
         }
     }
-    decimal2BinLE(){
+    decimal2BytesLE(){
         for(var i = 0; i<=1114111; i++){
             //javascript assumes parseInt is little endian
-            assert.equal(parseInt(new Encoding().decimal2BinLE(i), 2)==i, true)
+            console.log(new Encoding().decimal2BytesLE(i))
+            //assert.equal(parseInt(new Encoding().decimal2BinLE(i), 2)==i, true)
+        }
+    }
+
+    nibble2ByteBE(){
+        for(var i = 17; i<1000; i++){
+            var bin = new Encoding().decimal2BytesBE(i)
+            console.log('bin', bin)
+            var nibble = new Encoding().nibble2ByteBE(bin.slice())
+            console.log('nibble:', nibble)
+            
+            var nibble2=''
+            for(var j = bin.length-4; j<=bin.length-1; j++){
+                nibble2+=bin[j]
+            }
+            console.log(nibble2, nibble)
+            assert.equal(nibble2==nibble, true)
+        }
+    }
+
+    nibble2ByteLE(){
+        for(var i = 17; i<1000; i++){
+            var bin = new Encoding().decimal2BytesLE(i)
+            console.log('bin', bin)
+            var nibble = new Encoding().nibble2ByteLE(bin.slice())
+            console.log('nibble:', nibble)
+            
+            var nibble2=''
+            for(var j =0; j<4; j++){
+                nibble2+=bin[j]
+            }
+            console.log(nibble2, nibble)
+            assert.equal(nibble2==nibble, true)
         }
     }
     // _buffer2String(){

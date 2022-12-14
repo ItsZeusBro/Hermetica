@@ -123,20 +123,18 @@ export class Rand{
 }
 
 export class Encoding{
-	nibbleFormatBE(bin){
+	nibble2ByteBE(bin){
 		//this assumes Big Endianes binary number as input, so no information
 		//is lost. It returns a Big Endian nibble
 		return bin.slice(-4)
 	}
-	nibbleFormatLE(bin){
+	nibble2ByteLE(bin){
 		//this assumes Little Endianes binary number as input, so no information
 		//is lost. It returns a Little Endian nibble
 		return bin.slice(0, 4)
 	}
 	
-	
-
-	decimal2BinBE(decimal){
+	decimal2BytesBE(decimal){
 		var bin=''
 		if(decimal==0){return '0'}
 		while(decimal!=0){
@@ -146,10 +144,34 @@ export class Encoding{
 				bin+='1'
 			}
 			decimal=Math.floor(decimal/2)
+		}
+		
+		return this.format2BytesBE(bin)
+	}
+
+	format2BytesBE(bin){
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
 		}
 		return bin
 	}
-	decimal2BinLE(decimal){
+	
+	format2BytesLE(bin){
+		while(true){
+			if(bin.length%8==0){
+				break
+			}else{
+				bin=bin.concat('0')
+			}
+		}
+		return bin
+	}
+
+	decimal2BytesLE(decimal){
 		var bin=''
 		if(decimal==0){return '0'}
 		while(decimal!=0){
@@ -160,8 +182,23 @@ export class Encoding{
 			}
 			decimal=Math.floor(decimal/2)
 		}
-		return bin.split('').reverse().join('')
+		return this.format2BytesLE(bin.split('').reverse().join(''))
 	}
+
+	bytes2DecimalBE(){
+		var i = bin.length-1;
+		var decimal=0
+		var j = 0;
+		while(i>=0){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, j)
+			}
+			i--
+			j++
+		}
+		return decimal
+	}
+
 	isInt(n) {
 		return n % 1 === 0;
 	 }
