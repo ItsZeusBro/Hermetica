@@ -189,47 +189,48 @@ export class Rand{
 export class Encoding{
 
 
-	hexBuffer2StringBE(buffer, codePointMap){
+	hexBuffer2StringBE(buffer){
 		//assume the buffer is an array of big endian hexidecimal codes
 		var string=''
 		for(var i=0; i<buffer.length; i++){
-			string+=this.hex2CharBE(buffer[i], codePointMap)
+			string+=this.hex2CharBE(buffer[i])
 		}
 		return string
 	}
-	hexBuffer2StringLE(buffer, codePointMap){
+	hexBuffer2StringLE(buffer){
 		//assume the buffer is an array of big endian hexidecimal codes
 		var string=''
 		for(var i=0; i<buffer.length; i++){
-			string+=this.hex2CharLE(buffer[i], codePointMap)
+			string+=this.hex2CharLE(buffer[i])
 		}
 		return string
 	}
 
-	hex2CharBE(hex, codePointMap){
+	hex2CharBE(hex){
 		var decimal = this.hex2DecimalBE(hex)
+		console.log(hex, decimal)
+		var codePointMap = new Rand().codePointMapRange(decimal, decimal)
 		return codePointMap[decimal]['code']
 	}
-	hex2CharLE(hex, codePointMap){
+
+	hex2CharLE(hex){
 		var decimal = this.hex2DecimalLE(hex)
+		var codePointMap = new Rand().codePointMapRange(decimal, decimal)
+		// console.log(codePointMap)
 		return codePointMap[decimal]['code']
 	}
-	char2HexBE(char, codeMap){
+
+	char2HexBE(char){
+		var decimal = char.charCodeAt(0)
+		var codeMap = new Rand().codeMapRange(decimal, decimal)
 		return codeMap[char]['hexBE']
 	}
 
-	char2HexLE(char, codeMap){
+	char2HexLE(char){
+		var decimal = char.charCodeAt(0)
+		var codeMap = new Rand().codeMapRange(decimal, decimal)
 		return codeMap[char]['hexBE'].split('').reverse().join('')
 	}
-
-	binBuffer2StringBE(){
-
-	}
-
-	binBuffer2StringLE(){
-
-	}
-
 
 	byte2NibbleBE(bin){
 		//this assumes Big Endianes binary number as input, so no information
@@ -498,7 +499,7 @@ export class Encoding{
 	string2HexBufferLE(string){
 		var buffer=[]
 		for(var i = 0; i<string.length; i++){
-			buffer.push(this.char2HexLE(string[i]))
+			buffer.push(this.char2HexLE(decimal))
 		}
 		return buffer
 	}	
