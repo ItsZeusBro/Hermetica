@@ -26,12 +26,13 @@ export class UtilsTest{
         // this.range()
         // this.str()
         // this.format2BytesBE()
-        this.bytes2DecimalBE()
-        this.decimal2BytesBE()
 
-        // this.bytes2DecimalLE()
+        // this.bytes2DecimalBE()
+        // this.decimal2BytesBE()
 
-        // this.decimal2BytesLE()
+        //this.bytes2DecimalLE()
+
+        this.decimal2BytesLE()
 
         // this.nibble2ByteBE()
         // this.nibble2ByteLE()
@@ -81,7 +82,7 @@ export class UtilsTest{
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
-        for(var i = 0; i<=100000; i++){
+        for(var i = 0; i<=1114111; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
             assert.equal(
                 new Encoding().decimal2BytesBE(i), 
@@ -101,21 +102,22 @@ export class UtilsTest{
 
     // decimal2BytesLE(){
     //     console.log('decimal2BytesLE()')
-    //     for(var i = 0; i<=1114111; i++){
+    //     for(var i = 0; i<=100; i++){
     //         //javascript assumes parseInt is little endian
+    //         //console.log(new Encoding().decimal2BytesLE(i), i)
     //         assert.equal(new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), i)
     //     }
     // }
 
-    // bytes2DecimalLE(){
-    //     console.log('bytes2DecimalLE()')
-    //     for(var i = 1; i<10000; i++){
-    //         var bytes = new Encoding().decimal2BytesLE(i)
-    //         assert.equal(
-    //             new Encoding().decimal2BytesLE(parseInt(bytes, 2)), 
-    //             new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes)))
-    //     }
-    // }
+    bytes2DecimalLE(){
+        console.log('bytes2DecimalLE()')
+        for(var i = 1; i<10000; i++){
+            var bytes = new Encoding().decimal2BytesLE(i)
+            assert.equal(
+                new Encoding().decimal2BytesLE(parseInt(bytes, 2)), 
+                new Encoding().decimal2BytesLE(new Encoding().bytes2DecimalLE(bytes)))
+        }
+    }
 
     nibble2ByteBE(){
         console.log('nibble2ByteBE()')

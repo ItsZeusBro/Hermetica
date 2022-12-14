@@ -202,7 +202,7 @@ export class Encoding{
 		var i = 0
 		var decimal=0
 		var j = bin.length-1;
-		while(i<bin.length){
+		while(i<bin.length-1){
 			if(bin[i]=='1'){
 				decimal+=Math.pow(2, j)
 			}
