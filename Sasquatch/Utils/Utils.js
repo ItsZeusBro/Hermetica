@@ -20,7 +20,7 @@ export class Utils{
         return nNeighborhoods
     }
 
-    
+
 
 	objectComparator(...keys){
 		return (a, b) => {
@@ -100,7 +100,7 @@ export class Rand{
 			unicode[String.fromCharCode(i)]={
 				'codePoint':i,
 				'bin':new Encoding().decimal2BytesBE(i),
-				'hex':new Encoding().decimal2HexBE(i)
+				'hexBE':new Encoding().decimal2HexBE(i)
 			}
 		}
 		return unicode
@@ -112,7 +112,7 @@ export class Rand{
 			unicode[i]={
 				'code':String.fromCharCode(i),
 				'bin':new Encoding().formatBytesBE(new Encoding().decimal2BytesBE(i)),
-				'hex':new Encoding().decimal2HexBE(i)
+				'hexBE':new Encoding().decimal2HexBE(i)
 			}
 		}
 		return unicode
@@ -171,14 +171,34 @@ export class Rand{
 export class Encoding{
 
 
-	buffer2StringBE(buffer){
+	hexBuffer2StringBE(buffer, codePointMap){
+		//assume the buffer is an array of big endian hexidecimal codes
+		var string=''
+		for(var i=0; i<buffer.length; i++){
+			string+=this.hex2CharBE(buffer[i], codePointMap)
+		}
+		return string
+	}
+
+	hex2CharBE(hex, codePointMap){
+		var decimal = this.hex2DecimalBE(hex)
+		return codePointMap[decimal]['code']
+	}
+	char2HexBE(char, codeMap){
+		return codeMap[char]['hexBE']
+	}
+
+	hexBuffer2StringLE(buffer){
 
 	}
 
-	buffer2StringLE(buffer){
+	binBuffer2StringBE(){
 
 	}
 
+	binBuffer2StringLE(){
+
+	}
 
 
 	nibble2ByteBE(bin){
@@ -193,8 +213,6 @@ export class Encoding{
 		return bin.slice(0, 4)
 	}
 	
-
-
 
 	decimal2HexBE(decimal){
 		var bytes = this.decimal2BytesBE(decimal)

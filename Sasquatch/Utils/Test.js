@@ -18,8 +18,9 @@ export class UtilsTest{
         // this.hex2Decimal()
         // this.decimal2Hex()
 
-
-
+        this.codePointMap=new Rand().codePointMapRange(0, 60000)
+        this.codeMap=new Rand().codeMapRange(0, 60000)
+        // console.log(this.codeMap)
         this.range()
         this.str()
         this.bytesRangeBE()
@@ -48,6 +49,8 @@ export class UtilsTest{
 
         this.codeMapRange()
         this.codePointMapRange()
+
+        this.hexBuffer2StringBE()
 
     }
 
@@ -127,7 +130,6 @@ export class UtilsTest{
             )
         }
     }
-
 
     decimal2BytesLE(){
         console.log('decimal2BytesLE()')
@@ -242,7 +244,6 @@ export class UtilsTest{
         }
     }
 
-
     hex2BytesLE(){
         console.log('hex2BytesLE()')
         var j=10;
@@ -293,12 +294,40 @@ export class UtilsTest{
     }
 
     codeMapRange(){
-        //console.log(new Rand().codeMapRange(0, 100))
+        console.log('codeMapRange()')
+        for(var i = 0; i<60000; i++){
+            var codeMap = new Rand().codeMapRange(i, i)
+            var keys = Object.keys(codeMap)
+            for(var j=0; j<keys.length; j++){
+                assert.equal(codeMap[keys[j]]['bin'], new Encoding().decimal2BytesBE(codeMap[keys[j]]['codePoint']))
+                assert.equal(codeMap[keys[j]]['hexBE'], new Encoding().decimal2HexBE(codeMap[keys[j]]['codePoint']))
+            }
+        }
     }
 
     codePointMapRange(){
-        //console.log(new Rand().codePointMapRange(0, 100))
+        console.log('codePointMapRange()')
+        for(var i = 0; i<60000; i++){
+            var codePointMap = new Rand().codePointMapRange(i, i)
+            var keys = Object.keys(codePointMap)
+            for(var j=0; j<keys.length; j++){
+                console.log(codePointMap)
+                assert.equal(codePointMap[keys[j]]['bin'], new Encoding().decimal2BytesBE(i))
+                assert.equal(codePointMap[keys[j]]['hexBE'], new Encoding().decimal2HexBE(i))
+            }
+        }
+    }
 
+    hexBuffer2StringBE(){
+        console.log('hexBuffer2StringBE')
+        var buffer = []
+        for(var i = 0; i<60000; i++){
+           buffer.push(new Rand().hexRangeBE(i, i))
+        }
+        var string = new Encoding().hexBuffer2StringBE(buffer, this.codePointMap)
+        for(var i = 0; i<string.length; i++){
+            assert.equal(new Encoding().char2HexBE(string[i], this.codeMap), buffer[i]) 
+        }
     }
 
     // _buffer2String(){
