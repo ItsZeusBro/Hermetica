@@ -22,8 +22,8 @@ export class UtilsTest{
         // this.decimal2Hex()
         this.range()
         this.str()
-        this._decimal2BinBE()
-        this._decimal2BinLE()
+        this.decimal2BinBE()
+        //this._decimal2BinLE()
 
     }
     str(){
@@ -61,38 +61,10 @@ export class UtilsTest{
         }
     }
 
-    _decimal2BinBE(){
-        for(var i = 0; i<=9; i++){
-            var decimal = new Encoding()._decimal2BinBE(i)
-            switch (i) {
-                case 0: assert.equal(decimal=='0', true); break;
-                case 1: assert.equal(decimal=='1', true); break;
-                case 2: assert.equal(decimal=='10', true); break;
-                case 3: assert.equal(decimal=='11', true); break;
-                case 4: assert.equal(decimal=='100', true); break;
-                case 5: assert.equal(decimal=='101', true); break;
-                case 6: assert.equal(decimal=='110', true); break;
-                case 7: assert.equal(decimal=='111', true); break;
-                case 8: assert.equal(decimal=='1000', true); break;
-                case 9: assert.equal(decimal=='1001', true); break;
-              }
-        }
-    }
-    _decimal2BinLE(){
-        for(var i = 0; i<=9; i++){
-            var decimal = new Encoding()._decimal2BinLE(i)
-            switch (i) {
-                case 0: assert.equal(decimal=='0', true); break;
-                case 1: assert.equal(decimal=='1', true); break;
-                case 2: assert.equal(decimal=='01', true); break;
-                case 3: assert.equal(decimal=='11', true); break;
-                case 4: assert.equal(decimal=='001', true); break;
-                case 5: assert.equal(decimal=='101', true); break;
-                case 6: assert.equal(decimal=='011', true); break;
-                case 7: assert.equal(decimal=='111', true); break;
-                case 8: assert.equal(decimal=='0001', true); break;
-                case 9: assert.equal(decimal=='1001', true); break;
-              }
+    decimal2BinBE(){
+        for(var i = 0; i<=1114111; i++){
+            //javascript assumes parseInt is little endian
+            assert.equal(parseInt(new Encoding().decimal2BinBE(i).split('').reverse().join(''), 2)==i, true)
         }
     }
     // _buffer2String(){

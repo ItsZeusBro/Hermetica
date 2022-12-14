@@ -134,71 +134,30 @@ export class Encoding{
 		return bin.slice(0, 4)
 	}
 	
-	_decimal2BinBE(decimal){
-		if(decimal<0||decimal>9){
-			throw Error('_decimal2Bin does not recognize numbers less than 0 or greater than 9')
-		}
-		switch (decimal) {
-			case 0: return '0';
-			case 1: return '1';
-			case 2: return '10';
-			case 3: return '11';
-			case 4: return '100';
-			case 5: return '101';
-			case 6: return '110';
-			case 7: return '111';
-			case 8: return '1000';
-			case 9: return '1001';
-		  }
-	}
-	_decimal2BinLE(decimal){
-		if(decimal<0||decimal>9){
-			throw Error('_decimal2Bin does not recognize numbers less than 0 or greater than 9')
-		}
-		switch (decimal) {
-			case 0: return '0';
-			case 1: return '1';
-			case 2: return '01';
-			case 3: return '11';
-			case 4: return '001';
-			case 5: return '101';
-			case 6: return '011';
-			case 7: return '111';
-			case 8: return '0001';
-			case 9: return '1001';
-		}
-	}
-	decimal2BinBE(decimal){
-		var bin=""
-		var i = 0
-		while(true){
-			if(decimal>Math.pow(2, i)){
-				bin = bin.concat('0')
-				i++
-			}else if(decimal<=Math.pow(2, i)){
-				bin = bin.concat('0')
-				break
-			}
-		}
+	
 
-		bin = this.binFormat(bin)
-		var count=0
-		i=bin.length-1
-		for(var j=0; j<bin.length; j++){
-			if(count+Math.pow(2, i)<decimal){
-				bin = this.setCharAt(bin, j, '1')
-				count+=Math.pow(2, i)
-			}else if(count+Math.pow(2, i)==decimal){
-				bin = this.setCharAt(bin, j, '1')
-				break
+	decimal2BinBE(decimal){
+		var bin=''
+		if(decimal==0){return '0'}
+		while(decimal!=0){
+			if(this.isInt(decimal/2)){
+				bin+='0'
 			}else{
-				//count+Math.pow(2, i)>decimal
-				
+				bin+='1'
 			}
-			i--
+			decimal=Math.floor(decimal/2)
 		}
-		return this.binFormat(bin)
+		return bin
 	}
+	isInt(n) {
+		return n % 1 === 0;
+	 }
+	// unicode(){
+	// 	var unicode={}
+	// 	for(var i = 0; i<=1114111; i++){
+	// 		unicode[]String.fromCharCode(i)
+	// 	}
+	// }
 // 	hex2bin(hex){
 // 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
 // 		var out = "";
