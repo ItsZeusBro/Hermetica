@@ -155,16 +155,18 @@ export class Encoding{
 		if(decimal<0||decimal>9){
 			throw Error('_decimal2Bin does not recognize numbers less than 0 or greater than 9')
 		}
-		case 0: return '0';
-		case 1: return '1';
-		case 2: return '01';
-		case 3: return '11';
-		case 4: return '001';
-		case 5: return '101';
-		case 6: return '011';
-		case 7: return '111';
-		case 8: return '0001';
-		case 9: return '1001';
+		switch (decimal) {
+			case 0: return '0';
+			case 1: return '1';
+			case 2: return '01';
+			case 3: return '11';
+			case 4: return '001';
+			case 5: return '101';
+			case 6: return '011';
+			case 7: return '111';
+			case 8: return '0001';
+			case 9: return '1001';
+		}
 	}
 	decimal2BinBE(decimal){
 		var bin=""
