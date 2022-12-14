@@ -27,7 +27,7 @@ export class UtilsTest{
         // this.str()
         // this.format2BytesBE()
         this.bytes2DecimalBE()
-        // this.decimal2BytesBE()
+        this.decimal2BytesBE()
 
         // this.bytes2DecimalLE()
 
@@ -81,9 +81,8 @@ export class UtilsTest{
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
-        for(var i = 0; i<=100; i++){
+        for(var i = 0; i<=100000; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
-            console.log(new Encoding().bytes2DecimalBE(bytes), new Encoding().decimal2BytesBE(i))
             assert.equal(
                 new Encoding().decimal2BytesBE(i), 
                 new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes))
@@ -91,14 +90,13 @@ export class UtilsTest{
         }
     }
 
-    // decimal2BytesBE(){
-    //     console.log('decimal2BytesBE()')
-    //     for(var i = 0; i<=100; i++){
-    //         //javascript assumes parseInt is little endian
-    //         console.log(new Encoding().decimal2BytesBE(i))
-    //         assert.equal(new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), i)
-    //     }
-    // }
+    decimal2BytesBE(){
+        console.log('decimal2BytesBE()')
+        for(var i = 0; i<=100; i++){
+            //javascript assumes parseInt is little endian
+            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), i)
+        }
+    }
 
 
     // decimal2BytesLE(){
