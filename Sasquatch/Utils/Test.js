@@ -92,6 +92,8 @@ export class UtilsTest{
                 var hex = new Rand().hexRangeBE(i, i)
                 hex = new Encoding().formatHexBE(hex)
                 assert.equal(hex.length%2==0, true)
+                assert.equal(new Encoding().hex2DecimalBE(hex), i)
+
             }
         }
     }
@@ -103,6 +105,7 @@ export class UtilsTest{
                 var hex = new Rand().hexRangeLE(i, i)
                 hex = new Encoding().formatHexLE(hex)
                 assert.equal(hex.length%2==0, true)
+                assert.equal(new Encoding().hex2DecimalLE(hex), i)
             }
         }
     }
