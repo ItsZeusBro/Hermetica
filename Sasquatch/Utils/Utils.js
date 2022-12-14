@@ -73,6 +73,14 @@ export class Rand{
 		return new Encoding().decimal2BytesBE(new Rand().range(min, max))
 	}
 
+	bytesRangeLE(min, max){
+		if(min<0||min>max){
+			throw Error('byte range error: decimals points must be within nibble range 0-256')
+		}
+		return new Encoding().decimal2BytesLE(new Rand().range(min, max))
+	}
+
+
 	nibbleRange(min, max){
 		if(min<0||max>16||min>max){
 			throw Error('nibble range error: decimals points must be within nibble range 0-16')

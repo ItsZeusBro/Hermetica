@@ -14,15 +14,19 @@ export class UtilsTest{
 
         this.formatBytesBE()
         this.formatBytesLE()
+        this.formatHexBE()
+        this.formatHexLE()
+
         this.codeMapRange()
         this.codePointMapRange()
 
         this.bytesRangeBE()
-        //this.bytesRangeLE()
-        this.bytes2DecimalLE()
-        this.bytes2HexLE()
-        this.bytes2HexBE()
+        this.bytesRangeLE()
         this.bytes2DecimalBE()
+        this.bytes2DecimalLE()
+        this.bytes2HexBE()
+        this.bytes2HexLE()
+
         this.nibble2ByteBE()
         this.nibble2ByteLE()
 
@@ -80,6 +84,28 @@ export class UtilsTest{
             assert.equal(inclusive, true)
         }
     }
+    formatHexBE(){
+        console.log('formatHexBE()')
+        //send in 1 it should return length 2 hex, send in 3 and it should return length 4 etc...
+        for(var  i = 0; i<10000; i++){
+            if(i%2!=0){
+                var hex = new Rand().hexRangeBE(i, i)
+                hex = new Encoding().formatHexBE(hex)
+                assert.equal(hex.length%2==0, true)
+            }
+        }
+    }
+    formatHexLE(){
+        console.log('formatHexLE()')
+        //send in 1 it should return length 2 hex, send in 3 and it should return length 4 etc...
+        for(var  i = 0; i<10000; i++){
+            if(i%2!=0){
+                var hex = new Rand().hexRangeLE(i, i)
+                hex = new Encoding().formatHexLE(hex)
+                assert.equal(hex.length%2==0, true)
+            }
+        }
+    }
 
     bytesRangeBE(){
         for(var i = 0; i<100000; i++){
@@ -91,6 +117,24 @@ export class UtilsTest{
                 assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
                 assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
                 if(new Encoding().bytes2DecimalBE(byte)==j||new Encoding().bytes2DecimalBE(byte)==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
+
+    bytesRangeLE(){
+        for(var i = 0; i<100000; i++){
+            var inclusive=false
+            var j = i+1;
+            while(inclusive==false){
+                j++
+                var byte = new Rand().bytesRangeLE(i, j)
+                assert.equal(new Encoding().bytes2DecimalLE(byte)<=j, true)
+                assert.equal(new Encoding().bytes2DecimalLE(byte)>=i, true)
+                if(new Encoding().bytes2DecimalLE(byte)==j||new Encoding().bytes2DecimalLE(byte)==i){
                     inclusive=true
                     break
                 }
