@@ -3,54 +3,43 @@ import assert from "node:assert"
 export class UtilsTest{
 
     constructor(){
-        // this.bin2hex()
 
-        // this.string2Hex()
-        // this.hex2String()
-        // this._buffer2String()
-        // this.string2Buffer()
-        // this.buffer2String()
-        
-        // this.buffer2Hex()
-        // this.hex2Buffer()
-
-
-        // this.hex2Decimal()
-        // this.decimal2Hex()
 
         this.codePointMap=new Rand().codePointMapRange(0, 60000)
         this.codeMap=new Rand().codeMapRange(0, 60000)
-        // console.log(this.codeMap)
         this.range()
         this.str()
-        this.bytesRangeBE()
 
-        this.nibble2ByteBE()
-        this.bytes2DecimalBE()
-        this.decimal2BytesBE()
+
+
         this.formatBytesBE()
-
-        this.nibble2ByteLE()
-        this.bytes2DecimalLE()
-        this.decimal2BytesLE()
         this.formatBytesLE()
-
-        this.hexRangeBE()
-        this.hex2BytesBE()
-        this.bytes2HexBE()
-        this.hex2DecimalBE()
-        this.decimal2HexBE()
-
-        this.hexRangeBE()
-        this.hex2BytesLE()
-        this.bytes2HexLE()
-        this.hex2DecimalLE()
-        this.decimal2HexLE()
-
         this.codeMapRange()
         this.codePointMapRange()
 
+        this.bytesRangeBE()
+        //this.bytesRangeLE()
+        this.bytes2DecimalLE()
+        this.bytes2HexLE()
+        this.bytes2HexBE()
+        this.bytes2DecimalBE()
+        this.nibble2ByteBE()
+        this.nibble2ByteLE()
+
+        this.decimal2BytesBE()
+        this.decimal2BytesLE()
+        this.decimal2HexBE()
+        this.decimal2HexLE()
+        //this.decimal2Char()
+
+        this.hexRangeBE()
+        this.hexRangeLE()
+        this.hex2BytesBE()
+        this.hex2BytesLE()
+        this.hex2DecimalBE()
+        this.hex2DecimalLE()
         this.hexBuffer2StringBE()
+        this.hexBuffer2StringLE()
 
     }
 
@@ -217,7 +206,7 @@ export class UtilsTest{
     }
 
     hexRangeBE(){
-        console.log('hexBE()')
+        console.log('hexRangeBE()')
         var j=10;
         for(var i = 0; i<1000; i++){
             j*=2
@@ -265,14 +254,13 @@ export class UtilsTest{
     }
 
     hexRangeLE(){
-        console.log('hexLE()')
+        console.log('hexRangeLE()')
         var j=10;
         for(var i = 0; i<1000; i++){
             var hex = new Rand().hexRangeLE(i, j)
             j*=2;
-            assert.equal(new Encoding().bytes2DecimalLE(new Encoding().hex2BytesLE(hex)), i)
+            assert.equal(new Encoding().bytes2HexLE(new Encoding().hex2BytesLE(hex)), hex)
         }
-
     }
 
     hex2DecimalLE(){
@@ -311,7 +299,6 @@ export class UtilsTest{
             var codePointMap = new Rand().codePointMapRange(i, i)
             var keys = Object.keys(codePointMap)
             for(var j=0; j<keys.length; j++){
-                console.log(codePointMap)
                 assert.equal(codePointMap[keys[j]]['bin'], new Encoding().decimal2BytesBE(i))
                 assert.equal(codePointMap[keys[j]]['hexBE'], new Encoding().decimal2HexBE(i))
             }
@@ -327,6 +314,18 @@ export class UtilsTest{
         var string = new Encoding().hexBuffer2StringBE(buffer, this.codePointMap)
         for(var i = 0; i<string.length; i++){
             assert.equal(new Encoding().char2HexBE(string[i], this.codeMap), buffer[i]) 
+        }
+    }
+
+    hexBuffer2StringLE(){
+        console.log('hexBuffer2StringLE')
+        var buffer = []
+        for(var i = 0; i<60000; i++){
+           buffer.push(new Rand().hexRangeLE(i, i))
+        }
+        var string = new Encoding().hexBuffer2StringLE(buffer, this.codePointMap)
+        for(var i = 0; i<string.length; i++){
+            assert.equal(new Encoding().char2HexLE(string[i], this.codeMap), buffer[i]) 
         }
     }
 

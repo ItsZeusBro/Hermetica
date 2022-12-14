@@ -21,7 +21,6 @@ export class Utils{
     }
 
 
-
 	objectComparator(...keys){
 		return (a, b) => {
 			var item1 = a
@@ -179,17 +178,29 @@ export class Encoding{
 		}
 		return string
 	}
+	hexBuffer2StringLE(buffer, codePointMap){
+		//assume the buffer is an array of big endian hexidecimal codes
+		var string=''
+		for(var i=0; i<buffer.length; i++){
+			string+=this.hex2CharLE(buffer[i], codePointMap)
+		}
+		return string
+	}
 
 	hex2CharBE(hex, codePointMap){
 		var decimal = this.hex2DecimalBE(hex)
+		return codePointMap[decimal]['code']
+	}
+	hex2CharLE(hex, codePointMap){
+		var decimal = this.hex2DecimalLE(hex)
 		return codePointMap[decimal]['code']
 	}
 	char2HexBE(char, codeMap){
 		return codeMap[char]['hexBE']
 	}
 
-	hexBuffer2StringLE(buffer){
-
+	char2HexLE(char, codeMap){
+		return codeMap[char]['hexBE'].split('').reverse().join('')
 	}
 
 	binBuffer2StringBE(){
