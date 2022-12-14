@@ -3,7 +3,6 @@ import assert from "node:assert"
 export class UtilsTest{
 
     constructor(){
-        // this.hex2bin()
         // this.bin2hex()
 
         // this.string2Hex()
@@ -36,6 +35,9 @@ export class UtilsTest{
         this.bytes2DecimalLE()
         this.decimal2BytesLE()
         this.format2BytesLE()
+
+        this.hexBE()
+        //this.hex2binBE()
 
 
     }
@@ -162,21 +164,29 @@ export class UtilsTest{
         }
     }
 
+    hex2binBE(){
+        console.log('hex2binBE()')
+        for(var i = 1; i<200; i++){
+            var hex = new Encoding().hex(i)
+            var bin = new Encoding().hex2bin(hex)
+            assert.equal(hex, new Encoding().bin2hex(bin))
+        }
+    }
 
+    hexBE(){
+        console.log('hexBE()')
+        for(var i = 0; i<200; i++){
+            var hex = new Encoding().hexBE(i, i)
+            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BinBE(hex)), i)
+        }
+    }
 
     // _buffer2String(){
     //     var buff = new Encoding().string2Buffer('hello world!')
     //     var string = new Encoding()._buffer2String(buff)
     //     console.log(string)
     // }
-    // hex2bin(){
-    //     console.log('hex2bin()')
-    //     for(var i = 1; i<200; i++){
-    //         var hex = new Encoding().hex(i)
-    //         var bin = new Encoding().hex2bin(hex)
-    //         assert.equal(hex, new Encoding().bin2hex(bin))
-    //     }
-    // }
+
     // bin2hex(){
     //     console.log('bin2hex()')
     //     for(var i = 0; i<200; i++){

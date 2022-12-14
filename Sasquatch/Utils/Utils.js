@@ -221,68 +221,8 @@ export class Encoding{
 	// 		unicode[]String.fromCharCode(i)
 	// 	}
 	// }
-// 	hex2bin(hex){
-// 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
-// 		var out = "";
-// 		hex = this.strip(hex.slice())
-// 		for(var c of hex) {
-// 			switch(c) {
-// 				case '0': out += "0000"; break;
-// 				case '1': out += "0001"; break;
-// 				case '2': out += "0010"; break;
-// 				case '3': out += "0011"; break;
-// 				case '4': out += "0100"; break;
-// 				case '5': out += "0101"; break;
-// 				case '6': out += "0110"; break;
-// 				case '7': out += "0111"; break;
-// 				case '8': out += "1000"; break;
-// 				case '9': out += "1001"; break;
-// 				case 'a': out += "1010"; break;
-// 				case 'b': out += "1011"; break;
-// 				case 'c': out += "1100"; break;
-// 				case 'd': out += "1101"; break;
-// 				case 'e': out += "1110"; break;
-// 				case 'f': out += "1111"; break;
-// 				default: return "";
-// 			}
-// 		}
-// 		return this.binFormat(out);
-// 	}
-// 	bin2hex(bin){
-// 		// console.log('pre-format:',bin)
-// 		bin = this.binFormat(bin.slice())
-// 		// console.log('post-format:',bin)
-// 		var out = "";
-// 		var accumulator=''
-// 		for(var c = 1; c<=bin.length; c++) {
-// 			accumulator+=bin[c-1]
-// 			if(c%4==0){
-// 				switch(accumulator) {
-// 					case "0000": out += '0'; break;
-// 					case "0001": out += '1'; break;
-// 					case "0010": out += '2'; break;
-// 					case "0011": out += '3'; break;
-// 					case "0100": out += '4'; break;
-// 					case "0101": out += '5'; break;
-// 					case "0110": out += '6'; break;
-// 					case "0111": out += '7'; break;
-// 					case "1000": out += '8'; break;
-// 					case "1001": out += '9'; break;
-// 					case "1010": out += 'a'; break;
-// 					case "1011": out += 'b'; break;
-// 					case "1100": out += 'c'; break;
-// 					case "1101": out += 'd'; break;
-// 					case "1110": out += 'e'; break;
-// 					case "1111": out += 'f'; break;
-// 					default: return "";
-// 				}
-// 				// console.log(accumulator)
-// 				accumulator=""
-// 			}
-// 		}
-// 		// console.log(out)
-// 		return this.strip(out);
-// 	}
+	
+
 // 	bin2Decimal(bin){
 // 		//start from the right
 // 		bin=this.binFormat(bin.slice())
@@ -408,10 +348,7 @@ export class Encoding{
 // 		return hex
 // 	}
 
-// 	hex(n){
-// 		var hex = this.bin2hex(this.nibbles(n))
-// 		return this.strip(hex)
-// 	}
+
 // 	buffer(n){
 // 		return new Utils().hex2Buffer(this.hex(n))
 // 	}
@@ -427,6 +364,72 @@ export class Encoding{
 		}
 		//decimal to bin always returns byte strings that represent the decimal number of any size
 		return new Encoding().nibbleFormatBE(this.decimal2binBE(this.randomRange(min, max))) 
+	}
+
+	hexBE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		var bin = this.decimal2BytesBE(decimal)
+		return this.bin2HexBE(bin)
+	}
+	hex2BinBE(hex){
+		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
+		var out = "";
+		for(var c of hex) {
+			switch(c) {
+				case '0': out += "0000"; break;
+				case '1': out += "0001"; break;
+				case '2': out += "0010"; break;
+				case '3': out += "0011"; break;
+				case '4': out += "0100"; break;
+				case '5': out += "0101"; break;
+				case '6': out += "0110"; break;
+				case '7': out += "0111"; break;
+				case '8': out += "1000"; break;
+				case '9': out += "1001"; break;
+				case 'a': out += "1010"; break;
+				case 'b': out += "1011"; break;
+				case 'c': out += "1100"; break;
+				case 'd': out += "1101"; break;
+				case 'e': out += "1110"; break;
+				case 'f': out += "1111"; break;
+				default: return "";
+			}
+		}
+		return out
+	}
+
+	bin2HexBE(bin){
+		var out = "";
+		var accumulator=''
+		for(var c = 1; c<=bin.length; c++) {
+			accumulator+=bin[c-1]
+			if(c%4==0){
+				switch(accumulator) {
+					case "0000": out += '0'; break;
+					case "0001": out += '1'; break;
+					case "0010": out += '2'; break;
+					case "0011": out += '3'; break;
+					case "0100": out += '4'; break;
+					case "0101": out += '5'; break;
+					case "0110": out += '6'; break;
+					case "0111": out += '7'; break;
+					case "1000": out += '8'; break;
+					case "1001": out += '9'; break;
+					case "1010": out += 'a'; break;
+					case "1011": out += 'b'; break;
+					case "1100": out += 'c'; break;
+					case "1101": out += 'd'; break;
+					case "1110": out += 'e'; break;
+					case "1111": out += 'f'; break;
+					default: return "";
+				}
+				// console.log(accumulator)
+				accumulator=""
+			}
+		}
+		// console.log(out)
+		return out
 	}
 
 	// 	bytes(n){
