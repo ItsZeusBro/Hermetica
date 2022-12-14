@@ -260,110 +260,19 @@ export class Encoding{
 // 		var string = this.buffer2String(buffer)
 // 		return string
 // 	}
-// 	string2Buffer(string){
-// 		string=string.slice()
-// 		// console.log(Buffer.from(string))
-// 		return Buffer.from(string)
-// 	}
 
-// 	buffer2Hex(buffer){
-// 		return  this.strip(buffer.toString('hex'))
-// 	}
-// 	buffer2String(buffer) {
-// 		buffer=buffer.subarray()
-// 		return this._buffer2String(buffer)
-// 	}
-// 	hex2Buffer(hex){
-// 		hex = hex.slice()
-// 		return Buffer.from(this.strip(hex), 'hex')
-// 	}
-// 	_buffer2String(buffer){
-// 		var str=''
-// 		for (let pair of buffer.entries()) {
-// 			// get the byte of character
-// 			const charCode = pair[1];
-// 			// use String.fromCharCode() to get the appropriate character
-// 			// for the byte
-// 			str+=String.fromCharCode(charCode)
-// 		  }
-// 		return str
-// 	}
-// 	// stripBuffer(buffer){
-// 	// 	buffer=buffer.subarray()
-// 	// 	var i =0;
-// 	// 	while(true){
-// 	// 		if(buffer[i]=='0'){
-// 	// 			buffer = buffer.slice(1)
-// 	// 			i--
-// 	// 		}else{
-// 	// 			break
-// 	// 		}
-// 	// 		i++
-// 	// 	}
-
-// 	// 	return buffer
-// 	// }
-
-
-// 	binFormat(bin){
-// 		bin=bin.slice()
-// 		bin = this.strip(bin)
-// 		if(bin.length%8==0){
-// 			return bin
-// 		}
-// 		while(true){
-// 			if(bin.length%8==0){
-// 				break
-// 			}else{
-// 				bin='0'.concat(bin)
-// 			}
-// 		}
-// 		return bin
-// 	}
-
-// 	strip(str){
-// 		str=str.slice()
-// 		var i =0;
-// 		while(true){
-// 			if(str[i]=='0'){
-// 				str = str.slice(1)
-// 				i--
-// 			}else{
-// 				return str
-// 			}
-// 			i++
-// 		}
-// 		return str
-// 	}
-// 	hexFormat(hex, n){
-// 		hex=hex.slice()
-// 		hex = this.strip(hex)
-// 		while(true){
-// 			if(hex.length%n==0){
-// 				break
-// 			}else{
-// 				hex='0'.concat(hex)
-// 			}
-// 		}
-// 		return hex
-// 	}
-
-
-// 	buffer(n){
-// 		return new Utils().hex2Buffer(this.hex(n))
-// 	}
-
+	byteRangeBE(min, max){
+		if(min<0||max>256||min>max){
+			throw Error('byte range error: decimals points must be within nibble range 0-256')
+		}
+		return this.decimal2BytesBE(new Rand().range(min, max))
+	}
 	nibbleRange(min, max){
-		//returns a random nibble between min and max
-		//which are decimals, every nibble is 0 to 16
-		//so we can use randomRange(min, max), so long as min
-		//and max are greater than or equal to 0, and less
-		//than or equal to 16
+
 		if(min<0||max>16||min>max){
 			throw Error('nibble range error: decimals points must be within nibble range 0-16')
 		}
-		//decimal to bin always returns byte strings that represent the decimal number of any size
-		return new Encoding().nibbleFormatBE(this.decimal2binBE(this.randomRange(min, max))) 
+		return this.nibbleFormatBE(this.decimal2BytesBE(new Rand().range(min, max))) 
 	}
 
 	hexBE(min, max){
@@ -529,13 +438,43 @@ export class Encoding{
 		return hex
 	}
 
-	// 	bytes(n){
-	// 		var bytes=''
-	// 		for(var i = 0; i<n; i++){
-	// 			for(var j = 0; j<8; j++){
-	// 				bytes+=new Rand().mod10()
-	// 			}
-	// 		}
-	// 		return this.binFormat(bytes)
-	// 	}
+
+
+	// 	string2Buffer(string){
+// 		string=string.slice()
+// 		// console.log(Buffer.from(string))
+// 		return Buffer.from(string)
+// 	}
+
+// 	buffer2Hex(buffer){
+// 		return  this.strip(buffer.toString('hex'))
+// 	}
+// 	buffer2String(buffer) {
+// 		buffer=buffer.subarray()
+// 		return this._buffer2String(buffer)
+// 	}
+// 	hex2Buffer(hex){
+// 		hex = hex.slice()
+// 		return Buffer.from(this.strip(hex), 'hex')
+// 	}
+// 	_buffer2String(buffer){
+// 		var str=''
+// 		for (let pair of buffer.entries()) {
+// 			// get the byte of character
+// 			const charCode = pair[1];
+// 			// use String.fromCharCode() to get the appropriate character
+// 			// for the byte
+// 			str+=String.fromCharCode(charCode)
+// 		  }
+// 		return str
+// 	}
+
+
+
+
+// 	buffer(n){
+// 		return new Utils().hex2Buffer(this.hex(n))
+// 	}
+
+
 }

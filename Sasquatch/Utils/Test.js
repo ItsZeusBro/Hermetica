@@ -22,6 +22,7 @@ export class UtilsTest{
 
         this.range()
         this.str()
+        this.byteRange()
 
         this.nibble2ByteBE()
         this.bytes2DecimalBE()
@@ -70,7 +71,6 @@ export class UtilsTest{
 
     range(){
         console.log('range()')
-
         for(var i = 0; i<10; i++){
             var inclusive=false
             var j = 100;
@@ -88,6 +88,24 @@ export class UtilsTest{
         }
     }
 
+    byteRange(){
+        for(var i = 0; i<255; i++){
+            var inclusive=false
+            var j = i+1;
+            while(inclusive==false){
+                j++
+                var byte = new Encoding().byteRangeBE(i, j)
+                console.log(i, j, byte)
+                assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
+                assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
+                if(new Encoding().bytes2DecimalBE(byte)==j||new Encoding().bytes2DecimalBE(byte)==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
