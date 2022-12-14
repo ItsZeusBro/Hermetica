@@ -37,8 +37,15 @@ export class UtilsTest{
         this.hexBE()
         this.hex2BytesBE()
         this.bytes2HexBE()
+        this.hex2DecimalBE()
+        this.decimal2HexBE()
 
-        // this.hex2DecimalBE()
+        this.hexLE()
+        this.hex2BytesLE()
+        this.bytes2HexLE()
+        this.hex2DecimalLE()
+        this.decimal2HexLE()
+
 
     }
 
@@ -189,6 +196,71 @@ export class UtilsTest{
         for(var i = 0; i<1000; i++){
             var hex = new Encoding().hexBE(i, i)
             assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BytesBE(hex)), i)
+        }
+    }
+
+    hex2DecimalBE(){
+        console.log('hex2DecimalBE()')
+        for(var i = 1; i<1000; i++){
+            var bytes = new Encoding().decimal2BytesBE(i)
+            var hex = new Encoding().bytes2HexBE(bytes)
+            assert.equal(i, new Encoding().hex2DecimalBE(hex))
+        }
+    }
+
+    decimal2HexBE(){
+        console.log('decimal2HexBE()')
+        for(var i = 1; i<1000; i++){
+            var bytes = new Encoding().decimal2BytesBE(i)
+            var hex = new Encoding().bytes2HexBE(bytes)
+            assert.equal(hex, new Encoding().decimal2HexBE(i))
+        }
+    }
+
+
+
+
+    hex2BytesLE(){
+        console.log('hex2BytesLE()')
+        for(var i = 1; i<1000; i++){
+            var hex = new Encoding().hexLE(i, i)
+            var bin = new Encoding().hex2BytesLE(hex)
+            assert.equal(hex, new Encoding().bytes2HexLE(bin))
+        }
+    }
+
+    bytes2HexLE(){
+        console.log('bytes2HexLE()')
+        for(var i = 1; i<1000; i++){
+            var bytes = new Encoding().decimal2BytesLE(i)
+            var hex = new Encoding().bytes2HexLE(bytes)
+            assert.equal(bytes, new Encoding().hex2BytesLE(hex))
+        }
+    }
+
+    hexLE(){
+        console.log('hexLE()')
+        for(var i = 0; i<1000; i++){
+            var hex = new Encoding().hexLE(i, i)
+            assert.equal(new Encoding().bytes2DecimalLE(new Encoding().hex2BytesLE(hex)), i)
+        }
+    }
+
+    hex2DecimalLE(){
+        console.log('hex2DecimalLE()')
+        for(var i = 1; i<1000; i++){
+            var bytes = new Encoding().decimal2BytesLE(i)
+            var hex = new Encoding().bytes2HexLE(bytes)
+            assert.equal(i, new Encoding().hex2DecimalLE(hex))
+        }
+    }
+
+    decimal2HexLE(){
+        console.log('decimal2HexLE()')
+        for(var i = 1; i<1000; i++){
+            var bytes = new Encoding().decimal2BytesLE(i)
+            var hex = new Encoding().bytes2HexLE(bytes)
+            assert.equal(hex, new Encoding().decimal2HexLE(i))
         }
     }
 

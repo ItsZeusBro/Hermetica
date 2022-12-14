@@ -431,7 +431,28 @@ export class Encoding{
 		}
 		return out
 	}
+	hex2DecimalBE(hex){
+		var bytes = this.hex2BytesBE(hex)
+		return this.bytes2DecimalBE(bytes)
+	}
 
+	decimal2HexBE(decimal){
+		var bytes = this.decimal2BytesBE(decimal)
+		return this.bytes2HexBE(bytes)
+	}
+	formatHexBE(hex){
+		if(hex.length%2!=0){
+			hex = '0'.concat(hex)
+		}
+		return hex
+	}
+
+	hexLE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		var bin = this.decimal2BytesLE(decimal)
+		return this.bytes2HexLE(bin)
+	}
 	hex2BytesLE(hex){
 		hex = this.formatHexLE(hex)
 		var out = "";
@@ -491,22 +512,16 @@ export class Encoding{
 		return out
 	}
 
-	hex2DecimalBE(hex){
-		var bytes = this.hex2BytesBE(hex)
-		return this.bytes2DecimalBE(bytes)
-	}
-
+	
 	hex2DecimalLE(hex){
 		var bytes = this.hex2BytesLE(hex)
 		return this.bytes2DecimalLE(bytes)
 	}
-
-	formatHexBE(hex){
-		if(hex.length%2!=0){
-			hex = '0'.concat(hex)
-		}
-		return hex
+	decimal2HexLE(decimal){
+		var bytes = this.decimal2BytesLE(decimal)
+		return this.bytes2HexLE(bytes)
 	}
+
 	formatHexLE(hex){
 		if(hex.length%2!=0){
 			hex = hex.concat('0')
