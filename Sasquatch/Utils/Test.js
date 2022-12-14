@@ -25,15 +25,17 @@ export class UtilsTest{
 
         // this.range()
         // this.str()
-        // this.format2BytesBE()
 
         this.nibble2ByteBE()
         this.bytes2DecimalBE()
         this.decimal2BytesBE()
+        this.format2BytesBE()
+
 
         this.nibble2ByteLE()
         this.bytes2DecimalLE()
         this.decimal2BytesLE()
+        this.format2BytesLE()
 
 
     }
@@ -72,11 +74,7 @@ export class UtilsTest{
         }
     }
 
-    // format2BytesBE(){
-    //     for(var i = 0; i<1000; i++){
-    //         console.log(new Encoding().decimal2BytesBE(i))
-    //     }
-    // }
+
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
@@ -146,6 +144,21 @@ export class UtilsTest{
                 nibble2+=bin[j]
             }
             assert.equal(nibble2==nibble, true)
+        }
+    }
+    format2BytesBE(){
+        console.log('format2BytesBE()')
+
+        for(var i = 0; i<1000; i++){
+            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().format2BytesBE(new Encoding().decimal2BytesBE(i))), i)
+        }
+    }
+
+    format2BytesLE(){
+        console.log('format2BytesLE()')
+
+        for(var i = 0; i<1000; i++){
+            assert.equal(new Encoding().bytes2DecimalLE(new Encoding().format2BytesLE(new Encoding().decimal2BytesLE(i))), i)
         }
     }
 
