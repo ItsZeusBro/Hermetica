@@ -136,16 +136,15 @@ export class Encoding{
 	
 	decimal2BytesBE(decimal){
 		var bin=''
-		if(decimal==0){return '0'}
+		if(decimal==0){return '00000000'}
 		while(decimal!=0){
 			if(this.isInt(decimal/2)){
-				bin+='0'
+				bin = '0'.concat(bin)
 			}else{
-				bin+='1'
+				bin = '1'.concat(bin)
 			}
 			decimal=Math.floor(decimal/2)
 		}
-		
 		return this.format2BytesBE(bin)
 	}
 
@@ -176,16 +175,16 @@ export class Encoding{
 		if(decimal==0){return '0'}
 		while(decimal!=0){
 			if(this.isInt(decimal/2)){
-				bin+='0'
+				bin = '0'.concat(bin)
 			}else{
-				bin+='1'
+				bin = '1'.concat(bin)
 			}
 			decimal=Math.floor(decimal/2)
 		}
 		return this.format2BytesLE(bin.split('').reverse().join(''))
 	}
 
-	bytes2DecimalBE(){
+	bytes2DecimalBE(bin){
 		var i = bin.length-1;
 		var decimal=0
 		var j = 0;
@@ -198,6 +197,21 @@ export class Encoding{
 		}
 		return decimal
 	}
+
+	bytes2DecimalLE(bin){
+		var i = 0
+		var decimal=0
+		var j = bin.length-1;
+		while(i<bin.length){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, j)
+			}
+			i++
+			j--
+		}
+		return decimal
+	}
+
 
 	isInt(n) {
 		return n % 1 === 0;

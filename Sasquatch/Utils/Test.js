@@ -25,10 +25,17 @@ export class UtilsTest{
 
         // this.range()
         // this.str()
-        this.decimal2BytesBE()
-        this.decimal2BytesLE()
-        this.nibble2ByteBE()
-        this.nibble2ByteLE()
+        // this.format2BytesBE()
+        this.bytes2DecimalBE()
+        // this.decimal2BytesBE()
+
+        // this.bytes2DecimalLE()
+
+        // this.decimal2BytesLE()
+
+        // this.nibble2ByteBE()
+        // this.nibble2ByteLE()
+        // this.bytes2DecimalBE()
 
     }
     str(){
@@ -66,52 +73,81 @@ export class UtilsTest{
         }
     }
 
-    decimal2BytesBE(){
-        for(var i = 0; i<=1114111; i++){
-            //javascript assumes parseInt is little endian
-            console.log(new Encoding().decimal2BytesBE(i))
-            //assert.equal(parseInt(new Encoding().decimal2BinBE(i).split('').reverse().join(''), 2)==i, true)
-        }
-    }
-    decimal2BytesLE(){
-        for(var i = 0; i<=1114111; i++){
-            //javascript assumes parseInt is little endian
-            console.log(new Encoding().decimal2BytesLE(i))
-            //assert.equal(parseInt(new Encoding().decimal2BinLE(i), 2)==i, true)
+    // format2BytesBE(){
+    //     for(var i = 0; i<1000; i++){
+    //         console.log(new Encoding().decimal2BytesBE(i))
+    //     }
+    // }
+
+    bytes2DecimalBE(){
+        console.log('bytes2DecimalBE()')
+        for(var i = 0; i<=100; i++){
+            var bytes = new Encoding().decimal2BytesBE(i)
+            console.log(new Encoding().bytes2DecimalBE(bytes), new Encoding().decimal2BytesBE(i))
+            assert.equal(
+                new Encoding().decimal2BytesBE(i), 
+                new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes))
+            )
         }
     }
 
+    // decimal2BytesBE(){
+    //     console.log('decimal2BytesBE()')
+    //     for(var i = 0; i<=100; i++){
+    //         //javascript assumes parseInt is little endian
+    //         console.log(new Encoding().decimal2BytesBE(i))
+    //         assert.equal(new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), i)
+    //     }
+    // }
+
+
+    // decimal2BytesLE(){
+    //     console.log('decimal2BytesLE()')
+    //     for(var i = 0; i<=1114111; i++){
+    //         //javascript assumes parseInt is little endian
+    //         assert.equal(new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), i)
+    //     }
+    // }
+
+    // bytes2DecimalLE(){
+    //     console.log('bytes2DecimalLE()')
+    //     for(var i = 1; i<10000; i++){
+    //         var bytes = new Encoding().decimal2BytesLE(i)
+    //         assert.equal(
+    //             new Encoding().decimal2BytesLE(parseInt(bytes, 2)), 
+    //             new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes)))
+    //     }
+    // }
+
     nibble2ByteBE(){
-        for(var i = 17; i<1000; i++){
+        console.log('nibble2ByteBE()')
+        for(var i = 17; i<10000; i++){
             var bin = new Encoding().decimal2BytesBE(i)
-            console.log('bin', bin)
-            var nibble = new Encoding().nibble2ByteBE(bin.slice())
-            console.log('nibble:', nibble)
-            
+            var nibble = new Encoding().nibble2ByteBE(bin.slice())            
             var nibble2=''
             for(var j = bin.length-4; j<=bin.length-1; j++){
                 nibble2+=bin[j]
             }
-            console.log(nibble2, nibble)
             assert.equal(nibble2==nibble, true)
         }
     }
 
     nibble2ByteLE(){
-        for(var i = 17; i<1000; i++){
+        console.log('nibble2ByteLE()')
+
+        for(var i = 17; i<10000; i++){
             var bin = new Encoding().decimal2BytesLE(i)
-            console.log('bin', bin)
-            var nibble = new Encoding().nibble2ByteLE(bin.slice())
-            console.log('nibble:', nibble)
-            
+            var nibble = new Encoding().nibble2ByteLE(bin.slice())            
             var nibble2=''
             for(var j =0; j<4; j++){
                 nibble2+=bin[j]
             }
-            console.log(nibble2, nibble)
             assert.equal(nibble2==nibble, true)
         }
     }
+
+
+
     // _buffer2String(){
     //     var buff = new Encoding().string2Buffer('hello world!')
     //     var string = new Encoding()._buffer2String(buff)
@@ -198,13 +234,7 @@ export class UtilsTest{
     //     }
     // }
 
-    // bin2Decimal(){
-    //     console.log('bin2Decimal()')
-    //     for(var i = 1; i<200; i++){
-    //         var bytes = new Rand().bytes(5)
-    //         assert.equal(parseInt(bytes, 2), new Utils().bin2Decimal(bytes))
-    //     }
-    // }
+
 
     // decimal2Bin(){
     //     console.log('decimal2Bin()')
