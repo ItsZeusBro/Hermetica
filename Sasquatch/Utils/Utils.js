@@ -134,8 +134,9 @@ export class Encoding{
 		return bin.slice(0, 4)
 	}
 	format2BytesBE(bin){
+		var bytes = Math.ceil(bin.length/8)
 		while(true){
-			if(bin.length%8==0){
+			if(bin.length==8*bytes){
 				break
 			}else{
 				bin='0'.concat(bin)
@@ -145,8 +146,9 @@ export class Encoding{
 	}
 	
 	format2BytesLE(bin){
+		var bytes = Math.ceil(bin.length/8)
 		while(true){
-			if(bin.length%8==0){
+			if(bin.length==8*bytes){
 				break
 			}else{
 				bin=bin.concat('0')
@@ -218,7 +220,11 @@ export class Encoding{
 	unicode(){
 		var unicode={}
 		for(var i = 0; i<=1114111; i++){
-			unicode[String.fromCharCode(i)]={}
+			unicode[i]={
+				'code':String.fromCharCode(i),
+				'bin':this.decimal2BytesBE(i),
+				'hex':this.decimal2HexBE(i)
+			}
 		}
 		return unicode
 	}

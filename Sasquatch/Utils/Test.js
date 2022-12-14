@@ -47,7 +47,7 @@ export class UtilsTest{
         this.hex2DecimalLE()
         this.decimal2HexLE()
 
-        this.unicode()
+        // this.unicode()
 
     }
 
@@ -96,7 +96,6 @@ export class UtilsTest{
             while(inclusive==false){
                 j++
                 var byte = new Encoding().bytesRangeBE(i, j)
-                console.log(i, j, byte)
                 assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
                 assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
                 if(new Encoding().bytes2DecimalBE(byte)==j||new Encoding().bytes2DecimalBE(byte)==i){
