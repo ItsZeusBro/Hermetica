@@ -101,6 +101,17 @@ export class Rand{
 		return new Encoding().bytes2HexLE(bin)
 	}
 
+	byteRangeBE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		return new Encoding().decimal2BytesBE(decimal)
+	}
+	byteRangeLE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		return new Encoding().decimal2BytesLE(decimal)
+	}
+
 	codeMapRange(min, max){
 		var unicode={}
 		for(var i = min; i<=max; i++){
@@ -220,13 +231,13 @@ export class Encoding{
 	}
 
 
-	nibble2ByteBE(bin){
+	byte2NibbleBE(bin){
 		//this assumes Big Endianes binary number as input, so no information
 		//is lost. It returns a Big Endian nibble
 		return bin.slice(-4)
 	}
 
-	nibble2ByteLE(bin){
+	byte2NibbleLE(bin){
 		//this assumes Little Endianes binary number as input, so no information
 		//is lost. It returns a Little Endian nibble
 		return bin.slice(0, 4)
@@ -270,6 +281,9 @@ export class Encoding{
 		var bytes = this.decimal2BytesLE(decimal)
 		return this.bytes2HexLE(bytes)
 	}
+	decimal2Char(decimal){
+        return new Rand().codePointMapRange(decimal, decimal)[decimal]['code']
+    }
 
 	hex2BytesBE(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
@@ -442,11 +456,52 @@ export class Encoding{
 		return decimal
 	}
 
+    byteBuffer2StringBE(buffer){
+		var str=''
+		for(var i = 0; i<buffer.length; i++){
+			var byte = buffer[i]
+			str+= this.decimal2Char(this.bytes2DecimalBE(byte))
+		}
+    }
+	byteBuffer2StringLE(){
+		var str=''
+		for(var i = 0; i<buffer.length; i++){
+			var byte = buffer[i]
+			str+= this.decimal2Char(this.bytes2DecimalLE(byte))
+		}
+    }
 
+	string2ByteBufferBE(string){
+		var buffer=[]
+		for(var i = 0; i<string.length; i++){
+			buffer.push(this.hex2BytesBE(this.char2HexBE(string[i])))
+		}
+		return buffer
+	}
 
+	string2ByteBufferLE(string){
+		var buffer=[]
+		for(var i = 0; i<string.length; i++){
+			buffer.push(this.hex2BytesLE(this.char2HexLE(string[i])))
+		}
+		return buffer
+	}	
 
+	string2HexBufferBE(string){
+		var buffer=[]
+		for(var i = 0; i<string.length; i++){
+			buffer.push(this.char2HexBE(string[i]))
+		}
+		return buffer
+	}
 
-	
+	string2HexBufferLE(string){
+		var buffer=[]
+		for(var i = 0; i<string.length; i++){
+			buffer.push(this.char2HexLE(string[i]))
+		}
+		return buffer
+	}	
 
 
 	formatBytesBE(bin){

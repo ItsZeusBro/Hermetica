@@ -1,6 +1,6 @@
 import {Encoding, Utils, Rand} from "./Utils.js"
 import assert from "node:assert"
-export class UtilsTest{
+export class EncodingTest{
 
     constructor(){
 
@@ -26,15 +26,14 @@ export class UtilsTest{
         this.bytes2DecimalLE()
         this.bytes2HexBE()
         this.bytes2HexLE()
-
-        this.nibble2ByteBE()
-        this.nibble2ByteLE()
+        this.byte2NibbleBE()
+        this.byte2NibbleLE()
 
         this.decimal2BytesBE()
         this.decimal2BytesLE()
         this.decimal2HexBE()
         this.decimal2HexLE()
-        //this.decimal2Char()
+        this.decimal2Char()
 
         this.hexRangeBE()
         this.hexRangeLE()
@@ -44,6 +43,13 @@ export class UtilsTest{
         this.hex2DecimalLE()
         this.hexBuffer2StringBE()
         this.hexBuffer2StringLE()
+
+        this.string2HexBufferBE()
+        this.string2HexBufferLE()
+        this.byteBuffer2StringBE()
+        this.byteBuffer2StringLE()
+        this.string2ByteBufferBE()
+        this.string2ByteBufferLE()
 
     }
 
@@ -84,6 +90,7 @@ export class UtilsTest{
             assert.equal(inclusive, true)
         }
     }
+
     formatHexBE(){
         console.log('formatHexBE()')
         //send in 1 it should return length 2 hex, send in 3 and it should return length 4 etc...
@@ -97,6 +104,7 @@ export class UtilsTest{
             }
         }
     }
+
     formatHexLE(){
         console.log('formatHexLE()')
         //send in 1 it should return length 2 hex, send in 3 and it should return length 4 etc...
@@ -167,6 +175,12 @@ export class UtilsTest{
         }
     }
 
+    decimal2Char(){
+        for(var i = 0; i<10000; i++){
+            assert.equal(String.fromCharCode(i), new Encoding().decimal2Char(i))
+        }
+    }
+
     decimal2BytesLE(){
         console.log('decimal2BytesLE()')
         for(var i = 0; i<=100000; i++){
@@ -189,11 +203,11 @@ export class UtilsTest{
         }
     }
 
-    nibble2ByteBE(){
+    byte2NibbleBE(){
         console.log('nibble2ByteBE()')
         for(var i = 0; i<100000; i++){
             var bin = new Encoding().decimal2BytesBE(i)
-            var nibble = new Encoding().nibble2ByteBE(bin.slice())            
+            var nibble = new Encoding().byte2NibbleBE(bin.slice())            
             var nibble2=''
             for(var j = bin.length-4; j<=bin.length-1; j++){
                 nibble2+=bin[j]
@@ -202,12 +216,12 @@ export class UtilsTest{
         }
     }
 
-    nibble2ByteLE(){
+    byte2NibbleLE(){
         console.log('nibble2ByteLE()')
 
         for(var i = 0; i<100000; i++){
             var bin = new Encoding().decimal2BytesLE(i)
-            var nibble = new Encoding().nibble2ByteLE(bin.slice())            
+            var nibble = new Encoding().byte2NibbleLE(bin.slice())            
             var nibble2=''
             for(var j =0; j<4; j++){
                 nibble2+=bin[j]
@@ -376,116 +390,68 @@ export class UtilsTest{
         }
     }
 
-    // _buffer2String(){
-    //     var buff = new Encoding().string2Buffer('hello world!')
-    //     var string = new Encoding()._buffer2String(buff)
-    //     console.log(string)
-    // }
+    string2HexBufferBE(string){
+        var j = 1;
+        for(var i=0; i<1000; i++){
+            var str = new Rand().str(i, j)
+            var buffer = new Encoding().string2HexBufferBE(string)
+            assert.equal(str, new Encoding().hexBuffer2StringBE(str))
+            j*=2
+        }
+	}
+    string2HexBufferLE(string){
+        var j = 1;
+        for(var i=0; i<1000; i++){
+            var str = new Rand().str(i, j)
+            var buffer = new Encoding().string2HexBufferLE(string)
+            assert.equal(str, new Encoding().hexBuffer2StringLE(str))
+            j*=2
+        }
+	}
+    string2ByteBufferBE(string){
+        var j = 1;
+        for(var i=0; i<1000; i++){
+            var str = new Rand().str(i, j)
+            j*=2
+        }
+	}
 
-    // bin2hex(){
-    //     console.log('bin2hex()')
-    //     for(var i = 0; i<200; i++){
-    //         var bytes = new Encoding().bytes(i)
-    //         var hex = new Encoding().bin2hex(bytes)
-    //         assert.equal(bytes, new Encoding().hex2bin(hex))
-    //     }
-    // }
+    string2ByteBufferLE(string){
+        var j = 1;
+        for(var i=0; i<1000; i++){
+            var str = new Rand().str(i, j)
+            j*=2
+        }
+	}
 
-    // string2Hex(){
-    //     console.log('string2hex()')
-    //     for(var i = 10; i<200; i++){
-    //         var str = new Rand().str(i)
-    //         var hex = new Encoding().string2Hex(str)
-    //         console.log('a;lgkas;dglk', str, hex)
-    //         assert.equal(str, new Encoding().hex2String(new Encoding().strip(hex)))
-    //     }
-    // }
+    byteBuffer2StringBE(){
+        console.log('byteBuffer2StringBE')
+        var buffer = []
+        for(var i = 0; i<60000; i++){
+           buffer.push(new Rand().byteRangeBE(i, i))
+        }
+        var string = new Encoding().hexBuffer2StringBE(buffer, this.codePointMap)
+        for(var i = 0; i<string.length; i++){
+            assert.equal(new Encoding().char2HexBE(string[i], this.codeMap), buffer[i]) 
+        }
+    }
 
-    // hex2String(){
-    //     console.log('hex2String()')
-    //     for(var i = 1; i<100; i++){
-    //         if(i%2==0){
-    //             var hex = new Encoding().hex(i)
-    //             var str = new Encoding().hex2String(hex)  
-    //             console.log(hex, str)  
-    //             assert.equal(hex, new Encoding().string2Hex(str))
-    //         }
-            
-    //     }
-    // }
-
-    // string2Buffer(){
-    //     console.log('string2Buffer()')
-    //     for(var i = 0; i<200; i++){
-    //         var str = new Rand().str(i)
-    //         var buffer = new Encoding().string2Buffer(str)
-    //         assert.equal(str, new Encoding().buffer2String(buffer))
-    //     }
-    // }
-    // buffer2String(){
-    //     console.log('buffer2String()')
-    //     for(var i = 1; i<200; i++){
-    //         if(i%2==0){
-    //             var buffer = new Rand().buffer(i)
-    //             var str = new Utils().buffer2String(buffer)
-    //             for(var j = 0; j<buffer.length; j++){
-    //                 assert.equal(buffer[j], new Utils().string2Buffer(str)[j])
-    //             }
-    //         }
-    //     }
-    // }
-
-    // buffer2Hex(){
-    //     console.log('buffer2Hex()')
-    //     for(var i = 0; i<200; i++){
-    //         var hex = new Rand().hex(i)
-    //         var buffer = new Utils().hex2Buffer(hex)
-    //         assert.equal(hex, new Utils().buffer2Hex(buffer))
-    //     }
-    // }
-
-    // hex2Buffer(){
-    //     console.log('hex2Buffer()')
-    //     for(var i = 0; i<200; i++){
-    //         var buffer = new Rand().buffer(i)
-    //         var hex = new Utils().buffer2Hex(buffer)
-    //         for(var j=0; j<buffer.length; j++){
-    //             assert.equal(buffer[j], new Utils().hex2Buffer(hex)[j])
-    //         }
-    //     }
-    // }
+    byteBuffer2StringLE(){
+        console.log('byteBuffer2StringLE')
+        var buffer = []
+        for(var i = 0; i<60000; i++){
+           buffer.push(new Rand().byteRangeLE(i, i))
+        }
+        var string = new Encoding().hexBuffer2StringLE(buffer, this.codePointMap)
+        for(var i = 0; i<string.length; i++){
+            assert.equal(new Encoding().char2HexLE(string[i], this.codeMap), buffer[i]) 
+        }
+    }
 
 
+} 
 
-    // decimal2Bin(){
-    //     console.log('decimal2Bin()')
-    //     for(var i = 0; i<1000000; i++){
-    //         var decimal = new Rand().int(i)
-    //         var bin = new Utils().decimal2Bin(decimal)
-    //         assert.equal(decimal, new Utils().bin2Decimal(bin))
-    //     }
-    // }  
-
-    // hex2Decimal(){
-    //     console.log('hex2Decimal()')
-    //     for(var i = 5; i<20; i++){
-
-    //         var hex = new Rand().hex(i)
-    //         var decimal = new Utils().hex2Decimal(hex)
-    //         // console.log(hex, decimal)
-    //         assert.equal(new Utils().hex2bin(hex), new Utils().decimal2Bin(decimal))
-    //     }
-    // }
-
-    // decimal2Hex(){
-    //     console.log('decimal2Hex()')
-    //     for(var i = 0; i<1000000; i++){
-    //         var hex = new Rand().hex(i)
-    //         var decimal = new Utils().hex2Decimal(hex)
-    //         // console.log(hex, decimal)
-    //         assert.equal(hex, new Utils().decimal2Hex(decimal))
-    //     }
-    // }
+class RandTest{
 
     // objectComparator(){
 
@@ -544,6 +510,6 @@ export class UtilsTest{
     // cjk(){
 
     // }
-} 
+}
 
-new UtilsTest()
+new EncodingTest()
