@@ -91,7 +91,7 @@ export class UtilsTest{
 
     decimal2BytesBE(){
         console.log('decimal2BytesBE()')
-        for(var i = 0; i<=10000; i++){
+        for(var i = 0; i<=1114111; i++){
             assert.equal(
                 new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), 
                 i
@@ -102,7 +102,7 @@ export class UtilsTest{
 
     decimal2BytesLE(){
         console.log('decimal2BytesLE()')
-        for(var i = 0; i<=10000; i++){
+        for(var i = 0; i<=1114111; i++){
             //javascript assumes parseInt is little endian
             assert.equal(
                 new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), 
@@ -113,7 +113,7 @@ export class UtilsTest{
 
     bytes2DecimalLE(){
         console.log('bytes2DecimalLE()')
-        for(var i = 1; i<10000; i++){
+        for(var i = 1; i<1114111; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             assert.equal(
                 i, 
@@ -124,7 +124,7 @@ export class UtilsTest{
 
     nibble2ByteBE(){
         console.log('nibble2ByteBE()')
-        for(var i = 17; i<10000; i++){
+        for(var i = 17; i<1114111; i++){
             var bin = new Encoding().decimal2BytesBE(i)
             var nibble = new Encoding().nibble2ByteBE(bin.slice())            
             var nibble2=''
@@ -138,7 +138,7 @@ export class UtilsTest{
     nibble2ByteLE(){
         console.log('nibble2ByteLE()')
 
-        for(var i = 17; i<10000; i++){
+        for(var i = 17; i<1114111; i++){
             var bin = new Encoding().decimal2BytesLE(i)
             var nibble = new Encoding().nibble2ByteLE(bin.slice())            
             var nibble2=''
@@ -151,7 +151,7 @@ export class UtilsTest{
     format2BytesBE(){
         console.log('format2BytesBE()')
 
-        for(var i = 0; i<1000; i++){
+        for(var i = 0; i<1114111; i++){
             assert.equal(new Encoding().bytes2DecimalBE(new Encoding().format2BytesBE(new Encoding().decimal2BytesBE(i))), i)
         }
     }
@@ -159,14 +159,14 @@ export class UtilsTest{
     format2BytesLE(){
         console.log('format2BytesLE()')
 
-        for(var i = 0; i<1000; i++){
+        for(var i = 0; i<1114111; i++){
             assert.equal(new Encoding().bytes2DecimalLE(new Encoding().format2BytesLE(new Encoding().decimal2BytesLE(i))), i)
         }
     }
 
     hex2BytesBE(){
         console.log('hex2BinBE()')
-        for(var i = 1; i<200; i++){
+        for(var i = 1; i<1114111; i++){
             var hex = new Encoding().hexBE(i, i)
             var bin = new Encoding().hex2BytesBE(hex)
             assert.equal(hex, new Encoding().bytes2HexBE(bin))
@@ -175,7 +175,7 @@ export class UtilsTest{
 
     hexBE(){
         console.log('hexBE()')
-        for(var i = 0; i<200; i++){
+        for(var i = 0; i<1114111; i++){
             var hex = new Encoding().hexBE(i, i)
             assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BytesBE(hex)), i)
         }
