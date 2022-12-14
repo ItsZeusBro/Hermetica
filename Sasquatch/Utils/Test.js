@@ -34,13 +34,13 @@ export class UtilsTest{
         this.decimal2BytesLE()
         this.formatBytesLE()
 
-        this.hexBE()
+        this.hexRangeBE()
         this.hex2BytesBE()
         this.bytes2HexBE()
         this.hex2DecimalBE()
         this.decimal2HexBE()
 
-        this.hexLE()
+        this.hexRangeBE()
         this.hex2BytesLE()
         this.bytes2HexLE()
         this.hex2DecimalLE()
@@ -90,7 +90,7 @@ export class UtilsTest{
     }
 
     bytesRangeBE(){
-        for(var i = 0; i<1000; i++){
+        for(var i = 0; i<100000; i++){
             var inclusive=false
             var j = i+1;
             while(inclusive==false){
@@ -109,7 +109,7 @@ export class UtilsTest{
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
-        for(var i = 0; i<=1000; i++){
+        for(var i = 0; i<=100000; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
             assert.equal(
                 new Encoding().decimal2BytesBE(i), 
@@ -120,7 +120,7 @@ export class UtilsTest{
 
     decimal2BytesBE(){
         console.log('decimal2BytesBE()')
-        for(var i = 0; i<=1000; i++){
+        for(var i = 0; i<=100000; i++){
             assert.equal(
                 new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), 
                 i
@@ -131,7 +131,7 @@ export class UtilsTest{
 
     decimal2BytesLE(){
         console.log('decimal2BytesLE()')
-        for(var i = 0; i<=1000; i++){
+        for(var i = 0; i<=100000; i++){
             //javascript assumes parseInt is little endian
             assert.equal(
                 new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), 
@@ -142,7 +142,7 @@ export class UtilsTest{
 
     bytes2DecimalLE(){
         console.log('bytes2DecimalLE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             assert.equal(
                 i, 
@@ -153,7 +153,7 @@ export class UtilsTest{
 
     nibble2ByteBE(){
         console.log('nibble2ByteBE()')
-        for(var i = 17; i<1000; i++){
+        for(var i = 0; i<100000; i++){
             var bin = new Encoding().decimal2BytesBE(i)
             var nibble = new Encoding().nibble2ByteBE(bin.slice())            
             var nibble2=''
@@ -167,7 +167,7 @@ export class UtilsTest{
     nibble2ByteLE(){
         console.log('nibble2ByteLE()')
 
-        for(var i = 17; i<1000; i++){
+        for(var i = 0; i<100000; i++){
             var bin = new Encoding().decimal2BytesLE(i)
             var nibble = new Encoding().nibble2ByteLE(bin.slice())            
             var nibble2=''
@@ -181,7 +181,7 @@ export class UtilsTest{
     formatBytesBE(){
         console.log('formatBytesBE()')
 
-        for(var i = 0; i<1000; i++){
+        for(var i = 0; i<100000; i++){
             assert.equal(new Encoding().bytes2DecimalBE(new Encoding().formatBytesBE(new Encoding().decimal2BytesBE(i))), i)
         }
     }
@@ -189,15 +189,17 @@ export class UtilsTest{
     formatBytesLE(){
         console.log('formatBytesLE()')
 
-        for(var i = 0; i<1000; i++){
+        for(var i = 0; i<100000; i++){
             assert.equal(new Encoding().bytes2DecimalLE(new Encoding().formatBytesLE(new Encoding().decimal2BytesLE(i))), i)
         }
     }
 
     hex2BytesBE(){
         console.log('hex2BinBE()')
-        for(var i = 1; i<1000; i++){
-            var hex = new Rand().hexBE(i, i)
+        var j=10;
+        for(var i = 0; i<1000; i++){
+            j*=2
+            var hex = new Rand().hexRangeBE(i, j)
             var bin = new Encoding().hex2BytesBE(hex)
             assert.equal(hex, new Encoding().bytes2HexBE(bin))
         }
@@ -205,24 +207,26 @@ export class UtilsTest{
 
     bytes2HexBE(){
         console.log('bytes2HexBE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
             var hex = new Encoding().bytes2HexBE(bytes)
             assert.equal(bytes, new Encoding().hex2BytesBE(hex))
         }
     }
 
-    hexBE(){
+    hexRangeBE(){
         console.log('hexBE()')
+        var j=10;
         for(var i = 0; i<1000; i++){
-            var hex = new Rand().hexBE(i, i)
+            j*=2
+            var hex = new Rand().hexRangeBE(i, i)
             assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BytesBE(hex)), i)
         }
     }
 
     hex2DecimalBE(){
         console.log('hex2DecimalBE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
             var hex = new Encoding().bytes2HexBE(bytes)
             assert.equal(i, new Encoding().hex2DecimalBE(hex))
@@ -231,7 +235,7 @@ export class UtilsTest{
 
     decimal2HexBE(){
         console.log('decimal2HexBE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesBE(i)
             var hex = new Encoding().bytes2HexBE(bytes)
             assert.equal(hex, new Encoding().decimal2HexBE(i))
@@ -241,8 +245,10 @@ export class UtilsTest{
 
     hex2BytesLE(){
         console.log('hex2BytesLE()')
-        for(var i = 1; i<1000; i++){
-            var hex = new Rand().hexLE(i, i)
+        var j=10;
+        for(var i = 1; i<100000; i++){
+            j+=2
+            var hex = new Rand().hexRangeLE(i, j)
             var bin = new Encoding().hex2BytesLE(hex)
             assert.equal(hex, new Encoding().bytes2HexLE(bin))
         }
@@ -250,24 +256,27 @@ export class UtilsTest{
 
     bytes2HexLE(){
         console.log('bytes2HexLE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             var hex = new Encoding().bytes2HexLE(bytes)
             assert.equal(bytes, new Encoding().hex2BytesLE(hex))
         }
     }
 
-    hexLE(){
+    hexRangeLE(){
         console.log('hexLE()')
+        var j=10;
         for(var i = 0; i<1000; i++){
-            var hex = new Rand().hexLE(i, i)
+            var hex = new Rand().hexRangeLE(i, j)
+            j*=2;
             assert.equal(new Encoding().bytes2DecimalLE(new Encoding().hex2BytesLE(hex)), i)
         }
+
     }
 
     hex2DecimalLE(){
         console.log('hex2DecimalLE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             var hex = new Encoding().bytes2HexLE(bytes)
             assert.equal(i, new Encoding().hex2DecimalLE(hex))
@@ -276,7 +285,7 @@ export class UtilsTest{
 
     decimal2HexLE(){
         console.log('decimal2HexLE()')
-        for(var i = 1; i<1000; i++){
+        for(var i = 1; i<100000; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             var hex = new Encoding().bytes2HexLE(bytes)
             assert.equal(hex, new Encoding().decimal2HexLE(i))
@@ -284,11 +293,11 @@ export class UtilsTest{
     }
 
     codeMapRange(){
-        console.log(new Rand().codeMapRange(0, 100))
+        //console.log(new Rand().codeMapRange(0, 100))
     }
 
     codePointMapRange(){
-        console.log(new Rand().codePointMapRange(0, 100))
+        //console.log(new Rand().codePointMapRange(0, 100))
 
     }
 
@@ -375,7 +384,7 @@ export class UtilsTest{
 
     // decimal2Bin(){
     //     console.log('decimal2Bin()')
-    //     for(var i = 0; i<10000; i++){
+    //     for(var i = 0; i<1000000; i++){
     //         var decimal = new Rand().int(i)
     //         var bin = new Utils().decimal2Bin(decimal)
     //         assert.equal(decimal, new Utils().bin2Decimal(bin))
@@ -395,7 +404,7 @@ export class UtilsTest{
 
     // decimal2Hex(){
     //     console.log('decimal2Hex()')
-    //     for(var i = 0; i<10000; i++){
+    //     for(var i = 0; i<1000000; i++){
     //         var hex = new Rand().hex(i)
     //         var decimal = new Utils().hex2Decimal(hex)
     //         // console.log(hex, decimal)

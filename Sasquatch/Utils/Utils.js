@@ -49,6 +49,7 @@ export class Rand{
 	range(min, max){
 		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
+
     str(min, max){return this.rand._str(this.rand.range(min, max))}
 
     _str(len, chars=this.latin().join('')){
@@ -57,6 +58,7 @@ export class Rand{
         for (var i = 0; i<len; i++){str+=chars.charAt(Math.floor(Math.random()*chars.length))}
         return str;
     }
+
 	latin(){
 		var latin =[] 
 		for(var i = 32; i<=126; i++){
@@ -73,20 +75,19 @@ export class Rand{
 	}
 
 	nibbleRange(min, max){
-
 		if(min<0||max>16||min>max){
 			throw Error('nibble range error: decimals points must be within nibble range 0-16')
 		}
 		return this.nibbleFormatBE(new Encoding().decimal2BytesBE(new Rand().range(min, max))) 
 	}
 
-	hexBE(min, max){
+	hexRangeBE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
 		var bin = new Encoding().decimal2BytesBE(decimal)
 		return new Encoding().bytes2HexBE(bin)
 	}
-	hexLE(min, max){
+	hexRangeLE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
 		var bin = new Encoding().decimal2BytesLE(decimal)
@@ -227,12 +228,11 @@ export class Encoding{
 		}
 		return this.formatBytesLE(bin.split('').reverse().join(''))
 	}
+	
 	decimal2HexLE(decimal){
 		var bytes = this.decimal2BytesLE(decimal)
 		return this.bytes2HexLE(bytes)
 	}
-
-
 
 	hex2BytesBE(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
@@ -261,7 +261,6 @@ export class Encoding{
 		}
 		return out
 	}
-
 
 	hex2DecimalBE(hex){
 		var bytes = this.hex2BytesBE(hex)
