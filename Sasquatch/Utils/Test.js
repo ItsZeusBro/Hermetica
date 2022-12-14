@@ -20,8 +20,8 @@ export class UtilsTest{
 
 
 
-        // this.range()
-        // this.str()
+        this.range()
+        this.str()
 
         this.nibble2ByteBE()
         this.bytes2DecimalBE()
@@ -50,6 +50,7 @@ export class UtilsTest{
     }
 
     str(){
+        console.log('str()')
         for(var i = 0; i<10; i++){
             var inclusive=false
             var j = 100;
@@ -68,6 +69,8 @@ export class UtilsTest{
     }
 
     range(){
+        console.log('range()')
+
         for(var i = 0; i<10; i++){
             var inclusive=false
             var j = 100;
@@ -84,7 +87,6 @@ export class UtilsTest{
             assert.equal(inclusive, true)
         }
     }
-
 
 
     bytes2DecimalBE(){
@@ -157,6 +159,7 @@ export class UtilsTest{
             assert.equal(nibble2==nibble, true)
         }
     }
+
     format2BytesBE(){
         console.log('format2BytesBE()')
 
@@ -216,8 +219,6 @@ export class UtilsTest{
             assert.equal(hex, new Encoding().decimal2HexBE(i))
         }
     }
-
-
 
 
     hex2BytesLE(){
