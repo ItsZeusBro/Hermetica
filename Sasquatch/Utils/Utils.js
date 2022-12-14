@@ -64,13 +64,58 @@ export class Rand{
 		}
 		return latin
 	}
-	string2Hex(string){
-		string=string.slice()
-		for(var i = 0; i<string.length; i++){
 
+	bytesRangeBE(min, max){
+		if(min<0||min>max){
+			throw Error('byte range error: decimals points must be within nibble range 0-256')
 		}
-		return 
+		return new Encoding().decimal2BytesBE(new Rand().range(min, max))
 	}
+
+	nibbleRange(min, max){
+
+		if(min<0||max>16||min>max){
+			throw Error('nibble range error: decimals points must be within nibble range 0-16')
+		}
+		return this.nibbleFormatBE(new Encoding().decimal2BytesBE(new Rand().range(min, max))) 
+	}
+
+	hexBE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		var bin = new Encoding().decimal2BytesBE(decimal)
+		return new Encoding().bytes2HexBE(bin)
+	}
+	hexLE(min, max){
+		//take in decimal numbers min and max, and return a random hexidecimal number between them
+		var decimal = new Rand().range(min, max)
+		var bin = new Encoding().decimal2BytesLE(decimal)
+		return new Encoding().bytes2HexLE(bin)
+	}
+
+	codeMapRange(min, max){
+		var unicode={}
+		for(var i = min; i<=max; i++){
+			unicode[String.fromCharCode(i)]={
+				'codePoint':i,
+				'bin':new Encoding().decimal2BytesBE(i),
+				'hex':new Encoding().decimal2HexBE(i)
+			}
+		}
+		return unicode
+    }
+
+    codePointMapRange(min, max){
+        var unicode={}
+		for(var i = min; i<=max; i++){
+			unicode[i]={
+				'code':String.fromCharCode(i),
+				'bin':new Encoding().formatBytesBE(new Encoding().decimal2BytesBE(i)),
+				'hex':new Encoding().decimal2HexBE(i)
+			}
+		}
+		return unicode
+    }
 
 //     int(n){return this.rand.range(0,n)}
 //     arr(n){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.thing())}; return arr}
@@ -123,40 +168,38 @@ export class Rand{
 }
 
 export class Encoding{
+
+
+	buffer2StringBE(buffer){
+
+	}
+
+	buffer2StringLE(buffer){
+
+	}
+
+
+
 	nibble2ByteBE(bin){
 		//this assumes Big Endianes binary number as input, so no information
 		//is lost. It returns a Big Endian nibble
 		return bin.slice(-4)
 	}
+
 	nibble2ByteLE(bin){
 		//this assumes Little Endianes binary number as input, so no information
 		//is lost. It returns a Little Endian nibble
 		return bin.slice(0, 4)
 	}
-	format2BytesBE(bin){
-		var bytes = Math.ceil(bin.length/8)
-		while(true){
-			if(bin.length==8*bytes){
-				break
-			}else{
-				bin='0'.concat(bin)
-			}
-		}
-		return bin
-	}
 	
-	format2BytesLE(bin){
-		var bytes = Math.ceil(bin.length/8)
-		while(true){
-			if(bin.length==8*bytes){
-				break
-			}else{
-				bin=bin.concat('0')
-			}
-		}
-		return bin
+
+
+
+	decimal2HexBE(decimal){
+		var bytes = this.decimal2BytesBE(decimal)
+		return this.bytes2HexBE(bytes)
 	}
-	
+
 	decimal2BytesBE(decimal){
 		var bin=''
 		if(decimal==0){return '00000000'}
@@ -168,10 +211,8 @@ export class Encoding{
 			}
 			decimal=Math.floor(decimal/2)
 		}
-		return this.format2BytesBE(bin)
+		return this.formatBytesBE(bin)
 	}
-
-
 
 	decimal2BytesLE(decimal){
 		var bin=''
@@ -184,123 +225,15 @@ export class Encoding{
 			}
 			decimal=Math.floor(decimal/2)
 		}
-		return this.format2BytesLE(bin.split('').reverse().join(''))
+		return this.formatBytesLE(bin.split('').reverse().join(''))
 	}
-
-	bytes2DecimalBE(bin){
-		var i = bin.length-1;
-		var decimal=0
-		var j = 0;
-		while(i>=0){
-			if(bin[i]=='1'){
-				decimal+=Math.pow(2, j)
-			}
-			i--
-			j++
-		}
-		return decimal
-	}
-
-	bytes2DecimalLE(bin){
-		var i = 0
-		var decimal=0
-		while(i<bin.length){
-			if(bin[i]=='1'){
-				decimal+=Math.pow(2, i)
-			}
-			i++
-		}
-		return decimal
+	decimal2HexLE(decimal){
+		var bytes = this.decimal2BytesLE(decimal)
+		return this.bytes2HexLE(bytes)
 	}
 
 
-	isInt(n) {
-		return n % 1 === 0;
-	 }
 
-	codeMapRange(min, max){
-		var unicode={}
-		for(var i = min; i<=max; i++){
-			unicode[String.fromCharCode(i)]={
-				'codePoint':i,
-				'bin':this.decimal2BytesBE(i),
-				'hex':this.decimal2HexBE(i)
-			}
-		}
-		return unicode
-    }
-
-    codePointMapRange(min, max){
-        var unicode={}
-		for(var i = min; i<=max; i++){
-			unicode[i]={
-				'code':String.fromCharCode(i),
-				'bin':this.decimal2BytesBE(i),
-				'hex':this.decimal2HexBE(i)
-			}
-		}
-		return unicode
-    }
-	
-
-// 	bin2Decimal(bin){
-// 		//start from the right
-// 		bin=this.binFormat(bin.slice())
-// 		var i = bin.length-1;
-// 		var decimal=0
-// 		var j = 0;
-// 		while(i>=0){
-// 			if(bin[i]=='1'){
-// 				decimal+=Math.pow(2, j)
-// 			}
-// 			i--
-// 			j++
-// 		}
-// 		return decimal
-// 	}
-
-
-
-// 	setCharAt(str, index, chr) {
-// 		return str.substring(0, index) + chr + str.substring(index+1);
-// 	}
-
-// 	decimal2Hex(decimal){
-// 		return this.strip(this.bin2hex(this.decimal2Bin(decimal)))
-// 	}
-// 	hex2Decimal(hex){
-// 		hex=hex.slice()
-// 		return this.bin2Decimal(this.binFormat(this.hex2bin(hex)))
-// 	}
-
-
-// 	hex2String(hex){
-// 		hex=hex.slice()
-// 		var buffer = this.hex2Buffer(this.strip(hex))
-// 		var string = this.buffer2String(buffer)
-// 		return string
-// 	}
-
-	bytesRangeBE(min, max){
-		if(min<0||min>max){
-			throw Error('byte range error: decimals points must be within nibble range 0-256')
-		}
-		return this.decimal2BytesBE(new Rand().range(min, max))
-	}
-	nibbleRange(min, max){
-
-		if(min<0||max>16||min>max){
-			throw Error('nibble range error: decimals points must be within nibble range 0-16')
-		}
-		return this.nibbleFormatBE(this.decimal2BytesBE(new Rand().range(min, max))) 
-	}
-
-	hexBE(min, max){
-		//take in decimal numbers min and max, and return a random hexidecimal number between them
-		var decimal = new Rand().range(min, max)
-		var bin = this.decimal2BytesBE(decimal)
-		return this.bytes2HexBE(bin)
-	}
 	hex2BytesBE(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
 		hex = this.formatHexBE(hex)
@@ -329,8 +262,58 @@ export class Encoding{
 		return out
 	}
 
+
+	hex2DecimalBE(hex){
+		var bytes = this.hex2BytesBE(hex)
+		return this.bytes2DecimalBE(bytes)
+	}
+
+	hex2StringBE(hex){
+
+	}
+
+
+	hex2BytesLE(hex){
+		hex = this.formatHexLE(hex)
+		var out = "";
+		for(var c of hex) {
+			switch(c) {
+				case '0': out += "0000"; break;
+				case '1': out += "1000"; break;
+				case '2': out += "0100"; break;
+				case '3': out += "1100"; break;
+				case '4': out += "0010"; break;
+				case '5': out += "1010"; break;
+				case '6': out += "0110"; break;
+				case '7': out += "1110"; break;
+				case '8': out += "0001"; break;
+				case '9': out += "1001"; break;
+				case 'a': out += "0101"; break;
+				case 'b': out += "1101"; break;
+				case 'c': out += "0011"; break;
+				case 'd': out += "1011"; break;
+				case 'e': out += "0111"; break;
+				case 'f': out += "1111"; break;
+				default: return "";
+			}
+		}
+		return out
+	}
+
+
+
+	
+	hex2DecimalLE(hex){
+		var bytes = this.hex2BytesLE(hex)
+		return this.bytes2DecimalLE(bytes)
+	}
+
+
+
+
+
 	bytes2HexBE(bin){
-		bin = this.format2BytesBE(bin)
+		bin = this.formatBytesBE(bin)
 		var out = "";
 		var accumulator=''
 		for(var c = 1; c<=bin.length; c++) {
@@ -360,57 +343,8 @@ export class Encoding{
 		}
 		return out
 	}
-	hex2DecimalBE(hex){
-		var bytes = this.hex2BytesBE(hex)
-		return this.bytes2DecimalBE(bytes)
-	}
-
-	decimal2HexBE(decimal){
-		var bytes = this.decimal2BytesBE(decimal)
-		return this.bytes2HexBE(bytes)
-	}
-	formatHexBE(hex){
-		if(hex.length%2!=0){
-			hex = '0'.concat(hex)
-		}
-		return hex
-	}
-
-	hexLE(min, max){
-		//take in decimal numbers min and max, and return a random hexidecimal number between them
-		var decimal = new Rand().range(min, max)
-		var bin = this.decimal2BytesLE(decimal)
-		return this.bytes2HexLE(bin)
-	}
-	hex2BytesLE(hex){
-		hex = this.formatHexLE(hex)
-		var out = "";
-		for(var c of hex) {
-			switch(c) {
-				case '0': out += "0000"; break;
-				case '1': out += "1000"; break;
-				case '2': out += "0100"; break;
-				case '3': out += "1100"; break;
-				case '4': out += "0010"; break;
-				case '5': out += "1010"; break;
-				case '6': out += "0110"; break;
-				case '7': out += "1110"; break;
-				case '8': out += "0001"; break;
-				case '9': out += "1001"; break;
-				case 'a': out += "0101"; break;
-				case 'b': out += "1101"; break;
-				case 'c': out += "0011"; break;
-				case 'd': out += "1011"; break;
-				case 'e': out += "0111"; break;
-				case 'f': out += "1111"; break;
-				default: return "";
-			}
-		}
-		return out
-	}
-
 	bytes2HexLE(bin){
-		bin = this.format2BytesLE(bin)
+		bin = this.formatBytesLE(bin)
 		var out = "";
 		var accumulator=''
 		for(var c = 1; c<=bin.length; c++) {
@@ -441,22 +375,86 @@ export class Encoding{
 		return out
 	}
 
-	
-	hex2DecimalLE(hex){
-		var bytes = this.hex2BytesLE(hex)
-		return this.bytes2DecimalLE(bytes)
-	}
-	decimal2HexLE(decimal){
-		var bytes = this.decimal2BytesLE(decimal)
-		return this.bytes2HexLE(bytes)
+	bytes2StringBE(hex){
+
 	}
 
+
+	bytes2DecimalBE(bin){
+		var i = bin.length-1;
+		var decimal=0
+		var j = 0;
+		while(i>=0){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, j)
+			}
+			i--
+			j++
+		}
+		return decimal
+	}
+
+	bytes2DecimalLE(bin){
+		var i = 0
+		var decimal=0
+		while(i<bin.length){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, i)
+			}
+			i++
+		}
+		return decimal
+	}
+
+
+
+
+
+	
+
+
+	formatBytesBE(bin){
+		var bytes = Math.ceil(bin.length/8)
+		while(true){
+			if(bin.length==8*bytes){
+				break
+			}else{
+				bin='0'.concat(bin)
+			}
+		}
+		return bin
+	}
+	
+	formatBytesLE(bin){
+		var bytes = Math.ceil(bin.length/8)
+		while(true){
+			if(bin.length==8*bytes){
+				break
+			}else{
+				bin=bin.concat('0')
+			}
+		}
+		return bin
+	}
+
+	formatHexBE(hex){
+		if(hex.length%2!=0){
+			hex = '0'.concat(hex)
+		}
+		return hex
+	}
+	
 	formatHexLE(hex){
 		if(hex.length%2!=0){
 			hex = hex.concat('0')
 		}
 		return hex
 	}
+
+	isInt(n) {
+		return n % 1 === 0;
+	}
+
 
 
 
