@@ -27,16 +27,14 @@ export class UtilsTest{
         // this.str()
         // this.format2BytesBE()
 
-        // this.bytes2DecimalBE()
-        // this.decimal2BytesBE()
+        this.nibble2ByteBE()
+        this.bytes2DecimalBE()
+        this.decimal2BytesBE()
 
-        //this.bytes2DecimalLE()
-
+        this.nibble2ByteLE()
+        this.bytes2DecimalLE()
         this.decimal2BytesLE()
 
-        // this.nibble2ByteBE()
-        // this.nibble2ByteLE()
-        // this.bytes2DecimalBE()
 
     }
     str(){
@@ -93,29 +91,34 @@ export class UtilsTest{
 
     decimal2BytesBE(){
         console.log('decimal2BytesBE()')
-        for(var i = 0; i<=100; i++){
-            //javascript assumes parseInt is little endian
-            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), i)
+        for(var i = 0; i<=10000; i++){
+            assert.equal(
+                new Encoding().bytes2DecimalBE(new Encoding().decimal2BytesBE(i)), 
+                i
+            )
         }
     }
 
 
-    // decimal2BytesLE(){
-    //     console.log('decimal2BytesLE()')
-    //     for(var i = 0; i<=100; i++){
-    //         //javascript assumes parseInt is little endian
-    //         //console.log(new Encoding().decimal2BytesLE(i), i)
-    //         assert.equal(new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), i)
-    //     }
-    // }
+    decimal2BytesLE(){
+        console.log('decimal2BytesLE()')
+        for(var i = 0; i<=10000; i++){
+            //javascript assumes parseInt is little endian
+            assert.equal(
+                new Encoding().bytes2DecimalLE(new Encoding().decimal2BytesLE(i)), 
+                i
+            )
+        }
+    }
 
     bytes2DecimalLE(){
         console.log('bytes2DecimalLE()')
         for(var i = 1; i<10000; i++){
             var bytes = new Encoding().decimal2BytesLE(i)
             assert.equal(
-                new Encoding().decimal2BytesLE(parseInt(bytes, 2)), 
-                new Encoding().decimal2BytesLE(new Encoding().bytes2DecimalLE(bytes)))
+                i, 
+                new Encoding().bytes2DecimalLE(bytes)
+            )
         }
     }
 

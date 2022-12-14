@@ -133,21 +133,6 @@ export class Encoding{
 		//is lost. It returns a Little Endian nibble
 		return bin.slice(0, 4)
 	}
-	
-	decimal2BytesBE(decimal){
-		var bin=''
-		if(decimal==0){return '00000000'}
-		while(decimal!=0){
-			if(this.isInt(decimal/2)){
-				bin = '0'.concat(bin)
-			}else{
-				bin = '1'.concat(bin)
-			}
-			decimal=Math.floor(decimal/2)
-		}
-		return this.format2BytesBE(bin)
-	}
-
 	format2BytesBE(bin){
 		while(true){
 			if(bin.length%8==0){
@@ -169,10 +154,26 @@ export class Encoding{
 		}
 		return bin
 	}
+	
+	decimal2BytesBE(decimal){
+		var bin=''
+		if(decimal==0){return '00000000'}
+		while(decimal!=0){
+			if(this.isInt(decimal/2)){
+				bin = '0'.concat(bin)
+			}else{
+				bin = '1'.concat(bin)
+			}
+			decimal=Math.floor(decimal/2)
+		}
+		return this.format2BytesBE(bin)
+	}
+
+
 
 	decimal2BytesLE(decimal){
 		var bin=''
-		if(decimal==0){return '0'}
+		if(decimal==0){return '00000000'}
 		while(decimal!=0){
 			if(this.isInt(decimal/2)){
 				bin = '0'.concat(bin)
@@ -201,13 +202,11 @@ export class Encoding{
 	bytes2DecimalLE(bin){
 		var i = 0
 		var decimal=0
-		var j = bin.length-1;
-		while(i<bin.length-1){
+		while(i<bin.length){
 			if(bin[i]=='1'){
-				decimal+=Math.pow(2, j)
+				decimal+=Math.pow(2, i)
 			}
 			i++
-			j--
 		}
 		return decimal
 	}
