@@ -29,7 +29,6 @@ export class UtilsTest{
         this.decimal2BytesBE()
         this.format2BytesBE()
 
-
         this.nibble2ByteLE()
         this.bytes2DecimalLE()
         this.decimal2BytesLE()
@@ -47,7 +46,8 @@ export class UtilsTest{
         this.hex2DecimalLE()
         this.decimal2HexLE()
 
-        // this.unicode()
+        this.codeMapRange()
+        this.codePointMapRange()
 
     }
 
@@ -283,8 +283,13 @@ export class UtilsTest{
         }
     }
 
-    unicode(){
-        console.log(new Encoding().unicode())
+    codeMapRange(){
+        console.log(new Encoding().codeMapRange(0, 100))
+    }
+
+    codePointMapRange(){
+        console.log(new Encoding().codePointMapRange(0, 100))
+
     }
 
     // _buffer2String(){

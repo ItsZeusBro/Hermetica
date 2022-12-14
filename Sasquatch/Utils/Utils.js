@@ -217,9 +217,22 @@ export class Encoding{
 	isInt(n) {
 		return n % 1 === 0;
 	 }
-	unicode(){
+
+	codeMapRange(min, max){
 		var unicode={}
-		for(var i = 0; i<=1114111; i++){
+		for(var i = min; i<=max; i++){
+			unicode[String.fromCharCode(i)]={
+				'codePoint':i,
+				'bin':this.decimal2BytesBE(i),
+				'hex':this.decimal2HexBE(i)
+			}
+		}
+		return unicode
+    }
+
+    codePointMapRange(min, max){
+        var unicode={}
+		for(var i = min; i<=max; i++){
 			unicode[i]={
 				'code':String.fromCharCode(i),
 				'bin':this.decimal2BytesBE(i),
@@ -227,7 +240,7 @@ export class Encoding{
 			}
 		}
 		return unicode
-	}
+    }
 	
 
 // 	bin2Decimal(bin){
