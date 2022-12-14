@@ -23,7 +23,7 @@ export class UtilsTest{
         this.range()
         this.str()
         this.decimal2BinBE()
-        //this._decimal2BinLE()
+        this.decimal2BinLE()
 
     }
     str(){
@@ -65,6 +65,12 @@ export class UtilsTest{
         for(var i = 0; i<=1114111; i++){
             //javascript assumes parseInt is little endian
             assert.equal(parseInt(new Encoding().decimal2BinBE(i).split('').reverse().join(''), 2)==i, true)
+        }
+    }
+    decimal2BinLE(){
+        for(var i = 0; i<=1114111; i++){
+            //javascript assumes parseInt is little endian
+            assert.equal(parseInt(new Encoding().decimal2BinLE(i), 2)==i, true)
         }
     }
     // _buffer2String(){

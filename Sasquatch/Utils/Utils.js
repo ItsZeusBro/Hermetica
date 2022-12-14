@@ -149,6 +149,19 @@ export class Encoding{
 		}
 		return bin
 	}
+	decimal2BinLE(decimal){
+		var bin=''
+		if(decimal==0){return '0'}
+		while(decimal!=0){
+			if(this.isInt(decimal/2)){
+				bin+='0'
+			}else{
+				bin+='1'
+			}
+			decimal=Math.floor(decimal/2)
+		}
+		return bin.split('').reverse().join('')
+	}
 	isInt(n) {
 		return n % 1 === 0;
 	 }
