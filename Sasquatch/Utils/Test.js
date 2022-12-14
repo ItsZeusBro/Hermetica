@@ -22,7 +22,7 @@ export class UtilsTest{
 
         this.range()
         this.str()
-        this.byteRange()
+        this.bytesRangeBE()
 
         this.nibble2ByteBE()
         this.bytes2DecimalBE()
@@ -47,6 +47,7 @@ export class UtilsTest{
         this.hex2DecimalLE()
         this.decimal2HexLE()
 
+        this.unicode()
 
     }
 
@@ -88,13 +89,13 @@ export class UtilsTest{
         }
     }
 
-    byteRange(){
-        for(var i = 0; i<255; i++){
+    bytesRangeBE(){
+        for(var i = 0; i<1000; i++){
             var inclusive=false
             var j = i+1;
             while(inclusive==false){
                 j++
-                var byte = new Encoding().byteRangeBE(i, j)
+                var byte = new Encoding().bytesRangeBE(i, j)
                 console.log(i, j, byte)
                 assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
                 assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
@@ -281,6 +282,10 @@ export class UtilsTest{
             var hex = new Encoding().bytes2HexLE(bytes)
             assert.equal(hex, new Encoding().decimal2HexLE(i))
         }
+    }
+
+    unicode(){
+        console.log(new Encoding().unicode())
     }
 
     // _buffer2String(){

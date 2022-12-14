@@ -215,12 +215,13 @@ export class Encoding{
 	isInt(n) {
 		return n % 1 === 0;
 	 }
-	// unicode(){
-	// 	var unicode={}
-	// 	for(var i = 0; i<=1114111; i++){
-	// 		unicode[]String.fromCharCode(i)
-	// 	}
-	// }
+	unicode(){
+		var unicode={}
+		for(var i = 0; i<=1114111; i++){
+			unicode[String.fromCharCode(i)]={}
+		}
+		return unicode
+	}
 	
 
 // 	bin2Decimal(bin){
@@ -261,8 +262,8 @@ export class Encoding{
 // 		return string
 // 	}
 
-	byteRangeBE(min, max){
-		if(min<0||max>256||min>max){
+	bytesRangeBE(min, max){
+		if(min<0||min>max){
 			throw Error('byte range error: decimals points must be within nibble range 0-256')
 		}
 		return this.decimal2BytesBE(new Rand().range(min, max))
