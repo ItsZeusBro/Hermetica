@@ -37,7 +37,7 @@ export class UtilsTest{
         this.format2BytesLE()
 
         this.hexBE()
-        //this.hex2binBE()
+        this.hex2BytesBE()
 
 
     }
@@ -164,12 +164,12 @@ export class UtilsTest{
         }
     }
 
-    hex2binBE(){
-        console.log('hex2binBE()')
+    hex2BytesBE(){
+        console.log('hex2BinBE()')
         for(var i = 1; i<200; i++){
-            var hex = new Encoding().hex(i)
-            var bin = new Encoding().hex2bin(hex)
-            assert.equal(hex, new Encoding().bin2hex(bin))
+            var hex = new Encoding().hexBE(i, i)
+            var bin = new Encoding().hex2BytesBE(hex)
+            assert.equal(hex, new Encoding().bytes2HexBE(bin))
         }
     }
 
@@ -177,7 +177,7 @@ export class UtilsTest{
         console.log('hexBE()')
         for(var i = 0; i<200; i++){
             var hex = new Encoding().hexBE(i, i)
-            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BinBE(hex)), i)
+            assert.equal(new Encoding().bytes2DecimalBE(new Encoding().hex2BytesBE(hex)), i)
         }
     }
 

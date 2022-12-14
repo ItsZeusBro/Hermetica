@@ -370,10 +370,11 @@ export class Encoding{
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
 		var bin = this.decimal2BytesBE(decimal)
-		return this.bin2HexBE(bin)
+		return this.bytes2HexBE(bin)
 	}
-	hex2BinBE(hex){
+	hex2BytesBE(hex){
 		//https://stackoverflow.com/questions/45053624/convert-hex-to-binary-in-javascript
+		hex = this.formatHexBE(hex)
 		var out = "";
 		for(var c of hex) {
 			switch(c) {
@@ -399,7 +400,8 @@ export class Encoding{
 		return out
 	}
 
-	bin2HexBE(bin){
+	bytes2HexBE(bin){
+		bin = this.format2BytesBE(bin)
 		var out = "";
 		var accumulator=''
 		for(var c = 1; c<=bin.length; c++) {
@@ -424,12 +426,22 @@ export class Encoding{
 					case "1111": out += 'f'; break;
 					default: return "";
 				}
-				// console.log(accumulator)
 				accumulator=""
 			}
 		}
-		// console.log(out)
 		return out
+	}
+	formatHexBE(hex){
+		if(hex.length%2!=0){
+			hex = '0'.concat(hex)
+		}
+		return hex
+	}
+	formatHexLE(hex){
+		if(hex.length%2!=0){
+			hex = hex.concat('0')
+		}
+		return hex
 	}
 
 	// 	bytes(n){
