@@ -431,6 +431,76 @@ export class Encoding{
 		}
 		return out
 	}
+
+	hex2BytesLE(hex){
+		hex = this.formatHexLE(hex)
+		var out = "";
+		for(var c of hex) {
+			switch(c) {
+				case '0': out += "0000"; break;
+				case '1': out += "1000"; break;
+				case '2': out += "0100"; break;
+				case '3': out += "1100"; break;
+				case '4': out += "0010"; break;
+				case '5': out += "1010"; break;
+				case '6': out += "0110"; break;
+				case '7': out += "1110"; break;
+				case '8': out += "0001"; break;
+				case '9': out += "1001"; break;
+				case 'a': out += "0101"; break;
+				case 'b': out += "1101"; break;
+				case 'c': out += "0011"; break;
+				case 'd': out += "1011"; break;
+				case 'e': out += "0111"; break;
+				case 'f': out += "1111"; break;
+				default: return "";
+			}
+		}
+		return out
+	}
+
+	bytes2HexLE(bin){
+		bin = this.format2BytesLE(bin)
+		var out = "";
+		var accumulator=''
+		for(var c = 1; c<=bin.length; c++) {
+			accumulator+=bin[c-1]
+			if(c%4==0){
+				switch(accumulator) {
+					case "0000": out += '0'; break;
+					case "1000": out += '1'; break;
+					case "0100": out += '2'; break;
+					case "1100": out += '3'; break;
+					case "0010": out += '4'; break;
+					case "1010": out += '5'; break;
+					case "0110": out += '6'; break;
+					case "1110": out += '7'; break;
+					case "0001": out += '8'; break;
+					case "1001": out += '9'; break;
+					case "0101": out += 'a'; break;
+					case "1101": out += 'b'; break;
+					case "0011": out += 'c'; break;
+					case "1011": out += 'd'; break;
+					case "0111": out += 'e'; break;
+					case "1111": out += 'f'; break;
+					default: return "";
+				}
+				accumulator=""
+			}
+		}
+		return out
+	}
+
+	hex2DecimalBE(hex){
+		var bytes = this.hex2BytesBE(hex)
+		return this.bytes2DecimalBE(bytes)
+	}
+
+	hex2DecimalLE(hex){
+		var bytes = this.hex2BytesLE(hex)
+		return this.bytes2DecimalLE(bytes)
+	}
+
 	formatHexBE(hex){
 		if(hex.length%2!=0){
 			hex = '0'.concat(hex)
