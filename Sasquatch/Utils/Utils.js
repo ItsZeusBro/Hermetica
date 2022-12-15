@@ -69,50 +69,28 @@ export class Rand{
 		return latin
 	}
 
-	bytesRangeBE(min, max){
-		if(min<0||min>max){
-			throw Error('byte range error: decimals points must be within nibble range 0-256')
-		}
-		return new Encoding().decimal2BytesBE(new Rand().range(min, max))
-	}
-
-	bytesRangeLE(min, max){
-		if(min<0||min>max){
-			throw Error('byte range error: decimals points must be within nibble range 0-256')
-		}
-		return new Encoding().decimal2BytesLE(new Rand().range(min, max))
-	}
-
-
-	nibbleRange(min, max){
-		if(min<0||max>16||min>max){
-			throw Error('nibble range error: decimals points must be within nibble range 0-16')
-		}
-		return this.nibbleFormatBE(new Encoding().decimal2BytesBE(new Rand().range(min, max))) 
-	}
-
 	hexRangeBE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
 		var bin = new Encoding().decimal2BytesBE(decimal)
-		return new Encoding().bytes2HexBE(bin)
+		return new Encoding().formatHexBE(new Encoding().bytes2HexBE(bin))
 	}
 	hexRangeLE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
 		var bin = new Encoding().decimal2BytesLE(decimal)
-		return new Encoding().bytes2HexLE(bin)
+		return new Encoding().formatHexLE(new Encoding().bytes2HexLE(bin))
 	}
 
-	byteRangeBE(min, max){
+	bytesRangeBE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
-		return new Encoding().decimal2BytesBE(decimal)
+		return new Encoding().formatBytesBE(new Encoding().decimal2BytesBE(decimal))
 	}
-	byteRangeLE(min, max){
+	bytesRangeLE(min, max){
 		//take in decimal numbers min and max, and return a random hexidecimal number between them
 		var decimal = new Rand().range(min, max)
-		return new Encoding().decimal2BytesLE(decimal)
+		return new Encoding().formatBytesLE(new Encoding().decimal2BytesLE(decimal))
 	}
 
 	codeMapRange(min, max){
@@ -405,7 +383,6 @@ export class Encoding{
 	}
 
 
-
 	bytes2HexBE(bin){
 		bin = this.formatBytesBE(bin)
 		var out = "";
@@ -503,6 +480,7 @@ export class Encoding{
 		}
 		return this.byteBuffer2StringLE(byteBuffer)
 	}
+
 	string2BytesBE(string){
 		var string=''
 		for(var i = 0; i<string.length; i++){
@@ -510,11 +488,11 @@ export class Encoding{
 		}
 		return
 	}
+
 	string2BytesLE(string){
 		var buffer = this.string2BytesBufferLE(string)
 		return buffer.join('')
 	}
-
 
 
     byteBuffer2StringBE(buffer){

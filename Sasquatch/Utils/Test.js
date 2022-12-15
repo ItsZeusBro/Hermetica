@@ -37,11 +37,11 @@ export class EncodingTest{
         // this.string2HexBufferLE()
 
 
-        this.string2BytesBufferBE()
-        this.string2BytesBufferLE()
+        // this.string2BytesBufferBE()
+        // this.string2BytesBufferLE()
 
 
-        // this.chainTestBE()
+        this.chainTestBE()
         // this.chainTestLE()
 
     }
@@ -640,7 +640,7 @@ export class EncodingTest{
         console.log('string2BytesBufferBE()')
         var e=new Encoding()
         var r=new Rand()
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10000; i++){
             var str = new Rand().str(i, i)
             if(this.verbose){console.log(str, e.string2BytesBufferBE(str))}
             assert.equal(str, e.byteBuffer2StringBE(e.string2BytesBufferBE(str)))
@@ -651,7 +651,7 @@ export class EncodingTest{
         console.log('string2BytesBufferLE()')
         var e=new Encoding()
         var r=new Rand()
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10000; i++){
             var str = new Rand().str(i, i)
             if(this.verbose){console.log(str, e.string2BytesBufferLE(str))}
             assert.equal(str, e.byteBuffer2StringLE(e.string2BytesBufferLE(str)))
@@ -665,25 +665,24 @@ export class EncodingTest{
         console.log('chainTestBE()')
         var e=new Encoding()
         var bytes=''
-        for(var i = 0; i<5; i++){
-            bytes+=new Rand().byteRangeBE(i, i)
-        }
-        assert.equal(
-            e.formatBytesBE(
+        for(var i = 0; i<10000; i++){
+            bytes=new Rand().bytesRangeBE(i, i)
+
+            console.log(bytes)
+            assert.equal(
+
                 e.string2BytesBE(
-                    e.hexBuffer2StringBE(
-                        e.string2HexBufferBE(
-                            e.byteBuffer2StringBE(
-                                e.string2BytesBufferBE(
-                                    e.bytes2StringBE(
-                                        e.string2BytesBE(
-                                            e.hex2StringBE(
-                                                e.bytes2HexBE(
-                                                    e.hex2BytesBE(
-                                                        e.decimal2HexBE(
-                                                            e.bytes2DecimalBE(
-                                                                bytes
-                                                            )
+                    e.hex2StringBE(
+                        e.bytes2HexBE(
+                            e.hex2BytesBE(
+                                e.decimal2HexBE(
+                                    e.hex2DecimalBE(
+                                        e.bytes2HexBE(
+                                            e.decimal2BytesBE(
+                                                e.bytes2DecimalBE(
+                                                    e.decimal2BytesBE(
+                                                        e.bytes2DecimalBE(
+                                                            bytes
                                                         )
                                                     )
                                                 )
@@ -694,11 +693,35 @@ export class EncodingTest{
                             )
                         )
                     )
+                ),
+                bytes
                 )
-            )
-            , 
-            e.formatBytesBE(bytes)
-        )
+                
+                
+                
+            
+        }
+        
+            
+        // assert.equal(
+        //     e.formatBytesBE(
+        //         e.string2BytesBE(
+        //             e.hexBuffer2StringBE(
+        //                 e.string2HexBufferBE(
+        //                     e.byteBuffer2StringBE(
+        //                         e.string2BytesBufferBE(
+        //                             e.bytes2StringBE(
+
+        //                             )
+        //                         )
+        //                     )
+        //                 )
+        //             )
+        //         )
+        //     )
+        //     , 
+        //     e.formatBytesBE(bytes)
+        // )
 
     }
     chainTestLE(){
