@@ -260,6 +260,31 @@ export class Encoding{
 		}
 		return this.formatBytesBE(bin)
 	}
+	bytes2DecimalBE(bin){
+		var i = bin.length-1;
+		var decimal=0
+		var j = 0;
+		while(i>=0){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, j)
+			}
+			i--
+			j++
+		}
+		return decimal
+	}
+
+	bytes2DecimalLE(bin){
+		var i = 0
+		var decimal=0
+		while(i<bin.length){
+			if(bin[i]=='1'){
+				decimal+=Math.pow(2, i)
+			}
+			i++
+		}
+		return decimal
+	}
 
 	decimal2BytesLE(decimal){
 		var bin=''
@@ -492,31 +517,7 @@ export class Encoding{
 		return buffer.join('')
 	}
 
-	bytes2DecimalBE(bin){
-		var i = bin.length-1;
-		var decimal=0
-		var j = 0;
-		while(i>=0){
-			if(bin[i]=='1'){
-				decimal+=Math.pow(2, j)
-			}
-			i--
-			j++
-		}
-		return decimal
-	}
 
-	bytes2DecimalLE(bin){
-		var i = 0
-		var decimal=0
-		while(i<bin.length){
-			if(bin[i]=='1'){
-				decimal+=Math.pow(2, i)
-			}
-			i++
-		}
-		return decimal
-	}
 
     byteBuffer2StringBE(buffer){
 		var str=''

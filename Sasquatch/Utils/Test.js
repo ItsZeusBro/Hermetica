@@ -9,9 +9,9 @@ export class EncodingTest{
         // this.formatHexLE()
         // this.decimal2Char()
 
-        // this.bytes2DecimalBE()
+        this.bytes2DecimalBE()
         // this.bytes2DecimalLE()
-        // this.decimal2BytesBE()
+        this.decimal2BytesBE()
         // this.decimal2BytesLE()
         // this.bytes2HexBE()
         // this.bytes2HexLE()
@@ -52,31 +52,35 @@ export class EncodingTest{
             bytes+=new Rand().byteRangeBE(i, i)
         }
         assert.equal(
-            e.string2BytesBE(
-                e.hexBuffer2StringBE(
-                    e.string2HexBufferBE(
-                        e.byteBuffer2StringBE(
-                            e.string2BytesBufferBE(
-                                e.bytes2StringBE(
-                                    e.string2BytesBE(
-                                        e.hex2StringBE(
-                                            e.bytes2HexBE(
-                                                e.hex2BytesBE(
-                                                    e.decimal2HexBE(
-                                                        e.bytes2DecimalBE(
-                                                            bytes
+            // e.string2BytesBE(
+            //     e.hexBuffer2StringBE(
+            //         e.string2HexBufferBE(
+            //             e.byteBuffer2StringBE(
+            //                 e.string2BytesBufferBE(
+            //                     e.bytes2StringBE(
+            //                         e.string2BytesBE(
+            //                             e.hex2StringBE(
+            //                                 e.bytes2HexBE(
+            //                                     e.hex2BytesBE(
+            //                                         e.decimal2HexBE(
+                                                        e.decimal2BytesBE(
+                                                            e.bytes2DecimalBE(
+                                                                bytes
+                                                            )
                                                         )
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            ), 
+
+                //                                     )
+                //                                 )
+                //                             )
+                //                         )
+                //                     )
+                //                 )
+                //             )
+                //         )
+                //     )
+                // )
+            //)
+            , 
             bytes
         )
 
@@ -149,13 +153,26 @@ export class EncodingTest{
 
     bytes2DecimalBE(){
         console.log('bytes2DecimalBE()')
-        for(var i = 0; i<=100000; i++){
-            var bytes = new Encoding().decimal2BytesBE(i)
-            assert.equal(
-                new Encoding().decimal2BytesBE(i), 
-                new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes))
-            )
+        var e=new Encoding()
+        var bytes=''
+        for(var i = 0; i<10; i++){
+            bytes+=new Rand().byteRangeBE(i, i)
         }
+        var decimal = e.bytes2DecimalBE(bytes)
+        console.log(bytes, decimal)
+        console.log(decimal, e.decimal2BytesBE(decimal))
+
+        assert.equal(
+            e.decimal2BytesBE(i), 
+            e.decimal2BytesBE(e.bytes2DecimalBE(bytes))
+        )
+        // for(var i = 0; i<=100000; i++){
+        //     var bytes = new Encoding().decimal2BytesBE(i)
+        //     assert.equal(
+        //         new Encoding().decimal2BytesBE(i), 
+        //         new Encoding().decimal2BytesBE(new Encoding().bytes2DecimalBE(bytes))
+        //     )
+        // }
     }
 
     decimal2BytesBE(){
