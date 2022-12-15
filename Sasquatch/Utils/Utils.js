@@ -169,6 +169,45 @@ export class Rand{
 
 export class Encoding{
 
+	bytes2BytesBuffer(bytes){
+		var buffer=[]
+		var string=''
+		for(var i=1; i<=bytes.length; i++){
+			string = string.concat(bytes[i-1])
+			if(i%8==0){
+				buffer.push(string.slice())
+				string=''
+			}
+		}
+		return buffer
+	}
+
+	bytes2HexBufferBE(bytes){
+		var buffer=[]
+		var string=''
+		for(var i=1; i<=bytes.length; i++){
+			string = string.concat(bytes[i-1])
+			if(i%8==0){
+				buffer.push(this.bytes2HexBE(string.slice()))
+				string=''
+			}
+		}
+		return buffer
+	}
+
+	bytes2HexBufferLE(bytes){
+		var buffer=[]
+		var string=''
+		for(var i=1; i<=bytes.length; i++){
+			string = string.concat(bytes[i-1])
+			if(i%8==0){
+				buffer.push(this.bytes2HexLE(string.slice()))
+				string=''
+			}
+		}
+		return buffer
+	}
+
 
 	hexBuffer2StringBE(buffer){
 		//assume the buffer is an array of big endian hexidecimal codes
@@ -509,6 +548,14 @@ export class Encoding{
 		}
 		return str
     }
+
+	bytesBuffer2Bytes(buffer){
+		var bytes=''
+		for(var i = 0; i<buffer.length; i++){
+			bytes+=buffer[i]
+		}
+		return bytes
+	}
 
 	string2BytesBufferBE(string){
 		var buffer=[]
