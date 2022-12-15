@@ -341,7 +341,7 @@ export class Encoding{
 		}
 		return this.hexBuffer2StringLE(hexBuffer)
 	}
-	
+
 	string2HexBE(string){
 		var buffer = this.string2HexBufferBE(string)
 		return buffer.join('')
@@ -451,21 +451,20 @@ export class Encoding{
 
 	bytes2StringBE(bytes){
 		if(bytes.length%8!==0){
-			throw Error('bytes2StringBE cannot use a byte string that is not byte divisible')
+			throw Error('hex2StringBE cannot use a hex string that is not byte divisible')
 		}
-		var string=''
-		var byte=[]
-		var i = 0;
-		while(bytes.length!=0){
-			if(bytes.length%8==0){
-				string+=this.byteBuffer2StringBE(byte)
-				byte=[]
-			}else{
-				byte.push(bytes.shift())
+		var byteBuffer=[]
+		for(var i = 8; i<=bytes.length; i++){
+			var bytesStr=''
+			if(i%8==0){
+				for(var j = i-8; j<i; j++){
+					bytesStr+=bytes[j]
+				}
+				byteBuffer.push(bytesStr)
 			}
-			i++
 		}
-		return string
+
+		return this.byteBuffer2StringBE(byteBuffer)
 	}
 
 	bytes2StringLE(bytes){

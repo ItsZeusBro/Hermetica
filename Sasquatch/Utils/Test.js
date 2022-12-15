@@ -35,9 +35,9 @@ export class EncodingTest{
         // this.string2ByteBufferBE()
         // this.string2ByteBufferLE()
 
-        this.hex2StringBE()
-        this.hex2StringLE()
-        // this.bytes2StringBE()
+        // this.hex2StringBE()
+        // this.hex2StringLE()
+        this.bytes2StringBE()
         // this.bytes2StringLE()
 
     }
@@ -400,10 +400,22 @@ export class EncodingTest{
         }
     }
     bytes2StringBE(){
-        // for(var i = 0; i<10000; i++){
-            
-        // }
+        console.log('bytes2StringBE()')
+        for(var j = 0; j<100; j++){
+            var byteStr=''
+            var str=''
+            for(var i = 0; i<100; i++){
+                var byte=new Rand().byteRangeBE(i, i)
+                byteStr+=byte
+                str+=new Encoding().byteBuffer2StringBE([byte])
+                //console.log(new Encoding().byteBuffer2StringBE([byte]))
+            }
+            var string = new Encoding().bytes2StringBE(byteStr)
+            //console.log(string)
+            assert.equal(str, string)
+        }
     }
+
     bytes2StringLE(){
         // for(var i = 0; i<10000; i++){
             
