@@ -40,6 +40,63 @@ export class EncodingTest{
         this.bytes2StringBE()
         this.bytes2StringLE()
 
+        this.chainTestBE()
+        this.chainTestLE()
+
+
+    }
+
+    chainTestBE(){
+        console.log('chainTestBE()')
+        var e=new Encoding()
+        var bytes='1100110010101010'
+        assert.equal(
+            e.string2ByteBufferBE(
+                e.hexBuffer2StringBE(
+                    e.string2HexBufferBE(
+                        e.byteBuffer2StringBE(
+                            e.string2ByteBufferBE(
+                                e.hex2StringBE(
+                                    e.decimal2HexBE(
+                                        e.bytes2DecimalBE(
+                                            bytes
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ).join(''), 
+            bytes
+        )
+
+    }
+    chainTestLE(){
+        console.log('chainTestLE()')
+        var e=new Encoding()
+        var bytes='1100110010101010'
+        assert.equal(
+            e.string2ByteBufferLE(
+                e.hexBuffer2StringLE(
+                    e.string2HexBufferLE(
+                        e.byteBuffer2StringLE(
+                            e.string2ByteBufferLE(
+                                e.hex2StringLE(
+                                    e.decimal2HexLE(
+                                        e.bytes2DecimalLE(
+                                            bytes
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ).join(''), 
+            bytes
+        )
+
     }
 
 
