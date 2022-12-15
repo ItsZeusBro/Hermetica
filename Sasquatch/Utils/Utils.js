@@ -136,54 +136,54 @@ export class Rand{
 		return unicode
     }
 
-//     int(n){return this.rand.range(0,n)}
-//     arr(n){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.thing())}; return arr}
-//     thing(){
-//         return[
-//             this.rand.intArr, this.rand.str, this.rand.int, this.rand.enc, this.rand.encArr, this.rand.strArr,
-//             this.rand.obj, this.rand.objArr
-//         ].sample()()
-//     }
-//     intArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.int())}; return arr}
+    int(n){return this.rand.range(0,n)}
+    arr(n){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.thing())}; return arr}
+    thing(){
+        return[
+            this.rand.intArr, this.rand.str, this.rand.int, this.rand.enc, this.rand.encArr, this.rand.strArr,
+            this.rand.obj, this.rand.objArr
+        ].sample()()
+    }
+    intArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.int())}; return arr}
 
-//     strArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.str())}; return arr}
-//     obj(n=this.rand.int()){if(n){return {[this.rand.str()]:this.rand.obj(n-1)}}else{return {}}};
-//     objArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.obj())}; return arr}
-//     selection(bag){
-//         return bag[Math.floor(Math.random() * bag.length)];
-//     }
+    strArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.str())}; return arr}
+    obj(n=this.rand.int()){if(n){return {[this.rand.str()]:this.rand.obj(n-1)}}else{return {}}};
+    objArr(n=this.rand.int()){var arr=[]; for(var i=0;i<n;i++){arr.push(this.rand.obj())}; return arr}
+    selection(bag){
+        return bag[Math.floor(Math.random() * bag.length)];
+    }
 
 
-//     mod10(){
-//         return Math.floor(Math.random()*(100-0+1)+0)%2
-//     }
+    mod10(){
+        return Math.floor(Math.random()*(100-0+1)+0)%2
+    }
 
-// 	arabic(){
-// 		var arabic =[] 
-// 		for(var i = 1536; i<=1791; i++){
-// 			arabic.push(String.fromCharCode(i+''))
-// 		}
-// 		return arabic
+	arabic(){
+		var arabic =[] 
+		for(var i = 1536; i<=1791; i++){
+			arabic.push(String.fromCharCode(i+''))
+		}
+		return arabic
 	
-// 	}
+	}
 
-// 	cjk(){
-// 		var cjk =[] 
-// 		for(var i = 19968; i<=20168; i++){
-// 			'\u{1F603}'
-// 			cjk.push(String.fromCharCode(i+''))
-// 		}
-// 		return cjk
-// 	}
-// 	algebra(){
+	cjk(){
+		var cjk =[] 
+		for(var i = 19968; i<=20168; i++){
+			'\u{1F603}'
+			cjk.push(String.fromCharCode(i+''))
+		}
+		return cjk
+	}
+	algebra(){
 
-// 	}
-// 	calculus(){
+	}
+	calculus(){
 
-// 	}
-// 	physics(){
+	}
+	physics(){
 
-// 	}
+	}
 }
 
 export class Encoding{
@@ -207,7 +207,9 @@ export class Encoding{
 	}
 
 	hex2CharBE(hex){
-		var decimal = this.hex2DecimalBE(hex)
+		//a hex should be 2 hex chars to represent a byte, if its not, format it
+
+		var decimal = this.hex2DecimalBE(this.formatHexBE(hex))
 		return String.fromCharCode(decimal)
 	}
 
@@ -315,9 +317,44 @@ export class Encoding{
 	}
 
 	hex2StringBE(hex){
-
+		if(hex.length%2!==0){
+			throw Error('hex2StringBE cannot use a hex string that is not byte divisible')
+		}
+		var hexBuffer=[]
+		for(var i = 1; i<=hex.length; i++){
+			if(i%2==0){
+				hexBuffer.push(hex[i-1])
+			}
+		}
+		return this.hexBuffer2StringBE(hexBuffer)
 	}
 
+	hex2StringLE(hex){
+		if(hex.length%2!==0){
+			throw Error('hex2StringLE cannot use a hex string that is not byte divisible')
+		}
+		var string=''
+		var byte=[]
+		var i = 0;
+		while(hex.length!=0){
+			if(hex.length%2==0){
+				string+=this.hexBuffer2StringLE(byte)
+				byte=[]
+			}else{
+				byte.push(hex.shift())
+			}
+			i++
+		}
+		return string
+	}
+	string2HexBE(string){
+		var buffer = this.string2HexBufferBE(string)
+		return buffer.join('')
+	}
+	string2HexLE(string){
+		var buffer = this.string2HexBufferLE(string)
+		return buffer.join('')
+	}
 
 	hex2BytesLE(hex){
 		hex = this.formatHexLE(hex)
@@ -346,15 +383,11 @@ export class Encoding{
 		return out
 	}
 
-
-
 	
 	hex2DecimalLE(hex){
 		var bytes = this.hex2BytesLE(hex)
 		return this.bytes2DecimalLE(bytes)
 	}
-
-
 
 
 
@@ -421,10 +454,51 @@ export class Encoding{
 		return out
 	}
 
-	bytes2StringBE(hex){
-
+	bytes2StringBE(bytes){
+		if(bytes.length%8!==0){
+			throw Error('bytes2StringBE cannot use a byte string that is not byte divisible')
+		}
+		var string=''
+		var byte=[]
+		var i = 0;
+		while(bytes.length!=0){
+			if(bytes.length%8==0){
+				string+=this.byteBuffer2StringBE(byte)
+				byte=[]
+			}else{
+				byte.push(bytes.shift())
+			}
+			i++
+		}
+		return string
 	}
 
+	bytes2StringLE(bytes){
+		if(bytes.length%8!==0){
+			throw Error('bytes2StringLE cannot use a byte string that is not byte divisible')
+		}
+		var string=''
+		var byte=[]
+		var i = 0;
+		while(bytes.length!=0){
+			if(bytes.length%8==0){
+				string+=this.byteBuffer2StringLE(byte)
+				byte=[]
+			}else{
+				byte.push(bytes.shift())
+			}
+			i++
+		}
+		return string
+	}
+	string2BytesBE(string){
+		var buffer = this.string2BytesBufferBE(string)
+		return buffer.join('')
+	}
+	string2BytesLE(string){
+		var buffer = this.string2BytesBufferLE(string)
+		return buffer.join('')
+	}
 
 	bytes2DecimalBE(bin){
 		var i = bin.length-1;

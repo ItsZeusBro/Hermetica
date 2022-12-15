@@ -3,31 +3,19 @@ import assert from "node:assert"
 export class EncodingTest{
 
     constructor(){
-
-
-        this.codePointMap=new Rand().codePointMapRange(0, 60000)
-        this.codeMap=new Rand().codeMapRange(0, 60000)
-        this.range()
-        this.str()
-
-
-
         this.formatBytesBE()
         this.formatBytesLE()
         this.formatHexBE()
         this.formatHexLE()
 
-        this.codeMapRange()
-        this.codePointMapRange()
-
-        this.bytesRangeBE()
-        this.bytesRangeLE()
         this.bytes2DecimalBE()
         this.bytes2DecimalLE()
         this.bytes2HexBE()
         this.bytes2HexLE()
         this.byte2NibbleBE()
         this.byte2NibbleLE()
+        this.byteBuffer2StringBE()
+        this.byteBuffer2StringLE()
 
         this.decimal2BytesBE()
         this.decimal2BytesLE()
@@ -35,8 +23,6 @@ export class EncodingTest{
         this.decimal2HexLE()
         this.decimal2Char()
 
-        this.hexRangeBE()
-        this.hexRangeLE()
         this.hex2BytesBE()
         this.hex2BytesLE()
         this.hex2DecimalBE()
@@ -46,53 +32,16 @@ export class EncodingTest{
 
         this.string2HexBufferBE()
         this.string2HexBufferLE()
-        this.byteBuffer2StringBE()
-        this.byteBuffer2StringLE()
         this.string2ByteBufferBE()
         this.string2ByteBufferLE()
 
-        this.byteBuffer2StringBE()
-        this.byteBuffer2StringLE()
+        // this.hex2StringBE()
+        // this.hex2StringLE()
+        // this.bytes2StringBE()
+        // this.bytes2StringLE()
 
     }
 
-    str(){
-        console.log('str()')
-        for(var i = 0; i<10; i++){
-            var inclusive=false
-            var j = 100;
-            while(inclusive==false){
-                j++
-                var str = new Rand().str(i, j)
-                assert.equal(str.length<=j, true)
-                assert.equal(str.length>=i, true)
-                if(str.length==j||str.length==i){
-                    inclusive=true
-                    break
-                }
-            }
-            assert.equal(inclusive, true)
-        }
-    }
-
-    range(){
-        console.log('range()')
-        for(var i = 0; i<10; i++){
-            var inclusive=false
-            var j = 100;
-            while(inclusive==false){
-                j++
-                var number = new Rand().range(i, j)
-                assert.equal(number<=j, true)
-                assert.equal(number>=i, true)
-                if(number==j||number==i){
-                    inclusive=true
-                    break
-                }
-            }
-            assert.equal(inclusive, true)
-        }
-    }
 
     formatHexBE(){
         console.log('formatHexBE()')
@@ -118,42 +67,6 @@ export class EncodingTest{
                 assert.equal(hex.length%2==0, true)
                 assert.equal(new Encoding().hex2DecimalLE(hex), i)
             }
-        }
-    }
-
-    bytesRangeBE(){
-        for(var i = 0; i<100000; i++){
-            var inclusive=false
-            var j = i+1;
-            while(inclusive==false){
-                j++
-                var byte = new Rand().bytesRangeBE(i, j)
-                assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
-                assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
-                if(new Encoding().bytes2DecimalBE(byte)==j||new Encoding().bytes2DecimalBE(byte)==i){
-                    inclusive=true
-                    break
-                }
-            }
-            assert.equal(inclusive, true)
-        }
-    }
-
-    bytesRangeLE(){
-        for(var i = 0; i<100000; i++){
-            var inclusive=false
-            var j = i+1;
-            while(inclusive==false){
-                j++
-                var byte = new Rand().bytesRangeLE(i, j)
-                assert.equal(new Encoding().bytes2DecimalLE(byte)<=j, true)
-                assert.equal(new Encoding().bytes2DecimalLE(byte)>=i, true)
-                if(new Encoding().bytes2DecimalLE(byte)==j||new Encoding().bytes2DecimalLE(byte)==i){
-                    inclusive=true
-                    break
-                }
-            }
-            assert.equal(inclusive, true)
         }
     }
 
@@ -377,7 +290,7 @@ export class EncodingTest{
         }
         var string = new Encoding().hexBuffer2StringBE(buffer)
         for(var i = 0; i<string.length; i++){
-            assert.equal(new Encoding().char2HexBE(string[i], this.codeMap), buffer[i]) 
+            assert.equal(new Encoding().char2HexBE(string[i]), buffer[i]) 
         }
     }
 
@@ -392,7 +305,6 @@ export class EncodingTest{
             assert.equal(new Encoding().char2HexLE(string[i], this.codeMap), buffer[i]) 
         }
     }
-
 
     string2HexBufferBE(){
         console.log('string2HexBufferBE()')
@@ -465,52 +377,170 @@ export class EncodingTest{
         }
     }
 
-
+    hex2StringBE(){
+        console.log('hex2StringBE()')
+        for(var j = 0; j<1000; j++){
+            var hexStr=''
+            for(var i = 0; i<1000; i++){
+                if(i%2==0){
+                    hexStr+=''+new Rand().hexRangeBE(i, i)
+                    //console.log(hexStr.length)
+                }
+            }
+            var string = new Encoding().hex2StringBE(hexStr)
+            assert.equal(hexStr, new Encoding().string2HexBE(string))
+        }
+    }
+    hex2StringLE(){
+        console.log('hex2StringLE()')
+        for(var i = 0; i<100; i++){
+            if(i%2==0){
+                var hex=new Rand().hexRangeLE(i, i)
+                var string = new Encoding().hex2StringLE(hex)
+                assert.equal(hex, new Encoding().string2HexLE(string))
+            }
+        }
+    }
+    bytes2StringBE(){
+        // for(var i = 0; i<10000; i++){
+            
+        // }
+    }
+    bytes2StringLE(){
+        // for(var i = 0; i<10000; i++){
+            
+        // }
+    }
 } 
 
 class RandTest{
+    constructor(){
+        this.tests()
+    }
+
+    tests(){
+        this.codeMapRange()
+        this.codePointMapRange()
+        this.str()
+        this.range()
+        this.bytesRangeBE()
+        this.bytesRangeLE()
+        this.hexRangeBE()
+        this.hexRangeLE()
+    }
+
+    str(){
+        console.log('str()')
+        for(var i = 0; i<10; i++){
+            var inclusive=false
+            var j = 100;
+            while(inclusive==false){
+                j++
+                var str = new Rand().str(i, j)
+                assert.equal(str.length<=j, true)
+                assert.equal(str.length>=i, true)
+                if(str.length==j||str.length==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
+
+    range(){
+        console.log('range()')
+        for(var i = 0; i<10; i++){
+            var inclusive=false
+            var j = 100;
+            while(inclusive==false){
+                j++
+                var number = new Rand().range(i, j)
+                assert.equal(number<=j, true)
+                assert.equal(number>=i, true)
+                if(number==j||number==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
+
+    bytesRangeBE(){
+        for(var i = 0; i<100000; i++){
+            var inclusive=false
+            var j = i+1;
+            while(inclusive==false){
+                j++
+                var byte = new Rand().bytesRangeBE(i, j)
+                assert.equal(new Encoding().bytes2DecimalBE(byte)<=j, true)
+                assert.equal(new Encoding().bytes2DecimalBE(byte)>=i, true)
+                if(new Encoding().bytes2DecimalBE(byte)==j||new Encoding().bytes2DecimalBE(byte)==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
+
+    bytesRangeLE(){
+        for(var i = 0; i<100000; i++){
+            var inclusive=false
+            var j = i+1;
+            while(inclusive==false){
+                j++
+                var byte = new Rand().bytesRangeLE(i, j)
+                assert.equal(new Encoding().bytes2DecimalLE(byte)<=j, true)
+                assert.equal(new Encoding().bytes2DecimalLE(byte)>=i, true)
+                if(new Encoding().bytes2DecimalLE(byte)==j||new Encoding().bytes2DecimalLE(byte)==i){
+                    inclusive=true
+                    break
+                }
+            }
+            assert.equal(inclusive, true)
+        }
+    }
 
     // objectComparator(){
 
     // }
+    thing(){
+
+    }
+
+    arr(){
+
+    }
+
+    strArr(){
+
+    }
+
+    intArr(){
+
+    }
+
+    objArr(){
+
+    }
 
 
 
-    // int(){
 
-    // }
 
-    // arr(){
-
-    // }
-
-    // thing(){
-
-    // }
-
-    // intArr(){
-
-    // }
-
-    // strArr(){
-
-    // }
 
     // obj(){
 
     // }
 
-    // objArr(){
 
-    // }
 
     // selection(){
 
     // }
 
-    // range(){
-
-    // }
 
     // mod10(){
 
