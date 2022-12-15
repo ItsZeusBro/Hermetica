@@ -5,44 +5,44 @@ export class EncodingTest{
     constructor(){
 
 
-        // this.codePointMap=new Rand().codePointMapRange(0, 60000)
-        // this.codeMap=new Rand().codeMapRange(0, 60000)
-        // this.range()
-        // this.str()
+        this.codePointMap=new Rand().codePointMapRange(0, 60000)
+        this.codeMap=new Rand().codeMapRange(0, 60000)
+        this.range()
+        this.str()
 
 
 
-        // this.formatBytesBE()
-        // this.formatBytesLE()
-        // this.formatHexBE()
-        // this.formatHexLE()
+        this.formatBytesBE()
+        this.formatBytesLE()
+        this.formatHexBE()
+        this.formatHexLE()
 
-        // this.codeMapRange()
-        // this.codePointMapRange()
+        this.codeMapRange()
+        this.codePointMapRange()
 
-        // this.bytesRangeBE()
-        // this.bytesRangeLE()
-        // this.bytes2DecimalBE()
-        // this.bytes2DecimalLE()
-        // this.bytes2HexBE()
-        // this.bytes2HexLE()
-        // this.byte2NibbleBE()
-        // this.byte2NibbleLE()
+        this.bytesRangeBE()
+        this.bytesRangeLE()
+        this.bytes2DecimalBE()
+        this.bytes2DecimalLE()
+        this.bytes2HexBE()
+        this.bytes2HexLE()
+        this.byte2NibbleBE()
+        this.byte2NibbleLE()
 
-        // this.decimal2BytesBE()
-        // this.decimal2BytesLE()
-        // this.decimal2HexBE()
-        // this.decimal2HexLE()
-        // this.decimal2Char()
+        this.decimal2BytesBE()
+        this.decimal2BytesLE()
+        this.decimal2HexBE()
+        this.decimal2HexLE()
+        this.decimal2Char()
 
-        // this.hexRangeBE()
-        // this.hexRangeLE()
-        // this.hex2BytesBE()
-        // this.hex2BytesLE()
-        // this.hex2DecimalBE()
-        // this.hex2DecimalLE()
-        // this.hexBuffer2StringBE()
-        // this.hexBuffer2StringLE()
+        this.hexRangeBE()
+        this.hexRangeLE()
+        this.hex2BytesBE()
+        this.hex2BytesLE()
+        this.hex2DecimalBE()
+        this.hex2DecimalLE()
+        this.hexBuffer2StringBE()
+        this.hexBuffer2StringLE()
 
         this.string2HexBufferBE()
         this.string2HexBufferLE()
@@ -50,6 +50,9 @@ export class EncodingTest{
         this.byteBuffer2StringLE()
         this.string2ByteBufferBE()
         this.string2ByteBufferLE()
+
+        this.byteBuffer2StringBE()
+        this.byteBuffer2StringLE()
 
     }
 
@@ -420,7 +423,7 @@ export class EncodingTest{
         console.log('string2ByteBufferBE()')
 
         var j = 1;
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
             assert.equal(str, new Encoding().byteBuffer2StringBE(new Encoding().string2ByteBufferBE(str)))
             j*=2
@@ -431,7 +434,7 @@ export class EncodingTest{
         console.log('string2ByteBufferLE()')
 
         var j = 1;
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
             assert.equal(str, new Encoding().byteBuffer2StringLE(new Encoding().string2ByteBufferLE(str)))
             j*=2
