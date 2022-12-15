@@ -21,8 +21,8 @@ export class EncodingTest{
         this.byteBuffer2StringLE()
         this.bytes2StringBE()
         this.bytes2StringLE()
-        this.string2ByteBufferBE()
-        this.string2ByteBufferLE()
+        this.string2BytesBufferBE()
+        this.string2BytesBufferLE()
 
         this.hex2DecimalBE()
         this.hex2DecimalLE()
@@ -44,20 +44,30 @@ export class EncodingTest{
 
     }
 
+
+
     chainTestBE(){
         console.log('chainTestBE()')
         var e=new Encoding()
         var bytes='1100110010101010'
         assert.equal(
-            e.string2ByteBufferBE(
+            e.string2BytesBE(
                 e.hexBuffer2StringBE(
                     e.string2HexBufferBE(
                         e.byteBuffer2StringBE(
-                            e.string2ByteBufferBE(
-                                e.hex2StringBE(
-                                    e.decimal2HexBE(
-                                        e.bytes2DecimalBE(
-                                            bytes
+                            e.string2BytesBufferBE(
+                                e.bytes2StringBE(
+                                    e.string2BytesBE(
+                                        e.hex2StringBE(
+                                            e.bytes2HexBE(
+                                                e.hex2BytesBE(
+                                                    e.decimal2HexBE(
+                                                        e.bytes2DecimalBE(
+                                                            bytes
+                                                        )
+                                                    )
+                                                )
+                                            )
                                         )
                                     )
                                 )
@@ -65,7 +75,7 @@ export class EncodingTest{
                         )
                     )
                 )
-            ).join(''), 
+            ), 
             bytes
         )
 
@@ -75,15 +85,23 @@ export class EncodingTest{
         var e=new Encoding()
         var bytes='1100110010101010'
         assert.equal(
-            e.string2ByteBufferLE(
+            e.string2BytesLE(
                 e.hexBuffer2StringLE(
                     e.string2HexBufferLE(
                         e.byteBuffer2StringLE(
-                            e.string2ByteBufferLE(
-                                e.hex2StringLE(
-                                    e.decimal2HexLE(
-                                        e.bytes2DecimalLE(
-                                            bytes
+                            e.string2BytesBufferLE(
+                                e.bytes2StringLE(
+                                    e.string2BytesLE(
+                                        e.hex2StringLE(
+                                            e.bytes2HexLE(
+                                                e.hex2BytesLE(
+                                                    e.decimal2HexLE(
+                                                        e.bytes2DecimalLE(
+                                                            bytes
+                                                        )
+                                                    )
+                                                )
+                                            )
                                         )
                                     )
                                 )
@@ -91,7 +109,7 @@ export class EncodingTest{
                         )
                     )
                 )
-            ).join(''), 
+            ), 
             bytes
         )
 
@@ -386,24 +404,24 @@ export class EncodingTest{
             j*=2
         }
 	}
-    string2ByteBufferBE(){
-        console.log('string2ByteBufferBE()')
+    string2BytesBufferBE(){
+        console.log('string2BytesBufferBE()')
 
         var j = 1;
         for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
-            assert.equal(str, new Encoding().byteBuffer2StringBE(new Encoding().string2ByteBufferBE(str)))
+            assert.equal(str, new Encoding().byteBuffer2StringBE(new Encoding().string2BytesBufferBE(str)))
             j*=2
         }
 	}
 
-    string2ByteBufferLE(){
-        console.log('string2ByteBufferLE()')
+    string2BytesBufferLE(){
+        console.log('string2BytesBufferLE()')
 
         var j = 1;
         for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
-            assert.equal(str, new Encoding().byteBuffer2StringLE(new Encoding().string2ByteBufferLE(str)))
+            assert.equal(str, new Encoding().byteBuffer2StringLE(new Encoding().string2BytesBufferLE(str)))
             j*=2
         }
 	}
