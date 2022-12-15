@@ -504,8 +504,11 @@ export class Encoding{
 		return this.byteBuffer2StringLE(byteBuffer)
 	}
 	string2BytesBE(string){
-		var buffer = this.string2BytesBufferBE(string)
-		return buffer.join('')
+		var string=''
+		for(var i = 0; i<string.length; i++){
+
+		}
+		return
 	}
 	string2BytesLE(string){
 		var buffer = this.string2BytesBufferLE(string)
@@ -535,7 +538,7 @@ export class Encoding{
 	string2BytesBufferBE(string){
 		var buffer=[]
 		for(var i = 0; i<string.length; i++){
-			buffer.push(this.string2BytesBE(string[i]))
+			buffer.push(this.hex2BytesBE(this.char2HexBE(string[i])))
 		}
 		return buffer
 	}
