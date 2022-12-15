@@ -232,17 +232,6 @@ export class Encoding{
 		return this.decimal2HexLE(decimal)
 	}
 
-	byte2NibbleBE(bin){
-		//this assumes Big Endianes binary number as input, so no information
-		//is lost. It returns a Big Endian nibble
-		return bin.slice(-4)
-	}
-
-	byte2NibbleLE(bin){
-		//this assumes Little Endianes binary number as input, so no information
-		//is lost. It returns a Little Endian nibble
-		return bin.slice(0, 4)
-	}
 	
 
 	decimal2HexBE(decimal){
@@ -584,6 +573,7 @@ export class Encoding{
 				bytes2=bytes2.slice(1)
 			}
 		}
+		if(bytes2==''){return '0'}
 		return bytes2
 	}
 
@@ -596,11 +586,13 @@ export class Encoding{
 				bytes2=bytes2.slice(0, -1)
 			}
 		}
+		if(bytes2==''){return '0'}
 		return bytes2
 	}
 
 	formatBytesBE(bin){
 		bin = this.stripBytesBE(bin)
+
 		while(true){
 			if(bin.length%8==0){
 				break
