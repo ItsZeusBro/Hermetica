@@ -394,26 +394,31 @@ export class EncodingTest{
     string2HexBufferBE(){
         console.log('string2HexBufferBE()')
         var j = 1;
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
-            //console.log(str)
+            j*=2
+
             var buffer = new Encoding().string2HexBufferBE(str)
-            //console.log(buffer)
-            assert.equal(str, new Encoding().hexBuffer2StringBE(str))
+            assert.equal(str, new Encoding().hexBuffer2StringBE(buffer))
             j*=2
         }
 	}
 
     string2HexBufferLE(){
+        console.log('string2HexBufferLE()')
         var j = 1;
-        for(var i=0; i<1000; i++){
+        for(var i=0; i<10; i++){
             var str = new Rand().str(i, j)
+
+            j*=2
             var buffer = new Encoding().string2HexBufferLE(str)
-            assert.equal(str, new Encoding().hexBuffer2StringLE(str))
+            assert.equal(str, new Encoding().hexBuffer2StringLE(buffer))
             j*=2
         }
 	}
     string2ByteBufferBE(){
+        console.log('string2ByteBufferBE()')
+
         var j = 1;
         for(var i=0; i<1000; i++){
             var str = new Rand().str(i, j)
@@ -423,6 +428,8 @@ export class EncodingTest{
 	}
 
     string2ByteBufferLE(){
+        console.log('string2ByteBufferLE()')
+
         var j = 1;
         for(var i=0; i<1000; i++){
             var str = new Rand().str(i, j)
@@ -432,26 +439,26 @@ export class EncodingTest{
 	}
 
     byteBuffer2StringBE(){
-        console.log('byteBuffer2StringBE')
-        var buffer = []
-        for(var i = 0; i<60000; i++){
-           buffer.push(new Rand().byteRangeBE(i, i))
-        }
-        var string = new Encoding().hexBuffer2StringBE(buffer, this.codePointMap)
-        for(var i = 0; i<string.length; i++){
-            assert.equal(new Encoding().char2HexBE(string[i], this.codeMap), buffer[i]) 
+        console.log('byteBuffer2StringBE()')
+        for(var i = 0; i<=60000; i++){
+            var buffer = []
+            buffer.push(new Rand().byteRangeBE(i, i))
+            var string = new Encoding().byteBuffer2StringBE(buffer)
+            for(var j = 0; j<string.length; j++){
+                assert.equal(new Encoding().hex2BytesBE(new Encoding().char2HexBE(string[j])), buffer[j]) 
+            }
         }
     }
 
     byteBuffer2StringLE(){
-        console.log('byteBuffer2StringLE')
-        var buffer = []
-        for(var i = 0; i<60000; i++){
-           buffer.push(new Rand().byteRangeLE(i, i))
-        }
-        var string = new Encoding().hexBuffer2StringLE(buffer, this.codePointMap)
-        for(var i = 0; i<string.length; i++){
-            assert.equal(new Encoding().char2HexLE(string[i], this.codeMap), buffer[i]) 
+        console.log('byteBuffer2StringLE()')
+        for(var i = 0; i<=60000; i++){
+            var buffer = []
+            buffer.push(new Rand().byteRangeLE(i, i))
+            var string = new Encoding().byteBuffer2StringLE(buffer)
+            for(var j = 0; j<string.length; j++){
+                assert.equal(new Encoding().hex2BytesLE(new Encoding().char2HexLE(string[j])), buffer[j]) 
+            }
         }
     }
 

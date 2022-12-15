@@ -208,28 +208,23 @@ export class Encoding{
 
 	hex2CharBE(hex){
 		var decimal = this.hex2DecimalBE(hex)
-		console.log(hex, decimal)
-		var codePointMap = new Rand().codePointMapRange(decimal, decimal)
-		return codePointMap[decimal]['code']
+		return String.fromCharCode(decimal)
 	}
 
 	hex2CharLE(hex){
 		var decimal = this.hex2DecimalLE(hex)
-		var codePointMap = new Rand().codePointMapRange(decimal, decimal)
-		// console.log(codePointMap)
-		return codePointMap[decimal]['code']
+		return String.fromCharCode(decimal)
 	}
 
 	char2HexBE(char){
 		var decimal = char.charCodeAt(0)
-		var codeMap = new Rand().codeMapRange(decimal, decimal)
-		return codeMap[char]['hexBE']
+		
+		return this.decimal2HexBE(decimal)
 	}
 
 	char2HexLE(char){
 		var decimal = char.charCodeAt(0)
-		var codeMap = new Rand().codeMapRange(decimal, decimal)
-		return codeMap[char]['hexBE'].split('').reverse().join('')
+		return this.decimal2HexLE(decimal)
 	}
 
 	byte2NibbleBE(bin){
@@ -463,13 +458,15 @@ export class Encoding{
 			var byte = buffer[i]
 			str+= this.decimal2Char(this.bytes2DecimalBE(byte))
 		}
+		return str
     }
-	byteBuffer2StringLE(){
+	byteBuffer2StringLE(buffer){
 		var str=''
 		for(var i = 0; i<buffer.length; i++){
 			var byte = buffer[i]
 			str+= this.decimal2Char(this.bytes2DecimalLE(byte))
 		}
+		return str
     }
 
 	string2ByteBufferBE(string){
@@ -499,7 +496,7 @@ export class Encoding{
 	string2HexBufferLE(string){
 		var buffer=[]
 		for(var i = 0; i<string.length; i++){
-			buffer.push(this.char2HexLE(decimal))
+			buffer.push(this.char2HexLE(string[i]))
 		}
 		return buffer
 	}	
