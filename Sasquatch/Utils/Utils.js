@@ -46,6 +46,9 @@ export class Rand{
     }
 
 	range(min, max){
+		if(min==max){return min}
+		min = Math.ceil(min);	//these are needed to make max and min inclusive
+		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
 
@@ -249,6 +252,7 @@ export class Encoding{
 
 	decimal2BytesBE(decimal){
 		var bin=''
+		var decimal2=decimal
 		if(decimal==0){return '00000000'}
 		while(decimal!=0){
 			if(this.isInt(decimal/2)){
@@ -260,6 +264,7 @@ export class Encoding{
 		}
 		return this.formatBytesBE(bin)
 	}
+
 	bytes2DecimalBE(bin){
 		bin=this.stripBytesBE(bin)
 		var decimal=0
@@ -270,6 +275,7 @@ export class Encoding{
 			}
 			j--
 		}		
+
 		return decimal
 	}
 
