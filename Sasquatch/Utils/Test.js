@@ -658,6 +658,19 @@ export class EncodingTest{
         }
 	}
 
+    string2BytesBE(){
+
+    }
+    string2BytesLE(){
+
+    }
+
+    bytes2BytesBufferBE(){
+
+    }
+    bytes2BytesBufferLE(){
+        
+    }
 
 
 
@@ -670,19 +683,22 @@ export class EncodingTest{
 
             console.log(bytes)
             assert.equal(
-
-                e.string2BytesBE(
-                    e.hex2StringBE(
-                        e.bytes2HexBE(
-                            e.hex2BytesBE(
-                                e.decimal2HexBE(
-                                    e.hex2DecimalBE(
-                                        e.bytes2HexBE(
-                                            e.decimal2BytesBE(
-                                                e.bytes2DecimalBE(
+                e.string2BytesBufferBE(
+                    e.bytes2StringBE(
+                        e.string2BytesBE(
+                            e.hex2StringBE(
+                                e.bytes2HexBE(
+                                    e.hex2BytesBE(
+                                        e.decimal2HexBE(
+                                            e.hex2DecimalBE(
+                                                e.bytes2HexBE(
                                                     e.decimal2BytesBE(
                                                         e.bytes2DecimalBE(
-                                                            bytes
+                                                            e.decimal2BytesBE(
+                                                                e.bytes2DecimalBE(
+                                                                    bytes
+                                                                )
+                                                            )
                                                         )
                                                     )
                                                 )
@@ -693,14 +709,11 @@ export class EncodingTest{
                             )
                         )
                     )
-                ),
-                bytes
                 )
-                
-                
-                
-            
-        }
+                ,
+                this.bytes2BytesBufferBE(bytes)
+            ) 
+    }
         
             
         // assert.equal(
@@ -709,11 +722,7 @@ export class EncodingTest{
         //             e.hexBuffer2StringBE(
         //                 e.string2HexBufferBE(
         //                     e.byteBuffer2StringBE(
-        //                         e.string2BytesBufferBE(
-        //                             e.bytes2StringBE(
 
-        //                             )
-        //                         )
         //                     )
         //                 )
         //             )

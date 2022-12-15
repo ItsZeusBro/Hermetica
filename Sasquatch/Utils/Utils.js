@@ -482,11 +482,8 @@ export class Encoding{
 	}
 
 	string2BytesBE(string){
-		var string=''
-		for(var i = 0; i<string.length; i++){
-
-		}
-		return
+		var buffer = this.string2BytesBufferBE(string)
+		return buffer.join('')
 	}
 
 	string2BytesLE(string){
