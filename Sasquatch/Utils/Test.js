@@ -23,19 +23,16 @@ export class EncodingTest{
         // this.hex2BytesLE()
         // this.hexRangeBE()
         // this.hexRangeLE()
-
         // this.hex2DecimalBE()
         // this.hex2DecimalLE()
+        // this.hex2StringBE()
+        // this.hex2StringLE()
+        // this.bytes2StringBE()
+        // this.bytes2StringLE()
 
 
-        this.hex2StringBE()
-        this.hex2StringLE()
-        this.bytes2StringBE()
-        this.bytes2StringLE()
-
-
-        // this.byteBuffer2StringBE()
-        // this.byteBuffer2StringLE()
+        this.byteBuffer2StringBE()
+        this.byteBuffer2StringLE()
 
         // this.string2BytesBufferBE()
         // this.string2BytesBufferLE()
@@ -552,24 +549,35 @@ export class EncodingTest{
 
     byteBuffer2StringBE(){
         console.log('byteBuffer2StringBE()')
+        var e=new Encoding()
+        var r=new Rand()
         for(var i = 0; i<=60000; i++){
             var buffer = []
-            buffer.push(new Rand().byteRangeBE(i, i))
-            var string = new Encoding().byteBuffer2StringBE(buffer)
+            buffer.push(r.byteRangeBE(i, i))
+            var string = e.byteBuffer2StringBE(buffer)
+
+            if(this.verbose){console.log('byteBuffer2StringBE()1', string, buffer)}
+
             for(var j = 0; j<string.length; j++){
-                assert.equal(new Encoding().hex2BytesBE(new Encoding().char2HexBE(string[j])), buffer[j]) 
+                assert.equal(e.hex2BytesBE(e.char2HexBE(string[j])), buffer[j]) 
             }
         }
     }
 
     byteBuffer2StringLE(){
         console.log('byteBuffer2StringLE()')
+        var e=new Encoding()
+        var r=new Rand()
+
         for(var i = 0; i<=60000; i++){
             var buffer = []
-            buffer.push(new Rand().byteRangeLE(i, i))
-            var string = new Encoding().byteBuffer2StringLE(buffer)
+            buffer.push(r.byteRangeLE(i, i))
+            var string = e.byteBuffer2StringLE(buffer)
+
+            if(this.verbose){console.log('byteBuffer2StringLE()1', string, buffer)}
+
             for(var j = 0; j<string.length; j++){
-                assert.equal(new Encoding().hex2BytesLE(new Encoding().char2HexLE(string[j])), buffer[j]) 
+                assert.equal(e.hex2BytesLE(e.char2HexLE(string[j])), buffer[j]) 
             }
         }
     }
@@ -668,10 +676,6 @@ export class EncodingTest{
             j*=2
         }
 	}
-
-
-
-
 
     chainTestBE(){
         console.log('chainTestBE()')
