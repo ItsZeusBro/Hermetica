@@ -261,20 +261,20 @@ export class Encoding{
 		return this.formatBytesBE(bin)
 	}
 	bytes2DecimalBE(bin){
-		var i = bin.length-1;
+		bin=this.stripBytesBE(bin)
 		var decimal=0
-		var j = 0;
-		while(i>=0){
+		var j = bin.length-1
+		for(var i = 0; i<bin.length; i++){
 			if(bin[i]=='1'){
 				decimal+=Math.pow(2, j)
 			}
-			i--
-			j++
-		}
+			j--
+		}		
 		return decimal
 	}
 
 	bytes2DecimalLE(bin){
+		bin =this.stripBytesLE(bin)
 		var i = 0
 		var decimal=0
 		while(i<bin.length){
@@ -305,7 +305,7 @@ export class Encoding{
 		return this.bytes2HexLE(bytes)
 	}
 	decimal2Char(decimal){
-        return new Rand().codePointMapRange(decimal, decimal)[decimal]['code']
+        return String.fromCodePoint(decimal)
     }
 
 	hex2BytesBE(hex){
@@ -527,6 +527,7 @@ export class Encoding{
 		}
 		return str
     }
+
 	byteBuffer2StringLE(buffer){
 		var str=''
 		for(var i = 0; i<buffer.length; i++){
@@ -539,7 +540,7 @@ export class Encoding{
 	string2BytesBufferBE(string){
 		var buffer=[]
 		for(var i = 0; i<string.length; i++){
-			buffer.push(this.hex2BytesBE(this.char2HexBE(string[i])))
+			buffer.push(this.string2BytesBE(string[i]))
 		}
 		return buffer
 	}
@@ -568,11 +569,34 @@ export class Encoding{
 		return buffer
 	}	
 
+	stripBytesBE(bytes){
+		var bytes2=bytes
+		for(var i=0; i<bytes.length; i++){
+			if(bytes[i]=='1'){
+				return bytes2
+			}else{
+				bytes2=bytes2.slice(1)
+			}
+		}
+		return bytes2
+	}
+
+	stripBytesLE(bytes){
+		var bytes2=bytes
+		for(var i=bytes.length-1; i>=0; i--){
+			if(bytes[i]=='1'){
+				return bytes2
+			}else{
+				bytes2=bytes2.slice(0, -1)
+			}
+		}
+		return bytes2
+	}
 
 	formatBytesBE(bin){
-		var bytes = Math.ceil(bin.length/8)
+		bin = this.stripBytesBE(bin)
 		while(true){
-			if(bin.length==8*bytes){
+			if(bin.length%8==0){
 				break
 			}else{
 				bin='0'.concat(bin)
@@ -582,9 +606,9 @@ export class Encoding{
 	}
 	
 	formatBytesLE(bin){
-		var bytes = Math.ceil(bin.length/8)
+		bin = this.stripBytesLE(bin)
 		while(true){
-			if(bin.length==8*bytes){
+			if(bin.length%8==0){
 				break
 			}else{
 				bin=bin.concat('0')
