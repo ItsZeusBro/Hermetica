@@ -23,8 +23,8 @@ export class PharoahMapTest{
         var output=""
         var min = 10
         var max = 20
-        var input=new Rand().Str(100)
-        var output=new Rand().Str(100)
+        var input=new Rand().str(100)
+        var output=new Rand().str(100)
 		var map = new PharoahMap(input, output).map
         this._translatationMap(map)
         this.io(input, output, map)
@@ -61,8 +61,8 @@ export class PharoahMapTest{
 
     variableMap(){
         console.log('variableMap()')
-        var input=new Rand().Str(10)
-        var output=new Rand().Str(10)
+        var input=new Rand().str(10)
+        var output=new Rand().str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var map = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
@@ -80,8 +80,8 @@ export class PharoahMapTest{
 
 	translationMap(){
         console.log('translationMap()')
-        var input=new Rand().Str(10)
-        var output=new Rand().Str(10)
+        var input=new Rand().str(10)
+        var output=new Rand().str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
@@ -110,8 +110,8 @@ export class PharoahMapTest{
   
 
 	translate(){
-        var input=new Rand().Str(10)
-        var output=new Rand().Str(10)
+        var input=new Rand().str(10)
+        var output=new Rand().str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var map = new PharoahMap(input, output).map
