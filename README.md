@@ -42,6 +42,8 @@ The reason we presume it to have meaning is because of the following argument:
 
 There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid. This is not to say that the simulation is an acceptable replacement for truth. This can be therefore designed as a weapon if people interpret it that way, where an exhaustive search is used to find a an approachment to truth with the exclusion of some group of falsehoods. There it should not be used as a substitute, rather as an aide to find would be truths that would could corroborate through concrete means. For those interested in forensics, any forensic tool can be weaponized!
 
+The utility of such a machine is that it greatly aids our scientific journey, where we spend less money on experiments without knowing the probability of success! It's a great tool, but is still limited by intuitive universal principles that are still being discovered!
+
 To build a robust logical simulation one should focus on a dictionary of propositions that never contradict anything else in the dictionary. If you can prove all propositions in the dictionary using a simulation, then you have a good logical simulation that approaches real universal logic
 
 we also have to make sure that there is no possibility in the translation unit for any negation to exist outside of the negation cell. Or at the very least translate out any negations in the translation into another proposition with the negation cell!
