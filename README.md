@@ -18,20 +18,12 @@ In general we can solve any problem including the most general function of "dedu
 One day we can actually run sasquatch to find a high level equivalent of sasquatch. This will greatly optimize Sasquatch for faster run times! 
 On another note, we can have sasquatch learn to generalize simulations into functions, by using existing functions to produce tests and having sasquatch produce functions that pass the tests.
 
-Functions that are found and enshrined can be infused into the simulation engine on the way to solving unknown problems. This is only a good idea if they are truly optimal, otherwise dependant solutions become outdated and sub-optimal if they dont keep up with the more optimal function. In otherwords, if A depends on B and B gets replaced with B' then A is still dependent on B and B' has no bearing on the impact of A and all the compute time spent on finding A with B gets wasted if A is to improve.
+Functions that are found and enshrined can be infused into the simulation engine on the way to solving unknown problems. Think of how many things can be achieved with a knife? If the tool is general purpose enough, what's to say that it doesn't provide a faster way to any particular solution.
 
 ## A good reason for Arbitrary Deterministic Encoding
 Arbitrary symbols that are reused to represent any characther (as opposed to one to one encoding of literals) means we can get lucky overtime if inputs and outputs across literals share the same input output solution relativity. 
 
 So if abc as input uses 123 for its translation and def uses 123 for its translation, they both share the same relativity for all function inputs and outputs, and if the problem is associated with this relativity, (like problems involving mathematical induction), then we can probably have the same simulation and generation output correspond to multiple inputs and outputs for different functions. This might find higher order functions that serve more than one purpose! This could converge on the physics of calculation (a general purpose simulation)!
-
-## More Applications:
-We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
-
-Finally, we want to use sasquatch to find an equation that can compute any simulation (any generation of a simulation) in one step
-
-## Design Goals
-We would like to calculate the computational cost of each generation for any nxn matrix a priori, and gather experimental data to see bang for buck performance of real solutions over-time, then fork the code-base and optimize simulations for a single matrix type that give us the most efficiency. (we can do more than one to diversify overtime)
 
 
 ## Moon Shot:
@@ -51,7 +43,7 @@ The reason we presume it to have meaning is because of the following argument:
 
 <img width=500 height=500 src='https://github.com/ItsZeusBro/JudgementDay/blob/b0cc7e0ed4a5b1a41346d8fcc34126ef1651002e/Automata.png'>
 
-## Interpretation:
+#### Interpretation:
 
 There is a problem to merely conclude that one proposition follows from the other, simply by looking at this example. However, if this simulation and its rules worked for a bunch of propositions without ever contradicting itself in the simulation, then it is very likely that the simulation approaches real logic that is valid. This is not to say that the simulation is an acceptable replacement for truth. This can be therefore designed as a weapon if people interpret it that way, where an exhaustive search is used to find a an approachment to truth with the exclusion of some group of falsehoods. There it should not be used as a substitute, rather as an aide to find would be truths that would could corroborate through concrete means. For those interested in forensics, any forensic tool can be weaponized!
 
@@ -63,3 +55,8 @@ As a part of the rule system, any proposition in the current state of the simula
 
 Overtime many simulations develop that are not invalidated by any contradiction. These can be statistically studied overtime to find how they relate to one another, and where they converge overtime becomes stronger and stronger. This can lead to a general purpose intelligence if you have math, physics, and natural language converge upon a Universal Logic. It should even be able to tell the future and the past with greater accuracy starting from some tautological truth! We even stand a good chance of being able to study the Multi-Verse with greater accuracy, black holes, etc... Time will tell...
 
+
+## More Applications:
+We can eventually encode assembly language instructions and run them in a virtual machine to make middle tier functions for the near term future. We want to focus on Sasquatch itself, slowly replacing all of its core functionality to scale its performance.
+
+Finally, we want to use sasquatch to find an equation that can compute any simulation (any generation of a simulation) in one step
