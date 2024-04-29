@@ -33,17 +33,6 @@ Finally, we want to use sasquatch to find an equation that can compute any simul
 ## Design Goals
 We would like to calculate the computational cost of each generation for any nxn matrix a priori, and gather experimental data to see bang for buck performance of real solutions over-time, then fork the code-base and optimize simulations for a single matrix type that give us the most efficiency. (we can do more than one to diversify overtime)
 
-## Different Modes
-1. Nnary
-- This means that a set of the input symbols are translated to a ordered variable set that is arbitrary
-- rules are calculated based on this configuration which is dynamicly related to the number of codes used for translation.
-- Therefore the input is substituted for variables which are positionally related to one another in a relativity that
-- is deterministic
-2. Binary
-- This is traditional cellular autmoata which is translated using the binary code of the underlying input unicode code point
-3. Hexary
-- This uses 16 or 32 modes for each cell in any size or dimension matrix representation. This means that we have a literal and
-- not a symbolic translation of the underlying input
 
 ## Moon Shot:
 This is basically a new hypothesis for how truth and existentialism works
