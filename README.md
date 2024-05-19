@@ -1,4 +1,4 @@
-# Sasquatch (The Implementation should be in hardware, this is just a play toy)
+# Sasquatch (The Implementation should be in hardware, this is just going to be a play toy)
 
 
 ## Big Picture:
