@@ -1,4 +1,4 @@
-# Sasquatch
+# Sasquatch (The Implementation should be in hardware, this is just a play toy)
 
 
 ## Big Picture:
