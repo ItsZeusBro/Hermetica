@@ -1,4 +1,4 @@
-# Sasquatch (The Implementation should be in hardware, this is just going to be a play toy)
+# Sasquatch (The Implementation should be in hardware. This is all just evidence of the attacks against me)
 
 
 ## Big Picture:
