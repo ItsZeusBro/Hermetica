@@ -10,13 +10,13 @@ export class PharoahMapTest{
     tests(){
 
         this.latinList()
-        // this.cairoList()
-        // this.regexList()
-        // this.latinMap()
-        // this.cairoMap()
-        // this.variableMap()
-        // this.translationMap()
-        // this.pharoahMap()
+        this.cairoList()
+        this.regexList()
+        this.latinMap()
+        this.cairoMap()
+        this.variableMap()
+        this.translationMap()
+        this.pharoahMap()
     }
     
     pharoahMap(){
@@ -25,9 +25,10 @@ export class PharoahMapTest{
         var output=""
         var min = 10
         var max = 20
-        var input=new Rand().Str(100)
-        var output=new Rand().Str(100)
-		var map = new PharoahMap(input, output).map
+        var input=new Rand().str(100)
+        var output=new Rand().str(100)
+		var map = new PharoahMap().pharoahMap(input, output)
+        console.log('HI!!!!', map)
         this._translatationMap(map)
         this.io(input, output, map)
         this._translate(input, output, map)
@@ -47,8 +48,9 @@ export class PharoahMapTest{
         console.log('cairoMap()')
         var cairoList = new PharoahMap().cairoList()
 		var cairoMap = new PharoahMap().cairoMap()
+
         for(var i = 0; i<cairoList.length; i++){
-            assert.equal(new Utils().Encoding(cairoList[i]), cairoMap[cairoList[i]]['hex'])
+            assert.equal(new Encoding().char2HexBE(cairoList[i]), cairoMap[cairoList[i]]['hex'])
         }
 	}
 
@@ -57,14 +59,14 @@ export class PharoahMapTest{
         var regexList = new PharoahMap().regexList()
 		var regexMap = new PharoahMap().regexMap()
         for(var i = 0; i<cairoList.length; i++){
-            assert.equal(new Utils().Encoding(regexList[i]), regexMap[regexList[i]]['hex'])
+            assert.equal(new Encoding().char2HexBE(regexList[i]), regexMap[regexList[i]]['hex'])
         }
 	}
 
     variableMap(){
         console.log('variableMap()')
-        var input=new Rand().Str(10)
-        var output=new Rand().Str(10)
+        var input=new Rand().str(10)
+        var output=new Rand().str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var map = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
@@ -82,12 +84,13 @@ export class PharoahMapTest{
 
 	translationMap(){
         console.log('translationMap()')
-        var input=new Rand().Str(10)
-        var output=new Rand().Str(10)
+        var input=new Rand().str(10)
+        var output=new Rand().str(10)
         var io = input.concat(output)
         var set = new Set(io)
         var variableMap = new PharoahMap().variableMap(input, output, new PharoahMap().latinMap())
         var translationMap = new PharoahMap().translationMap(variableMap)
+
         this._translatationMap(translationMap)
 	}
     _translatationMap(map){

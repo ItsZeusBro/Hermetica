@@ -1,4 +1,4 @@
-import {Utils} from "../../Utils/Utils.js"
+import {Utils, Encoding} from "../../Utils/Utils.js"
 export class PharoahMap{
 
 	constructor(input, output){
@@ -117,9 +117,9 @@ export class PharoahMap{
 		var map = {}
 		for(var i = 0; i<list.length; i++){
 			map[list[i]]={
-				'hex':new Utils().string2Hex(list[i]), 
-				'bin':new Utils().hex2bin(new Utils().string2Hex(list[i])),
-				'decimal':parseInt(new Utils().hex2bin(new Utils().string2Hex(list[i])), 2)
+				'hex':new Encoding().string2HexBE(list[i]), 
+				'bin':new Encoding().hex2BytesBE(new Encoding().string2HexBE(list[i])),
+				'decimal':parseInt(new Encoding().hex2BytesBE(new Encoding().string2HexBE(list[i])), 2)
 			}
 		}
 		return map
