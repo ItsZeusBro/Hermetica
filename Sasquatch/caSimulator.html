@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cellular Automata Simulator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            margin-top: 20px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+        }
+        .cell.on {
+            background-color: black;
+        }
+        .container {
+            display: flex;
+        }
+        .info {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cellular Automata Simulator</h1>
+    <div class="container">
+        <div class="info">
+            <label for="inputString">Input String:</label>
+            <input type="text" id="inputString" placeholder="Enter input string">
+            <br><br>
+            <label for="expectedString">Expected Output String:</label>
+            <input type="text" id="expectedString" placeholder="Enter expected output string">
+            <br><br>
+            <label for="ruleSelect">Select Rule:</label>
+            <select id="ruleSelect">
+                <!-- Options for elementary cellular automata rules -->
+                ${[...Array(256).keys()].map(rule => `<option value="${rule}">Rule ${rule}</option>`).join('')}
+            </select>
+            <br><br>
+            <label for="rowsToShow">Number of Last Rows to Show:</label>
+            <input type="number" id="rowsToShow" value="10" min="1">
+            <br><br>
+            <button onclick="startSimulation()">Start Simulation</button>
+            <button onclick="showLastRows()">Show Last N Rows</button>
+            <div id="output"></div>
+            <div id="encodings">
+                <h3>Encodings:</h3>
+                <div id="inputEncoding"></div>
+                <div id="expectedEncoding"></div>
+                <h3>Initial State:</h3>
+                <div id="initialState"></div>
+                <h3>Expected Output State:</h3>
+                <div id="expectedOutputState"></div>
+            </div>
+            <div id="loopMessage" style="color: red;"></div>
+        </div>
+        <div id="grid"></div>
+    </div>
+    <script src="caSimulator.js"></script>
+</body>
+</html>
